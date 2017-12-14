@@ -1,0 +1,8 @@
+<resources>
+	<string name="app_name">Bolek</string>
+	
+	<string name="text_nick">Twój nick</string>
+	<string name="text_server_address">Adres serwera</string>
+	
+	<string name="button_server_connect">Połącz</string>
+</resources>
