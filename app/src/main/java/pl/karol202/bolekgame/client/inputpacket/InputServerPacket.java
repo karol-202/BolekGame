@@ -2,7 +2,7 @@ package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.ui.server.ServerUI;
 
-interface InputServerPacket extends InputPacket
+public interface InputServerPacket extends InputPacket
 {
 	void execute(ServerUI ui);
 }

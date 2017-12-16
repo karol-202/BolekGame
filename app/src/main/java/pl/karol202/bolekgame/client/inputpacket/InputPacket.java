@@ -2,7 +2,7 @@ package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
 
-interface InputPacket
+public interface InputPacket
 {
 	void readData(DataBundle bundle);
 }

@@ -3,6 +3,9 @@
 	
 	<string name="text_nick">Twój nick</string>
 	<string name="text_server_address">Adres serwera</string>
+	<string name="text_not_connected">Nie połączono</string>
+	<string name="text_connected">Połączono</string>
 	
 	<string name="button_server_connect">Połącz</string>
+	
 </resources>
