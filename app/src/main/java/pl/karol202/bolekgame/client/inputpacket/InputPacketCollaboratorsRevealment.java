@@ -9,8 +9,9 @@ import java.util.List;
 public class InputPacketCollaboratorsRevealment implements InputGamePacket
 {
 	private List<String> collaborators;
+	private String bolek;
 	
-	public InputPacketCollaboratorsRevealment()
+	InputPacketCollaboratorsRevealment()
 	{
 		collaborators = new ArrayList<>();
 	}
@@ -20,11 +21,12 @@ public class InputPacketCollaboratorsRevealment implements InputGamePacket
 	{
 		int length = bundle.getInt("collaborators", 0);
 		for(int i = 0; i < length; i++) collaborators.add(bundle.getString("collaborator" + i, ""));
+		bolek = bundle.getString("bolek", "");
 	}
 	
 	@Override
 	public void execute(GameUI ui)
 	{
-		ui.onCollaboratorsRevealment(collaborators);
+		ui.onCollaboratorsRevealment(collaborators, bolek);
 	}
 }

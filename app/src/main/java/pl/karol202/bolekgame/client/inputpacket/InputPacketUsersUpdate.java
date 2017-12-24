@@ -11,7 +11,7 @@ public class InputPacketUsersUpdate implements InputServerPacket, InputGamePacke
 {
 	private List<String> users;
 	
-	public InputPacketUsersUpdate()
+	InputPacketUsersUpdate()
 	{
 		users = new ArrayList<>();
 	}

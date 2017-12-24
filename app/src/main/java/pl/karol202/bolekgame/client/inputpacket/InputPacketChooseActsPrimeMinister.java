@@ -8,7 +8,7 @@ public class InputPacketChooseActsPrimeMinister implements InputGamePacket
 {
 	private Act[] acts;
 	
-	public InputPacketChooseActsPrimeMinister()
+	InputPacketChooseActsPrimeMinister()
 	{
 		acts = new Act[2];
 	}

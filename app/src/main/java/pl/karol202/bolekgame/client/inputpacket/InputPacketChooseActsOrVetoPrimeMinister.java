@@ -4,13 +4,13 @@ import pl.karol202.bolekgame.client.DataBundle;
 import pl.karol202.bolekgame.game.Act;
 import pl.karol202.bolekgame.ui.game.GameUI;
 
-public class InputPacketChooseActsPresident implements InputGamePacket
+public class InputPacketChooseActsOrVetoPrimeMinister implements InputGamePacket
 {
 	private Act[] acts;
 	
-	InputPacketChooseActsPresident()
+	InputPacketChooseActsOrVetoPrimeMinister()
 	{
-		acts = new Act[3];
+		acts = new Act[2];
 	}
 	
 	@Override
@@ -18,12 +18,11 @@ public class InputPacketChooseActsPresident implements InputGamePacket
 	{
 		acts[0] = Act.getActByName(bundle.getString("act1", ""));
 		acts[1] = Act.getActByName(bundle.getString("act2", ""));
-		acts[2] = Act.getActByName(bundle.getString("act3", ""));
 	}
 	
 	@Override
 	public void execute(GameUI ui)
 	{
-		ui.onChooseActsPresidentRequest(acts);
+		ui.onChooseActsOrVetoPrimeMinisterRequest(acts);
 	}
 }

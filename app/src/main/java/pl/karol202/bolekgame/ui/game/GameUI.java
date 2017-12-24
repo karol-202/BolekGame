@@ -33,7 +33,12 @@ public class GameUI
 	
 	}
 	
-	public void onCollaboratorsRevealment(List<String> collaborators)
+	public void onCollaboratorsRevealment(List<String> collaborators, String bolek)
+	{
+	
+	}
+	
+	public void onStackRefill(int totalActs)
 	{
 	
 	}
@@ -68,6 +73,16 @@ public class GameUI
 	
 	}
 	
+	public void onPollIndexChange(int pollIndex)
+	{
+	
+	}
+	
+	public void onRandomActPassed()
+	{
+	
+	}
+	
 	public void onChooseActsPresidentRequest(Act[] acts)
 	{
 	
@@ -83,12 +98,97 @@ public class GameUI
 	
 	}
 	
+	public void onChooseActsOrVetoPrimeMinisterRequest(Act[] acts)
+	{
+	
+	}
+	
 	public void onPrimeMinisterChoosingActs()
 	{
 	
 	}
 	
+	public void onVetoRequest()
+	{
+	
+	}
+	
+	public void onVetoResponse(boolean accepted)
+	{
+	
+	}
+	
 	public void onActPass(int lustrationPassed, int antilustrationPassed)
+	{
+	
+	}
+	
+	public void onPresidentCheckingPlayer()
+	{
+	
+	}
+	
+	public void onCheckPlayerPresidentRequest(List<String> chechablePlayers)
+	{
+	
+	}
+	
+	public void onPlayerCheckingResult(int result)
+	{
+	
+	}
+	
+	public void onPresidentCheckedPlayer(String checkedPlayer)
+	{
+	
+	}
+	
+	public void onPresidentCheckingPlayerOrActs()
+	{
+	
+	}
+	
+	public void onChoosePlayerOrActsCheckingPresidentRequest()
+	{
+	
+	}
+	
+	public void onActsCheckingResult(Act[] acts)
+	{
+	
+	}
+	
+	public void onPresidentCheckedActs()
+	{
+	
+	}
+	
+	public void onPresidentChoosingPresident()
+	{
+	
+	}
+	
+	public void onChoosePresidentRequest()
+	{
+	
+	}
+	
+	public void onPresidentLustrating()
+	{
+	
+	}
+	
+	public void onLustratePresidentRequest()
+	{
+	
+	}
+	
+	public void onYouAreLustrated()
+	{
+	
+	}
+	
+	public void onPresidentLustrated(String player, boolean wasBolek)
 	{
 	
 	}
@@ -104,6 +204,16 @@ public class GameUI
 	}
 	
 	public void onGameExited()
+	{
+	
+	}
+	
+	public void onPlayersUpdated(List<String> players)
+	{
+	
+	}
+	
+	public void onTooFewPlayers()
 	{
 	
 	}

@@ -10,7 +10,7 @@ public class InputPacketChoosePrimeMinister implements InputGamePacket
 {
 	private List<String> candidates;
 	
-	public InputPacketChoosePrimeMinister()
+	InputPacketChoosePrimeMinister()
 	{
 		candidates = new ArrayList<>();
 	}

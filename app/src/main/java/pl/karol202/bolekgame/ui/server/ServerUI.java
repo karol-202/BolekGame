@@ -35,6 +35,11 @@ public class ServerUI
 	
 	}
 	
+	public void onServerStatusUpdate(boolean gameAvailable)
+	{
+	
+	}
+	
 	public void onGameStart(List<String> players)
 	{
 	

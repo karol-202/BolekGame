@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.client;
 
+import pl.karol202.bolekgame.Utils;
 import pl.karol202.bolekgame.client.inputpacket.*;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacket;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketEncoder;
@@ -130,6 +131,7 @@ public class Client
 	
 	private void closeSocket()
 	{
+		if(socket == null) return;
 		if(onDisconnectListener != null) onDisconnectListener.onDisconnect();
 		if(!isConnected()) return;
 		try
@@ -144,7 +146,7 @@ public class Client
 	
 	public boolean isConnected()
 	{
-		return socket.isConnected() && !socket.isClosed();
+		return socket != null &&socket.isConnected() && !socket.isClosed();
 	}
 	
 	private void exception(String message, Exception exception)

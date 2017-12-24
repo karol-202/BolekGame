@@ -13,7 +13,7 @@ public class InputPacketVotingResult implements InputGamePacket
 	private boolean passed;
 	private List<String> upvoters;
 	
-	public InputPacketVotingResult()
+	InputPacketVotingResult()
 	{
 		upvoters = new ArrayList<>();
 	}
@@ -23,7 +23,7 @@ public class InputPacketVotingResult implements InputGamePacket
 	{
 		upvotes = bundle.getInt("upvotes", 0);
 		totalVotes = bundle.getInt("totalVotes", 0);
-		passed = bundle.getInt("passed", 0) == 1;
+		passed = bundle.getBoolean("passed", false);
 		for(int i = 0; i < upvotes; i++) upvoters.add(bundle.getString("upvoter" + i, ""));
 	}
 	

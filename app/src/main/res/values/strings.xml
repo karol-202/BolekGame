@@ -1,11 +1,21 @@
 <resources>
 	<string name="app_name">Bolek</string>
 	
-	<string name="text_nick">Twój nick</string>
+	<string name="dialog_login">Zaloguj się</string>
+	<string name="dialog_create_server">Stwórz nowy serwer</string>
+	
 	<string name="text_server_address">Adres serwera</string>
-	<string name="text_not_connected">Nie połączono</string>
-	<string name="text_connected">Połączono</string>
+	<string name="text_server_code">Kod serwera</string>
+	<string name="text_server_name">Nazwa serwera</string>
+	<string name="text_nick">Twój nick</string>
 	
+	<string name="button_cancel">Anuluj</string>
 	<string name="button_server_connect">Połącz</string>
+	<string name="button_login">Zaloguj</string>
+	<string name="button_create_server">Utwórz</string>
 	
+	<string name="message_connected">Połączono</string>
+	<string name="message_disconnected">Rozłączono</string>
+	<string name="message_cannot_connect">Nie można połączyć</string>
+	<string name="message_cannot_login">Nie można zalogować</string>
 </resources>

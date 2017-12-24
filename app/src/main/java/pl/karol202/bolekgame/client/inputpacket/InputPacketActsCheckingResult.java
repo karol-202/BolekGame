@@ -4,11 +4,11 @@ import pl.karol202.bolekgame.client.DataBundle;
 import pl.karol202.bolekgame.game.Act;
 import pl.karol202.bolekgame.ui.game.GameUI;
 
-public class InputPacketChooseActsPresident implements InputGamePacket
+public class InputPacketActsCheckingResult implements InputGamePacket
 {
 	private Act[] acts;
 	
-	InputPacketChooseActsPresident()
+	public InputPacketActsCheckingResult()
 	{
 		acts = new Act[3];
 	}
@@ -24,6 +24,6 @@ public class InputPacketChooseActsPresident implements InputGamePacket
 	@Override
 	public void execute(GameUI ui)
 	{
-		ui.onChooseActsPresidentRequest(acts);
+		ui.onActsCheckingResult(acts);
 	}
 }
