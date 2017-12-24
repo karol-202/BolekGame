@@ -6,6 +6,11 @@ public class OutputPacketSetPrimeMinister implements OutputPacket
 {
 	private String primeMinister;
 	
+	public OutputPacketSetPrimeMinister(String primeMinister)
+	{
+		this.primeMinister = primeMinister;
+	}
+	
 	@Override
 	public void saveData(DataBundle bundle)
 	{

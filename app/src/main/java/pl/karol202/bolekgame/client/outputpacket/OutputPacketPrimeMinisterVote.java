@@ -4,9 +4,9 @@ import pl.karol202.bolekgame.client.DataBundle;
 
 public class OutputPacketPrimeMinisterVote implements OutputPacket
 {
-	private int vote;
+	private boolean vote;
 	
-	public OutputPacketPrimeMinisterVote(int vote)
+	public OutputPacketPrimeMinisterVote(boolean vote)
 	{
 		this.vote = vote;
 	}
@@ -14,7 +14,7 @@ public class OutputPacketPrimeMinisterVote implements OutputPacket
 	@Override
 	public void saveData(DataBundle bundle)
 	{
-		bundle.putInt("vote", vote);
+		bundle.putBoolean("vote", vote);
 	}
 	
 	@Override
