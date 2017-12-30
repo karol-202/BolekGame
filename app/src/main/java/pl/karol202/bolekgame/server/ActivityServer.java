@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.ui.server;
+package pl.karol202.bolekgame.server;
 
 public class ActivityServer
 {

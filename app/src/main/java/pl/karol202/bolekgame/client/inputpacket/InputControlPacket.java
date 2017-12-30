@@ -1,8 +1,8 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
-import pl.karol202.bolekgame.ui.control.ControlUI;
+import pl.karol202.bolekgame.control.ControlLogic;
 
 public interface InputControlPacket extends InputPacket
 {
-	void execute(ControlUI ui);
+	void execute(ControlLogic ui);
 }

@@ -1,9 +1,29 @@
 <resources>
-	<style name="AppTheme" parent="Theme.AppCompat">
+	<style name="AppTheme" parent="Theme.AppCompat.Light">
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
+		
+		<item name="android:buttonStyle">@style/Button</item>
+		<item name="buttonStyle">@style/Button</item>
+		
+		<item name="android:imageButtonStyle">@style/ImageButton</item>
+		<item name="imageButtonStyle">@style/ImageButton</item>
+	</style>
+	
+	<style name="Button" parent="Widget.AppCompat.Button">
+		<item name="android:background">@drawable/button</item>
+		<item name="fontFamily">sans-serif</item>
+	</style>
+	
+	<style name="ButtonAccent" parent="Button">
+		<item name="android:background">@drawable/button_accent</item>
+		<item name="android:textColor">@android:color/white</item>
+	</style>
+	
+	<style name="ImageButton" parent="Widget.AppCompat.ImageButton">
+		<item name="android:background">@drawable/button</item>
 	</style>
 </resources>

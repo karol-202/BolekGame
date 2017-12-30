@@ -1,7 +1,7 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.ui.server.ServerUI;
+import pl.karol202.bolekgame.server.ServerLogic;
 
 public class InputPacketLoggedOut implements InputServerPacket
 {
@@ -9,7 +9,7 @@ public class InputPacketLoggedOut implements InputServerPacket
 	public void readData(DataBundle bundle) { }
 	
 	@Override
-	public void execute(ServerUI ui)
+	public void execute(ServerLogic ui)
 	{
 		ui.onLoggedOut();
 	}

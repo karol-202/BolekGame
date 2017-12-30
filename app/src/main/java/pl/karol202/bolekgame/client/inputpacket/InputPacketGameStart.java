@@ -1,7 +1,7 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.ui.server.ServerUI;
+import pl.karol202.bolekgame.server.ServerLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class InputPacketGameStart implements InputServerPacket
 	}
 	
 	@Override
-	public void execute(ServerUI ui)
+	public void execute(ServerLogic ui)
 	{
 		ui.onGameStart(players);
 	}

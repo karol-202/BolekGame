@@ -1,12 +1,11 @@
 package pl.karol202.bolekgame.client;
 
-import pl.karol202.bolekgame.Utils;
 import pl.karol202.bolekgame.client.inputpacket.*;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacket;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketEncoder;
-import pl.karol202.bolekgame.ui.control.ControlUI;
-import pl.karol202.bolekgame.ui.game.GameUI;
-import pl.karol202.bolekgame.ui.server.ServerUI;
+import pl.karol202.bolekgame.control.ControlLogic;
+import pl.karol202.bolekgame.game.GameLogic;
+import pl.karol202.bolekgame.server.ServerLogic;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,9 +21,9 @@ public class Client
 	
 	private static final int PORT = 6006;
 	
-	private ControlUI controlUI;
-	private ServerUI serverUI;
-	private GameUI gameUI;
+	private ControlLogic controlLogic;
+	private ServerLogic serverLogic;
+	private GameLogic gameLogic;
 	private OnDisconnectListener onDisconnectListener;
 	
 	private Socket socket;
@@ -99,9 +98,9 @@ public class Client
 	
 	private void executePacket(InputPacket packet)
 	{
-		if(packet instanceof InputControlPacket && controlUI != null) ((InputControlPacket) packet).execute(controlUI);
-		else if(packet instanceof InputServerPacket && serverUI != null) ((InputServerPacket) packet).execute(serverUI);
-		else if(packet instanceof InputGamePacket && gameUI != null) ((InputGamePacket) packet).execute(gameUI);
+		if(packet instanceof InputControlPacket && controlLogic != null) ((InputControlPacket) packet).execute(controlLogic);
+		if(packet instanceof InputServerPacket && serverLogic != null) ((InputServerPacket) packet).execute(serverLogic);
+		if(packet instanceof InputGamePacket && gameLogic != null) ((InputGamePacket) packet).execute(gameLogic);
 	}
 	
 	public void sendPacket(OutputPacket packet)
@@ -155,25 +154,19 @@ public class Client
 		closeSocket();
 	}
 	
-	public void setControlUI(ControlUI controlUI)
+	public void setControlLogic(ControlLogic controlLogic)
 	{
-		this.controlUI = controlUI;
-		this.serverUI = null;
-		this.gameUI = null;
+		this.controlLogic = controlLogic;
 	}
 	
-	public void setServerUI(ServerUI serverUI)
+	public void setServerLogic(ServerLogic serverLogic)
 	{
-		this.controlUI = null;
-		this.serverUI = serverUI;
-		this.gameUI = null;
+		this.serverLogic = serverLogic;
 	}
 	
-	public void setGameUI(GameUI gameUI)
+	public void setGameLogic(GameLogic gameLogic)
 	{
-		this.controlUI = null;
-		this.serverUI = null;
-		this.gameUI = gameUI;
+		this.gameLogic = gameLogic;
 	}
 	
 	public void setOnDisconnectListener(OnDisconnectListener listener)

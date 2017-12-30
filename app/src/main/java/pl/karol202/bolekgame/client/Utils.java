@@ -1,12 +1,12 @@
-package pl.karol202.bolekgame;
+package pl.karol202.bolekgame.client;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
-public class Utils
+class Utils
 {
-	public static int readInt(InputStream inputStream) throws IOException
+	static int readInt(InputStream inputStream) throws IOException
 	{
 		byte[] bytes = new byte[4];
 		int length = inputStream.read(bytes);
@@ -15,22 +15,10 @@ public class Utils
 		return buffer.getInt();
 	}
 	
-	public static byte[] writeInt(int value)
+	static byte[] writeInt(int value)
 	{
 		ByteBuffer buffer = ByteBuffer.allocate(4);
 		buffer.putInt(value);
 		return buffer.array();
-	}
-	
-	public static Integer parseInt(String string)
-	{
-		try
-		{
-			return Integer.parseInt(string);
-		}
-		catch(NumberFormatException e)
-		{
-			return null;
-		}
 	}
 }

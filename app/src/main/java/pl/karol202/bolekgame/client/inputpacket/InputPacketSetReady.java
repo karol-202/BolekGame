@@ -1,7 +1,7 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.ui.server.ServerUI;
+import pl.karol202.bolekgame.server.ServerLogic;
 
 public class InputPacketSetReady implements InputServerPacket
 {
@@ -14,7 +14,7 @@ public class InputPacketSetReady implements InputServerPacket
 	}
 	
 	@Override
-	public void execute(ServerUI ui)
+	public void execute(ServerLogic ui)
 	{
 		ui.onSetReady(username);
 	}

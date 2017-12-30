@@ -1,15 +1,15 @@
-package pl.karol202.bolekgame.ui.server;
+package pl.karol202.bolekgame.server;
 
 import pl.karol202.bolekgame.client.Client;
 
 import java.util.List;
 
-public class ServerUI
+public class ServerLogic
 {
 	private ActivityServer activityServer;
 	private Client client;
 	
-	public ServerUI(ActivityServer activityServer, Client client)
+	public ServerLogic(ActivityServer activityServer, Client client)
 	{
 		this.activityServer = activityServer;
 		this.client = client;

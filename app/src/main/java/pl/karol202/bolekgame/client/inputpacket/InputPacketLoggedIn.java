@@ -1,7 +1,7 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.ui.control.ControlUI;
+import pl.karol202.bolekgame.control.ControlLogic;
 
 public class InputPacketLoggedIn implements InputControlPacket
 {
@@ -16,7 +16,7 @@ public class InputPacketLoggedIn implements InputControlPacket
 	}
 	
 	@Override
-	public void execute(ControlUI ui)
+	public void execute(ControlLogic ui)
 	{
 		ui.onLoggedIn(serverName, serverCode);
 	}

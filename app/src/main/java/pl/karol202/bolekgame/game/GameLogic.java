@@ -1,18 +1,15 @@
-package pl.karol202.bolekgame.ui.game;
+package pl.karol202.bolekgame.game;
 
 import pl.karol202.bolekgame.client.Client;
-import pl.karol202.bolekgame.game.Act;
-import pl.karol202.bolekgame.game.Role;
-import pl.karol202.bolekgame.game.WinCause;
 
 import java.util.List;
 
-public class GameUI
+public class GameLogic
 {
 	private ActivityGame activityGame;
 	private Client client;
 	
-	public GameUI(ActivityGame activityGame, Client client)
+	public GameLogic(ActivityGame activityGame, Client client)
 	{
 		this.activityGame = activityGame;
 		this.client = client;

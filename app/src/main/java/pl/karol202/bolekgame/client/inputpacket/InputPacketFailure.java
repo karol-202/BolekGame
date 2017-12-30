@@ -1,9 +1,9 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.ui.control.ControlUI;
-import pl.karol202.bolekgame.ui.game.GameUI;
-import pl.karol202.bolekgame.ui.server.ServerUI;
+import pl.karol202.bolekgame.control.ControlLogic;
+import pl.karol202.bolekgame.game.GameLogic;
+import pl.karol202.bolekgame.server.ServerLogic;
 
 public class InputPacketFailure implements InputControlPacket, InputServerPacket, InputGamePacket
 {
@@ -11,19 +11,19 @@ public class InputPacketFailure implements InputControlPacket, InputServerPacket
 	public void readData(DataBundle bundle) { }
 	
 	@Override
-	public void execute(GameUI ui)
+	public void execute(GameLogic ui)
 	{
 		ui.onFailure();
 	}
 	
 	@Override
-	public void execute(ServerUI ui)
+	public void execute(ServerLogic ui)
 	{
 		ui.onFailure();
 	}
 	
 	@Override
-	public void execute(ControlUI ui)
+	public void execute(ControlLogic ui)
 	{
 		ui.onFailure();
 	}

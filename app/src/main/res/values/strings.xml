@@ -1,21 +1,23 @@
 <resources>
-	<string name="app_name">Bolek</string>
+	<string name="app_name">Nocna zmiana</string>
+	<string name="activity_settings">Ustawienia</string>
 	
-	<string name="dialog_login">Zaloguj się</string>
-	<string name="dialog_create_server">Stwórz nowy serwer</string>
-	
-	<string name="text_server_address">Adres serwera</string>
-	<string name="text_server_code">Kod serwera</string>
-	<string name="text_server_name">Nazwa serwera</string>
-	<string name="text_nick">Twój nick</string>
-	
+	<string name="button_create_server">Stwórz nową grę</string>
+	<string name="button_join_server">Dołącz do gry</string>
+	<string name="button_nick_change_apply">Zmień</string>
 	<string name="button_cancel">Anuluj</string>
-	<string name="button_server_connect">Połącz</string>
-	<string name="button_login">Zaloguj</string>
-	<string name="button_create_server">Utwórz</string>
+	<string name="button_create_server_apply">Stwórz grę</string>
+	<string name="button_join_server_apply">Dołącz do gry</string>
+	
+	<string name="text_server_name">Nazwa serwera</string>
+	<string name="text_server_code">Kod serwera</string>
 	
 	<string name="message_connected">Połączono</string>
 	<string name="message_disconnected">Rozłączono</string>
 	<string name="message_cannot_connect">Nie można połączyć</string>
 	<string name="message_cannot_login">Nie można zalogować</string>
+	
+	<string name="preference_nick">Twój nick</string>
+	
+	<string name="default_nick">Gracz</string>
 </resources>

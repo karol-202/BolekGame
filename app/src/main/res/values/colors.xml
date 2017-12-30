@@ -2,5 +2,12 @@
 <resources>
 	<color name="colorPrimary">#424242</color>
 	<color name="colorPrimaryDark">#212121</color>
-	<color name="colorAccent">#FF3D00</color>
+	<color name="colorAccent">#F44336</color>
+	
+	<color name="panel_background">#FFFFFF</color>
+	
+	<color name="button">#FFFFFF</color>
+	<color name="button_pressed">#BEBEBE</color>
+	<color name="button_accent">#F44336</color>
+	<color name="button_accent_pressed">#cc372d</color>
 </resources>

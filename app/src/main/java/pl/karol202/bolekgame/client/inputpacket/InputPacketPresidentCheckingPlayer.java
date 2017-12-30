@@ -1,7 +1,7 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.ui.game.GameUI;
+import pl.karol202.bolekgame.game.GameLogic;
 
 public class InputPacketPresidentCheckingPlayer implements InputGamePacket
 {
@@ -9,7 +9,7 @@ public class InputPacketPresidentCheckingPlayer implements InputGamePacket
 	public void readData(DataBundle bundle) { }
 	
 	@Override
-	public void execute(GameUI ui)
+	public void execute(GameLogic ui)
 	{
 		ui.onPresidentCheckingPlayer();
 	}

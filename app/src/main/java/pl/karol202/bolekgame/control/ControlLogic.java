@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.ui.control;
+package pl.karol202.bolekgame.control;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -6,34 +6,38 @@ import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketCreateServer;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogin;
 
-public class ControlUI
+public class ControlLogic
 {
+	private static final int TIMEOUT = 2000;
+	
 	private ActivityMain activityMain;
 	private Client client;
 	
-	ControlUI(ActivityMain activityMain)
+	private TimeoutRunnable loginTimeout;
+	
+	ControlLogic(ActivityMain activityMain)
 	{
 		this.activityMain = activityMain;
 		
 		client = new Client();
-		client.setControlUI(this);
+		client.setControlLogic(this);
 		client.setOnDisconnectListener(this::onDisconnect);
 	}
 	
-	void connectAsync(String host)
+	void connect(String host)
 	{
-		new Thread(() -> connect(host)).start();
+		new Thread(() -> connectAndWait(host)).start();
 	}
 	
-	private void connect(String host)
+	private void connectAndWait(String host)
 	{
 		boolean result = client.connect(host);
 		if(result)
 		{
 			client.run();
-			runInUIThread(() -> activityMain.onConnect());
+			runInUIThread(activityMain::onConnect);
 		}
-		else runInUIThread(() -> activityMain.onConnectFail());
+		else runInUIThread(activityMain::onConnectFail);
 	}
 	
 	boolean isConnected()
@@ -44,15 +48,19 @@ public class ControlUI
 	void login(int serverCode, String username)
 	{
 		client.sendPacket(new OutputPacketLogin(serverCode, username));
+		loginTimeout = new TimeoutRunnable(TIMEOUT, this::onFailure);
 	}
 	
 	void createServer(String serverName, String username)
 	{
 		client.sendPacket(new OutputPacketCreateServer(serverName, username));
+		loginTimeout = new TimeoutRunnable(TIMEOUT, this::onFailure);
 	}
+	
 	
 	public void onLoggedIn(String serverName, int serverCode)
 	{
+		loginTimeout.interrupt();
 		runInUIThread(() -> activityMain.onLoggedIn(serverName, serverCode));
 	}
 	

@@ -2,7 +2,7 @@ package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
 import pl.karol202.bolekgame.game.Role;
-import pl.karol202.bolekgame.ui.game.GameUI;
+import pl.karol202.bolekgame.game.GameLogic;
 
 public class InputPacketRoleAssigned implements InputGamePacket
 {
@@ -15,7 +15,7 @@ public class InputPacketRoleAssigned implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameUI ui)
+	public void execute(GameLogic ui)
 	{
 		ui.onRoleAssigned(role);
 	}

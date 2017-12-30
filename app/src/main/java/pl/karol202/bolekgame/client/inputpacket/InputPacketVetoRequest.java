@@ -1,7 +1,7 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.ui.game.GameUI;
+import pl.karol202.bolekgame.game.GameLogic;
 
 public class InputPacketVetoRequest implements InputGamePacket
 {
@@ -10,7 +10,7 @@ public class InputPacketVetoRequest implements InputGamePacket
 	{ }
 	
 	@Override
-	public void execute(GameUI ui)
+	public void execute(GameLogic ui)
 	{
 		ui.onVetoRequest();
 	}
