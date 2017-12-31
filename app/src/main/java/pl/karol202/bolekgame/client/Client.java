@@ -10,6 +10,7 @@ import pl.karol202.bolekgame.server.ServerLogic;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public class Client
@@ -20,6 +21,7 @@ public class Client
 	}
 	
 	private static final int PORT = 6006;
+	private static final int TIMEOUT = 3000;
 	
 	private ControlLogic controlLogic;
 	private ServerLogic serverLogic;
@@ -30,6 +32,33 @@ public class Client
 	private InputStream inputStream;
 	private OutputStream outputStream;
 	
+	public Client() { }
+	
+	private Client(Socket socket)
+	{
+		this.socket = socket;
+		tryToInitStreams();
+	}
+	
+	private void tryToInitStreams()
+	{
+		if(!isConnected()) return;
+		try
+		{
+			inputStream = socket.getInputStream();
+			outputStream = socket.getOutputStream();
+		}
+		catch(IOException e)
+		{
+			exception("Cannot recreate client.", e);
+		}
+	}
+	
+	public Client recreateClient()
+	{
+		return new Client(socket);
+	}
+	
 	public boolean connect(String host)
 	{
 		return tryToInitConnection(host);
@@ -39,21 +68,25 @@ public class Client
 	{
 		try
 		{
-			initConnection(host);
-			return true;
+			return initConnection(host);
 		}
-		catch(IOException e)
+		catch(Exception e)
 		{
+			socket = null;
 			exception("Cannot connect to server.", e);
 			return false;
 		}
 	}
 	
-	private void initConnection(String host) throws IOException
+	private boolean initConnection(String host) throws IOException
 	{
-		socket = new Socket(host, PORT);
+		if(isConnected()) return true;
+		if(host == null || host.isEmpty()) throw new IllegalArgumentException("Host cannot be null.");
+		socket = new Socket();
+		socket.connect(new InetSocketAddress(host, PORT), TIMEOUT);
 		inputStream = socket.getInputStream();
 		outputStream = socket.getOutputStream();
+		return true;
 	}
 	
 	public void run()
@@ -141,11 +174,7 @@ public class Client
 		{
 			new ClientException("Cannot close socket", e).printStackTrace();
 		}
-	}
-	
-	public boolean isConnected()
-	{
-		return socket != null &&socket.isConnected() && !socket.isClosed();
+		socket = null;
 	}
 	
 	private void exception(String message, Exception exception)
@@ -154,6 +183,11 @@ public class Client
 		closeSocket();
 	}
 	
+	public boolean isConnected()
+	{
+		return socket != null &&socket.isConnected() && !socket.isClosed();
+	}
+
 	public void setControlLogic(ControlLogic controlLogic)
 	{
 		this.controlLogic = controlLogic;

@@ -31,6 +31,63 @@
 		android:layout_marginRight="8dp" />
 	
 	<android.support.constraint.ConstraintLayout
+		android:id="@+id/panel_connection"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:layout_marginEnd="64dp"
+		android:layout_marginStart="64dp"
+		android:layout_marginTop="8dp"
+		android:background="@drawable/background_panel"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="@+id/background"
+		app:layout_constraintStart_toStartOf="@+id/background"
+		app:layout_constraintTop_toTopOf="@+id/background">
+		
+		<ProgressBar
+			android:id="@+id/progressBar_connecting"
+			style="?android:attr/progressBarStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dp"
+			android:layout_marginStart="16dp"
+			android:layout_marginTop="16dp"
+			app:layout_constraintBottom_toTopOf="@+id/button_retry_connection"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent"
+			android:layout_marginLeft="16dp" />
+		
+		<TextView
+			android:id="@+id/text_connection"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="8dp"
+			android:layout_marginStart="16dp"
+			android:text="@string/text_connecting"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			app:layout_constraintBottom_toBottomOf="@+id/progressBar_connecting"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@+id/progressBar_connecting"
+			app:layout_constraintTop_toTopOf="@+id/progressBar_connecting"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="8dp" />
+		
+		<Button
+			android:id="@+id/button_retry_connection"
+			style="@style/ButtonAccent"
+			android:layout_width="0dp"
+			android:layout_height="40dp"
+			android:layout_marginBottom="16dp"
+			android:layout_marginEnd="16dp"
+			android:layout_marginStart="16dp"
+			android:text="@string/button_retry_connection"
+			android:visibility="gone"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent" />
+	</android.support.constraint.ConstraintLayout>
+	
+	<android.support.constraint.ConstraintLayout
 		android:id="@+id/panel_server"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"

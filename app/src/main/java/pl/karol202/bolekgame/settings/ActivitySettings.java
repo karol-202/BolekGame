@@ -11,6 +11,9 @@ import pl.karol202.bolekgame.R;
 
 public class ActivitySettings extends AppCompatActivity
 {
+	public static final String KEY_NICK = "preference_nick";
+	public static final String KEY_SERVER_ADDRESS = "preference_server_address";
+	
 	private Toolbar toolbar;
 	
 	private ActionBar actionBar;

@@ -15,11 +15,11 @@ public class ControlLogic
 	
 	private TimeoutRunnable loginTimeout;
 	
-	ControlLogic(ActivityMain activityMain)
+	ControlLogic(ActivityMain activityMain, Client client)
 	{
 		this.activityMain = activityMain;
+		this.client = client;
 		
-		client = new Client();
 		client.setControlLogic(this);
 		client.setOnDisconnectListener(this::onDisconnect);
 	}
@@ -77,5 +77,10 @@ public class ControlLogic
 	private void runInUIThread(Runnable runnable)
 	{
 		new Handler(Looper.getMainLooper()).post(runnable);
+	}
+	
+	Client getClient()
+	{
+		return client;
 	}
 }
