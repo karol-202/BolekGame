@@ -10,15 +10,25 @@ import pl.karol202.bolekgame.R;
 
 public class FragmentSettings extends PreferenceFragment
 {
+	private String preferenceToEdit;
+	
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		loadData();
 		
 		SharedPreferences preferences = getPreferenceScreen().getSharedPreferences();
 		updateAllPreferences();
 		preferences.registerOnSharedPreferenceChangeListener((p, k) -> onSharedPreferenceChange(k));
+	}
+	
+	private void loadData()
+	{
+		Bundle args = getArguments();
+		if(args == null) return;
+		preferenceToEdit = args.getString("preferenceToEdit");
 	}
 	
 	private void updateAllPreferences()
@@ -37,8 +47,11 @@ public class FragmentSettings extends PreferenceFragment
 		if(!(preference instanceof EditTextPreference)) return;
 		EditTextPreference editTextPreference = (EditTextPreference) preference;
 		
-		editTextPreference.setSummary(((EditTextPreference) preference).getText());
+		editTextPreference.setSummary(editTextPreference.getText());
 		editTextPreference.setPositiveButtonText(R.string.button_nick_change_apply);
 		editTextPreference.setNegativeButtonText(R.string.button_cancel);
+		
+		if(preference instanceof CallableEditTextPreference && preference.getKey().equals(preferenceToEdit))
+			((CallableEditTextPreference) preference).showDialog(null);
 	}
 }

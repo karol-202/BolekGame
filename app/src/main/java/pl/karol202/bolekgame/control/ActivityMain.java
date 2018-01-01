@@ -2,20 +2,24 @@ package pl.karol202.bolekgame.control;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.transition.*;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import pl.karol202.bolekgame.FragmentRetain;
 import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.server.ActivityServer;
 import pl.karol202.bolekgame.settings.ActivitySettings;
+import pl.karol202.bolekgame.settings.Settings;
 
 public class ActivityMain extends AppCompatActivity
 {
@@ -44,6 +48,7 @@ public class ActivityMain extends AppCompatActivity
 	
 	private static final String TAG_FRAGMENT_RETAIN = "TAG_FRAG_RETAIN";
 	
+	private CoordinatorLayout coordinatorLayout;
 	private ConstraintLayout mainLayout;
 	private ImageButton buttonSettings;
 	private ConstraintLayout panelConnection;
@@ -52,10 +57,14 @@ public class ActivityMain extends AppCompatActivity
 	private Button buttonRetryConnection;
 	private Button buttonCreateServer;
 	private Button buttonJoinServer;
+	private ViewGroup panelCreateServer;
 	private ImageButton buttonCreateServerClose;
+	private TextInputLayout textInputLayoutServerName;
 	private EditText editTextServerName;
 	private Button buttonCreateServerApply;
+	private ViewGroup panelJoinServer;
 	private ImageButton buttonJoinServerClose;
+	private TextInputLayout textInputLayoutServerCode;
 	private EditText editTextServerCode;
 	private Button buttonJoinServerApply;
 	
@@ -71,6 +80,8 @@ public class ActivityMain extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		coordinatorLayout = findViewById(R.id.coordinator_layout);
 		
 		mainLayout = findViewById(R.id.main_layout);
 		mainConstraintSet = new ConstraintSet();
@@ -96,16 +107,24 @@ public class ActivityMain extends AppCompatActivity
 		buttonJoinServer = findViewById(R.id.button_join_server);
 		buttonJoinServer.setOnClickListener(v -> showJoinServerPanel());
 		
+		panelCreateServer = findViewById(R.id.panel_create_server);
+		
 		buttonCreateServerClose = findViewById(R.id.button_create_server_close);
 		buttonCreateServerClose.setOnClickListener(v -> closeCreateServerPanel());
+		
+		textInputLayoutServerName = findViewById(R.id.editTextLayout_server_name);
 		
 		editTextServerName = findViewById(R.id.editText_server_name);
 		
 		buttonCreateServerApply = findViewById(R.id.button_create_server_apply);
 		buttonCreateServerApply.setOnClickListener(v -> applyServerCreation());
 		
+		panelJoinServer = findViewById(R.id.panel_join_server);
+		
 		buttonJoinServerClose = findViewById(R.id.button_join_server_close);
 		buttonJoinServerClose.setOnClickListener(v -> closeJoinServerPanel());
+		
+		textInputLayoutServerCode = findViewById(R.id.editTextLayout_server_code);
 		
 		editTextServerCode = findViewById(R.id.editText_server_code);
 		
@@ -182,13 +201,7 @@ public class ActivityMain extends AppCompatActivity
 	private void connectIfNotConnected()
 	{
 		if(controlLogic.isConnected()) return;
-		controlLogic.connect(getServerAddress());
-	}
-	
-	private String getServerAddress()
-	{
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		return preferences.getString(ActivitySettings.KEY_SERVER_ADDRESS, null);
+		controlLogic.connect(Settings.getServerAddress(this));
 	}
 	
 	private void showSettings()
@@ -209,6 +222,7 @@ public class ActivityMain extends AppCompatActivity
 		if(state == State.SERVER_JOINING)
 		{
 			applyConstraintTransition(() -> setConnectedLayout(false), this::showCreateServerPanel);
+			onJoinServerPanelClose();
 			state = State.CONNECTED;
 		}
 		else if(state == State.CONNECTED)
@@ -222,12 +236,26 @@ public class ActivityMain extends AppCompatActivity
 	{
 		if(state == State.CONNECTED) return;
 		applyConstraintTransition(() -> setConnectedLayout(true), null);
+		onCreateServerPanelClose();
 		state = State.CONNECTED;
+	}
+	
+	private void onCreateServerPanelClose()
+	{
+		textInputLayoutServerName.setErrorEnabled(false);
+		editTextServerName.setText("");
 	}
 	
 	private void applyServerCreation()
 	{
-	
+		TransitionManager.beginDelayedTransition(panelCreateServer);
+		String serverName = editTextServerName.getText().toString();
+		if(serverName.length() < 3) textInputLayoutServerName.setError(getString(R.string.message_server_name_too_short));
+		else
+		{
+			textInputLayoutServerName.setErrorEnabled(false);
+			controlLogic.createServer(serverName, Settings.getNick(this));
+		}
 	}
 	
 	private void showJoinServerPanel()
@@ -235,6 +263,7 @@ public class ActivityMain extends AppCompatActivity
 		if(state == State.SERVER_CREATING)
 		{
 			applyConstraintTransition(() -> setConnectedLayout(false), this::showJoinServerPanel);
+			onCreateServerPanelClose();
 			state = State.CONNECTED;
 		}
 		else if(state == State.CONNECTED)
@@ -248,12 +277,27 @@ public class ActivityMain extends AppCompatActivity
 	{
 		if(state == State.CONNECTED) return;
 		applyConstraintTransition(() -> setConnectedLayout(true), null);
+		onJoinServerPanelClose();
 		state = State.CONNECTED;
+	}
+	
+	private void onJoinServerPanelClose()
+	{
+		textInputLayoutServerCode.setErrorEnabled(false);
+		editTextServerCode.setText("");
 	}
 	
 	private void applyServerJoin()
 	{
-	
+		TransitionManager.beginDelayedTransition(panelJoinServer);
+		String serverCodeString = editTextServerCode.getText().toString();
+		if(serverCodeString.length() != 4) textInputLayoutServerCode.setError(getString(R.string.message_server_code_length));
+		else
+		{
+			int serverCode = Integer.parseInt(serverCodeString);
+			textInputLayoutServerCode.setErrorEnabled(false);
+			controlLogic.login(serverCode, Settings.getNick(this));
+		}
 	}
 	
 	private void setConnectingLayout()
@@ -362,14 +406,12 @@ public class ActivityMain extends AppCompatActivity
 	
 	void onConnect()
 	{
-		if(state != State.CONNECTING) return;
 		applyConstraintTransition(() -> setConnectedLayout(true), null);
 		state = State.CONNECTED;
 	}
 	
 	void onConnectFail()
 	{
-		if(state != State.CONNECTING) return;
 		applyConstraintTransition(this::setCannotConnectLayout, null);
 		state = State.CANNOT_CONNECT;
 	}
@@ -382,11 +424,60 @@ public class ActivityMain extends AppCompatActivity
 	
 	void onLoggedIn(String serverName, int serverCode)
 	{
+		Intent intent = new Intent(this, ActivityServer.class);
+		startActivity(intent);
+	}
 	
+	void onInvalidServerNameError()
+	{
+		TransitionManager.beginDelayedTransition(panelCreateServer);
+		textInputLayoutServerName.setError(getString(R.string.message_server_name_invalid));
+	}
+	
+	void onTooManyServersError()
+	{
+		Snackbar.make(coordinatorLayout, R.string.message_too_many_servers, Snackbar.LENGTH_LONG).show();
+	}
+	
+	void onInvalidUsernameError()
+	{
+		Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.message_invalid_username, Snackbar.LENGTH_LONG);
+		snackbar.setAction(R.string.action_change_username, v -> changeUsername());
+		snackbar.show();
+	}
+	
+	void onTooManyUsersError()
+	{
+		Snackbar.make(coordinatorLayout, R.string.message_too_many_users, Snackbar.LENGTH_LONG).show();
+	}
+	
+	void onUsernameBusyError()
+	{
+		Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.message_username_busy, Snackbar.LENGTH_LONG);
+		snackbar.setAction(R.string.action_change_username, v -> changeUsername());
+		snackbar.show();
+	}
+	
+	void onInvalidServerCode()
+	{
+		TransitionManager.beginDelayedTransition(panelJoinServer);
+		textInputLayoutServerCode.setError(getString(R.string.message_server_code_invalid));
+	}
+	
+	void onCannotCreateServer()
+	{
+		Snackbar.make(coordinatorLayout, R.string.message_cannot_create_server, Snackbar.LENGTH_LONG).show();
 	}
 	
 	void onCannotLogIn()
 	{
-		Toast.makeText(this, R.string.message_cannot_login, Toast.LENGTH_LONG).show();
+		Snackbar.make(coordinatorLayout, R.string.message_cannot_login, Snackbar.LENGTH_LONG).show();
+	}
+	
+	private void changeUsername()
+	{
+		Intent intent = new Intent(this, ActivitySettings.class);
+		intent.putExtra("preferenceToEdit", Settings.KEY_NICK);
+		startActivity(intent);
 	}
 }

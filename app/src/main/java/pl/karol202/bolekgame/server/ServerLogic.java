@@ -20,7 +20,7 @@ public class ServerLogic
 		activityServer.onLoggedOut();
 	}
 	
-	public void onFailure()
+	public void onFailure(int problem)
 	{
 	
 	}

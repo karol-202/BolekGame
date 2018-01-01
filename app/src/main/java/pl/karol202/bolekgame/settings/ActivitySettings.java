@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.settings;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,12 +12,10 @@ import pl.karol202.bolekgame.R;
 
 public class ActivitySettings extends AppCompatActivity
 {
-	public static final String KEY_NICK = "preference_nick";
-	public static final String KEY_SERVER_ADDRESS = "preference_server_address";
-	
 	private Toolbar toolbar;
 	
 	private ActionBar actionBar;
+	private String preferenceToEdit;
 	
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -24,6 +23,7 @@ public class ActivitySettings extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 		
+		loadData();
 		attachPreferenceFragment();
 		
 		toolbar = findViewById(R.id.toolbar);
@@ -35,10 +35,20 @@ public class ActivitySettings extends AppCompatActivity
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 	
+	private void loadData()
+	{
+		preferenceToEdit = getIntent().getStringExtra("preferenceToEdit");
+	}
+	
 	private void attachPreferenceFragment()
 	{
+		Fragment fragment = new FragmentSettings();
+		Bundle data = new Bundle();
+		if(preferenceToEdit != null) data.putString("preferenceToEdit", preferenceToEdit);
+		fragment.setArguments(data);
+		
 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.replace(R.id.settings_view, new FragmentSettings());
+		transaction.replace(R.id.settings_view, fragment);
 		transaction.commit();
 	}
 	

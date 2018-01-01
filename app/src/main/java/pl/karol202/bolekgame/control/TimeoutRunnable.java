@@ -1,6 +1,8 @@
 package pl.karol202.bolekgame.control;
 
-public class TimeoutRunnable implements Runnable
+import android.os.Handler;
+
+public class TimeoutRunnable
 {
 	private int timeoutTime;
 	private Runnable timeoutTask;
@@ -10,26 +12,17 @@ public class TimeoutRunnable implements Runnable
 	{
 		this.timeoutTime = timeoutTime;
 		this.timeoutTask = timeoutTask;
-		new Thread(this).start();
+		run();
 	}
 	
-	@Override
-	public void run()
+	private void run()
 	{
-		try
-		{
-			this.wait(timeoutTime);
-			if(!interrupt) timeoutTask.run();
-		}
-		catch(InterruptedException e)
-		{
-			e.printStackTrace();
-		}
+		Handler handler = new Handler();
+		handler.postDelayed(() -> { if(!interrupt) timeoutTask.run(); }, timeoutTime);
 	}
 	
-	void interrupt()
+	public void interrupt()
 	{
 		interrupt = true;
-		this.notify();
 	}
 }

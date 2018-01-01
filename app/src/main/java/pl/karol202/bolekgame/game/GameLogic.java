@@ -15,7 +15,7 @@ public class GameLogic
 		this.client = client;
 	}
 	
-	public void onFailure()
+	public void onFailure(int problem)
 	{
 	
 	}

@@ -1,266 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout android:id="@+id/main_layout"
+<android.support.design.widget.CoordinatorLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/coordinator_layout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 	
-	<ImageView
-		android:id="@+id/background"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		android:scaleType="centerCrop"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		app:srcCompat="@drawable/background_main"
-		tools:ignore="ContentDescription" />
-	
-	<ImageButton
-		android:id="@+id/button_settings"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="8dp"
-		android:layout_marginTop="8dp"
-		android:padding="8dp"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintTop_toTopOf="@+id/background"
-		app:srcCompat="@drawable/ic_settings_black_24dp"
-		android:layout_marginRight="8dp" />
-	
 	<android.support.constraint.ConstraintLayout
-		android:id="@+id/panel_connection"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="8dp"
-		android:layout_marginEnd="64dp"
-		android:layout_marginStart="64dp"
-		android:layout_marginTop="8dp"
-		android:background="@drawable/background_panel"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="@+id/background"
-		app:layout_constraintStart_toStartOf="@+id/background"
-		app:layout_constraintTop_toTopOf="@+id/background">
+		android:id="@+id/main_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 		
-		<ProgressBar
-			android:id="@+id/progressBar_connecting"
-			style="?android:attr/progressBarStyle"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="16dp"
-			android:layout_marginStart="16dp"
-			android:layout_marginTop="16dp"
-			app:layout_constraintBottom_toTopOf="@+id/button_retry_connection"
+		<ImageView
+			android:id="@+id/background"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:scaleType="centerCrop"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			android:layout_marginLeft="16dp" />
+			app:srcCompat="@drawable/background_main"
+			tools:ignore="ContentDescription" />
 		
-		<TextView
-			android:id="@+id/text_connection"
-			android:layout_width="0dp"
+		<ImageButton
+			android:id="@+id/button_settings"
+			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginEnd="8dp"
-			android:layout_marginStart="16dp"
-			android:text="@string/text_connecting"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			app:layout_constraintBottom_toBottomOf="@+id/progressBar_connecting"
+			android:layout_marginTop="8dp"
+			android:padding="8dp"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toEndOf="@+id/progressBar_connecting"
-			app:layout_constraintTop_toTopOf="@+id/progressBar_connecting"
-			android:layout_marginLeft="16dp"
+			app:layout_constraintTop_toTopOf="@+id/background"
+			app:srcCompat="@drawable/ic_settings_black_24dp"
 			android:layout_marginRight="8dp" />
 		
-		<Button
-			android:id="@+id/button_retry_connection"
-			style="@style/ButtonAccent"
-			android:layout_width="0dp"
-			android:layout_height="40dp"
-			android:layout_marginBottom="16dp"
-			android:layout_marginEnd="16dp"
-			android:layout_marginStart="16dp"
-			android:text="@string/button_retry_connection"
-			android:visibility="gone"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent" />
-	</android.support.constraint.ConstraintLayout>
-	
-	<android.support.constraint.ConstraintLayout
-		android:id="@+id/panel_server"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginBottom="8dp"
-		android:layout_marginEnd="64dp"
-		android:layout_marginStart="64dp"
-		android:layout_marginTop="8dp"
-		android:background="@drawable/background_panel"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent">
-		
-		<Button
-			android:id="@+id/button_create_server"
-			style="@style/ButtonAccent"
-			android:layout_width="0dp"
-			android:layout_height="40dp"
-			android:layout_marginEnd="16dp"
-			android:layout_marginStart="16dp"
-			android:layout_marginTop="16dp"
-			android:text="@string/button_create_server"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
-		
-		<Button
-			android:id="@+id/button_join_server"
-			style="@style/ButtonAccent"
-			android:layout_width="0dp"
-			android:layout_height="40dp"
-			android:layout_marginBottom="16dp"
-			android:layout_marginEnd="16dp"
-			android:layout_marginStart="16dp"
-			android:layout_marginTop="16dp"
-			android:text="@string/button_join_server"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/button_create_server" />
-	</android.support.constraint.ConstraintLayout>
-	
-	<android.support.constraint.ConstraintLayout
-		android:id="@+id/panel_create_server"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="48dp"
-		android:layout_marginStart="48dp"
-		android:layout_marginTop="32dp"
-		android:background="@drawable/background_panel"
-		android:visibility="visible"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/panel_server">
-		
-		<TextView
-			android:id="@+id/text_server_name"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="16dp"
-			android:layout_marginStart="16dp"
-			android:layout_marginTop="16dp"
-			android:text="@string/text_server_name"
-			android:textColor="@android:color/black"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
-		
-		<EditText
-			android:id="@+id/editText_server_name"
+		<android.support.constraint.ConstraintLayout
+			android:id="@+id/panel_connection"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginEnd="16dp"
-			android:layout_marginStart="16dp"
+			android:layout_marginBottom="8dp"
+			android:layout_marginEnd="64dp"
+			android:layout_marginStart="64dp"
 			android:layout_marginTop="8dp"
-			android:ems="10"
-			android:inputType="text"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/text_server_name" />
-		
-		<Button
-			android:id="@+id/button_create_server_apply"
-			style="@style/ButtonAccent"
-			android:layout_width="0dp"
-			android:layout_height="40dp"
-			android:layout_marginBottom="16dp"
-			android:layout_marginEnd="16dp"
-			android:layout_marginStart="16dp"
-			android:layout_marginTop="16dp"
-			android:text="@string/button_create_server_apply"
+			android:background="@drawable/background_panel"
 			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/editText_server_name" />
+			app:layout_constraintEnd_toEndOf="@+id/background"
+			app:layout_constraintStart_toStartOf="@+id/background"
+			app:layout_constraintTop_toTopOf="@+id/background">
+			
+			<ProgressBar
+				android:id="@+id/progressBar_connecting"
+				style="?android:attr/progressBarStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="16dp"
+				app:layout_constraintBottom_toTopOf="@+id/button_retry_connection"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				android:layout_marginLeft="16dp" />
+			
+			<TextView
+				android:id="@+id/text_connection"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="8dp"
+				android:layout_marginStart="16dp"
+				android:text="@string/text_connecting"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				app:layout_constraintBottom_toBottomOf="@+id/progressBar_connecting"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toEndOf="@+id/progressBar_connecting"
+				app:layout_constraintTop_toTopOf="@+id/progressBar_connecting"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="8dp" />
+			
+			<Button
+				android:id="@+id/button_retry_connection"
+				style="@style/ButtonAccent"
+				android:layout_width="0dp"
+				android:layout_height="40dp"
+				android:layout_marginBottom="16dp"
+				android:layout_marginEnd="16dp"
+				android:layout_marginStart="16dp"
+				android:text="@string/button_retry_connection"
+				android:visibility="gone"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent" />
+		</android.support.constraint.ConstraintLayout>
 		
-		<ImageButton
-			android:id="@+id/button_create_server_close"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginEnd="4dp"
-			android:layout_marginRight="4dp"
-			android:layout_marginTop="4dp"
-			android:padding="4dp"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:srcCompat="@drawable/ic_close_black_24dp" />
-	</android.support.constraint.ConstraintLayout>
-	
-	<android.support.constraint.ConstraintLayout
-		android:id="@+id/panel_join_server"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginEnd="48dp"
-		android:layout_marginStart="48dp"
-		android:layout_marginTop="32dp"
-		android:background="@drawable/background_panel"
-		android:visibility="visible"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/panel_server">
-		
-		<TextView
-			android:id="@+id/text_server_code"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginStart="16dp"
-			android:layout_marginTop="16dp"
-			android:text="@string/text_server_code"
-			android:textColor="@android:color/black"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			android:layout_marginLeft="16dp" />
-		
-		<EditText
-			android:id="@+id/editText_server_code"
+		<android.support.constraint.ConstraintLayout
+			android:id="@+id/panel_server"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginEnd="16dp"
-			android:layout_marginStart="16dp"
+			android:layout_marginBottom="8dp"
+			android:layout_marginEnd="64dp"
+			android:layout_marginStart="64dp"
 			android:layout_marginTop="8dp"
-			android:ems="10"
-			android:inputType="number"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/text_server_code" />
-		
-		<Button
-			android:id="@+id/button_join_server_apply"
-			style="@style/ButtonAccent"
-			android:layout_width="0dp"
-			android:layout_height="40dp"
-			android:layout_marginBottom="16dp"
-			android:layout_marginEnd="16dp"
-			android:layout_marginStart="16dp"
-			android:layout_marginTop="16dp"
-			android:text="@string/button_join_server_apply"
+			android:background="@drawable/background_panel"
 			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/editText_server_code" />
+			app:layout_constraintTop_toTopOf="parent">
+			
+			<Button
+				android:id="@+id/button_create_server"
+				style="@style/ButtonAccent"
+				android:layout_width="0dp"
+				android:layout_height="40dp"
+				android:layout_marginEnd="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="16dp"
+				android:text="@string/button_create_server"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+			
+			<Button
+				android:id="@+id/button_join_server"
+				style="@style/ButtonAccent"
+				android:layout_width="0dp"
+				android:layout_height="40dp"
+				android:layout_marginBottom="16dp"
+				android:layout_marginEnd="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="16dp"
+				android:text="@string/button_join_server"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/button_create_server" />
+		</android.support.constraint.ConstraintLayout>
 		
-		<ImageButton
-			android:id="@+id/button_join_server_close"
-			android:layout_width="wrap_content"
+		<android.support.constraint.ConstraintLayout
+			android:id="@+id/panel_create_server"
+			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:layout_marginEnd="4dp"
-			android:layout_marginTop="4dp"
-			android:padding="4dp"
+			android:layout_marginEnd="48dp"
+			android:layout_marginStart="48dp"
+			android:layout_marginTop="32dp"
+			android:background="@drawable/background_panel"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:srcCompat="@drawable/ic_close_black_24dp"
-			android:layout_marginRight="4dp" />
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/panel_server">
+			
+			<TextView
+				android:id="@+id/text_server_name"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="16dp"
+				android:text="@string/text_server_name"
+				android:textColor="@android:color/black"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+			
+			<android.support.design.widget.TextInputLayout
+				android:id="@+id/editTextLayout_server_name"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="8dp"
+				app:hintEnabled="false"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/text_server_name">
+				
+				<android.support.design.widget.TextInputEditText
+					android:id="@+id/editText_server_name"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="text" />
+			
+			</android.support.design.widget.TextInputLayout>
+			
+			<Button
+				android:id="@+id/button_create_server_apply"
+				style="@style/ButtonAccent"
+				android:layout_width="0dp"
+				android:layout_height="40dp"
+				android:layout_marginBottom="16dp"
+				android:layout_marginEnd="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="16dp"
+				android:text="@string/button_create_server_apply"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/editTextLayout_server_name" />
+			
+			<ImageButton
+				android:id="@+id/button_create_server_close"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="4dp"
+				android:layout_marginRight="4dp"
+				android:layout_marginTop="4dp"
+				android:padding="4dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:srcCompat="@drawable/ic_close_black_24dp" />
+		</android.support.constraint.ConstraintLayout>
+		
+		<android.support.constraint.ConstraintLayout
+			android:id="@+id/panel_join_server"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="48dp"
+			android:layout_marginStart="48dp"
+			android:layout_marginTop="32dp"
+			android:background="@drawable/background_panel"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/panel_server">
+			
+			<TextView
+				android:id="@+id/text_server_code"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="16dp"
+				android:text="@string/text_server_code"
+				android:textColor="@android:color/black"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent" />
+			
+			<android.support.design.widget.TextInputLayout
+				android:id="@+id/editTextLayout_server_code"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="8dp"
+				app:hintEnabled="false"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/text_server_code">
+				
+				<android.support.design.widget.TextInputEditText
+					android:id="@+id/editText_server_code"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="number"/>
+				
+			</android.support.design.widget.TextInputLayout>
+			
+			<Button
+				android:id="@+id/button_join_server_apply"
+				style="@style/ButtonAccent"
+				android:layout_width="0dp"
+				android:layout_height="40dp"
+				android:layout_marginBottom="16dp"
+				android:layout_marginEnd="16dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="16dp"
+				android:text="@string/button_join_server_apply"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/editTextLayout_server_code" />
+			
+			<ImageButton
+				android:id="@+id/button_join_server_close"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginEnd="4dp"
+				android:layout_marginRight="4dp"
+				android:layout_marginTop="4dp"
+				android:padding="4dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:srcCompat="@drawable/ic_close_black_24dp" />
+		
+		</android.support.constraint.ConstraintLayout>
 	
 	</android.support.constraint.ConstraintLayout>
-
-</android.support.constraint.ConstraintLayout>
+	
+</android.support.design.widget.CoordinatorLayout>

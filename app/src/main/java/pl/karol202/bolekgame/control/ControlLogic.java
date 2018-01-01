@@ -3,6 +3,7 @@ package pl.karol202.bolekgame.control;
 import android.os.Handler;
 import android.os.Looper;
 import pl.karol202.bolekgame.client.Client;
+import pl.karol202.bolekgame.client.inputpacket.InputPacketFailure;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketCreateServer;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogin;
 
@@ -14,6 +15,8 @@ public class ControlLogic
 	private Client client;
 	
 	private TimeoutRunnable loginTimeout;
+	private boolean creatingServer;
+	private boolean loggingIn;
 	
 	ControlLogic(ActivityMain activityMain, Client client)
 	{
@@ -48,25 +51,60 @@ public class ControlLogic
 	void login(int serverCode, String username)
 	{
 		client.sendPacket(new OutputPacketLogin(serverCode, username));
-		loginTimeout = new TimeoutRunnable(TIMEOUT, this::onFailure);
+		loginTimeout = new TimeoutRunnable(TIMEOUT, () -> onFailure(0));
+		loggingIn = true;
 	}
 	
 	void createServer(String serverName, String username)
 	{
 		client.sendPacket(new OutputPacketCreateServer(serverName, username));
-		loginTimeout = new TimeoutRunnable(TIMEOUT, this::onFailure);
+		loginTimeout = new TimeoutRunnable(TIMEOUT, () -> onFailure(0));
+		creatingServer = true;
 	}
-	
 	
 	public void onLoggedIn(String serverName, int serverCode)
 	{
-		loginTimeout.interrupt();
 		runInUIThread(() -> activityMain.onLoggedIn(serverName, serverCode));
+		loginTimeout.interrupt();
+		creatingServer = false;
+		loggingIn = false;
 	}
 	
-	public void onFailure()
+	public void onFailure(int problem)
 	{
-		runInUIThread(() -> activityMain.onCannotLogIn());
+		loginTimeout.interrupt();
+		if(creatingServer) onServerCreatingFailure(problem);
+		else if(loggingIn) onLoggingFailure(problem);
+		creatingServer = false;
+		loggingIn = false;
+	}
+	
+	private void onServerCreatingFailure(int problem)
+	{
+		if(problem == InputPacketFailure.PROBLEM_SERVER_INVALID_NAME)
+			runInUIThread(() -> activityMain.onInvalidServerNameError());
+		else if(problem == InputPacketFailure.PROBLEM_SERVER_TOO_MANY)
+			runInUIThread(() -> activityMain.onTooManyServersError());
+		else if(problem == InputPacketFailure.PROBLEM_USER_INVALID_NAME)
+			runInUIThread(() -> activityMain.onInvalidUsernameError());
+		else if(problem == InputPacketFailure.PROBLEM_USER_TOO_MANY)
+			runInUIThread(() -> activityMain.onTooManyUsersError());
+		else if(problem == InputPacketFailure.PROBLEM_USER_NAME_BUSY)
+			runInUIThread(() -> activityMain.onUsernameBusyError());
+		else runInUIThread(() -> activityMain.onCannotCreateServer());
+	}
+	
+	private void onLoggingFailure(int problem)
+	{
+		if(problem == InputPacketFailure.PROBLEM_SERVER_CODE_INVALID)
+			runInUIThread(() -> activityMain.onInvalidServerCode());
+		else if(problem == InputPacketFailure.PROBLEM_USER_INVALID_NAME)
+			runInUIThread(() -> activityMain.onInvalidUsernameError());
+		else if(problem == InputPacketFailure.PROBLEM_USER_TOO_MANY)
+			runInUIThread(() -> activityMain.onTooManyUsersError());
+		else if(problem == InputPacketFailure.PROBLEM_USER_NAME_BUSY)
+			runInUIThread(() -> activityMain.onUsernameBusyError());
+		else runInUIThread(() -> activityMain.onCannotLogIn());
 	}
 	
 	private void onDisconnect()

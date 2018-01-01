@@ -15,10 +15,18 @@
 	<string name="text_server_name">Nazwa serwera</string>
 	<string name="text_server_code">Kod serwera</string>
 	
-	<string name="message_connected">Połączono</string>
-	<string name="message_disconnected">Rozłączono</string>
-	<string name="message_cannot_connect">Nie można połączyć</string>
+	<string name="message_server_name_too_short">Za krótka nazwa</string>
+	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
+	<string name="message_too_many_servers">Serwer zajęty</string>
+	<string name="message_invalid_username">Niewłaściwa nazwa użytkownika</string>
+	<string name="message_too_many_users">Za dużo graczy</string>
+	<string name="message_username_busy">Ta nazwa użytkownika jest zajęta</string>
+	<string name="message_server_code_length">Kod musi mieć 4 znaki</string>
+	<string name="message_server_code_invalid">Kod nieprawidłowy</string>
+	<string name="message_cannot_create_server">Nie można utworzyć gry</string>
 	<string name="message_cannot_login">Nie można zalogować</string>
+	
+	<string name="action_change_username">Zmień</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 	
-	<EditTextPreference
+	<pl.karol202.bolekgame.settings.CallableEditTextPreference
 		android:defaultValue="@string/default_nick"
 		android:key="preference_nick"
 		android:selectAllOnFocus="true"
