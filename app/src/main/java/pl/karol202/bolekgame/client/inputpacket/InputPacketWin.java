@@ -1,10 +1,10 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
 import pl.karol202.bolekgame.game.WinCause;
-import pl.karol202.bolekgame.game.GameLogic;
 
-public class InputPacketWin implements InputGamePacket
+public class InputPacketWin implements InputPacket
 {
 	private WinCause cause;
 	
@@ -15,8 +15,8 @@ public class InputPacketWin implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onWin(cause);
+		listener.onWin(cause);
 	}
 }

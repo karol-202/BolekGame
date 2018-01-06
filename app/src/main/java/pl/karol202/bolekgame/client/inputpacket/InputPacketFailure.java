@@ -1,11 +1,9 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.control.ControlLogic;
-import pl.karol202.bolekgame.game.GameLogic;
-import pl.karol202.bolekgame.server.ServerLogic;
 
-public class InputPacketFailure implements InputControlPacket, InputServerPacket, InputGamePacket
+public class InputPacketFailure implements InputPacket
 {
 	public static final int PROBLEM_SERVER_INVALID_NAME = 1;
 	public static final int PROBLEM_SERVER_TOO_MANY = 2;
@@ -23,20 +21,8 @@ public class InputPacketFailure implements InputControlPacket, InputServerPacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onFailure(problem);
-	}
-	
-	@Override
-	public void execute(ServerLogic ui)
-	{
-		ui.onFailure(problem);
-	}
-	
-	@Override
-	public void execute(ControlLogic ui)
-	{
-		ui.onFailure(problem);
+		listener.onFailure(problem);
 	}
 }

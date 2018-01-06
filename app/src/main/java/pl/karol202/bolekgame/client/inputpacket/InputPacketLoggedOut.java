@@ -1,16 +1,16 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.server.ServerLogic;
 
-public class InputPacketLoggedOut implements InputServerPacket
+public class InputPacketLoggedOut implements InputPacket
 {
 	@Override
 	public void readData(DataBundle bundle) { }
 	
 	@Override
-	public void execute(ServerLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onLoggedOut();
+		listener.onLoggedOut();
 	}
 }

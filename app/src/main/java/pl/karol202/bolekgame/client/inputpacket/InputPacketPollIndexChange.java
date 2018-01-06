@@ -1,9 +1,9 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.game.GameLogic;
 
-public class InputPacketPollIndexChange implements InputGamePacket
+public class InputPacketPollIndexChange implements InputPacket
 {
 	private int pollIndex;
 	
@@ -14,8 +14,8 @@ public class InputPacketPollIndexChange implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onPollIndexChange(pollIndex);
+		listener.onPollIndexChange(pollIndex);
 	}
 }

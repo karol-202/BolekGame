@@ -1,10 +1,10 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
 import pl.karol202.bolekgame.game.Act;
-import pl.karol202.bolekgame.game.GameLogic;
 
-public class InputPacketChooseActsPrimeMinister implements InputGamePacket
+public class InputPacketChooseActsPrimeMinister implements InputPacket
 {
 	private Act[] acts;
 	
@@ -21,8 +21,8 @@ public class InputPacketChooseActsPrimeMinister implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onChooseActsPrimeMinisterRequest(acts);
+		listener.onChooseActsPrimeMinisterRequest(acts);
 	}
 }

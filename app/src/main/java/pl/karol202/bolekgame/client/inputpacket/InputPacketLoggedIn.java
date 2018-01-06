@@ -1,9 +1,9 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.control.ControlLogic;
 
-public class InputPacketLoggedIn implements InputControlPacket
+public class InputPacketLoggedIn implements InputPacket
 {
 	private String serverName;
 	private int serverCode;
@@ -16,8 +16,8 @@ public class InputPacketLoggedIn implements InputControlPacket
 	}
 	
 	@Override
-	public void execute(ControlLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onLoggedIn(serverName, serverCode);
+		listener.onLoggedIn(serverName, serverCode);
 	}
 }

@@ -1,9 +1,9 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.server.ServerLogic;
 
-public class InputPacketSetReady implements InputServerPacket
+public class InputPacketSetReady implements InputPacket
 {
 	private String username;
 	
@@ -14,8 +14,8 @@ public class InputPacketSetReady implements InputServerPacket
 	}
 	
 	@Override
-	public void execute(ServerLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onSetReady(username);
+		listener.onSetReady(username);
 	}
 }

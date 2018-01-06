@@ -1,9 +1,9 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.game.GameLogic;
 
-public class InputPacketPresidentCheckedPlayer implements InputGamePacket
+public class InputPacketPresidentCheckedPlayer implements InputPacket
 {
 	private String checkedPlayer;
 	
@@ -14,8 +14,8 @@ public class InputPacketPresidentCheckedPlayer implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onPresidentCheckedPlayer(checkedPlayer);
+		listener.onPresidentCheckedPlayer(checkedPlayer);
 	}
 }

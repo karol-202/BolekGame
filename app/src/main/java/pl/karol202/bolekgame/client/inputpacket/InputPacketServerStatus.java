@@ -1,9 +1,9 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.server.ServerLogic;
 
-public class InputPacketServerStatus implements InputServerPacket
+public class InputPacketServerStatus implements InputPacket
 {
 	private boolean gameAvailable;
 	
@@ -14,8 +14,8 @@ public class InputPacketServerStatus implements InputServerPacket
 	}
 	
 	@Override
-	public void execute(ServerLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onServerStatusUpdate(gameAvailable);
+		listener.onServerStatusUpdate(gameAvailable);
 	}
 }

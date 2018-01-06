@@ -1,12 +1,12 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.server.ServerLogic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputPacketGameStart implements InputServerPacket
+public class InputPacketGameStart implements InputPacket
 {
 	private List<String> players;
 	
@@ -23,8 +23,8 @@ public class InputPacketGameStart implements InputServerPacket
 	}
 	
 	@Override
-	public void execute(ServerLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onGameStart(players);
+		listener.onGameStart(players);
 	}
 }

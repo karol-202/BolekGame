@@ -1,12 +1,12 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.game.GameLogic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputPacketChoosePrimeMinister implements InputGamePacket
+public class InputPacketChoosePrimeMinister implements InputPacket
 {
 	private List<String> candidates;
 	
@@ -23,8 +23,8 @@ public class InputPacketChoosePrimeMinister implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onChoosePrimeMinisterRequest(candidates);
+		listener.onChoosePrimeMinisterRequest(candidates);
 	}
 }

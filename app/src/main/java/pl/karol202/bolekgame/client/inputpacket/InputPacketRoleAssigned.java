@@ -1,10 +1,10 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
 import pl.karol202.bolekgame.game.Role;
-import pl.karol202.bolekgame.game.GameLogic;
 
-public class InputPacketRoleAssigned implements InputGamePacket
+public class InputPacketRoleAssigned implements InputPacket
 {
 	private Role role;
 	
@@ -15,8 +15,8 @@ public class InputPacketRoleAssigned implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onRoleAssigned(role);
+		listener.onRoleAssigned(role);
 	}
 }

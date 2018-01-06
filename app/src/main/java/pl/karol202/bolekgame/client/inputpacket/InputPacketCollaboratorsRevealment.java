@@ -1,12 +1,12 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.game.GameLogic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputPacketCollaboratorsRevealment implements InputGamePacket
+public class InputPacketCollaboratorsRevealment implements InputPacket
 {
 	private List<String> collaborators;
 	private String bolek;
@@ -25,8 +25,8 @@ public class InputPacketCollaboratorsRevealment implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onCollaboratorsRevealment(collaborators, bolek);
+		listener.onCollaboratorsRevealment(collaborators, bolek);
 	}
 }

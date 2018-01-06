@@ -2,6 +2,8 @@
 	<string name="app_name">Nocna zmiana</string>
 	<string name="activity_settings">Ustawienia</string>
 	
+	<string name="dialog_disconnection">Rozłączono</string>
+	
 	<string name="button_nick_change_apply">Zmień</string>
 	<string name="button_cancel">Anuluj</string>
 	<string name="button_retry_connection">Spróbuj ponownie</string>
@@ -9,11 +11,17 @@
 	<string name="button_join_server">Dołącz do gry</string>
 	<string name="button_create_server_apply">Stwórz grę</string>
 	<string name="button_join_server_apply">Dołącz do gry</string>
+	<string name="button_user_ready">Gotowy do gry</string>
 	
 	<string name="text_connecting">Łączenie…</string>
 	<string name="text_cannot_connect">Nie można połączyć</string>
 	<string name="text_server_name">Nazwa serwera</string>
 	<string name="text_server_code">Kod serwera</string>
+	<string name="text_server">Serwer:</string>
+	<string name="text_code">Kod:</string>
+	<string name="text_users_amount">Gracze: %d</string>
+	<string name="text_ready_users_amount">Gotowi do gry: %d</string>
+	<string name="text_too_few_users">Za mało, aby grać</string>
 	
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
 	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
@@ -25,6 +33,7 @@
 	<string name="message_server_code_invalid">Kod nieprawidłowy</string>
 	<string name="message_cannot_create_server">Nie można utworzyć gry</string>
 	<string name="message_cannot_login">Nie można zalogować</string>
+	<string name="message_disconnection">Utracono połączenie z serwerem</string>
 	
 	<string name="action_change_username">Zmień</string>
 	
@@ -33,4 +42,7 @@
 	
 	<string name="default_nick">Gracz</string>
 	<string name="default_server_address">192.168.0.15</string>
+	
+	<string name="unknown">Nieznany</string>
+	<string name="ok">OK</string>
 </resources>

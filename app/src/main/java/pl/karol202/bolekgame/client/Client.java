@@ -1,11 +1,9 @@
 package pl.karol202.bolekgame.client;
 
-import pl.karol202.bolekgame.client.inputpacket.*;
+import pl.karol202.bolekgame.client.inputpacket.InputPacket;
+import pl.karol202.bolekgame.client.inputpacket.InputPacketFactory;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacket;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketEncoder;
-import pl.karol202.bolekgame.control.ControlLogic;
-import pl.karol202.bolekgame.game.GameLogic;
-import pl.karol202.bolekgame.server.ServerLogic;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,18 +13,10 @@ import java.net.Socket;
 
 public class Client
 {
-	public interface OnDisconnectListener
-	{
-		void onDisconnect();
-	}
-	
 	private static final int PORT = 6006;
 	private static final int TIMEOUT = 3000;
 	
-	private ControlLogic controlLogic;
-	private ServerLogic serverLogic;
-	private GameLogic gameLogic;
-	private OnDisconnectListener onDisconnectListener;
+	private ClientListener clientListener;
 	
 	private Socket socket;
 	private InputStream inputStream;
@@ -131,9 +121,7 @@ public class Client
 	
 	private void executePacket(InputPacket packet)
 	{
-		if(packet instanceof InputControlPacket && controlLogic != null) ((InputControlPacket) packet).execute(controlLogic);
-		if(packet instanceof InputServerPacket && serverLogic != null) ((InputServerPacket) packet).execute(serverLogic);
-		if(packet instanceof InputGamePacket && gameLogic != null) ((InputGamePacket) packet).execute(gameLogic);
+		if(clientListener != null) packet.execute(clientListener);
 	}
 	
 	public void sendPacket(OutputPacket packet)
@@ -164,7 +152,7 @@ public class Client
 	private void closeSocket()
 	{
 		if(socket == null) return;
-		if(onDisconnectListener != null) onDisconnectListener.onDisconnect();
+		if(clientListener != null) clientListener.onDisconnect();
 		if(!isConnected()) return;
 		try
 		{
@@ -187,24 +175,9 @@ public class Client
 	{
 		return socket != null &&socket.isConnected() && !socket.isClosed();
 	}
-
-	public void setControlLogic(ControlLogic controlLogic)
-	{
-		this.controlLogic = controlLogic;
-	}
 	
-	public void setServerLogic(ServerLogic serverLogic)
+	public void setClientListener(ClientListener listener)
 	{
-		this.serverLogic = serverLogic;
-	}
-	
-	public void setGameLogic(GameLogic gameLogic)
-	{
-		this.gameLogic = gameLogic;
-	}
-	
-	public void setOnDisconnectListener(OnDisconnectListener listener)
-	{
-		this.onDisconnectListener = listener;
+		this.clientListener = listener;
 	}
 }

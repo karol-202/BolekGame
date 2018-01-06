@@ -3,13 +3,14 @@ package pl.karol202.bolekgame.control;
 import android.os.Handler;
 import android.os.Looper;
 import pl.karol202.bolekgame.client.Client;
+import pl.karol202.bolekgame.client.ClientListenerAdapter;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketFailure;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketCreateServer;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogin;
 
-public class ControlLogic
+public class ControlLogic extends ClientListenerAdapter
 {
-	private static final int TIMEOUT = 2000;
+	private static final int TIMEOUT = 3000;
 	
 	private ActivityMain activityMain;
 	private Client client;
@@ -23,8 +24,7 @@ public class ControlLogic
 		this.activityMain = activityMain;
 		this.client = client;
 		
-		client.setControlLogic(this);
-		client.setOnDisconnectListener(this::onDisconnect);
+		client.setClientListener(this);
 	}
 	
 	void connect(String host)
@@ -51,28 +51,30 @@ public class ControlLogic
 	void login(int serverCode, String username)
 	{
 		client.sendPacket(new OutputPacketLogin(serverCode, username));
-		loginTimeout = new TimeoutRunnable(TIMEOUT, () -> onFailure(0));
+		setLoginTimeout();
 		loggingIn = true;
 	}
 	
 	void createServer(String serverName, String username)
 	{
 		client.sendPacket(new OutputPacketCreateServer(serverName, username));
-		loginTimeout = new TimeoutRunnable(TIMEOUT, () -> onFailure(0));
+		setLoginTimeout();
 		creatingServer = true;
 	}
 	
+	@Override
 	public void onLoggedIn(String serverName, int serverCode)
 	{
+		interruptTimeout();
 		runInUIThread(() -> activityMain.onLoggedIn(serverName, serverCode));
-		loginTimeout.interrupt();
 		creatingServer = false;
 		loggingIn = false;
 	}
 	
+	@Override
 	public void onFailure(int problem)
 	{
-		loginTimeout.interrupt();
+		interruptTimeout();
 		if(creatingServer) onServerCreatingFailure(problem);
 		else if(loggingIn) onLoggingFailure(problem);
 		creatingServer = false;
@@ -107,7 +109,8 @@ public class ControlLogic
 		else runInUIThread(() -> activityMain.onCannotLogIn());
 	}
 	
-	private void onDisconnect()
+	@Override
+	public void onDisconnect()
 	{
 		runInUIThread(() -> activityMain.onDisconnect());
 	}
@@ -115,6 +118,18 @@ public class ControlLogic
 	private void runInUIThread(Runnable runnable)
 	{
 		new Handler(Looper.getMainLooper()).post(runnable);
+	}
+	
+	private void setLoginTimeout()
+	{
+		loginTimeout = new TimeoutRunnable(TIMEOUT, () -> onFailure(0));
+	}
+	
+	private void interruptTimeout()
+	{
+		if(loginTimeout == null) return;
+		loginTimeout.interrupt();
+		loginTimeout = null;
 	}
 	
 	Client getClient()

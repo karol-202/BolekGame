@@ -1,12 +1,12 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.game.GameLogic;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputPacketVotingResult implements InputGamePacket
+public class InputPacketVotingResult implements InputPacket
 {
 	private int upvotes;
 	private int totalVotes;
@@ -28,8 +28,8 @@ public class InputPacketVotingResult implements InputGamePacket
 	}
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onVotingResult(upvotes, totalVotes, passed, upvoters);
+		listener.onVotingResult(upvotes, totalVotes, passed, upvoters);
 	}
 }

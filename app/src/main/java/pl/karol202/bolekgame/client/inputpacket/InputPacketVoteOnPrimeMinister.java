@@ -1,16 +1,16 @@
 package pl.karol202.bolekgame.client.inputpacket;
 
+import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.game.GameLogic;
 
-public class InputPacketVoteOnPrimeMinister implements InputGamePacket
+public class InputPacketVoteOnPrimeMinister implements InputPacket
 {
 	@Override
 	public void readData(DataBundle bundle) { }
 	
 	@Override
-	public void execute(GameLogic ui)
+	public void execute(ClientListener listener)
 	{
-		ui.onVoteOnPrimeMinisterRequest();
+		listener.onVoteOnPrimeMinisterRequest();
 	}
 }
