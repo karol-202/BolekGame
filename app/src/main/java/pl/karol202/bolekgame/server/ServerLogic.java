@@ -2,6 +2,7 @@ package pl.karol202.bolekgame.server;
 
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.ClientListenerAdapter;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
 
 import java.util.List;
 
@@ -10,12 +11,22 @@ public class ServerLogic extends ClientListenerAdapter
 	private ActivityServer activityServer;
 	private Client client;
 	
-	ServerLogic(ActivityServer activityServer, Client client)
+	private Users users;
+	
+	ServerLogic(ActivityServer activityServer, Client client, String localUserName)
 	{
 		this.activityServer = activityServer;
 		this.client = client;
 		
-		client.setClientListener(this);
+		LocalUser localUser = new LocalUser(localUserName, this);
+		users = new Users(localUser);
+		
+		client.setClientListener(this); //Must be after initializing users because of packet execution caused by this method
+	}
+	
+	public void setReady()
+	{
+		client.sendPacket(new OutputPacketReady());
 	}
 	
 	@Override
@@ -37,9 +48,9 @@ public class ServerLogic extends ClientListenerAdapter
 	}
 	
 	@Override
-	public void onUsersUpdate(List<String> users)
+	public void onUsersUpdate(List<String> usernames)
 	{
-	
+		users.updateUsers(usernames);
 	}
 	
 	@Override
@@ -58,5 +69,10 @@ public class ServerLogic extends ClientListenerAdapter
 	public void onGameStart(List<String> players)
 	{
 	
+	}
+	
+	Users getUsers()
+	{
+		return users;
 	}
 }

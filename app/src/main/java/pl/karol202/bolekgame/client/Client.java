@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Client
 {
@@ -17,16 +19,24 @@ public class Client
 	private static final int TIMEOUT = 3000;
 	
 	private ClientListener clientListener;
+	private boolean suspendPacketExecution;
+	private Queue<InputPacket> packetBuffer;
 	
 	private Socket socket;
 	private InputStream inputStream;
 	private OutputStream outputStream;
 	
-	public Client() { }
-	
-	private Client(Socket socket)
+	public Client()
 	{
-		this.socket = socket;
+		packetBuffer = new LinkedList<>();
+	}
+	
+	private Client(Client client)
+	{
+		this();
+		this.suspendPacketExecution = client.suspendPacketExecution;
+		this.packetBuffer = client.packetBuffer;
+		this.socket = client.socket;
 		tryToInitStreams();
 	}
 	
@@ -46,7 +56,7 @@ public class Client
 	
 	public Client recreateClient()
 	{
-		return new Client(socket);
+		return new Client(this);
 	}
 	
 	public boolean connect(String host)
@@ -102,8 +112,9 @@ public class Client
 		while(isConnected())
 		{
 			InputPacket packet = receivePacket();
-			if(packet != null) executePacket(packet);
-			else break;
+			if(packet == null) break;
+			if(!suspendPacketExecution) executePacket(packet);
+			else packetBuffer.offer(packet);
 		}
 		closeSocket();
 	}
@@ -179,5 +190,17 @@ public class Client
 	public void setClientListener(ClientListener listener)
 	{
 		this.clientListener = listener;
+		if(listener != null) resumePacketExcecution();
+	}
+	
+	public void suspendPacketExcecution()
+	{
+		suspendPacketExecution = true;
+	}
+	
+	private void resumePacketExcecution()
+	{
+		suspendPacketExecution = false;
+		while(!packetBuffer.isEmpty()) executePacket(packetBuffer.poll());
 	}
 }

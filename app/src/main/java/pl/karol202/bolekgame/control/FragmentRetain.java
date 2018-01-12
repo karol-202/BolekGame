@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame;
+package pl.karol202.bolekgame.control;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -16,15 +16,10 @@ public class FragmentRetain extends Fragment
 		setRetainInstance(true);
 	}
 	
-	public Client getClient()
+	Client getClient()
 	{
 		if(client == null) client = new Client();
 		else client = client.recreateClient();
 		return client;
-	}
-	
-	public void setClient(Client client)
-	{
-		this.client = client;
 	}
 }

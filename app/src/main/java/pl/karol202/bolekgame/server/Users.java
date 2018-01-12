@@ -9,33 +9,62 @@ class Users
 {
 	interface OnUsersUpdateListener
 	{
-		void onUsersUpdate();
+		void onUserAdd();
+		
+		void onUserRemove(int position);
 	}
 	
-	private static final int MIN_USERS = 5;
+	private static final int MIN_USERS = 2;
 	
 	private List<User> users;
 	private LocalUser localUser;
 	
 	private List<OnUsersUpdateListener> usersUpdateListeners;
 	
-	Users()
+	Users(LocalUser localUser)
 	{
-		users = new ArrayList<>();
+		this.users = new ArrayList<>();
+		this.localUser = localUser;
+		users.add(localUser);
 		
 		usersUpdateListeners = new ArrayList<>();
 	}
 	
-	void addUser(User user)
+	private void addUser(User user)
 	{
+		if(users.contains(user)) return;
 		users.add(user);
-		callOnUsersUpdateListener();
+		StreamSupport.stream(usersUpdateListeners).forEach(OnUsersUpdateListener::onUserAdd);
 	}
 	
-	void removeUser(User user)
+	private void removeUser(User user)
 	{
+		if(!users.contains(user)) return;
+		int userIndex = users.indexOf(user);
 		users.remove(user);
-		callOnUsersUpdateListener();
+		StreamSupport.stream(usersUpdateListeners).forEach(l -> l.onUserRemove(userIndex));
+	}
+	
+	void updateUsers(List<String> usernames)
+	{
+		List<User> usersToAdd = new ArrayList<>();
+		List<User> usersToRemvoe = new ArrayList<>();
+		
+		usernamesLoop:
+		for(String username : usernames)
+		{
+			for(User user : users) if(username.equals(user.getName())) continue usernamesLoop;
+			usersToAdd.add(new User(username));
+		}
+		usersLoop:
+		for(User user : users)
+		{
+			for(String username : usernames) if(username.equals(user.getName())) continue usersLoop;
+			usersToRemvoe.add(user);
+		}
+		
+		for(User user : usersToAdd) addUser(user);
+		for(User user : usersToRemvoe) removeUser(user);
 	}
 	
 	User getUser(int position)
@@ -63,18 +92,8 @@ class Users
 		return localUser;
 	}
 	
-	void setLocalUser(LocalUser localUser)
-	{
-		this.localUser = localUser;
-	}
-	
 	void addOnUsersUpdateListener(OnUsersUpdateListener listener)
 	{
 		usersUpdateListeners.add(listener);
-	}
-	
-	private void callOnUsersUpdateListener()
-	{
-		StreamSupport.stream(usersUpdateListeners).forEach(OnUsersUpdateListener::onUsersUpdate);
 	}
 }

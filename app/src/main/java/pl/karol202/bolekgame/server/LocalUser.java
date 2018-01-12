@@ -14,6 +14,6 @@ class LocalUser extends User
 	void setReady(boolean ready)
 	{
 		super.setReady(ready);
-		//serverLogic
+		serverLogic.setReady();
 	}
 }

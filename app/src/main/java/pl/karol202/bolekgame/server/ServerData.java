@@ -13,7 +13,6 @@ public class ServerData
 	public ServerData(Client client, String serverName, int serverCode)
 	{
 		this.client = client;
-		this.client.setClientListener(null);
 		this.serverName = serverName;
 		this.serverCode = serverCode;
 	}

@@ -67,6 +67,7 @@ public class ControlLogic extends ClientListenerAdapter
 	{
 		interruptTimeout();
 		runInUIThread(() -> activityMain.onLoggedIn(serverName, serverCode));
+		client.suspendPacketExcecution();
 		creatingServer = false;
 		loggingIn = false;
 	}

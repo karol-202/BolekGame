@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import pl.karol202.bolekgame.FragmentRetain;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.ActivityServer;
 import pl.karol202.bolekgame.server.ServerData;
@@ -425,6 +424,7 @@ public class ActivityMain extends AppCompatActivity
 	
 	void onLoggedIn(String serverName, int serverCode)
 	{
+		controlLogic.getClient().setClientListener(null);
 		ServerData data = new ServerData(controlLogic.getClient(), serverName, serverCode);
 		ServerData.setServerData(data);
 		

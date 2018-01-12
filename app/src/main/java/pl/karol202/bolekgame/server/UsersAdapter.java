@@ -1,11 +1,12 @@
 package pl.karol202.bolekgame.server;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.res.TypedArray;
+import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.transition.TransitionManager;
-import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>
+public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements Users.OnUsersUpdateListener
 {
 	abstract class ViewHolder extends RecyclerView.ViewHolder
 	{
@@ -56,7 +57,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>
 		private void bindNewUser(User user, boolean enoughUsers)
 		{
 			this.user = user;
-			view.setBackgroundColor(user.isReady() ? getReadyUserColor() : Color.TRANSPARENT);
+			setBackground();
 			textUserName.setText(user.getName());
 			buttonUserReady.setVisibility(isLocalUser() && enoughUsers && !user.isReady() ? View.VISIBLE : View.GONE);
 		}
@@ -64,13 +65,35 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>
 		private void update(boolean enoughUsers)
 		{
 			TransitionManager.beginDelayedTransition(view);
-			view.setBackgroundColor(user.isReady() ? getReadyUserColor() : Color.TRANSPARENT);
+			setBackground();
 			buttonUserReady.setVisibility(isLocalUser() && enoughUsers && !user.isReady() ? View.VISIBLE: View.GONE);
 		}
 		
-		private int getReadyUserColor()
+		private void setBackground()
 		{
-			return ResourcesCompat.getColor(context.getResources(), R.color.ready_user_background, null);
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) setBackgroundLollipop();
+			else setBackgroundPreLollipop();
+		}
+		
+		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		private void setBackgroundLollipop()
+		{
+			if(user.isReady())
+				view.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.background_item_user_ready));
+			else view.setBackgroundTintList(null);
+		}
+		
+		private void setBackgroundPreLollipop()
+		{
+			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_user_ready : getSelectableItemBackgroundId());
+		}
+		
+		private int getSelectableItemBackgroundId()
+		{
+			TypedArray array = context.obtainStyledAttributes(new int[] { R.attr.selectableItemBackground });
+			int resource = array.getResourceId(0, 0);
+			array.recycle();
+			return resource;
 		}
 		
 		private boolean isLocalUser()
@@ -104,21 +127,21 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>
 	private Context context;
 	private Users users;
 	
-	public UsersAdapter(Context context, Users users)
+	UsersAdapter(Context context, Users users)
 	{
 		this.context = context;
 		this.users = users;
+		users.addOnUsersUpdateListener(this);
 	}
 	
-	@SuppressLint("InflateParams")
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
 	{
 		LayoutInflater inflater = LayoutInflater.from(context);
 		if(viewType == VIEW_USER)
-			return new UserViewHolder(inflater.inflate(R.layout.item_user, null));
+			return new UserViewHolder(inflater.inflate(R.layout.item_user, parent, false));
 		else if(viewType == VIEW_SUMMARY)
-			return new UsersSummaryViewHolder(inflater.inflate(R.layout.item_users_summary, null));
+			return new UsersSummaryViewHolder(inflater.inflate(R.layout.item_users_summary, parent, false));
 		else return null;
 	}
 	
@@ -132,12 +155,26 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder>
 	@Override
 	public int getItemCount()
 	{
-		return users.getUsersAmount();
+		return users.getUsersAmount() + 1;
 	}
 	
 	@Override
 	public int getItemViewType(int position)
 	{
 		return position == 0 ? VIEW_SUMMARY : VIEW_USER;
+	}
+	
+	@Override
+	public void onUserAdd()
+	{
+		notifyItemInserted(users.getUsersAmount() - 1);
+		for(int i = 0; i < users.getUsersAmount() - 1; i++) notifyItemChanged(i);
+	}
+	
+	@Override
+	public void onUserRemove(int position)
+	{
+		notifyItemRemoved(position);
+		for(int i = 0; i < users.getUsersAmount(); i++) notifyItemChanged(i);
 	}
 }

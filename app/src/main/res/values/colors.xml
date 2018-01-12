@@ -7,6 +7,8 @@
 	<color name="panel_background">#FFFFFF</color>
 	<color name="dark_background">#303030</color>
 	<color name="ready_user_background">#C9FCA2</color>
+	<color name="ready_user_background_pressed">#add98b</color>
+	<color name="divider">#1F000000</color>
 	
 	<color name="button">#FFFFFF</color>
 	<color name="button_pressed">#BEBEBE</color>
