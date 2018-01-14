@@ -8,6 +8,7 @@ import pl.karol202.bolekgame.client.Client;
 public class FragmentRetain extends Fragment
 {
 	private Client client;
+	private Users users;
 	private String serverName;
 	private int serverCode;
 	
@@ -23,6 +24,17 @@ public class FragmentRetain extends Fragment
 		if(client == null) client = new Client();
 		else client = client.recreateClient();
 		return client;
+	}
+	
+	public Users getUsers()
+	{
+		return users;
+	}
+	
+	public void setUsers(Users users)
+	{
+		this.users = users;
+		users.setOnUsersUpdateListener(null);
 	}
 	
 	public String getServerName()

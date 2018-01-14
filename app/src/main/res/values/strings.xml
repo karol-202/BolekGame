@@ -11,7 +11,7 @@
 	<string name="button_join_server">Dołącz do gry</string>
 	<string name="button_create_server_apply">Stwórz grę</string>
 	<string name="button_join_server_apply">Dołącz do gry</string>
-	<string name="button_user_ready">Gotowy do gry</string>
+	<string name="button_user_ready">Jestem gotowy</string>
 	
 	<string name="text_connecting">Łączenie…</string>
 	<string name="text_cannot_connect">Nie można połączyć</string>
@@ -22,6 +22,7 @@
 	<string name="text_users_amount">Gracze: %d</string>
 	<string name="text_ready_users_amount">Gotowi do gry: %d</string>
 	<string name="text_too_few_users">Za mało, aby grać</string>
+	<string name="text_game_in_progress">Gra już trwa</string>
 	
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
 	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
@@ -34,6 +35,7 @@
 	<string name="message_cannot_create_server">Nie można utworzyć gry</string>
 	<string name="message_cannot_login">Nie można zalogować</string>
 	<string name="message_disconnection">Utracono połączenie z serwerem</string>
+	<string name="message_error">Nieznany błąd</string>
 	
 	<string name="action_change_username">Zmień</string>
 	

@@ -2,7 +2,7 @@ package pl.karol202.bolekgame.control;
 
 import android.os.Handler;
 
-public class TimeoutRunnable
+class TimeoutRunnable
 {
 	private int timeoutTime;
 	private Runnable timeoutTask;
@@ -21,7 +21,7 @@ public class TimeoutRunnable
 		handler.postDelayed(() -> { if(!interrupt) timeoutTask.run(); }, timeoutTime);
 	}
 	
-	public void interrupt()
+	void interrupt()
 	{
 		interrupt = true;
 	}

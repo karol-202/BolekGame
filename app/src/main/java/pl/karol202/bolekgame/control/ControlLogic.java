@@ -24,6 +24,11 @@ public class ControlLogic extends ClientListenerAdapter
 		this.activityMain = activityMain;
 		this.client = client;
 		
+		updateListener();
+	}
+	
+	void updateListener()
+	{
 		client.setClientListener(this);
 	}
 	

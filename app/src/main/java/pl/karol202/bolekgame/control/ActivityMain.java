@@ -195,6 +195,7 @@ public class ActivityMain extends AppCompatActivity
 	protected void onResume()
 	{
 		super.onResume();
+		controlLogic.updateListener();
 		connectIfNotConnected();
 	}
 	

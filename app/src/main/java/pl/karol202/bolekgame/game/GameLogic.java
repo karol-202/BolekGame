@@ -21,12 +21,8 @@ public class GameLogic extends ClientListenerAdapter
 	{
 	
 	}
-	
-	@Override
-	public void onUsersUpdate(List<String> username)
-	{
-	
-	}
+
+	//Users update?
 	
 	@Override
 	public void onRoleAssigned(Role role)

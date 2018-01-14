@@ -16,9 +16,7 @@ public interface ClientListener
 	
 	void onLoggedOut();
 	
-	void onUsersUpdate(List<String> users);
-	
-	void onSetReady(String username);
+	void onUsersUpdate(List<String> users, List<Boolean> readiness);
 	
 	void onServerStatusUpdate(boolean gameAvailable);
 	

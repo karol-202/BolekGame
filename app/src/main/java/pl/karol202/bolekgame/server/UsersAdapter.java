@@ -44,29 +44,30 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 		
 		private void onReadyButtonClick()
 		{
-			user.setReady(true);
-			update(true);
+			if(!(user instanceof LocalUser)) return;
+			((LocalUser) user).changeReadiness(true);
+			onUsersUpdate();
 		}
 		
-		void bind(User user, boolean enoughUsers)
+		void bind(User user)
 		{
-			if(this.user == user) update(enoughUsers);
-			else bindNewUser(user, enoughUsers);
+			if(this.user == user) update();
+			else bindNewUser(user);
 		}
 		
-		private void bindNewUser(User user, boolean enoughUsers)
+		private void bindNewUser(User user)
 		{
 			this.user = user;
 			setBackground();
 			textUserName.setText(user.getName());
-			buttonUserReady.setVisibility(isLocalUser() && enoughUsers && !user.isReady() ? View.VISIBLE : View.GONE);
+			buttonUserReady.setVisibility(isLocalUser() && users.areThereEnoughUsers() && !user.isReady() ? View.VISIBLE : View.GONE);
 		}
 		
-		private void update(boolean enoughUsers)
+		private void update()
 		{
 			TransitionManager.beginDelayedTransition(view);
 			setBackground();
-			buttonUserReady.setVisibility(isLocalUser() && enoughUsers && !user.isReady() ? View.VISIBLE: View.GONE);
+			buttonUserReady.setVisibility(isLocalUser() && users.areThereEnoughUsers() && !user.isReady() ? View.VISIBLE: View.GONE);
 		}
 		
 		private void setBackground()
@@ -117,7 +118,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 		void bind()
 		{
 			textUsersAmount.setText(context.getString(R.string.text_users_amount, users.getUsersAmount()));
-			textReadyUsersAmount.setText(context.getString(R.string.text_ready_users_amount, users.getReadyUsersAmount()));
+			if(users.areThereEnoughUsers()) textReadyUsersAmount.setText(context.getString(R.string.text_ready_users_amount, users.getReadyUsersAmount()));
+			else textReadyUsersAmount.setText(R.string.text_too_few_users);
 		}
 	}
 	
@@ -131,7 +133,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 	{
 		this.context = context;
 		this.users = users;
-		users.addOnUsersUpdateListener(this);
+		users.setOnUsersUpdateListener(this);
 	}
 	
 	@Override
@@ -149,7 +151,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 	public void onBindViewHolder(ViewHolder holder, int position)
 	{
 		if(position == 0) ((UsersSummaryViewHolder) holder).bind();
-		else ((UserViewHolder) holder).bind(users.getUser(position - 1), users.areThereEnoughUsers());
+		else ((UserViewHolder) holder).bind(users.getUser(position - 1));
 	}
 	
 	@Override
@@ -167,14 +169,20 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 	@Override
 	public void onUserAdd()
 	{
-		notifyItemInserted(users.getUsersAmount() - 1);
-		for(int i = 0; i < users.getUsersAmount() - 1; i++) notifyItemChanged(i);
+		notifyItemInserted(users.getUsersAmount());
+		for(int i = 0; i < users.getUsersAmount(); i++) notifyItemChanged(i);
 	}
 	
 	@Override
 	public void onUserRemove(int position)
 	{
 		notifyItemRemoved(position);
-		for(int i = 0; i < users.getUsersAmount(); i++) notifyItemChanged(i);
+		for(int i = 0; i < users.getUsersAmount() + 1; i++) notifyItemChanged(i);
+	}
+	
+	@Override
+	public void onUsersUpdate()
+	{
+		for(int i = 0; i < getItemCount(); i++) notifyItemChanged(i);
 	}
 }

@@ -11,6 +11,12 @@ class User
 		this.ready = false;
 	}
 	
+	User(String name, boolean ready)
+	{
+		this.name = name;
+		this.ready = ready;
+	}
+	
 	String getName()
 	{
 		return name;

@@ -12,6 +12,8 @@ class Users
 		void onUserAdd();
 		
 		void onUserRemove(int position);
+		
+		void onUsersUpdate();
 	}
 	
 	private static final int MIN_USERS = 2;
@@ -19,22 +21,20 @@ class Users
 	private List<User> users;
 	private LocalUser localUser;
 	
-	private List<OnUsersUpdateListener> usersUpdateListeners;
+	private OnUsersUpdateListener usersUpdateListener;
 	
 	Users(LocalUser localUser)
 	{
 		this.users = new ArrayList<>();
 		this.localUser = localUser;
 		users.add(localUser);
-		
-		usersUpdateListeners = new ArrayList<>();
 	}
 	
 	private void addUser(User user)
 	{
 		if(users.contains(user)) return;
 		users.add(user);
-		StreamSupport.stream(usersUpdateListeners).forEach(OnUsersUpdateListener::onUserAdd);
+		if(usersUpdateListener != null) usersUpdateListener.onUserAdd();
 	}
 	
 	private void removeUser(User user)
@@ -42,10 +42,10 @@ class Users
 		if(!users.contains(user)) return;
 		int userIndex = users.indexOf(user);
 		users.remove(user);
-		StreamSupport.stream(usersUpdateListeners).forEach(l -> l.onUserRemove(userIndex));
+		if(usersUpdateListener != null) usersUpdateListener.onUserRemove(userIndex);
 	}
 	
-	void updateUsers(List<String> usernames)
+	void updateUsersList(List<String> usernames, List<Boolean> readiness)
 	{
 		List<User> usersToAdd = new ArrayList<>();
 		List<User> usersToRemvoe = new ArrayList<>();
@@ -54,17 +54,26 @@ class Users
 		for(String username : usernames)
 		{
 			for(User user : users) if(username.equals(user.getName())) continue usernamesLoop;
-			usersToAdd.add(new User(username));
+			int userIndex = usernames.indexOf(username);
+			boolean ready = readiness.get(userIndex);
+			usersToAdd.add(new User(username, ready));
 		}
-		usersLoop:
 		for(User user : users)
 		{
-			for(String username : usernames) if(username.equals(user.getName())) continue usersLoop;
-			usersToRemvoe.add(user);
+			if(!usernames.contains(user.getName())) usersToRemvoe.add(user);
+			else
+			{
+				int userIndex = usernames.indexOf(user.getName());
+				boolean ready = readiness.get(userIndex);
+				if(user.isReady() == ready) continue;
+				user.setReady(ready);
+			}
 		}
 		
 		for(User user : usersToAdd) addUser(user);
 		for(User user : usersToRemvoe) removeUser(user);
+		if(usersToAdd.size() == 0 && usersToRemvoe.size() == 0 && usersUpdateListener != null)
+			usersUpdateListener.onUsersUpdate();
 	}
 	
 	User getUser(int position)
@@ -92,8 +101,8 @@ class Users
 		return localUser;
 	}
 	
-	void addOnUsersUpdateListener(OnUsersUpdateListener listener)
+	void setOnUsersUpdateListener(OnUsersUpdateListener listener)
 	{
-		usersUpdateListeners.add(listener);
+		usersUpdateListener = listener;
 	}
 }

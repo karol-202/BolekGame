@@ -10,10 +10,10 @@ class LocalUser extends User
 		this.serverLogic = serverLogic;
 	}
 	
-	@Override
-	void setReady(boolean ready)
+	void changeReadiness(boolean ready)
 	{
-		super.setReady(ready);
+		if(isReady() == ready) return;
+		setReady(ready);
 		serverLogic.setReady();
 	}
 }

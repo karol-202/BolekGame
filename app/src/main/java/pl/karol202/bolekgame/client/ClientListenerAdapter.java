@@ -21,10 +21,7 @@ public class ClientListenerAdapter implements ClientListener
 	public void onLoggedOut() { }
 	
 	@Override
-	public void onUsersUpdate(List<String> users) { }
-	
-	@Override
-	public void onSetReady(String username) { }
+	public void onUsersUpdate(List<String> users, List<Boolean> readiness) { }
 	
 	@Override
 	public void onServerStatusUpdate(boolean gameAvailable) { }

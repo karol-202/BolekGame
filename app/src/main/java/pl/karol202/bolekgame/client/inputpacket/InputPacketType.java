@@ -11,7 +11,6 @@ enum InputPacketType
 	USERSUPDATE(InputPacketUsersUpdate::new),
 	SERVERSTATUS(InputPacketServerStatus::new),
 	GAMESTART(InputPacketGameStart::new),
-	SETREADY(InputPacketSetReady::new),
 	ROLEASSIGNED(InputPacketRoleAssigned::new),
 	COLLABORATORSREVEALMENT(InputPacketCollaboratorsRevealment::new),
 	STACKREFILLED(InputPacketStackRefilled::new),
