@@ -1,12 +1,8 @@
 package pl.karol202.bolekgame.server;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.transition.TransitionManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +54,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 		private void bindNewUser(User user)
 		{
 			this.user = user;
-			setBackground();
+			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_user_ready : R.drawable.background_item_user);
 			textUserName.setText(user.getName());
 			buttonUserReady.setVisibility(isLocalUser() && users.areThereEnoughUsers() && !user.isReady() ? View.VISIBLE : View.GONE);
 		}
@@ -66,35 +62,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
 		private void update()
 		{
 			TransitionManager.beginDelayedTransition(view);
-			setBackground();
+			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_user_ready : R.drawable.background_item_user);
 			buttonUserReady.setVisibility(isLocalUser() && users.areThereEnoughUsers() && !user.isReady() ? View.VISIBLE: View.GONE);
-		}
-		
-		private void setBackground()
-		{
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) setBackgroundLollipop();
-			else setBackgroundPreLollipop();
-		}
-		
-		@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-		private void setBackgroundLollipop()
-		{
-			if(user.isReady())
-				view.setBackgroundTintList(ContextCompat.getColorStateList(context, R.color.background_item_user_ready));
-			else view.setBackgroundTintList(null);
-		}
-		
-		private void setBackgroundPreLollipop()
-		{
-			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_user_ready : getSelectableItemBackgroundId());
-		}
-		
-		private int getSelectableItemBackgroundId()
-		{
-			TypedArray array = context.obtainStyledAttributes(new int[] { R.attr.selectableItemBackground });
-			int resource = array.getResourceId(0, 0);
-			array.recycle();
-			return resource;
 		}
 		
 		private boolean isLocalUser()

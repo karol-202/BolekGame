@@ -101,6 +101,11 @@ class Users
 		return localUser;
 	}
 	
+	String getLocalUserName()
+	{
+		return localUser.getName();
+	}
+	
 	void setOnUsersUpdateListener(OnUsersUpdateListener listener)
 	{
 		usersUpdateListener = listener;

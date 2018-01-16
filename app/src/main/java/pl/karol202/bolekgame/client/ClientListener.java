@@ -20,6 +20,8 @@ public interface ClientListener
 	
 	void onServerStatusUpdate(boolean gameAvailable);
 	
+	void onMessage(String sender, String message);
+	
 	void onGameStart(List<String> players);
 	
 	void onRoleAssigned(Role role);

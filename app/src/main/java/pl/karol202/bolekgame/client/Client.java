@@ -16,7 +16,7 @@ import java.util.Queue;
 public class Client
 {
 	private static final int PORT = 6006;
-	private static final int TIMEOUT = 3000;
+	private static final int TIMEOUT = 5000;
 	
 	private ClientListener clientListener;
 	private boolean suspendPacketExecution;
@@ -29,34 +29,6 @@ public class Client
 	public Client()
 	{
 		packetBuffer = new LinkedList<>();
-	}
-	
-	private Client(Client client)
-	{
-		this();
-		this.suspendPacketExecution = client.suspendPacketExecution;
-		this.packetBuffer = client.packetBuffer;
-		this.socket = client.socket;
-		tryToInitStreams();
-	}
-	
-	private void tryToInitStreams()
-	{
-		if(!isConnected()) return;
-		try
-		{
-			inputStream = socket.getInputStream();
-			outputStream = socket.getOutputStream();
-		}
-		catch(IOException e)
-		{
-			exception("Cannot recreate client.", e);
-		}
-	}
-	
-	public Client recreateClient()
-	{
-		return new Client(this);
 	}
 	
 	public boolean connect(String host)
@@ -135,7 +107,7 @@ public class Client
 		if(clientListener != null) packet.execute(clientListener);
 	}
 	
-	public void sendPacket(OutputPacket packet)
+	public synchronized void sendPacket(OutputPacket packet)
 	{
 		try
 		{
@@ -153,11 +125,6 @@ public class Client
 		if(bytes == null || bytes.length == 0 && !isConnected()) return;
 		outputStream.write(Utils.writeInt(bytes.length));
 		outputStream.write(bytes);
-	}
-	
-	public void disconnect()
-	{
-		closeSocket();
 	}
 	
 	private void closeSocket()

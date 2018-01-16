@@ -3,69 +3,72 @@ package pl.karol202.bolekgame.server;
 import android.os.Handler;
 import android.os.Looper;
 import pl.karol202.bolekgame.client.Client;
-import pl.karol202.bolekgame.client.ClientListenerAdapter;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogout;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
+import pl.karol202.bolekgame.utils.Logic;
 
 import java.util.List;
 
-public class ServerLogic extends ClientListenerAdapter
+public class ServerLogic extends Logic<ActivityServer>
 {
-	private ActivityServer activityServer;
-	private Client client;
 	private String serverName;
 	private int serverCode;
 	
 	private Users users;
+	private TextChat textChat;
 	
-	ServerLogic(ActivityServer activityServer, Client client, String serverName, int serverCode, Users users)
+	ServerLogic(Client client, String serverName, int serverCode, String localUserName)
 	{
-		this.activityServer = activityServer;
 		this.client = client;
-		this.serverName = serverName;
-		this.serverCode = serverCode;
-		this.users = users;
 		
-		client.setClientListener(this); //Must be after initializing users because of packet execution caused by this method
-	}
-	
-	ServerLogic(ActivityServer activityServer, Client client, String serverName, int serverCode, String localUserName)
-	{
-		this.activityServer = activityServer;
-		this.client = client;
 		this.serverName = serverName;
 		this.serverCode = serverCode;
+		
 		this.users = new Users(new LocalUser(localUserName, this));
+		this.textChat = new TextChat();
 		
-		client.setClientListener(this); //Must be after initializing users because of packet execution caused by this method
+		resumeClient(); //Must be after initializing users because of packet execution caused by this method
 	}
 	
 	void logout()
 	{
-		client.sendPacket(new OutputPacketLogout());
+		sendPacket(new OutputPacketLogout());
 	}
 	
 	void setReady()
 	{
-		client.sendPacket(new OutputPacketReady());
+		sendPacket(new OutputPacketReady());
+	}
+	
+	void sendMessage(String message)
+	{
+		sendPacket(new OutputPacketMessage(message));
+		textChat.addEntry(users.getLocalUserName(), message);
+		activity.onTextChatUpdate();
+	}
+	
+	String getTextChatString()
+	{
+		return textChat.getTextChatString();
 	}
 	
 	@Override
 	public void onDisconnect()
 	{
-		runInUIThread(() -> activityServer.onDisconnect());
+		runInUIThread(() -> activity.onDisconnect());
 	}
 	
 	@Override
 	public void onLoggedOut()
 	{
-		runInUIThread(() -> activityServer.onLoggedOut());
+		runInUIThread(() -> activity.onLoggedOut());
 	}
 	
 	@Override
 	public void onFailure(int problem)
 	{
-		runInUIThread(() -> activityServer.onError());
+		runInUIThread(() -> activity.onError());
 	}
 	
 	@Override
@@ -81,9 +84,16 @@ public class ServerLogic extends ClientListenerAdapter
 	}
 	
 	@Override
+	public void onMessage(String sender, String message)
+	{
+		textChat.addEntry(sender, message);
+		runInUIThread(() -> activity.onTextChatUpdate());
+	}
+	
+	@Override
 	public void onGameStart(List<String> players)
 	{
-		runInUIThread(() -> activityServer.onGameStart());
+		runInUIThread(() -> activity.onGameStart());
 	}
 	
 	private void runInUIThread(Runnable runnable)

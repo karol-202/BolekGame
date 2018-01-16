@@ -10,6 +10,7 @@ enum InputPacketType
 	FAILURE(InputPacketFailure::new),
 	USERSUPDATE(InputPacketUsersUpdate::new),
 	SERVERSTATUS(InputPacketServerStatus::new),
+	MESSAGE(InputPacketMessage::new),
 	GAMESTART(InputPacketGameStart::new),
 	ROLEASSIGNED(InputPacketRoleAssigned::new),
 	COLLABORATORSREVEALMENT(InputPacketCollaboratorsRevealment::new),

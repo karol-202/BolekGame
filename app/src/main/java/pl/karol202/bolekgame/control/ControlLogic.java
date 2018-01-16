@@ -3,33 +3,24 @@ package pl.karol202.bolekgame.control;
 import android.os.Handler;
 import android.os.Looper;
 import pl.karol202.bolekgame.client.Client;
-import pl.karol202.bolekgame.client.ClientListenerAdapter;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketFailure;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketCreateServer;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogin;
+import pl.karol202.bolekgame.utils.Logic;
 
-public class ControlLogic extends ClientListenerAdapter
+public class ControlLogic extends Logic<ActivityMain>
 {
-	private static final int TIMEOUT = 3000;
-	
-	private ActivityMain activityMain;
-	private Client client;
+	private static final int TIMEOUT = 3500;
 	
 	private TimeoutRunnable loginTimeout;
 	private boolean creatingServer;
 	private boolean loggingIn;
 	
-	ControlLogic(ActivityMain activityMain, Client client)
+	ControlLogic()
 	{
-		this.activityMain = activityMain;
-		this.client = client;
+		client = new Client();
 		
-		updateListener();
-	}
-	
-	void updateListener()
-	{
-		client.setClientListener(this);
+		resumeClient();
 	}
 	
 	void connect(String host)
@@ -43,9 +34,9 @@ public class ControlLogic extends ClientListenerAdapter
 		if(result)
 		{
 			client.run();
-			runInUIThread(activityMain::onConnect);
+			runInUIThread(activity::onConnect);
 		}
-		else runInUIThread(activityMain::onConnectFail);
+		else runInUIThread(activity::onConnectFail);
 	}
 	
 	boolean isConnected()
@@ -55,14 +46,14 @@ public class ControlLogic extends ClientListenerAdapter
 	
 	void login(int serverCode, String username)
 	{
-		client.sendPacket(new OutputPacketLogin(serverCode, username));
+		sendPacket(new OutputPacketLogin(serverCode, username));
 		setLoginTimeout();
 		loggingIn = true;
 	}
 	
 	void createServer(String serverName, String username)
 	{
-		client.sendPacket(new OutputPacketCreateServer(serverName, username));
+		sendPacket(new OutputPacketCreateServer(serverName, username));
 		setLoginTimeout();
 		creatingServer = true;
 	}
@@ -71,7 +62,7 @@ public class ControlLogic extends ClientListenerAdapter
 	public void onLoggedIn(String serverName, int serverCode)
 	{
 		interruptTimeout();
-		runInUIThread(() -> activityMain.onLoggedIn(serverName, serverCode));
+		runInUIThread(() -> activity.onLoggedIn(serverName, serverCode));
 		client.suspendPacketExcecution();
 		creatingServer = false;
 		loggingIn = false;
@@ -90,35 +81,35 @@ public class ControlLogic extends ClientListenerAdapter
 	private void onServerCreatingFailure(int problem)
 	{
 		if(problem == InputPacketFailure.PROBLEM_SERVER_INVALID_NAME)
-			runInUIThread(() -> activityMain.onInvalidServerNameError());
+			runInUIThread(() -> activity.onInvalidServerNameError());
 		else if(problem == InputPacketFailure.PROBLEM_SERVER_TOO_MANY)
-			runInUIThread(() -> activityMain.onTooManyServersError());
+			runInUIThread(() -> activity.onTooManyServersError());
 		else if(problem == InputPacketFailure.PROBLEM_USER_INVALID_NAME)
-			runInUIThread(() -> activityMain.onInvalidUsernameError());
+			runInUIThread(() -> activity.onInvalidUsernameError());
 		else if(problem == InputPacketFailure.PROBLEM_USER_TOO_MANY)
-			runInUIThread(() -> activityMain.onTooManyUsersError());
+			runInUIThread(() -> activity.onTooManyUsersError());
 		else if(problem == InputPacketFailure.PROBLEM_USER_NAME_BUSY)
-			runInUIThread(() -> activityMain.onUsernameBusyError());
-		else runInUIThread(() -> activityMain.onCannotCreateServer());
+			runInUIThread(() -> activity.onUsernameBusyError());
+		else runInUIThread(() -> activity.onCannotCreateServer());
 	}
 	
 	private void onLoggingFailure(int problem)
 	{
 		if(problem == InputPacketFailure.PROBLEM_SERVER_CODE_INVALID)
-			runInUIThread(() -> activityMain.onInvalidServerCode());
+			runInUIThread(() -> activity.onInvalidServerCode());
 		else if(problem == InputPacketFailure.PROBLEM_USER_INVALID_NAME)
-			runInUIThread(() -> activityMain.onInvalidUsernameError());
+			runInUIThread(() -> activity.onInvalidUsernameError());
 		else if(problem == InputPacketFailure.PROBLEM_USER_TOO_MANY)
-			runInUIThread(() -> activityMain.onTooManyUsersError());
+			runInUIThread(() -> activity.onTooManyUsersError());
 		else if(problem == InputPacketFailure.PROBLEM_USER_NAME_BUSY)
-			runInUIThread(() -> activityMain.onUsernameBusyError());
-		else runInUIThread(() -> activityMain.onCannotLogIn());
+			runInUIThread(() -> activity.onUsernameBusyError());
+		else runInUIThread(() -> activity.onCannotLogIn());
 	}
 	
 	@Override
 	public void onDisconnect()
 	{
-		runInUIThread(() -> activityMain.onDisconnect());
+		runInUIThread(() -> activity.onDisconnect());
 	}
 	
 	private void runInUIThread(Runnable runnable)

@@ -24,7 +24,6 @@
 				android:id="@+id/text_server_name"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="16dp"
 				android:layout_marginStart="16dp"
 				android:layout_marginTop="8dp"
 				android:text="@string/text_server"
@@ -37,7 +36,6 @@
 				android:id="@+id/text_server_name_value"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="8dp"
 				android:layout_marginStart="8dp"
 				android:layout_marginTop="8dp"
 				android:text="@string/unknown"
@@ -52,7 +50,6 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="8dp"
-				android:layout_marginLeft="16dp"
 				android:layout_marginStart="16dp"
 				android:layout_marginTop="8dp"
 				android:text="@string/text_code"
@@ -66,7 +63,6 @@
 				android:id="@+id/text_server_code_value"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="8dp"
 				android:layout_marginStart="8dp"
 				android:layout_marginTop="8dp"
 				android:text="@string/unknown"
@@ -89,78 +85,65 @@
 	
 	</android.support.constraint.ConstraintLayout>
 	
-	<LinearLayout
+	<android.support.constraint.ConstraintLayout
 		android:id="@+id/panel_text_chat"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
+		android:layout_height="250dp"
+		android:background="@android:color/white"
+		android:elevation="16dp"
 		app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
-		app:behavior_peekHeight="48dp">
+		app:behavior_peekHeight="40dp">
+		
+		<pl.karol202.bolekgame.utils.AnimatedImageButton
+			android:id="@+id/button_text_chat_toggle"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			app:animatedDrawable="@drawable/ic_anim_close_to_expand_black_24dp"
+			app:animatedDrawableReversed="@drawable/ic_anim_expand_to_close_black_24dp"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+		
+		<TextView
+			android:id="@+id/text_chat"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:scrollbars="vertical"
+			android:singleLine="false"
+			android:text="@string/unknown"
+			app:layout_constraintBottom_toTopOf="@+id/divider"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/button_text_chat_toggle" />
 		
 		<View
-			android:layout_width="match_parent"
-			android:layout_height="6dp"
-			android:background="@drawable/bottom_shadow" />
+			android:id="@+id/divider"
+			android:layout_width="0dp"
+			android:layout_height="1px"
+			android:background="@color/divider_solid"
+			app:layout_constraintBottom_toTopOf="@+id/editText_chat"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent" />
 		
-		<android.support.constraint.ConstraintLayout
-			android:layout_width="match_parent"
-			android:layout_height="250dp"
-			android:background="@android:color/white">
-			
-			<pl.karol202.bolekgame.utils.AnimatedImageButton
-				android:id="@+id/button_text_chat_toggle"
-				android:layout_width="40dp"
-				android:layout_height="40dp"
-				app:animatedDrawable="@drawable/ic_anim_close_to_expand_black_24dp"
-				app:animatedDrawableReversed="@drawable/ic_anim_expand_to_close_black_24dp"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toTopOf="parent" />
-			
-			<TextView
-				android:id="@+id/text_chat"
-				android:layout_width="0dp"
-				android:layout_height="0dp"
-				android:scrollbars="vertical"
-				android:singleLine="false"
-				android:text="@string/unknown"
-				app:layout_constraintBottom_toTopOf="@+id/divider"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_bias="1.0"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/button_text_chat_toggle" />
-			
-			<View
-				android:id="@+id/divider"
-				android:layout_width="0dp"
-				android:layout_height="1px"
-				android:background="@color/divider_solid"
-				app:layout_constraintBottom_toTopOf="@+id/editText_chat"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent" />
-			
-			<EditText
-				android:id="@+id/editText_chat"
-				android:layout_width="0dp"
-				android:layout_height="wrap_content"
-				android:ems="10"
-				android:inputType="textPersonName"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toStartOf="@+id/button_text_chat_send"
-				app:layout_constraintStart_toStartOf="parent"
-				android:layout_marginStart="8dp"
-				android:layout_marginLeft="8dp"/>
-			
-			<ImageButton
-				android:id="@+id/button_text_chat_send"
-				android:layout_width="40dp"
-				android:layout_height="40dp"
-				app:layout_constraintBottom_toBottomOf="@+id/editText_chat"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toTopOf="@+id/editText_chat"
-				app:srcCompat="@drawable/ic_send_black_24dp" />
+		<EditText
+			android:id="@+id/editText_chat"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:ems="10"
+			android:inputType="textPersonName"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@+id/button_text_chat_send"
+			app:layout_constraintStart_toStartOf="parent"
+			android:layout_marginStart="8dp"/>
 		
-		</android.support.constraint.ConstraintLayout>
-		
-	</LinearLayout>
+		<ImageButton
+			android:id="@+id/button_text_chat_send"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			app:layout_constraintBottom_toBottomOf="@+id/editText_chat"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintTop_toTopOf="@+id/editText_chat"
+			app:srcCompat="@drawable/ic_send_black_24dp" />
 	
+	</android.support.constraint.ConstraintLayout>
+
 </android.support.design.widget.CoordinatorLayout>

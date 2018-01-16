@@ -20,6 +20,7 @@ import pl.karol202.bolekgame.server.ActivityServer;
 import pl.karol202.bolekgame.server.ServerData;
 import pl.karol202.bolekgame.settings.ActivitySettings;
 import pl.karol202.bolekgame.settings.Settings;
+import pl.karol202.bolekgame.utils.FragmentRetain;
 
 public class ActivityMain extends AppCompatActivity
 {
@@ -72,7 +73,7 @@ public class ActivityMain extends AppCompatActivity
 	private ConstraintSet connectingConstraintSet;
 	private State state;
 	
-	private FragmentRetain fragmentRetain;
+	private FragmentRetain<ControlLogic> fragmentRetain;
 	private ControlLogic controlLogic;
 	
 	@Override
@@ -80,6 +81,7 @@ public class ActivityMain extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		restoreRetainFragment();
 		
 		coordinatorLayout = findViewById(R.id.coordinator_layout);
 		
@@ -133,9 +135,23 @@ public class ActivityMain extends AppCompatActivity
 		
 		state = State.CONNECTING;
 		setLayout();
-		
-		restoreRetainFragment();
-		controlLogic = new ControlLogic(this, fragmentRetain.getClient());
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void restoreRetainFragment()
+	{
+		FragmentManager manager = getFragmentManager();
+		fragmentRetain = (FragmentRetain<ControlLogic>) manager.findFragmentByTag(TAG_FRAGMENT_RETAIN);
+		if(fragmentRetain == null) createRetainFragment(manager);
+		else controlLogic = fragmentRetain.getLogic();
+	}
+	
+	private void createRetainFragment(FragmentManager fragmentManager)
+	{
+		controlLogic = new ControlLogic();
+		fragmentRetain = new FragmentRetain<>();
+		fragmentRetain.setLogic(controlLogic);
+		fragmentManager.beginTransaction().add(fragmentRetain, TAG_FRAGMENT_RETAIN).commit();
 	}
 	
 	private void setLayout()
@@ -178,25 +194,21 @@ public class ActivityMain extends AppCompatActivity
 		outState.putInt(KEY_STATE, state.ordinal());
 	}
 	
-	private void restoreRetainFragment()
-	{
-		FragmentManager manager = getFragmentManager();
-		fragmentRetain = (FragmentRetain) manager.findFragmentByTag(TAG_FRAGMENT_RETAIN);
-		if(fragmentRetain == null) createRetainFragment(manager);
-	}
-	
-	private void createRetainFragment(FragmentManager fragmentManager)
-	{
-		fragmentRetain = new FragmentRetain();
-		fragmentManager.beginTransaction().add(fragmentRetain, TAG_FRAGMENT_RETAIN).commit();
-	}
-	
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
-		controlLogic.updateListener();
+		controlLogic.setActivity(this);
+		controlLogic.resumeClient();
 		connectIfNotConnected();
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		controlLogic.suspendClient();
+		controlLogic.setActivity(null);
 	}
 	
 	private void connectIfNotConnected()
@@ -299,6 +311,14 @@ public class ActivityMain extends AppCompatActivity
 			textInputLayoutServerCode.setErrorEnabled(false);
 			controlLogic.login(serverCode, Settings.getNick(this));
 		}
+	}
+	
+	private void closeAllPanels()
+	{
+		applyConstraintTransition(() -> setConnectedLayout(true), null);
+		onCreateServerPanelClose();
+		onJoinServerPanelClose();
+		state = State.CONNECTED;
 	}
 	
 	private void setConnectingLayout()
@@ -425,7 +445,8 @@ public class ActivityMain extends AppCompatActivity
 	
 	void onLoggedIn(String serverName, int serverCode)
 	{
-		controlLogic.getClient().setClientListener(null);
+		closeAllPanels();
+		controlLogic.suspendClient();
 		ServerData data = new ServerData(controlLogic.getClient(), serverName, serverCode);
 		ServerData.setServerData(data);
 		

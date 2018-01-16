@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="AnimatedImageButton">
+		<attr name="animatedDrawable" format="integer"/>
+		<attr name="animatedDrawableReversed" format="integer"/>
+	</declare-styleable>
+</resources>
