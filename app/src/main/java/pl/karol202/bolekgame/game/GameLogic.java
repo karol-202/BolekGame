@@ -1,18 +1,14 @@
 package pl.karol202.bolekgame.game;
 
 import pl.karol202.bolekgame.client.Client;
-import pl.karol202.bolekgame.client.ClientListenerAdapter;
+import pl.karol202.bolekgame.utils.Logic;
 
 import java.util.List;
 
-public class GameLogic extends ClientListenerAdapter
+class GameLogic extends Logic<ActivityGame>
 {
-	private ActivityGame activityGame;
-	private Client client;
-	
-	public GameLogic(ActivityGame activityGame, Client client)
+	public GameLogic(Client client)
 	{
-		this.activityGame = activityGame;
 		this.client = client;
 	}
 	

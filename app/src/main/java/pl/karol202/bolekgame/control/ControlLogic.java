@@ -8,7 +8,7 @@ import pl.karol202.bolekgame.client.outputpacket.OutputPacketCreateServer;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogin;
 import pl.karol202.bolekgame.utils.Logic;
 
-public class ControlLogic extends Logic<ActivityMain>
+class ControlLogic extends Logic<ActivityMain>
 {
 	private static final int TIMEOUT = 3500;
 	

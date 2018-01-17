@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements Users.OnUsersUpdateListener
+class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements Users.OnUsersUpdateListener
 {
 	abstract class ViewHolder extends RecyclerView.ViewHolder
 	{

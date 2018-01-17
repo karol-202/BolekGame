@@ -1,6 +1,7 @@
 package pl.karol202.bolekgame.server;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,8 +12,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -20,6 +25,7 @@ import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.ActivityGame;
 import pl.karol202.bolekgame.settings.Settings;
 import pl.karol202.bolekgame.utils.AnimatedImageButton;
+import pl.karol202.bolekgame.utils.ConnectionData;
 import pl.karol202.bolekgame.utils.FragmentRetain;
 import pl.karol202.bolekgame.utils.ItemDivider;
 
@@ -89,17 +95,32 @@ public class ActivityServer extends AppCompatActivity
 		onTextChatUpdate();
 		
 		editTextChat = findViewById(R.id.editText_chat);
+		editTextChat.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) { }
+			
+			@Override
+			public void afterTextChanged(Editable s)
+			{
+				onMessageEdit(s.toString());
+			}
+		});
+		editTextChat.setOnEditorActionListener((view, actionId, event) -> onMessageEditDone(view, actionId));
 		
 		buttonTextChatSend = findViewById(R.id.button_text_chat_send);
 		buttonTextChatSend.setOnClickListener(v -> sendTextChatMessage());
+		buttonTextChatSend.setEnabled(false);
 	}
 	
 	private void loadServerData()
 	{
-		ServerData serverData = ServerData.getServerData();
-		if(serverData != null && serverData.getClient() != null)
-			serverLogic = new ServerLogic(serverData.getClient(), serverData.getServerName(),
-										  serverData.getServerCode(), Settings.getNick(this));
+		ConnectionData connectionData = ConnectionData.getConnectionData();
+		if(connectionData != null && connectionData.getClient() != null)
+			serverLogic = new ServerLogic(connectionData.getClient(), connectionData.getServerName(),
+										  connectionData.getServerCode(), Settings.getNick(this));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -154,6 +175,7 @@ public class ActivityServer extends AppCompatActivity
 			textChatLayoutBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
 			buttonTextChatToggle.toggleAnimation(false);
 			textChatLayoutStateChangeByClick = true;
+			hideKeyboard(editTextChat);
 		}
 	}
 	
@@ -169,12 +191,31 @@ public class ActivityServer extends AppCompatActivity
 		textChat.setText(serverLogic.getTextChatString());
 	}
 	
-	void sendTextChatMessage()
+	private void onMessageEdit(String message)
+	{
+		buttonTextChatSend.setEnabled(message != null && !message.isEmpty());
+	}
+	
+	private boolean onMessageEditDone(TextView view, int actionId)
+	{
+		if(actionId != EditorInfo.IME_ACTION_DONE) return false;
+		sendTextChatMessage();
+		hideKeyboard(view);
+		return true;
+	}
+	
+	private void sendTextChatMessage()
 	{
 		String message = editTextChat.getText().toString();
 		if(message.isEmpty()) return;
 		serverLogic.sendMessage(message);
 		editTextChat.setText(null);
+	}
+	
+	private void hideKeyboard(TextView v)
+	{
+		InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if(manager != null) manager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
 	
 	void onDisconnect()

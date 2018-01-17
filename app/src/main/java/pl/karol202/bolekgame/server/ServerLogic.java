@@ -10,7 +10,7 @@ import pl.karol202.bolekgame.utils.Logic;
 
 import java.util.List;
 
-public class ServerLogic extends Logic<ActivityServer>
+class ServerLogic extends Logic<ActivityServer>
 {
 	private String serverName;
 	private int serverCode;

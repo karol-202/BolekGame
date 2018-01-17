@@ -1,6 +1,7 @@
 package pl.karol202.bolekgame.control;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,12 +15,13 @@ import android.support.transition.*;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.ActivityServer;
-import pl.karol202.bolekgame.server.ServerData;
 import pl.karol202.bolekgame.settings.ActivitySettings;
 import pl.karol202.bolekgame.settings.Settings;
+import pl.karol202.bolekgame.utils.ConnectionData;
 import pl.karol202.bolekgame.utils.FragmentRetain;
 
 public class ActivityMain extends AppCompatActivity
@@ -257,6 +259,7 @@ public class ActivityMain extends AppCompatActivity
 	{
 		textInputLayoutServerName.setErrorEnabled(false);
 		editTextServerName.setText("");
+		hideKeyboard(editTextServerName);
 	}
 	
 	private void applyServerCreation()
@@ -298,6 +301,7 @@ public class ActivityMain extends AppCompatActivity
 	{
 		textInputLayoutServerCode.setErrorEnabled(false);
 		editTextServerCode.setText("");
+		hideKeyboard(editTextServerCode);
 	}
 	
 	private void applyServerJoin()
@@ -319,6 +323,12 @@ public class ActivityMain extends AppCompatActivity
 		onCreateServerPanelClose();
 		onJoinServerPanelClose();
 		state = State.CONNECTED;
+	}
+	
+	private void hideKeyboard(TextView v)
+	{
+		InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if(manager != null) manager.hideSoftInputFromWindow(v.getWindowToken(), 0);
 	}
 	
 	private void setConnectingLayout()
@@ -447,8 +457,8 @@ public class ActivityMain extends AppCompatActivity
 	{
 		closeAllPanels();
 		controlLogic.suspendClient();
-		ServerData data = new ServerData(controlLogic.getClient(), serverName, serverCode);
-		ServerData.setServerData(data);
+		ConnectionData data = new ConnectionData(controlLogic.getClient(), serverName, serverCode);
+		ConnectionData.setConnectionData(data);
 		
 		Intent intent = new Intent(this, ActivityServer.class);
 		startActivity(intent);
