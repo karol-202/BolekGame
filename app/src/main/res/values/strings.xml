@@ -39,6 +39,11 @@
 	
 	<string name="action_change_username">Zmień</string>
 	
+	<string name="item_game_main">Gra</string>
+	<string name="item_game_acts">Ustawy</string>
+	<string name="item_game_players">Gracze</string>
+	<string name="item_game_chat">Czat</string>
+	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
 	

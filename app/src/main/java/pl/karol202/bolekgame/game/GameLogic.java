@@ -7,7 +7,7 @@ import java.util.List;
 
 class GameLogic extends Logic<ActivityGame>
 {
-	public GameLogic(Client client)
+	GameLogic(Client client)
 	{
 		this.client = client;
 	}

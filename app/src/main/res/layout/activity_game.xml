@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/main_layout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	
+	<android.support.v4.view.ViewPager
+		android:id="@+id/viewPager_game"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:layout_constraintBottom_toTopOf="@+id/bottomBar_game"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+	
+	<android.support.design.widget.BottomNavigationView
+		android:id="@+id/bottomBar_game"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/background_game_bottom_bar"
+		app:itemBackground="@drawable/button"
+		app:itemIconTint="@color/game_screen_item_tint"
+		app:itemTextColor="@color/game_screen_item_tint"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:menu="@menu/menu_game" />
+	
+</android.support.constraint.ConstraintLayout>

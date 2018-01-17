@@ -245,6 +245,9 @@ public class ActivityServer extends AppCompatActivity
 	
 	void onGameStart()
 	{
+		ConnectionData data = new ConnectionData(serverLogic.getClient(), serverLogic.getServerName(), serverLogic.getServerCode());
+		ConnectionData.setConnectionData(data);
+		
 		Intent intent = new Intent(this, ActivityGame.class);
 		startActivity(intent);
 	}

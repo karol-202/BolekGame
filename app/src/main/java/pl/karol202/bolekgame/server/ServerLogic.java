@@ -101,6 +101,11 @@ class ServerLogic extends Logic<ActivityServer>
 		new Handler(Looper.getMainLooper()).post(runnable);
 	}
 	
+	Client getClient()
+	{
+		return client;
+	}
+	
 	String getServerName()
 	{
 		return serverName;

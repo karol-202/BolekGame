@@ -19,4 +19,6 @@
 	<color name="button_accent_pressed">#cc372d</color>
 	
 	<color name="text_server">#4d88d4</color>
+	<color name="text_primary">#de000000</color>
+	<color name="text_secondary">#75000000</color>
 </resources>
