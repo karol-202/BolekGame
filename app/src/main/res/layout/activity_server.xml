@@ -114,7 +114,8 @@
 				app:animatedDrawable="@drawable/ic_anim_close_to_expand_black_24dp"
 				app:animatedDrawableReversed="@drawable/ic_anim_expand_to_close_black_24dp"
 				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toTopOf="parent" />
+				app:layout_constraintTop_toTopOf="parent"
+				app:tint="@drawable/icon_tint"/>
 			
 			<TextView
 				android:id="@+id/text_chat"
@@ -151,14 +152,15 @@
 				android:layout_marginStart="8dp"
 				android:layout_marginLeft="8dp"/>
 			
-			<ImageButton
+			<android.support.v7.widget.AppCompatImageButton
 				android:id="@+id/button_text_chat_send"
 				android:layout_width="40dp"
 				android:layout_height="40dp"
 				app:layout_constraintBottom_toBottomOf="@+id/editText_chat"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toTopOf="@+id/editText_chat"
-				app:srcCompat="@drawable/ic_send_black_24dp" />
+				app:srcCompat="@drawable/ic_send_black_24dp"
+				app:tint="@drawable/icon_tint"/>
 		
 		</android.support.constraint.ConstraintLayout>
 		

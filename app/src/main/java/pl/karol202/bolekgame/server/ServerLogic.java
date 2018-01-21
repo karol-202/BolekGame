@@ -1,22 +1,22 @@
 package pl.karol202.bolekgame.server;
 
-import android.os.Handler;
-import android.os.Looper;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogout;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
 import pl.karol202.bolekgame.utils.Logic;
 
 import java.util.List;
 
-class ServerLogic extends Logic<ActivityServer>
+class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 {
 	private String serverName;
 	private int serverCode;
 	
 	private Users users;
 	private TextChat textChat;
+	private boolean gameInProgress;
 	
 	ServerLogic(Client client, String serverName, int serverCode, String localUserName)
 	{
@@ -27,13 +27,12 @@ class ServerLogic extends Logic<ActivityServer>
 		
 		this.users = new Users(new LocalUser(localUserName, this));
 		this.textChat = new TextChat();
-		
-		resumeClient(); //Must be after initializing users because of packet execution caused by this method
 	}
 	
 	void logout()
 	{
 		sendPacket(new OutputPacketLogout());
+		suspend();
 	}
 	
 	void setReady()
@@ -60,6 +59,12 @@ class ServerLogic extends Logic<ActivityServer>
 	}
 	
 	@Override
+	public void onPing()
+	{
+		sendPacket(new OutputPacketPong());
+	}
+	
+	@Override
 	public void onLoggedOut()
 	{
 		runInUIThread(() -> activity.onLoggedOut());
@@ -80,7 +85,8 @@ class ServerLogic extends Logic<ActivityServer>
 	@Override
 	public void onServerStatusUpdate(boolean gameAvailable)
 	{
-		//Currently not used; game availability checked locally.
+		gameInProgress = !gameAvailable;
+		runInUIThread(() -> users.onServerStatusUpdate());
 	}
 	
 	@Override
@@ -94,11 +100,7 @@ class ServerLogic extends Logic<ActivityServer>
 	public void onGameStart(List<String> players)
 	{
 		runInUIThread(() -> activity.onGameStart());
-	}
-	
-	private void runInUIThread(Runnable runnable)
-	{
-		new Handler(Looper.getMainLooper()).post(runnable);
+		suspendClient();
 	}
 	
 	Client getClient()
@@ -119,5 +121,16 @@ class ServerLogic extends Logic<ActivityServer>
 	Users getUsers()
 	{
 		return users;
+	}
+	
+	boolean isConnected()
+	{
+		return client.isConnected();
+	}
+	
+	@Override
+	public boolean isGameInProgress()
+	{
+		return gameInProgress;
 	}
 }

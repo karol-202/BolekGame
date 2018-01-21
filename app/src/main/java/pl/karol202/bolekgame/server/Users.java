@@ -5,7 +5,7 @@ import java8.util.stream.StreamSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-class Users
+public class Users
 {
 	interface OnUsersUpdateListener
 	{
@@ -16,7 +16,7 @@ class Users
 		void onUsersUpdate();
 	}
 	
-	private static final int MIN_USERS = 2;
+	public static final int MIN_USERS = 2;
 	
 	private List<User> users;
 	private LocalUser localUser;
@@ -74,6 +74,11 @@ class Users
 		for(User user : usersToRemvoe) removeUser(user);
 		if(usersToAdd.size() == 0 && usersToRemvoe.size() == 0 && usersUpdateListener != null)
 			usersUpdateListener.onUsersUpdate();
+	}
+	
+	void onServerStatusUpdate()
+	{
+		if(usersUpdateListener != null) usersUpdateListener.onUsersUpdate();
 	}
 	
 	User getUser(int position)

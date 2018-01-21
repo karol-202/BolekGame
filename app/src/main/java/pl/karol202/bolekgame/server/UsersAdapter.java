@@ -56,19 +56,20 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 			this.user = user;
 			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_user_ready : R.drawable.background_item_user);
 			textUserName.setText(user.getName());
-			buttonUserReady.setVisibility(isLocalUser() && users.areThereEnoughUsers() && !user.isReady() ? View.VISIBLE : View.GONE);
+			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE : View.GONE);
 		}
 		
 		private void update()
 		{
 			TransitionManager.beginDelayedTransition(view);
 			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_user_ready : R.drawable.background_item_user);
-			buttonUserReady.setVisibility(isLocalUser() && users.areThereEnoughUsers() && !user.isReady() ? View.VISIBLE: View.GONE);
+			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE: View.GONE);
 		}
 		
-		private boolean isLocalUser()
+		private boolean canBeMadeReady()
 		{
-			return user == users.getLocalUser();
+			return user == users.getLocalUser() && !serverStatusSupplier.isGameInProgress() && users.areThereEnoughUsers() &&
+					!user.isReady();
 		}
 	}
 	
@@ -87,7 +88,8 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		void bind()
 		{
 			textUsersAmount.setText(context.getString(R.string.text_users_amount, users.getUsersAmount()));
-			if(users.areThereEnoughUsers()) textReadyUsersAmount.setText(context.getString(R.string.text_ready_users_amount, users.getReadyUsersAmount()));
+			if(serverStatusSupplier.isGameInProgress()) textReadyUsersAmount.setText(R.string.text_game_in_progress);
+			else if(users.areThereEnoughUsers()) textReadyUsersAmount.setText(context.getString(R.string.text_ready_users_amount, users.getReadyUsersAmount()));
 			else textReadyUsersAmount.setText(R.string.text_too_few_users);
 		}
 	}
@@ -97,11 +99,13 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 	
 	private Context context;
 	private Users users;
+	private ServerStatusSupplier serverStatusSupplier;
 	
-	UsersAdapter(Context context, Users users)
+	UsersAdapter(Context context, Users users, ServerStatusSupplier serverStatusSupplier)
 	{
 		this.context = context;
 		this.users = users;
+		this.serverStatusSupplier = serverStatusSupplier;
 		users.setOnUsersUpdateListener(this);
 	}
 	

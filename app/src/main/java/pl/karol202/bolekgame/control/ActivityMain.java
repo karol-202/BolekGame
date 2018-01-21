@@ -15,6 +15,7 @@ import android.support.transition.*;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import pl.karol202.bolekgame.R;
@@ -119,6 +120,7 @@ public class ActivityMain extends AppCompatActivity
 		textInputLayoutServerName = findViewById(R.id.editTextLayout_server_name);
 		
 		editTextServerName = findViewById(R.id.editText_server_name);
+		editTextServerName.setOnEditorActionListener((v, actionId, event) -> onServerNameEditingDone(actionId));
 		
 		buttonCreateServerApply = findViewById(R.id.button_create_server_apply);
 		buttonCreateServerApply.setOnClickListener(v -> applyServerCreation());
@@ -131,12 +133,12 @@ public class ActivityMain extends AppCompatActivity
 		textInputLayoutServerCode = findViewById(R.id.editTextLayout_server_code);
 		
 		editTextServerCode = findViewById(R.id.editText_server_code);
+		editTextServerCode.setOnEditorActionListener((v, actionId, event) -> onServerCodeEditingDone(actionId));
 		
 		buttonJoinServerApply = findViewById(R.id.button_join_server_apply);
 		buttonJoinServerApply.setOnClickListener(v -> applyServerJoin());
 		
 		state = State.CONNECTING;
-		setLayout();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -200,23 +202,40 @@ public class ActivityMain extends AppCompatActivity
 	protected void onResume()
 	{
 		super.onResume();
-		controlLogic.setActivity(this);
-		controlLogic.resumeClient();
+		controlLogic.resume(this); //On orientation changes and on back from other activity
 		connectIfNotConnected();
-	}
-	
-	@Override
-	protected void onDestroy()
-	{
-		super.onDestroy();
-		controlLogic.suspendClient();
-		controlLogic.setActivity(null);
+		updateState();
 	}
 	
 	private void connectIfNotConnected()
 	{
 		if(controlLogic.isConnected()) return;
 		controlLogic.connect(Settings.getServerAddress(this));
+	}
+	
+	private void updateState()
+	{
+		if(controlLogic.isConnected()) state = State.CONNECTED;
+		else state = State.CONNECTING;
+		setLayout();
+	}
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		controlLogic.suspend(); //On orientation changes
+	}
+	
+	@Override
+	public void onBackPressed()
+	{
+		if(state == State.SERVER_CREATING || state == State.SERVER_JOINING)
+		{
+			applyConstraintTransition(() -> setConnectedLayout(true), null);
+			setAllPanelsClosed();
+		}
+		else super.onBackPressed();
 	}
 	
 	private void showSettings()
@@ -262,6 +281,13 @@ public class ActivityMain extends AppCompatActivity
 		hideKeyboard(editTextServerName);
 	}
 	
+	private boolean onServerNameEditingDone(int actionId)
+	{
+		if(actionId != EditorInfo.IME_ACTION_DONE) return false;
+		applyServerCreation();
+		return true;
+	}
+	
 	private void applyServerCreation()
 	{
 		TransitionManager.beginDelayedTransition(panelCreateServer);
@@ -270,6 +296,7 @@ public class ActivityMain extends AppCompatActivity
 		else
 		{
 			textInputLayoutServerName.setErrorEnabled(false);
+			hideKeyboard(editTextServerName);
 			controlLogic.createServer(serverName, Settings.getNick(this));
 		}
 	}
@@ -304,6 +331,13 @@ public class ActivityMain extends AppCompatActivity
 		hideKeyboard(editTextServerCode);
 	}
 	
+	private boolean onServerCodeEditingDone(int actionId)
+	{
+		if(actionId != EditorInfo.IME_ACTION_DONE) return false;
+		applyServerJoin();
+		return true;
+	}
+	
 	private void applyServerJoin()
 	{
 		TransitionManager.beginDelayedTransition(panelJoinServer);
@@ -313,13 +347,13 @@ public class ActivityMain extends AppCompatActivity
 		{
 			int serverCode = Integer.parseInt(serverCodeString);
 			textInputLayoutServerCode.setErrorEnabled(false);
+			hideKeyboard(editTextServerCode);
 			controlLogic.login(serverCode, Settings.getNick(this));
 		}
 	}
 	
-	private void closeAllPanels()
+	private void setAllPanelsClosed()
 	{
-		applyConstraintTransition(() -> setConnectedLayout(true), null);
 		onCreateServerPanelClose();
 		onJoinServerPanelClose();
 		state = State.CONNECTED;
@@ -451,12 +485,13 @@ public class ActivityMain extends AppCompatActivity
 	{
 		applyConstraintTransition(this::setConnectingLayout, null);
 		state = State.CONNECTING;
+		connectIfNotConnected();
 	}
 	
 	void onLoggedIn(String serverName, int serverCode)
 	{
-		closeAllPanels();
-		controlLogic.suspendClient();
+		setAllPanelsClosed();
+		controlLogic.suspend();
 		ConnectionData data = new ConnectionData(controlLogic.getClient(), serverName, serverCode);
 		ConnectionData.setConnectionData(data);
 		

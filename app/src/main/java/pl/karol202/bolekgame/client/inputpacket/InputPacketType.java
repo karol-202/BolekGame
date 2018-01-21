@@ -49,7 +49,8 @@ enum InputPacketType
 	LOSS(InputPacketLoss::new),
 	GAMEEXITED(InputPacketGameExited::new),
 	PLAYERSUPDATED(InputPacketPlayersUpdated::new),
-	TOOFEWPLAYERS(InputPacketTooFewPlayers::new);
+	TOOFEWPLAYERS(InputPacketTooFewPlayers::new),
+	PING(InputPacketPing::new);
 	
 	private Supplier<InputPacket> packetSupplier;
 	

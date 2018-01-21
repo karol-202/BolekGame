@@ -10,12 +10,24 @@ public abstract class Logic<A extends Activity> extends ClientListenerAdapter
 	protected A activity;
 	protected Client client;
 	
-	public void resumeClient()
+	public void resume(A activity)
+	{
+		setActivity(activity);
+		resumeClient();
+	}
+	
+	public void suspend()
+	{
+		suspendClient();
+		setActivity(null);
+	}
+	
+	private void resumeClient()
 	{
 		client.setClientListener(this);
 	}
 	
-	public void suspendClient()
+	protected void suspendClient()
 	{
 		client.setClientListener(null);
 	}
@@ -25,7 +37,12 @@ public abstract class Logic<A extends Activity> extends ClientListenerAdapter
 		new NetworkingAsyncTask(client).execute(packet);
 	}
 	
-	public void setActivity(A activity)
+	protected void runInUIThread(Runnable runnable)
+	{
+		Utils.runInUIThread(runnable);
+	}
+	
+	private void setActivity(A activity)
 	{
 		this.activity = activity;
 	}

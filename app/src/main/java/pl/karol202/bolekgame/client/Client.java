@@ -154,13 +154,14 @@ public class Client
 		return socket != null &&socket.isConnected() && !socket.isClosed();
 	}
 	
-	public void setClientListener(ClientListener listener)
+	public synchronized void setClientListener(ClientListener listener)
 	{
 		this.clientListener = listener;
-		if(listener != null) resumePacketExcecution();
+		if(listener == null) suspendPacketExcecution();
+		else resumePacketExcecution();
 	}
 	
-	public void suspendPacketExcecution()
+	private void suspendPacketExcecution()
 	{
 		suspendPacketExecution = true;
 	}

@@ -1,8 +1,10 @@
 package pl.karol202.bolekgame.server;
 
+import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -46,6 +49,8 @@ public class ActivityServer extends AppCompatActivity
 	private UsersAdapter usersAdapter;
 	private BottomSheetBehavior textChatLayoutBehaviour;
 	private boolean textChatLayoutStateChangeByClick;
+	private ViewTreeObserver.OnGlobalLayoutListener layoutListener;
+	private boolean hidingTextChatLayout;
 	
 	private FragmentRetain<ServerLogic> fragmentRetain;
 	private ServerLogic serverLogic;
@@ -58,9 +63,11 @@ public class ActivityServer extends AppCompatActivity
 		loadServerData();
 		restoreRetainFragment();
 		
-		usersAdapter = new UsersAdapter(this, serverLogic.getUsers());
+		usersAdapter = new UsersAdapter(this, serverLogic.getUsers(), serverLogic);
+		layoutListener = this::onLayoutUpdate;
 		
 		coordinatorLayout = findViewById(R.id.coordinator_layout);
+		coordinatorLayout.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
 		
 		textServerName = findViewById(R.id.text_server_name_value);
 		textServerName.setText(serverLogic.getServerName());
@@ -108,7 +115,7 @@ public class ActivityServer extends AppCompatActivity
 				onMessageEdit(s.toString());
 			}
 		});
-		editTextChat.setOnEditorActionListener((view, actionId, event) -> onMessageEditDone(view, actionId));
+		editTextChat.setOnEditorActionListener((view, actionId, event) -> onMessageEditDone(actionId));
 		
 		buttonTextChatSend = findViewById(R.id.button_text_chat_send);
 		buttonTextChatSend.setOnClickListener(v -> sendTextChatMessage());
@@ -143,16 +150,22 @@ public class ActivityServer extends AppCompatActivity
 	protected void onResume()
 	{
 		super.onResume();
-		serverLogic.setActivity(this);
-		serverLogic.resumeClient();
+		serverLogic.resume(this); //On orientation changes and on back from other activity
+		if(!serverLogic.isConnected()) finish();
 	}
 	
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		serverLogic.suspendClient();
-		serverLogic.setActivity(null);
+		if(!isFinishing()) serverLogic.suspend(); //On configuration changes
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) removeLayoutListener();
+	}
+	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private void removeLayoutListener()
+	{
+		coordinatorLayout.getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
 	}
 	
 	@Override
@@ -166,16 +179,20 @@ public class ActivityServer extends AppCompatActivity
 	{
 		if(textChatLayoutBehaviour.getState() == BottomSheetBehavior.STATE_COLLAPSED)
 		{
+			hidingTextChatLayout = false;
+			
 			textChatLayoutBehaviour.setState(BottomSheetBehavior.STATE_EXPANDED);
 			buttonTextChatToggle.toggleAnimation(true);
 			textChatLayoutStateChangeByClick = true;
 		}
 		else if(textChatLayoutBehaviour.getState() == BottomSheetBehavior.STATE_EXPANDED)
 		{
+			hidingTextChatLayout = true;
+			hideKeyboard(editTextChat);
+			
 			textChatLayoutBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
 			buttonTextChatToggle.toggleAnimation(false);
 			textChatLayoutStateChangeByClick = true;
-			hideKeyboard(editTextChat);
 		}
 	}
 	
@@ -196,11 +213,10 @@ public class ActivityServer extends AppCompatActivity
 		buttonTextChatSend.setEnabled(message != null && !message.isEmpty());
 	}
 	
-	private boolean onMessageEditDone(TextView view, int actionId)
+	private boolean onMessageEditDone(int actionId)
 	{
 		if(actionId != EditorInfo.IME_ACTION_DONE) return false;
 		sendTextChatMessage();
-		hideKeyboard(view);
 		return true;
 	}
 	
@@ -210,12 +226,19 @@ public class ActivityServer extends AppCompatActivity
 		if(message.isEmpty()) return;
 		serverLogic.sendMessage(message);
 		editTextChat.setText(null);
+		hideKeyboard(editTextChat);
 	}
 	
 	private void hideKeyboard(TextView v)
 	{
 		InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if(manager != null) manager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	}
+	
+	private void onLayoutUpdate()
+	{
+		if(hidingTextChatLayout) textChatLayoutBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
+		hidingTextChatLayout = false;
 	}
 	
 	void onDisconnect()
@@ -227,7 +250,7 @@ public class ActivityServer extends AppCompatActivity
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.dialog_disconnection);
-		builder.setMessage(R.string.message_disconnection);
+		builder.setMessage(R.string.dialog_disconnection_detail);
 		builder.setPositiveButton(R.string.ok, (d, w) -> finish());
 		builder.setCancelable(false);
 		builder.show();
@@ -245,6 +268,7 @@ public class ActivityServer extends AppCompatActivity
 	
 	void onGameStart()
 	{
+		serverLogic.suspend();
 		ConnectionData data = new ConnectionData(serverLogic.getClient(), serverLogic.getServerName(), serverLogic.getServerCode());
 		ConnectionData.setConnectionData(data);
 		

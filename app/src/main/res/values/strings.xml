@@ -2,8 +2,6 @@
 	<string name="app_name">Nocna zmiana</string>
 	<string name="activity_settings">Ustawienia</string>
 	
-	<string name="dialog_disconnection">Rozłączono</string>
-	
 	<string name="button_nick_change_apply">Zmień</string>
 	<string name="button_cancel">Anuluj</string>
 	<string name="button_retry_connection">Spróbuj ponownie</string>
@@ -34,8 +32,16 @@
 	<string name="message_server_code_invalid">Kod nieprawidłowy</string>
 	<string name="message_cannot_create_server">Nie można utworzyć gry</string>
 	<string name="message_cannot_login">Nie można zalogować</string>
-	<string name="message_disconnection">Utracono połączenie z serwerem</string>
 	<string name="message_error">Nieznany błąd</string>
+	
+	<string name="dialog_disconnection">Rozłączono</string>
+	<string name="dialog_disconnection_detail">Utracono połączenie z serwerem</string>
+	<string name="dialog_too_few_players">Za mało graczy</string>
+	<string name="dialog_too_few_players_detail">Gra została zakończona</string>
+	<string name="dialog_player_leaved">%s wyszedł z gry</string>
+	<string name="dialog_leave_are_you_sure">Czy na pewno chcesz wyjść?</string>
+	<string name="dialog_leave_are_you_sure_detail">Po wyjściu nie będziesz mógł kontynuować gry</string>
+	<string name="dialog_leave_are_you_sure_detail_game_end">Po wyjściu gra zostanie zakończona ze względu na zbyt małą liczbę graczy</string>
 	
 	<string name="action_change_username">Zmień</string>
 	
@@ -52,4 +58,6 @@
 	
 	<string name="unknown">Nieznany</string>
 	<string name="ok">OK</string>
+	<string name="leave">Wyjdź</string>
+	<string name="remain">Zostań</string>
 </resources>

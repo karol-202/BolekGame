@@ -1,11 +1,10 @@
 package pl.karol202.bolekgame.control;
 
-import android.os.Handler;
-import android.os.Looper;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketFailure;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketCreateServer;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogin;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
 import pl.karol202.bolekgame.utils.Logic;
 
 class ControlLogic extends Logic<ActivityMain>
@@ -19,8 +18,6 @@ class ControlLogic extends Logic<ActivityMain>
 	ControlLogic()
 	{
 		client = new Client();
-		
-		resumeClient();
 	}
 	
 	void connect(String host)
@@ -30,6 +27,7 @@ class ControlLogic extends Logic<ActivityMain>
 	
 	private void connectAndWait(String host)
 	{
+		if(activity == null) return;
 		boolean result = client.connect(host);
 		if(result)
 		{
@@ -63,7 +61,7 @@ class ControlLogic extends Logic<ActivityMain>
 	{
 		interruptTimeout();
 		runInUIThread(() -> activity.onLoggedIn(serverName, serverCode));
-		client.suspendPacketExcecution();
+		suspendClient();
 		creatingServer = false;
 		loggingIn = false;
 	}
@@ -112,9 +110,10 @@ class ControlLogic extends Logic<ActivityMain>
 		runInUIThread(() -> activity.onDisconnect());
 	}
 	
-	private void runInUIThread(Runnable runnable)
+	@Override
+	public void onPing()
 	{
-		new Handler(Looper.getMainLooper()).post(runnable);
+		sendPacket(new OutputPacketPong());
 	}
 	
 	private void setLoginTimeout()

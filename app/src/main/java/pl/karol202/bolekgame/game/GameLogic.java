@@ -1,24 +1,70 @@
 package pl.karol202.bolekgame.game;
 
 import pl.karol202.bolekgame.client.Client;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketExitGame;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
+import pl.karol202.bolekgame.server.Users;
 import pl.karol202.bolekgame.utils.Logic;
 
 import java.util.List;
 
-class GameLogic extends Logic<ActivityGame>
+public class GameLogic extends Logic<ActivityGame>
 {
-	GameLogic(Client client)
+	private Players players;
+	private boolean ignoreGameExit;
+	
+	GameLogic(Client client, String localPlayerName)
 	{
 		this.client = client;
+		
+		players = new Players(new LocalPlayer(localPlayerName));
+		players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
+			@Override
+			public void onPlayerAdd()
+			{ }
+			
+			@Override
+			public void onPlayerRemove(int position, Player player)
+			{
+				onPlayerLeaved(player);
+			}
+		});
+	}
+	
+	void exit()
+	{
+		sendPacket(new OutputPacketExitGame());
+		suspend();
+	}
+	
+	private void onPlayerLeaved(Player player)
+	{
+		runInUIThread(() -> activity.onPlayerLeaved(player));
+	}
+	
+	@Override
+	public void onDisconnect()
+	{
+		runInUIThread(activity::onDisconnect);
+	}
+	
+	@Override
+	public void onPing()
+	{
+		sendPacket(new OutputPacketPong());
 	}
 	
 	@Override
 	public void onFailure(int problem)
 	{
-	
+		runInUIThread(activity::onError);
 	}
-
-	//Users update?
+	
+	@Override
+	public void onPlayersUpdated(List<String> updatedPlayers)
+	{
+		players.updatePlayersList(updatedPlayers);
+	}
 	
 	@Override
 	public void onRoleAssigned(Role role)
@@ -209,7 +255,7 @@ class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onYouAreLustrated()
 	{
-	
+		ignoreGameExit = true;
 	}
 	
 	@Override
@@ -221,30 +267,36 @@ class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onWin(WinCause cause)
 	{
-	
+		ignoreGameExit = true;
 	}
 	
 	@Override
 	public void onLoss(WinCause cause)
 	{
-	
+		ignoreGameExit = true;
 	}
 	
 	@Override
 	public void onGameExited()
 	{
-	
-	}
-	
-	@Override
-	public void onPlayersUpdated(List<String> players)
-	{
-	
+		if(ignoreGameExit) return;
+		runInUIThread(() -> activity.onGameExit());
 	}
 	
 	@Override
 	public void onTooFewPlayers()
 	{
+		ignoreGameExit = true;
+		runInUIThread(activity::onTooFewPlayers);
+	}
 	
+	public Players getPlayers()
+	{
+		return players;
+	}
+	
+	boolean willGameBeEndedAfterMyLeave()
+	{
+		return players.getPlayersAmount() == Users.MIN_USERS;
 	}
 }
