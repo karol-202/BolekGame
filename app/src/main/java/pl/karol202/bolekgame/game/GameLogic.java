@@ -2,18 +2,21 @@ package pl.karol202.bolekgame.game;
 
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketExitGame;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
 import pl.karol202.bolekgame.server.Users;
 import pl.karol202.bolekgame.utils.Logic;
+import pl.karol202.bolekgame.utils.TextChat;
 
 import java.util.List;
 
 public class GameLogic extends Logic<ActivityGame>
 {
 	private Players players;
+	private TextChat textChat;
 	private boolean ignoreGameExit;
 	
-	GameLogic(Client client, String localPlayerName)
+	GameLogic(Client client, TextChat textChat, String localPlayerName)
 	{
 		this.client = client;
 		
@@ -29,12 +32,26 @@ public class GameLogic extends Logic<ActivityGame>
 				onPlayerLeaved(player);
 			}
 		});
+		
+		this.textChat = textChat;
 	}
 	
 	void exit()
 	{
 		sendPacket(new OutputPacketExitGame());
 		suspend();
+	}
+	
+	public void sendMessage(String message)
+	{
+		sendPacket(new OutputPacketMessage(message));
+		textChat.addEntry(players.getLocalPlayerName(), message);
+		activity.onTextChatUpdate();
+	}
+	
+	public String getTextChatString()
+	{
+		return textChat.getTextChatString();
 	}
 	
 	private void onPlayerLeaved(Player player)
@@ -64,6 +81,13 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onPlayersUpdated(List<String> updatedPlayers)
 	{
 		players.updatePlayersList(updatedPlayers);
+	}
+	
+	@Override
+	public void onMessage(String sender, String message)
+	{
+		textChat.addEntry(sender, message);
+		runInUIThread(() -> activity.onTextChatUpdate());
 	}
 	
 	@Override

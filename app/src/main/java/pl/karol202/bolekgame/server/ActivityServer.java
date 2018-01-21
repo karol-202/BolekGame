@@ -16,7 +16,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
@@ -27,10 +26,7 @@ import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.ActivityGame;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.AnimatedImageButton;
-import pl.karol202.bolekgame.utils.ConnectionData;
-import pl.karol202.bolekgame.utils.FragmentRetain;
-import pl.karol202.bolekgame.utils.ItemDivider;
+import pl.karol202.bolekgame.utils.*;
 
 public class ActivityServer extends AppCompatActivity
 {
@@ -98,7 +94,6 @@ public class ActivityServer extends AppCompatActivity
 		buttonTextChatToggle.setOnClickListener(v -> toggleTextChat());
 		
 		textChat = findViewById(R.id.text_chat);
-		textChat.setMovementMethod(new ScrollingMovementMethod());
 		onTextChatUpdate();
 		
 		editTextChat = findViewById(R.id.editText_chat);
@@ -124,10 +119,10 @@ public class ActivityServer extends AppCompatActivity
 	
 	private void loadServerData()
 	{
-		ConnectionData connectionData = ConnectionData.getConnectionData();
-		if(connectionData != null && connectionData.getClient() != null)
-			serverLogic = new ServerLogic(connectionData.getClient(), connectionData.getServerName(),
-										  connectionData.getServerCode(), Settings.getNick(this));
+		ServerData serverData = ServerData.getServerData();
+		if(serverData != null && serverData.getClient() != null)
+			serverLogic = new ServerLogic(serverData.getClient(), serverData.getServerName(),
+										  serverData.getServerCode(), Settings.getNick(this));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -151,6 +146,7 @@ public class ActivityServer extends AppCompatActivity
 	{
 		super.onResume();
 		serverLogic.resume(this); //On orientation changes and on back from other activity
+		onTextChatUpdate();
 		if(!serverLogic.isConnected()) finish();
 	}
 	
@@ -269,8 +265,7 @@ public class ActivityServer extends AppCompatActivity
 	void onGameStart()
 	{
 		serverLogic.suspend();
-		ConnectionData data = new ConnectionData(serverLogic.getClient(), serverLogic.getServerName(), serverLogic.getServerCode());
-		ConnectionData.setConnectionData(data);
+		GameData.setGameData(serverLogic.createGameData());
 		
 		Intent intent = new Intent(this, ActivityGame.class);
 		startActivity(intent);

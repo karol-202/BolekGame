@@ -13,12 +13,14 @@ public class Players
 	}
 	
 	private List<Player> players;
+	private LocalPlayer localPlayer;
 	
 	private List<OnPlayersUpdateListener> playersUpdateListeners;
 	
 	Players(LocalPlayer localPlayer)
 	{
 		this.players = new ArrayList<>();
+		this.localPlayer = localPlayer;
 		players.add(localPlayer);
 		
 		playersUpdateListeners = new ArrayList<>();
@@ -65,6 +67,11 @@ public class Players
 	public int getPlayersAmount()
 	{
 		return players.size();
+	}
+	
+	String getLocalPlayerName()
+	{
+		return localPlayer.getName();
 	}
 	
 	public void addOnPlayersUpdateListener(OnPlayersUpdateListener listener)

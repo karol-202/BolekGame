@@ -1,5 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent" android:layout_height="match_parent">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@android:color/white">
+	
+	<ScrollView
+		android:id="@+id/scrollView_text_chat"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:layout_constraintBottom_toTopOf="@+id/divider"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+		
+		<TextView
+			android:id="@+id/text_chat"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="16dp"
+			android:layout_marginStart="16dp"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:singleLine="false"
+			android:text="@string/unknown"
+			android:textSize="16sp" />
+	</ScrollView>
+	
+	<View
+		android:id="@+id/divider"
+		android:layout_width="0dp"
+		android:layout_height="1px"
+		android:background="@color/divider_solid"
+		app:layout_constraintBottom_toTopOf="@+id/editText_chat"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+	
+	<EditText
+		android:id="@+id/editText_chat"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginLeft="8dp"
+		android:ems="10"
+		android:imeOptions="actionDone"
+		android:inputType="text"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/button_text_chat_send"
+		app:layout_constraintStart_toStartOf="parent" />
+	
+	<android.support.v7.widget.AppCompatImageButton
+		android:id="@+id/button_text_chat_send"
+		android:layout_width="40dp"
+		android:layout_height="40dp"
+		app:layout_constraintBottom_toBottomOf="@+id/editText_chat"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/editText_chat"
+		app:srcCompat="@drawable/ic_send_black_24dp"
+		app:tint="@drawable/icon_tint" />
 
 </android.support.constraint.ConstraintLayout>

@@ -16,8 +16,8 @@ import pl.karol202.bolekgame.game.screen.main.ScreenMain;
 import pl.karol202.bolekgame.game.screen.players.ScreenPlayers;
 import pl.karol202.bolekgame.settings.Settings;
 import pl.karol202.bolekgame.utils.BottomNavigationBarHelper;
-import pl.karol202.bolekgame.utils.ConnectionData;
 import pl.karol202.bolekgame.utils.FragmentRetain;
+import pl.karol202.bolekgame.utils.GameData;
 
 public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 {
@@ -38,7 +38,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
-		loadServerData();
+		loadGameData();
 		restoreRetainFragment();
 		
 		gameScreenAdapter = new GameScreenAdapter(getFragmentManager());
@@ -64,11 +64,11 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		BottomNavigationBarHelper.disableShiftAnimation(bottomBar);
 	}
 	
-	private void loadServerData()
+	private void loadGameData()
 	{
-		ConnectionData connectionData = ConnectionData.getConnectionData();
-		if(connectionData != null && connectionData.getClient() != null)
-			gameLogic = new GameLogic(connectionData.getClient(), Settings.getNick(this));
+		GameData gameData = GameData.getGameData();
+		if(gameData != null && gameData.getClient() != null)
+			gameLogic = new GameLogic(gameData.getClient(), gameData.getTextChat(), Settings.getNick(this));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -159,6 +159,13 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		});
 		builder.show();
 		playerLeaveDialog = true;
+	}
+	
+	void onTextChatUpdate()
+	{
+		ScreenChat screenChat = getScreenChat();
+		if(screenChat == null) return;
+		screenChat.onChatUpdate();
 	}
 	
 	void onTooFewPlayers()

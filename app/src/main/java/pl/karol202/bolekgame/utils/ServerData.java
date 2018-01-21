@@ -2,31 +2,31 @@ package pl.karol202.bolekgame.utils;
 
 import pl.karol202.bolekgame.client.Client;
 
-public class ConnectionData
+public class ServerData
 {
-	private static ConnectionData connectionData;
+	private static ServerData serverData;
 	
 	private Client client;
 	private String serverName;
 	private int serverCode;
 	
-	public ConnectionData(Client client, String serverName, int serverCode)
+	public ServerData(Client client, String serverName, int serverCode)
 	{
 		this.client = client;
 		this.serverName = serverName;
 		this.serverCode = serverCode;
 	}
 	
-	public static ConnectionData getConnectionData()
+	public static ServerData getServerData()
 	{
-		ConnectionData connectionData = ConnectionData.connectionData;
-		setConnectionData(null);
-		return connectionData;
+		ServerData serverData = ServerData.serverData;
+		setServerData(null);
+		return serverData;
 	}
 	
-	public static void setConnectionData(ConnectionData connectionData)
+	public static void setServerData(ServerData serverData)
 	{
-		ConnectionData.connectionData = connectionData;
+		ServerData.serverData = serverData;
 	}
 	
 	public Client getClient()

@@ -5,7 +5,9 @@ import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogout;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
+import pl.karol202.bolekgame.utils.GameData;
 import pl.karol202.bolekgame.utils.Logic;
+import pl.karol202.bolekgame.utils.TextChat;
 
 import java.util.List;
 
@@ -103,9 +105,9 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 		suspendClient();
 	}
 	
-	Client getClient()
+	GameData createGameData()
 	{
-		return client;
+		return new GameData(client, textChat, serverName, serverCode);
 	}
 	
 	String getServerName()

@@ -22,7 +22,7 @@ import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.ActivityServer;
 import pl.karol202.bolekgame.settings.ActivitySettings;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.ConnectionData;
+import pl.karol202.bolekgame.utils.ServerData;
 import pl.karol202.bolekgame.utils.FragmentRetain;
 
 public class ActivityMain extends AppCompatActivity
@@ -246,6 +246,7 @@ public class ActivityMain extends AppCompatActivity
 	
 	private void retryConnection()
 	{
+		if(controlLogic.isConnected()) return;
 		connectIfNotConnected();
 		applyConstraintTransition(this::setConnectingLayout, null);
 		state = State.CONNECTING;
@@ -492,8 +493,8 @@ public class ActivityMain extends AppCompatActivity
 	{
 		setAllPanelsClosed();
 		controlLogic.suspend();
-		ConnectionData data = new ConnectionData(controlLogic.getClient(), serverName, serverCode);
-		ConnectionData.setConnectionData(data);
+		ServerData data = new ServerData(controlLogic.getClient(), serverName, serverCode);
+		ServerData.setServerData(data);
 		
 		Intent intent = new Intent(this, ActivityServer.class);
 		startActivity(intent);

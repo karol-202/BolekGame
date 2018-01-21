@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.server;
+package pl.karol202.bolekgame.utils;
 
 import java.util.ArrayList;
 import java.util.List;

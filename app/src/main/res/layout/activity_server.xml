@@ -117,18 +117,26 @@
 				app:layout_constraintTop_toTopOf="parent"
 				app:tint="@drawable/icon_tint"/>
 			
-			<TextView
-				android:id="@+id/text_chat"
+			<android.support.v4.widget.NestedScrollView
+				android:id="@+id/scrollView_text_chat"
 				android:layout_width="0dp"
 				android:layout_height="0dp"
-				android:scrollbars="vertical"
-				android:singleLine="false"
-				android:text="@string/unknown"
 				app:layout_constraintBottom_toTopOf="@+id/divider"
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintHorizontal_bias="1.0"
 				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/button_text_chat_toggle" />
+				app:layout_constraintTop_toBottomOf="@+id/button_text_chat_toggle">
+				
+				<TextView
+					android:id="@+id/text_chat"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="8dp"
+					android:layout_marginRight="8dp"
+					android:scrollbars="vertical"
+					android:singleLine="false"
+					android:text="@string/unknown" />
+			</android.support.v4.widget.NestedScrollView>
 			
 			<View
 				android:id="@+id/divider"
