@@ -1,12 +1,10 @@
-package pl.karol202.bolekgame.game.screen;
+package pl.karol202.bolekgame.game;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import pl.karol202.bolekgame.game.GameLogic;
-import pl.karol202.bolekgame.game.GameLogicSupplier;
+import android.app.Fragment;
 
 public abstract class Screen extends Fragment
 {
@@ -18,6 +16,13 @@ public abstract class Screen extends Fragment
 	{
 		super.onAttach(activity);
 		init(activity);
+	}
+	
+	@Override
+	public void onAttach(Context context)
+	{
+		super.onAttach(context);
+		init(context);
 	}
 	
 	private void init(Context context)

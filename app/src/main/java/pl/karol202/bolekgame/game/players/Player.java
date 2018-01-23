@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.game;
+package pl.karol202.bolekgame.game.players;
 
 public abstract class Player
 {

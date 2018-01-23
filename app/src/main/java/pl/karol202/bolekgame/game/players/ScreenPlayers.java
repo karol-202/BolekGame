@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.game.screen.players;
+package pl.karol202.bolekgame.game.players;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,9 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import pl.karol202.bolekgame.R;
-import pl.karol202.bolekgame.game.Player;
-import pl.karol202.bolekgame.game.Players;
-import pl.karol202.bolekgame.game.screen.Screen;
+import pl.karol202.bolekgame.game.Screen;
 import pl.karol202.bolekgame.utils.ItemDivider;
 import pl.karol202.bolekgame.utils.Utils;
 
@@ -62,14 +60,14 @@ public class ScreenPlayers extends Screen
 	{
 		super.onActivityCreated(savedInstanceState);
 		players = gameLogic.getPlayers();
-		playersAdapter.setPlayers(players);
 		players.addOnPlayersUpdateListener(playersListener);
+		playersAdapter.setPlayers(players);
 	}
 	
 	@Override
 	public void onDestroy()
 	{
 		super.onDestroy();
-		players.removeOnPlayersUpdateListener(playersListener);
+		if(players != null) players.removeOnPlayersUpdateListener(playersListener);
 	}
 }

@@ -25,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.ActivityGame;
+import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.settings.Settings;
 import pl.karol202.bolekgame.utils.*;
 

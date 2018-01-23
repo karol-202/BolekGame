@@ -6,11 +6,10 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 import pl.karol202.bolekgame.R;
-import pl.karol202.bolekgame.game.screen.Screen;
-import pl.karol202.bolekgame.game.screen.acts.ScreenActs;
-import pl.karol202.bolekgame.game.screen.chat.ScreenChat;
-import pl.karol202.bolekgame.game.screen.main.ScreenMain;
-import pl.karol202.bolekgame.game.screen.players.ScreenPlayers;
+import pl.karol202.bolekgame.game.acts.ScreenActs;
+import pl.karol202.bolekgame.game.chat.ScreenChat;
+import pl.karol202.bolekgame.game.main.ScreenMain;
+import pl.karol202.bolekgame.game.players.ScreenPlayers;
 
 class GameScreenAdapter extends FragmentPagerAdapter
 {

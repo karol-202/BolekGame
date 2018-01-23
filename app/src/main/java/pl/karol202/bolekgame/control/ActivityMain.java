@@ -22,7 +22,7 @@ import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.ActivityServer;
 import pl.karol202.bolekgame.settings.ActivitySettings;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.ServerData;
+import pl.karol202.bolekgame.server.ServerData;
 import pl.karol202.bolekgame.utils.FragmentRetain;
 
 public class ActivityMain extends AppCompatActivity
@@ -514,7 +514,7 @@ public class ActivityMain extends AppCompatActivity
 	void onInvalidUsernameError()
 	{
 		Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.message_invalid_username, Snackbar.LENGTH_LONG);
-		snackbar.setAction(R.string.action_change_username, v -> changeUsername());
+		snackbar.setAction(R.string.snackbar_action_change_username, v -> changeUsername());
 		snackbar.show();
 	}
 	
@@ -526,7 +526,7 @@ public class ActivityMain extends AppCompatActivity
 	void onUsernameBusyError()
 	{
 		Snackbar snackbar = Snackbar.make(coordinatorLayout, R.string.message_username_busy, Snackbar.LENGTH_LONG);
-		snackbar.setAction(R.string.action_change_username, v -> changeUsername());
+		snackbar.setAction(R.string.snackbar_action_change_username, v -> changeUsername());
 		snackbar.show();
 	}
 	

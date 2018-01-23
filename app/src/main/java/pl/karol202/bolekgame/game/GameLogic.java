@@ -1,24 +1,37 @@
 package pl.karol202.bolekgame.game;
 
+import java8.util.stream.Collectors;
+import java8.util.stream.StreamSupport;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketExitGame;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
+import pl.karol202.bolekgame.game.gameplay.Act;
+import pl.karol202.bolekgame.game.gameplay.Role;
+import pl.karol202.bolekgame.game.gameplay.WinCause;
+import pl.karol202.bolekgame.game.main.ActionCollaboratorsRevealment;
+import pl.karol202.bolekgame.game.main.ActionManager;
+import pl.karol202.bolekgame.game.main.ActionRoleAssigned;
+import pl.karol202.bolekgame.game.players.LocalPlayer;
+import pl.karol202.bolekgame.game.players.Player;
+import pl.karol202.bolekgame.game.players.Players;
 import pl.karol202.bolekgame.server.Users;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
 
 import java.util.List;
+import java.util.Map;
 
 public class GameLogic extends Logic<ActivityGame>
 {
 	private Players players;
 	private TextChat textChat;
+	private ActionManager actionManager;
 	private boolean ignoreGameExit;
 	
 	GameLogic(Client client, TextChat textChat, String localPlayerName)
 	{
-		this.client = client;
+		super(client);
 		
 		players = new Players(new LocalPlayer(localPlayerName));
 		players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
@@ -34,6 +47,8 @@ public class GameLogic extends Logic<ActivityGame>
 		});
 		
 		this.textChat = textChat;
+		
+		actionManager = new ActionManager();
 	}
 	
 	void exit()
@@ -93,13 +108,23 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onRoleAssigned(Role role)
 	{
-	
+		actionManager.addAction(new ActionRoleAssigned(activity, role));
 	}
 	
 	@Override
 	public void onCollaboratorsRevealment(List<String> collaborators, String bolek)
 	{
+		Map<Player, Role> playerRoles = createRolesMap(collaborators, bolek);
+		actionManager.addAction(new ActionCollaboratorsRevealment(activity, playerRoles));
+	}
 	
+	private Map<Player, Role> createRolesMap(List<String> collaboratorsNames, String bolekName)
+	{
+		return StreamSupport.stream(players.getPlayers()).collect(Collectors.toMap(p -> p, p -> {
+			if(bolekName.equals(p.getName())) return Role.BOLEK;
+			else if(collaboratorsNames.contains(p.getName())) return Role.COLLABORATOR;
+			else return Role.MINISTER;
+		}));
 	}
 	
 	@Override
@@ -317,6 +342,11 @@ public class GameLogic extends Logic<ActivityGame>
 	public Players getPlayers()
 	{
 		return players;
+	}
+	
+	public ActionManager getActionManager()
+	{
+		return actionManager;
 	}
 	
 	boolean willGameBeEndedAfterMyLeave()

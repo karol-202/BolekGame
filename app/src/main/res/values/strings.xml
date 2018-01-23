@@ -43,12 +43,14 @@
 	<string name="dialog_leave_are_you_sure_detail">Po wyjściu nie będziesz mógł kontynuować gry</string>
 	<string name="dialog_leave_are_you_sure_detail_game_end">Po wyjściu gra zostanie zakończona ze względu na zbyt małą liczbę graczy</string>
 	
-	<string name="action_change_username">Zmień</string>
+	<string name="snackbar_action_change_username">Zmień</string>
 	
 	<string name="item_game_main">Gra</string>
 	<string name="item_game_acts">Ustawy</string>
 	<string name="item_game_players">Gracze</string>
 	<string name="item_game_chat">Czat</string>
+	
+	<string name="action_role_assigned">Zostałeś %s</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
@@ -56,8 +58,16 @@
 	<string name="default_nick">Gracz</string>
 	<string name="default_server_address">192.168.0.15</string>
 	
+	<string name="role_minister">Minister</string>
+	<string name="role_collaborator">Tajny współpracownik</string>
+	<string name="role_bolek">Bolek</string>
+	<string name="role_minister_instr">ministrem</string>
+	<string name="role_collaborator_instr">tajnym współpracownikiem</string>
+	<string name="role_bolek_instr">Bolkiem</string>
+	
 	<string name="unknown">Nieznany</string>
 	<string name="ok">OK</string>
 	<string name="leave">Wyjdź</string>
 	<string name="remain">Zostań</string>
+	<string name="all_players">Wszyscy gracze</string>
 </resources>

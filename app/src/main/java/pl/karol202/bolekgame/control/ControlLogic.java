@@ -17,7 +17,7 @@ class ControlLogic extends Logic<ActivityMain>
 	
 	ControlLogic()
 	{
-		client = new Client();
+		super(new Client());
 	}
 	
 	void connect(String host)

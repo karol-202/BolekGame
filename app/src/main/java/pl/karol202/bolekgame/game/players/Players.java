@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.game;
+package pl.karol202.bolekgame.game.players;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Players
 	
 	private List<OnPlayersUpdateListener> playersUpdateListeners;
 	
-	Players(LocalPlayer localPlayer)
+	public Players(LocalPlayer localPlayer)
 	{
 		this.players = new ArrayList<>();
 		this.localPlayer = localPlayer;
@@ -41,7 +41,7 @@ public class Players
 		for(OnPlayersUpdateListener listener : playersUpdateListeners) listener.onPlayerRemove(playerIndex, player);
 	}
 	
-	void updatePlayersList(List<String> names)
+	public void updatePlayersList(List<String> names)
 	{
 		List<Player> playersToAdd = new ArrayList<>();
 		List<Player> playersToRemove = new ArrayList<>();
@@ -59,7 +59,7 @@ public class Players
 		for(Player player : playersToRemove) removePlayer(player);
 	}
 	
-	public Player getPlayer(int position)
+	Player getPlayer(int position)
 	{
 		return players.get(position);
 	}
@@ -69,7 +69,12 @@ public class Players
 		return players.size();
 	}
 	
-	String getLocalPlayerName()
+	public List<Player> getPlayers()
+	{
+		return players;
+	}
+	
+	public String getLocalPlayerName()
 	{
 		return localPlayer.getName();
 	}
@@ -79,7 +84,7 @@ public class Players
 		playersUpdateListeners.add(listener);
 	}
 	
-	public void removeOnPlayersUpdateListener(OnPlayersUpdateListener listener)
+	void removeOnPlayersUpdateListener(OnPlayersUpdateListener listener)
 	{
 		playersUpdateListeners.remove(listener);
 	}

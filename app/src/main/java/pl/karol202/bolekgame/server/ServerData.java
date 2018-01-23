@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame.server;
 
 import pl.karol202.bolekgame.client.Client;
 
@@ -17,7 +17,7 @@ public class ServerData
 		this.serverCode = serverCode;
 	}
 	
-	public static ServerData getServerData()
+	static ServerData getServerData()
 	{
 		ServerData serverData = ServerData.serverData;
 		setServerData(null);
@@ -34,12 +34,12 @@ public class ServerData
 		return client;
 	}
 	
-	public String getServerName()
+	String getServerName()
 	{
 		return serverName;
 	}
 	
-	public int getServerCode()
+	int getServerCode()
 	{
 		return serverCode;
 	}

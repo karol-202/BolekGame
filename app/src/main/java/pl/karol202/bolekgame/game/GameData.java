@@ -1,6 +1,8 @@
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame.game;
 
 import pl.karol202.bolekgame.client.Client;
+import pl.karol202.bolekgame.server.ServerData;
+import pl.karol202.bolekgame.utils.TextChat;
 
 public class GameData extends ServerData
 {
@@ -14,7 +16,7 @@ public class GameData extends ServerData
 		this.textChat = textChat;
 	}
 	
-	public static GameData getGameData()
+	static GameData getGameData()
 	{
 		GameData gameData = GameData.gameData;
 		setGameData(null);
@@ -26,7 +28,7 @@ public class GameData extends ServerData
 		GameData.gameData = gameData;
 	}
 	
-	public TextChat getTextChat()
+	TextChat getTextChat()
 	{
 		return textChat;
 	}

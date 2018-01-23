@@ -2,7 +2,7 @@ package pl.karol202.bolekgame.client.inputpacket;
 
 import pl.karol202.bolekgame.client.ClientListener;
 import pl.karol202.bolekgame.client.DataBundle;
-import pl.karol202.bolekgame.game.WinCause;
+import pl.karol202.bolekgame.game.gameplay.WinCause;
 
 public class InputPacketWin implements InputPacket
 {

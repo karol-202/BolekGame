@@ -10,14 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 import pl.karol202.bolekgame.R;
-import pl.karol202.bolekgame.game.screen.acts.ScreenActs;
-import pl.karol202.bolekgame.game.screen.chat.ScreenChat;
-import pl.karol202.bolekgame.game.screen.main.ScreenMain;
-import pl.karol202.bolekgame.game.screen.players.ScreenPlayers;
+import pl.karol202.bolekgame.game.acts.ScreenActs;
+import pl.karol202.bolekgame.game.chat.ScreenChat;
+import pl.karol202.bolekgame.game.main.ScreenMain;
+import pl.karol202.bolekgame.game.players.Player;
+import pl.karol202.bolekgame.game.players.ScreenPlayers;
 import pl.karol202.bolekgame.settings.Settings;
 import pl.karol202.bolekgame.utils.BottomNavigationBarHelper;
 import pl.karol202.bolekgame.utils.FragmentRetain;
-import pl.karol202.bolekgame.utils.GameData;
 
 public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 {

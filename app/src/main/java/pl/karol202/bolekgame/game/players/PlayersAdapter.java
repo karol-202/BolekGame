@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.game.screen.players;
+package pl.karol202.bolekgame.game.players;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
-import pl.karol202.bolekgame.game.Player;
-import pl.karol202.bolekgame.game.Players;
 
 class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 {

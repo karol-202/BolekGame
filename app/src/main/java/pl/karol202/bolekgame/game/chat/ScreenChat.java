@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.game.screen.chat;
+package pl.karol202.bolekgame.game.chat;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
-import pl.karol202.bolekgame.game.screen.Screen;
+import pl.karol202.bolekgame.game.Screen;
 
 public class ScreenChat extends Screen
 {

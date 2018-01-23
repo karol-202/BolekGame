@@ -1,8 +1,8 @@
 package pl.karol202.bolekgame.client;
 
-import pl.karol202.bolekgame.game.Act;
-import pl.karol202.bolekgame.game.Role;
-import pl.karol202.bolekgame.game.WinCause;
+import pl.karol202.bolekgame.game.gameplay.Act;
+import pl.karol202.bolekgame.game.gameplay.Role;
+import pl.karol202.bolekgame.game.gameplay.WinCause;
 
 import java.util.List;
 

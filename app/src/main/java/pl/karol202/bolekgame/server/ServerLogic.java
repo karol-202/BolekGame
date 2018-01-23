@@ -5,7 +5,7 @@ import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogout;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
-import pl.karol202.bolekgame.utils.GameData;
+import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
 
@@ -22,7 +22,7 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 	
 	ServerLogic(Client client, String serverName, int serverCode, String localUserName)
 	{
-		this.client = client;
+		super(client);
 		
 		this.serverName = serverName;
 		this.serverCode = serverCode;
