@@ -6,12 +6,16 @@ import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketExitGame;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketSetPrimeMinister;
 import pl.karol202.bolekgame.game.gameplay.Act;
+import pl.karol202.bolekgame.game.gameplay.Position;
 import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.gameplay.WinCause;
-import pl.karol202.bolekgame.game.main.ActionCollaboratorsRevealment;
 import pl.karol202.bolekgame.game.main.ActionManager;
-import pl.karol202.bolekgame.game.main.ActionRoleAssigned;
+import pl.karol202.bolekgame.game.main.actions.ActionChoosePrimeMinister;
+import pl.karol202.bolekgame.game.main.actions.ActionCollaboratorsRevealment;
+import pl.karol202.bolekgame.game.main.actions.ActionPresidentAssigned;
+import pl.karol202.bolekgame.game.main.actions.ActionRoleAssigned;
 import pl.karol202.bolekgame.game.players.LocalPlayer;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.Players;
@@ -36,19 +40,26 @@ public class GameLogic extends Logic<ActivityGame>
 		players = new Players(new LocalPlayer(localPlayerName));
 		players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
 			@Override
-			public void onPlayerAdd()
-			{ }
+			public void onPlayerAdd() { }
 			
 			@Override
 			public void onPlayerRemove(int position, Player player)
 			{
 				onPlayerLeaved(player);
 			}
+			
+			@Override
+			public void onPlayerUpdate(int position) { }
 		});
 		
 		this.textChat = textChat;
 		
 		actionManager = new ActionManager();
+	}
+	
+	private void choosePrimeMinister(Player primeMinister)
+	{
+		sendPacket(new OutputPacketSetPrimeMinister(primeMinister.getName()));
 	}
 	
 	void exit()
@@ -71,7 +82,7 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	private void onPlayerLeaved(Player player)
 	{
-		runInUIThread(() -> activity.onPlayerLeaved(player));
+		activity.onPlayerLeaved(player);
 	}
 	
 	@Override
@@ -95,7 +106,7 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onPlayersUpdated(List<String> updatedPlayers)
 	{
-		players.updatePlayersList(updatedPlayers);
+		runInUIThread(() -> players.updatePlayersList(updatedPlayers));
 	}
 	
 	@Override
@@ -108,14 +119,19 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onRoleAssigned(Role role)
 	{
-		actionManager.addAction(new ActionRoleAssigned(activity, role));
+		runInUIThread(() -> {
+			actionManager.addAction(new ActionRoleAssigned(activity, role));
+			activity.onRoleAssigned(role);
+		});
 	}
 	
 	@Override
 	public void onCollaboratorsRevealment(List<String> collaborators, String bolek)
 	{
-		Map<Player, Role> playerRoles = createRolesMap(collaborators, bolek);
-		actionManager.addAction(new ActionCollaboratorsRevealment(activity, playerRoles));
+		runInUIThread(() -> {
+			Map<Player, Role> playerRoles = createRolesMap(collaborators, bolek);
+			actionManager.addAction(new ActionCollaboratorsRevealment(activity, playerRoles));
+		});
 	}
 	
 	private Map<Player, Role> createRolesMap(List<String> collaboratorsNames, String bolekName)
@@ -136,13 +152,21 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onPresidentAssignment(String president)
 	{
-	
+		runInUIThread(() -> {
+			boolean amIPresident = president.equals(players.getLocalPlayerName());
+			if(amIPresident) actionManager.addAction(new ActionPresidentAssigned(activity));
+			else actionManager.addAction(new ActionPresidentAssigned(activity, president));
+			players.setPlayerPositionAndResetRest(president, Position.PRESIDENT);
+		});
 	}
 	
 	@Override
-	public void onChoosePrimeMinisterRequest(List<String> candidates)
+	public void onChoosePrimeMinisterRequest(List<String> candidatesNames)
 	{
-	
+		runInUIThread(() -> {
+			List<Player> candidates = StreamSupport.stream(candidatesNames).map(players::findPlayer).collect(Collectors.toList());
+			actionManager.addAction(new ActionChoosePrimeMinister(activity, this::choosePrimeMinister, candidates));
+		});
 	}
 	
 	@Override

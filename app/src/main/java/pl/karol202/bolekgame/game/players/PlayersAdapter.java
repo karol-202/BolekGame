@@ -7,22 +7,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.game.gameplay.Position;
 
 class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 {
 	class ViewHolder extends RecyclerView.ViewHolder
 	{
-		private TextView textPlayerName;
+		private TextView textName;
+		private View panelPosition;
+		private TextView textPosition;
 		
 		ViewHolder(View view)
 		{
 			super(view);
-			textPlayerName = view.findViewById(R.id.text_player_name);
+			textName = view.findViewById(R.id.text_player_name);
+			panelPosition = view.findViewById(R.id.panel_player_position);
+			textPosition = view.findViewById(R.id.text_player_position);
 		}
 		
 		void bind(Player player)
 		{
-			textPlayerName.setText(player.getName());
+			textName.setText(player.getName());
+			panelPosition.setVisibility(player.getPosition() != Position.NONE ? View.VISIBLE : View.GONE);
+			textPosition.setText(player.getPosition().getName());
 		}
 	}
 	
@@ -61,6 +68,11 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 	void onPlayerRemove(int position)
 	{
 		notifyItemRemoved(position);
+	}
+	
+	void onPlayerUpdate(int position)
+	{
+		notifyItemChanged(position);
 	}
 	
 	public void setPlayers(Players players)

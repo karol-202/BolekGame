@@ -5,6 +5,7 @@
 		<item name="colorAccent">@color/colorAccent</item>
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
+		<item name="selectableItemBackground">@drawable/button</item>
 		
 		<item name="android:buttonStyle">@style/Button</item>
 		<item name="buttonStyle">@style/Button</item>

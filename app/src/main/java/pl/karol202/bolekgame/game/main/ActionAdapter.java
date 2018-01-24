@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java8.util.function.Function;
+import pl.karol202.bolekgame.game.main.actions.Action;
+import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;

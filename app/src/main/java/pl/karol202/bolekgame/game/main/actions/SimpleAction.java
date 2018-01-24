@@ -1,10 +1,12 @@
-package pl.karol202.bolekgame.game.main;
+package pl.karol202.bolekgame.game.main.actions;
 
 import android.view.View;
 import java8.util.function.Function;
 import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
+import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderSimple;
 
-public abstract class ActionSimple implements Action
+public abstract class SimpleAction implements Action
 {
 	@Override
 	public final int getViewHolderLayout()
@@ -24,5 +26,5 @@ public abstract class ActionSimple implements Action
 		return ActionViewHolderSimple::new;
 	}
 	
-	abstract String getText();
+	public abstract String getText();
 }

@@ -54,7 +54,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private void bindNewUser(User user)
 		{
 			this.user = user;
-			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_user_ready : R.drawable.background_item_user);
+			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_checked : R.drawable.background_item);
 			textUserName.setText(user.getName());
 			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE : View.GONE);
 		}
@@ -62,7 +62,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private void update()
 		{
 			TransitionManager.beginDelayedTransition(view);
-			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_user_ready : R.drawable.background_item_user);
+			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_checked : R.drawable.background_item);
 			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE: View.GONE);
 		}
 		

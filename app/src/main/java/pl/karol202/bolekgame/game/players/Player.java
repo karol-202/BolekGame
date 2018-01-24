@@ -1,8 +1,11 @@
 package pl.karol202.bolekgame.game.players;
 
+import pl.karol202.bolekgame.game.gameplay.Position;
+
 public abstract class Player
 {
 	private String name;
+	private Position position;
 	
 	Player(String name)
 	{
@@ -12,5 +15,15 @@ public abstract class Player
 	public String getName()
 	{
 		return name;
+	}
+	
+	Position getPosition()
+	{
+		return position;
+	}
+	
+	void setPosition(Position position)
+	{
+		this.position = position;
 	}
 }

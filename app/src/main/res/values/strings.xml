@@ -51,6 +51,9 @@
 	<string name="item_game_chat">Czat</string>
 	
 	<string name="action_role_assigned">Zostałeś %s</string>
+	<string name="action_president_assigned">%s został prezydentem</string>
+	<string name="action_president_assigned_you">Zostałeś prezydentem</string>
+	<string name="action_choose_prime_minister">Wybierz premiera</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
@@ -64,6 +67,10 @@
 	<string name="role_minister_instr">ministrem</string>
 	<string name="role_collaborator_instr">tajnym współpracownikiem</string>
 	<string name="role_bolek_instr">Bolkiem</string>
+	
+	<string name="position_none" />
+	<string name="position_president">Prezydent</string>
+	<string name="position_prime_minister">Premier</string>
 	
 	<string name="unknown">Nieznany</string>
 	<string name="ok">OK</string>

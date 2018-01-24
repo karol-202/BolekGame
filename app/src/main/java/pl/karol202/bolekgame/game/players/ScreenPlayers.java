@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.Screen;
 import pl.karol202.bolekgame.utils.ItemDivider;
-import pl.karol202.bolekgame.utils.Utils;
 
 public class ScreenPlayers extends Screen
 {
@@ -20,14 +19,21 @@ public class ScreenPlayers extends Screen
 		public void onPlayerAdd()
 		{
 			if(playersAdapter == null) return;
-			Utils.runInUIThread(() -> playersAdapter.onPlayerAdd());
+			playersAdapter.onPlayerAdd();
 		}
 		
 		@Override
 		public void onPlayerRemove(int position, Player player)
 		{
 			if(playersAdapter == null) return;
-			Utils.runInUIThread(() -> playersAdapter.onPlayerRemove(position));
+			playersAdapter.onPlayerRemove(position);
+		}
+		
+		@Override
+		public void onPlayerUpdate(int position)
+		{
+			if(playersAdapter == null) return;
+			playersAdapter.onPlayerUpdate(position);
 		}
 	}
 	

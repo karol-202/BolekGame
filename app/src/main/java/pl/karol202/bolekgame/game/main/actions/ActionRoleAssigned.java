@@ -1,10 +1,10 @@
-package pl.karol202.bolekgame.game.main;
+package pl.karol202.bolekgame.game.main.actions;
 
 import android.content.Context;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.gameplay.Role;
 
-public class ActionRoleAssigned extends ActionSimple
+public class ActionRoleAssigned extends SimpleAction
 {
 	private String text;
 	
@@ -14,7 +14,7 @@ public class ActionRoleAssigned extends ActionSimple
 	}
 	
 	@Override
-	String getText()
+	public String getText()
 	{
 		return text;
 	}

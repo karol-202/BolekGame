@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.acts.ScreenActs;
 import pl.karol202.bolekgame.game.chat.ScreenChat;
+import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.main.ScreenMain;
+import pl.karol202.bolekgame.game.main.dialog.Dialog;
+import pl.karol202.bolekgame.game.main.dialog.DialogManager;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.ScreenPlayers;
 import pl.karol202.bolekgame.settings.Settings;
@@ -27,8 +29,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	private BottomNavigationView bottomBar;
 	
 	private GameScreenAdapter gameScreenAdapter;
-	private boolean playerLeaveDialog;
-	private boolean tooFewPlayersDialogWaiting;
+	private DialogManager dialogManager;
 	
 	private FragmentRetain<GameLogic> fragmentRetain;
 	private GameLogic gameLogic;
@@ -42,6 +43,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		restoreRetainFragment();
 		
 		gameScreenAdapter = new GameScreenAdapter(getFragmentManager());
+		dialogManager = new DialogManager(this);
 		
 		viewPager = findViewById(R.id.viewPager_game);
 		viewPager.setAdapter(gameScreenAdapter);
@@ -119,13 +121,13 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	@Override
 	public void onBackPressed()
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.dialog_leave_are_you_sure);
-		builder.setMessage(gameLogic.willGameBeEndedAfterMyLeave() ? R.string.dialog_leave_are_you_sure_detail_game_end :
-																	 R.string.dialog_leave_are_you_sure_detail);
-		builder.setPositiveButton(R.string.leave, (d, w) -> leaveGame());
-		builder.setNegativeButton(R.string.remain, null);
-		builder.show();
+		Dialog dialog = new Dialog(dialogManager);
+		dialog.setTitle(R.string.dialog_leave_are_you_sure);
+		dialog.setMessage(gameLogic.willGameBeEndedAfterMyLeave() ? R.string.dialog_leave_are_you_sure_detail_game_end :
+																	R.string.dialog_leave_are_you_sure_detail);
+		dialog.setPositiveButton(R.string.leave, (d, w) -> leaveGame());
+		dialog.setNegativeButton(R.string.remain, null);
+		dialog.commit();
 	}
 	
 	private void leaveGame()
@@ -136,12 +138,12 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	
 	void onDisconnect()
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.dialog_disconnection);
-		builder.setMessage(R.string.dialog_disconnection_detail);
-		builder.setPositiveButton(R.string.ok, (d, w) -> finish());
-		builder.setCancelable(false);
-		builder.show();
+		Dialog dialog = new Dialog(dialogManager);
+		dialog.setTitle(R.string.dialog_disconnection);
+		dialog.setMessage(R.string.dialog_disconnection_detail);
+		dialog.setPositiveButton(R.string.ok, (d, w) -> finish());
+		dialog.setCancelable(false);
+		dialog.commit();
 	}
 	
 	void onError()
@@ -151,14 +153,10 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	
 	void onPlayerLeaved(Player player)
 	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getString(R.string.dialog_player_leaved, player.getName()));
-		builder.setPositiveButton(R.string.ok, (d, w) -> {
-			playerLeaveDialog = false;
-			if(tooFewPlayersDialogWaiting) onTooFewPlayers();
-		});
-		builder.show();
-		playerLeaveDialog = true;
+		Dialog dialog = new Dialog(dialogManager);
+		dialog.setTitle(getString(R.string.dialog_player_leaved, player.getName()));
+		dialog.setPositiveButton(R.string.ok, null);
+		dialog.commit();
 	}
 	
 	void onTextChatUpdate()
@@ -168,21 +166,22 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		screenChat.onChatUpdate();
 	}
 	
+	void onRoleAssigned(Role role)
+	{
+		Dialog dialog = new Dialog(dialogManager);
+		dialog.setTitle(getString(R.string.action_role_assigned, getString(role.getNameInstr())));
+		dialog.setPositiveButton(R.string.ok, null);
+		dialog.commit();
+	}
+	
 	void onTooFewPlayers()
 	{
-		if(playerLeaveDialog)
-		{
-			tooFewPlayersDialogWaiting = true;
-			return;
-		}
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.dialog_too_few_players);
-		builder.setMessage(R.string.dialog_too_few_players_detail);
-		builder.setPositiveButton(R.string.ok, (d, w) -> finish());
-		builder.setCancelable(false);
-		builder.show();
-		tooFewPlayersDialogWaiting = false;
+		Dialog dialog = new Dialog(dialogManager);
+		dialog.setTitle(R.string.dialog_too_few_players);
+		dialog.setMessage(R.string.dialog_too_few_players_detail);
+		dialog.setPositiveButton(R.string.ok, (d, w) -> finish());
+		dialog.setCancelable(false);
+		dialog.commit();
 	}
 	
 	void onGameExit()

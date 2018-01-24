@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.game.main;
+package pl.karol202.bolekgame.game.main.viewholders;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

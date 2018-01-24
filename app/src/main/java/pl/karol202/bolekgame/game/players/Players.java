@@ -1,5 +1,7 @@
 package pl.karol202.bolekgame.game.players;
 
+import pl.karol202.bolekgame.game.gameplay.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,8 @@ public class Players
 		void onPlayerAdd();
 		
 		void onPlayerRemove(int position, Player player);
+		
+		void onPlayerUpdate(int position);
 	}
 	
 	private List<Player> players;
@@ -57,6 +61,31 @@ public class Players
 		
 		for(Player player : playersToAdd) addPlayer(player);
 		for(Player player : playersToRemove) removePlayer(player);
+	}
+	
+	public void setPlayerPositionAndResetRest(String playerName, Position position)
+	{
+		if(position == Position.NONE) return;
+		for(Player player : players)
+		{
+			if(player.getName().equals(playerName)) setPlayerPosition(player, position);
+			else setPlayerPosition(player, Position.NONE);
+		}
+	}
+	
+	private void setPlayerPosition(Player player, Position position)
+	{
+		if(player.getPosition() == position) return;
+		player.setPosition(position);
+		int playerIndex = players.indexOf(player);
+		for(OnPlayersUpdateListener listener : playersUpdateListeners) listener.onPlayerUpdate(playerIndex);
+	}
+	
+	public Player findPlayer(String name)
+	{
+		for(Player player : players)
+			if(player.getName().equals(name)) return player;
+		return null;
 	}
 	
 	Player getPlayer(int position)
