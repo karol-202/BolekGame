@@ -12,10 +12,7 @@ import pl.karol202.bolekgame.game.gameplay.Position;
 import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.gameplay.WinCause;
 import pl.karol202.bolekgame.game.main.ActionManager;
-import pl.karol202.bolekgame.game.main.actions.ActionChoosePrimeMinister;
-import pl.karol202.bolekgame.game.main.actions.ActionCollaboratorsRevealment;
-import pl.karol202.bolekgame.game.main.actions.ActionPresidentAssigned;
-import pl.karol202.bolekgame.game.main.actions.ActionRoleAssigned;
+import pl.karol202.bolekgame.game.main.actions.*;
 import pl.karol202.bolekgame.game.players.LocalPlayer;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.Players;
@@ -154,8 +151,7 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			boolean amIPresident = president.equals(players.getLocalPlayerName());
-			if(amIPresident) actionManager.addAction(new ActionPresidentAssigned(activity));
-			else actionManager.addAction(new ActionPresidentAssigned(activity, president));
+			actionManager.addAction(new ActionPresidentAssigned(activity, president, amIPresident));
 			players.setPlayerPositionAndResetRest(president, Position.PRESIDENT);
 		});
 	}
@@ -172,7 +168,12 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onPrimeMinisterChoose(String primeMinister)
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			boolean amIPresident = president.equals(players.getLocalPlayerName());
+			boolean amIPrimeMinister = primeMinister.equals(players.getLocalPlayerName());
+			actionManager.addAction(new ActionPrimeMinisterChosen(activity, president, primeMinister, amIPresident, amIPrimeMinister));
+		});
 	}
 	
 	@Override

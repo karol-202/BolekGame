@@ -17,7 +17,7 @@ enum InputPacketType
 	STACKREFILLED(InputPacketStackRefilled::new),
 	PRESIDENTASSIGNED(InputPacketPresidentAssigned::new),
 	CHOOSEPRIMEMINISTER(InputPacketChoosePrimeMinister::new),
-	PRIMEMINISTERCHOSEN(InputPacketPrimeMinisterChoosen::new),
+	PRIMEMINISTERCHOSEN(InputPacketPrimeMinisterChosen::new),
 	VOTEONPRIMEMINISTER(InputPacketVoteOnPrimeMinister::new),
 	VOTINGRESULT(InputPacketVotingResult::new),
 	PRIMEMINISTERASSIGNED(InputPacketPrimeMinisterAssigned::new),

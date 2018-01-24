@@ -54,6 +54,9 @@
 	<string name="action_president_assigned">%s został prezydentem</string>
 	<string name="action_president_assigned_you">Zostałeś prezydentem</string>
 	<string name="action_choose_prime_minister">Wybierz premiera</string>
+	<string name="action_prime_minister_chosen">%s został wybrany na premiera przez %s</string>
+	<string name="action_prime_minister_chosen_you">%s wybrał cię na premiera</string>
+	<string name="action_prime_minister_chosen_by_you">Wybrałeś %s na premiera</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>

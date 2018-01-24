@@ -63,6 +63,14 @@ public class Players
 		for(Player player : playersToRemove) removePlayer(player);
 	}
 	
+	public Player getPlayerAtPosition(Position position)
+	{
+		if(position == Position.NONE) return null;
+		for(Player player : players)
+			if(player.getPosition() == position) return player;
+		return null;
+	}
+	
 	public void setPlayerPositionAndResetRest(String playerName, Position position)
 	{
 		if(position == Position.NONE) return;

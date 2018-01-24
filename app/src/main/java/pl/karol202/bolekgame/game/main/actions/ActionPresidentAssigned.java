@@ -7,14 +7,10 @@ public class ActionPresidentAssigned extends SimpleAction
 {
 	private String text;
 	
-	public ActionPresidentAssigned(Context context)
+	public ActionPresidentAssigned(Context context, String president, boolean amIPresident)
 	{
-		text = context.getString(R.string.action_president_assigned_you);
-	}
-	
-	public ActionPresidentAssigned(Context context, String president)
-	{
-		text = context.getString(R.string.action_president_assigned, president);
+		if(amIPresident) text = context.getString(R.string.action_president_assigned_you);
+		else text = context.getString(R.string.action_president_assigned, president);
 	}
 	
 	@Override
