@@ -16,7 +16,13 @@
 	<color name="button">#FFFFFF</color>
 	<color name="button_pressed">#BEBEBE</color>
 	<color name="button_accent">#F44336</color>
-	<color name="button_accent_pressed">#cc372d</color>
+	<color name="button_accent_pressed">#CC372D</color>
+	<color name="button_vote_yes">#50DA31</color>
+	<color name="button_vote_yes_pressed">#41b327</color>
+	<color name="button_vote_yes_disabled">#7dce6b</color>
+	<color name="button_vote_no">#F44336</color>
+	<color name="button_vote_no_pressed">#CC372D</color>
+	<color name="button_vote_no_disabled">#f17d74</color>
 	
 	<color name="text_server">#4D88D4</color>
 	<color name="text_primary">#D6000000</color>
@@ -24,4 +30,8 @@
 	
 	<color name="icon_default">#8A000000</color>
 	<color name="icon_disabled">#61000000</color>
+	
+	<color name="votes_bar_border">#B0000000</color>
+	<color name="votes_bar_yes">#50DA31</color>
+	<color name="votes_bar_no">#F44336</color>
 </resources>

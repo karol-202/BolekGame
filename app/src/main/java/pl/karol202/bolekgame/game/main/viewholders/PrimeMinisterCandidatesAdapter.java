@@ -84,8 +84,9 @@ public class PrimeMinisterCandidatesAdapter extends RecyclerView.Adapter<PrimeMi
 	
 	public void setAction(ActionChoosePrimeMinister action)
 	{
-		if(this.action == action) updateAction();
-		else setNewAction(action);
+		//if(this.action == action) updateAction();
+		//else setNewAction(action);
+		setNewAction(action);
 	}
 	
 	private void setNewAction(ActionChoosePrimeMinister action)
@@ -99,6 +100,12 @@ public class PrimeMinisterCandidatesAdapter extends RecyclerView.Adapter<PrimeMi
 	
 	private void updateAction()
 	{
+		updateChoosenCandidate();
+	}
+	
+	private void updateChoosenCandidate()
+	{
+		if(choosenCandidate == action.getChoosenCandidate()) return;
 		choosenCandidate = action.getChoosenCandidate();
 		notifyItemChanged(candidates.indexOf(choosenCandidate));
 	}

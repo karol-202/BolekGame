@@ -1,7 +1,7 @@
 package pl.karol202.bolekgame.game.main.dialog;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 
 public class Dialog
 {
@@ -12,7 +12,8 @@ public class Dialog
 	public Dialog(DialogManager dialogManager)
 	{
 		this.dialogManager = dialogManager;
-		this.builder = new AlertDialog.Builder(dialogManager.getContext());
+		builder = new AlertDialog.Builder(dialogManager.getContext());
+		builder.setOnDismissListener(d -> dialogManager.onDialogDismiss(this));
 	}
 	
 	public void setTitle(String title)
@@ -37,23 +38,17 @@ public class Dialog
 	
 	public void setPositiveButton(int text, DialogInterface.OnClickListener listener)
 	{
-		builder.setPositiveButton(text, (d, w) -> {
-			if(listener != null) listener.onClick(d, w);
-			dialogManager.onDialogDismiss(this);
-		});
+		builder.setPositiveButton(text, listener);
 	}
 	
-	public void setNegativeButton(int text, DialogInterface.OnClickListener listener)
+	public void setNegativeButton(int text)
 	{
-		builder.setNegativeButton(text, (d, w) -> {
-			if(listener != null) listener.onClick(d, w);
-			dialogManager.onDialogDismiss(this);
-		});
+		builder.setNegativeButton(text, null);
 	}
 	
-	public void setCancelable(boolean cancelable)
+	public void setUncancelable()
 	{
-		builder.setCancelable(cancelable);
+		builder.setCancelable(false);
 	}
 	
 	public void commit()

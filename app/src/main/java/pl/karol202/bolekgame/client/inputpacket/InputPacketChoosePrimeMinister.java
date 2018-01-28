@@ -8,6 +8,7 @@ import java.util.List;
 
 public class InputPacketChoosePrimeMinister implements InputPacket
 {
+	private boolean update;
 	private List<String> candidates;
 	
 	InputPacketChoosePrimeMinister()
@@ -18,6 +19,7 @@ public class InputPacketChoosePrimeMinister implements InputPacket
 	@Override
 	public void readData(DataBundle bundle)
 	{
+		update = bundle.getBoolean("update", false);
 		int length = bundle.getInt("candidates", 0);
 		for(int i = 0; i < length; i++) candidates.add(bundle.getString("candidate" + i, ""));
 	}
@@ -25,6 +27,6 @@ public class InputPacketChoosePrimeMinister implements InputPacket
 	@Override
 	public void execute(ClientListener listener)
 	{
-		listener.onChoosePrimeMinisterRequest(candidates);
+		listener.onChoosePrimeMinisterRequest(update, candidates);
 	}
 }

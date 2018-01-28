@@ -79,29 +79,29 @@ class ControlLogic extends Logic<ActivityMain>
 	private void onServerCreatingFailure(int problem)
 	{
 		if(problem == InputPacketFailure.PROBLEM_SERVER_INVALID_NAME)
-			runInUIThread(() -> activity.onInvalidServerNameError());
+			runInUIThread(activity::onInvalidServerNameError);
 		else if(problem == InputPacketFailure.PROBLEM_SERVER_TOO_MANY)
-			runInUIThread(() -> activity.onTooManyServersError());
+			runInUIThread(activity::onTooManyServersError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_INVALID_NAME)
-			runInUIThread(() -> activity.onInvalidUsernameError());
+			runInUIThread(activity::onInvalidUsernameError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_TOO_MANY)
-			runInUIThread(() -> activity.onTooManyUsersError());
+			runInUIThread(activity::onTooManyUsersError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_NAME_BUSY)
-			runInUIThread(() -> activity.onUsernameBusyError());
-		else runInUIThread(() -> activity.onCannotCreateServer());
+			runInUIThread(activity::onUsernameBusyError);
+		else runInUIThread(activity::onCannotCreateServer);
 	}
 	
 	private void onLoggingFailure(int problem)
 	{
 		if(problem == InputPacketFailure.PROBLEM_SERVER_CODE_INVALID)
-			runInUIThread(() -> activity.onInvalidServerCode());
+			runInUIThread(activity::onInvalidServerCode);
 		else if(problem == InputPacketFailure.PROBLEM_USER_INVALID_NAME)
-			runInUIThread(() -> activity.onInvalidUsernameError());
+			runInUIThread(activity::onInvalidUsernameError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_TOO_MANY)
-			runInUIThread(() -> activity.onTooManyUsersError());
+			runInUIThread(activity::onTooManyUsersError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_NAME_BUSY)
-			runInUIThread(() -> activity.onUsernameBusyError());
-		else runInUIThread(() -> activity.onCannotLogIn());
+			runInUIThread(activity::onUsernameBusyError);
+		else runInUIThread(activity::onCannotLogIn);
 	}
 	
 	@Override

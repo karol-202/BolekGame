@@ -1,10 +1,10 @@
 package pl.karol202.bolekgame.game.main.actions;
 
-import android.content.Context;
 import android.view.View;
 import java8.util.function.Function;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.gameplay.Role;
+import pl.karol202.bolekgame.game.main.ContextSupplier;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderCollaboratorsRevealment;
 import pl.karol202.bolekgame.game.players.Player;
@@ -13,12 +13,12 @@ import java.util.Map;
 
 public class ActionCollaboratorsRevealment implements Action
 {
-	private Context context;
+	private ContextSupplier contextSupplier;
 	private Map<Player, Role> playerRoles;
 	
-	public ActionCollaboratorsRevealment(Context context, Map<Player, Role> playerRoles)
+	public ActionCollaboratorsRevealment(ContextSupplier contextSupplier, Map<Player, Role> playerRoles)
 	{
-		this.context = context;
+		this.contextSupplier = contextSupplier;
 		this.playerRoles = playerRoles;
 	}
 	
@@ -37,7 +37,7 @@ public class ActionCollaboratorsRevealment implements Action
 	@Override
 	public Function<View, ? extends ActionViewHolder> getViewHolderCreator()
 	{
-		return v -> new ActionViewHolderCollaboratorsRevealment(v, context);
+		return v -> new ActionViewHolderCollaboratorsRevealment(v, contextSupplier.getContext());
 	}
 	
 	public Map<Player, Role> getPlayerRoles()

@@ -1,16 +1,17 @@
 package pl.karol202.bolekgame.game.main.actions;
 
-import android.content.Context;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.gameplay.Role;
+import pl.karol202.bolekgame.game.main.ContextSupplier;
 
 public class ActionRoleAssigned extends SimpleAction
 {
 	private String text;
 	
-	public ActionRoleAssigned(Context context, Role role)
+	public ActionRoleAssigned(ContextSupplier contextSupplier, Role role)
 	{
-		text = context.getString(R.string.action_role_assigned, context.getString(role.getNameInstr()));
+		String roleInstr = contextSupplier.getString(role.getNameInstr());
+		text = contextSupplier.getString(R.string.action_role_assigned, roleInstr);
 	}
 	
 	@Override

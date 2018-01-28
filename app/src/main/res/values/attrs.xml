@@ -4,4 +4,17 @@
 		<attr name="animatedDrawable" format="integer"/>
 		<attr name="animatedDrawableReversed" format="integer"/>
 	</declare-styleable>
+	<declare-styleable name="VotesBar">
+		<attr name="borderSize" format="dimension"/>
+		<attr name="borderColor" format="color"/>
+		<attr name="votesYesColor" format="color"/>
+		<attr name="votesNoColor" format="color"/>
+		<attr name="allVotes" format="integer"/>
+		<attr name="upvotes" format="integer"/>
+		<attr name="votesText" format="string"/>
+		<attr name="votesTextAppearance" format="reference"/>
+		<attr name="votesTextColor" format="color"/>
+		<attr name="votesTextSize" format="dimension"/>
+	</declare-styleable>
+	<attr name="votesBarStyle" format="reference"/>
 </resources>

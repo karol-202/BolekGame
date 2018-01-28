@@ -1,10 +1,10 @@
 package pl.karol202.bolekgame.game.main.actions;
 
-import android.content.Context;
 import android.view.View;
 import java8.util.function.Function;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.main.ActionManager.ActionUpdateCallback;
+import pl.karol202.bolekgame.game.main.ContextSupplier;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderChoosePrimeMinister;
 import pl.karol202.bolekgame.game.players.Player;
@@ -18,16 +18,16 @@ public class ActionChoosePrimeMinister implements UpdatingAction
 		void onPrimeMinisterCandidateChoose(Player player);
 	}
 	
-	private Context context;
+	private ContextSupplier contextSupplier;
 	private OnPrimeMinisterCandidateChooseListener listener;
 	private ActionUpdateCallback updateCallback;
 	
 	private List<Player> candidates;
 	private Player choosenCandidate;
 	
-	public ActionChoosePrimeMinister(Context context, OnPrimeMinisterCandidateChooseListener listener, List<Player> candidates)
+	public ActionChoosePrimeMinister(ContextSupplier contextSupplier, OnPrimeMinisterCandidateChooseListener listener, List<Player> candidates)
 	{
-		this.context = context;
+		this.contextSupplier = contextSupplier;
 		this.listener = listener;
 		this.candidates = candidates;
 	}
@@ -47,7 +47,7 @@ public class ActionChoosePrimeMinister implements UpdatingAction
 	@Override
 	public Function<View, ? extends ActionViewHolder> getViewHolderCreator()
 	{
-		return v -> new ActionViewHolderChoosePrimeMinister(v, context);
+		return v -> new ActionViewHolderChoosePrimeMinister(v, contextSupplier.getContext());
 	}
 	
 	@Override
@@ -67,6 +67,12 @@ public class ActionChoosePrimeMinister implements UpdatingAction
 	public List<Player> getCandidates()
 	{
 		return candidates;
+	}
+	
+	public void setCandidates(List<Player> candidates)
+	{
+		this.candidates = candidates;
+		updateCallback.updateAction();
 	}
 	
 	public Player getChoosenCandidate()

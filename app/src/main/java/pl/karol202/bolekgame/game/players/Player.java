@@ -10,6 +10,7 @@ public abstract class Player
 	Player(String name)
 	{
 		this.name = name;
+		position = Position.NONE;
 	}
 	
 	public String getName()

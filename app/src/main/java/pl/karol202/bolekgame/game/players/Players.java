@@ -77,7 +77,7 @@ public class Players
 		for(Player player : players)
 		{
 			if(player.getName().equals(playerName)) setPlayerPosition(player, position);
-			else setPlayerPosition(player, Position.NONE);
+			else if(player.getPosition() == position) setPlayerPosition(player, Position.NONE);
 		}
 	}
 	

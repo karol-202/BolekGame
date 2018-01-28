@@ -34,7 +34,7 @@ public interface ClientListener
 	
 	void onPresidentAssignment(String president);
 	
-	void onChoosePrimeMinisterRequest(List<String> candidates);
+	void onChoosePrimeMinisterRequest(boolean update, List<String> candidates);
 	
 	void onPrimeMinisterChoose(String primeMinister);
 	
@@ -66,7 +66,7 @@ public interface ClientListener
 	
 	void onPresidentCheckingPlayer();
 	
-	void onCheckPlayerPresidentRequest(List<String> chechablePlayers);
+	void onCheckPlayerPresidentRequest(boolean update, List<String> chechablePlayers);
 	
 	void onPlayerCheckingResult(int result);
 	

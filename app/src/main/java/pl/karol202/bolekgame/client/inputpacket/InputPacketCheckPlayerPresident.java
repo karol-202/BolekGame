@@ -8,6 +8,7 @@ import java.util.List;
 
 public class InputPacketCheckPlayerPresident implements InputPacket
 {
+	private boolean update;
 	private List<String> checkablePlayers;
 	
 	InputPacketCheckPlayerPresident()
@@ -18,6 +19,7 @@ public class InputPacketCheckPlayerPresident implements InputPacket
 	@Override
 	public void readData(DataBundle bundle)
 	{
+		update = bundle.getBoolean("update", false);
 		int length = bundle.getInt("checkablePlayers", 0);
 		for(int i = 0; i < length; i++) checkablePlayers.add(bundle.getString("checkablePlayer" + i, ""));
 	}
@@ -25,6 +27,6 @@ public class InputPacketCheckPlayerPresident implements InputPacket
 	@Override
 	public void execute(ClientListener listener)
 	{
-		listener.onCheckPlayerPresidentRequest(checkablePlayers);
+		listener.onCheckPlayerPresidentRequest(update, checkablePlayers);
 	}
 }

@@ -3,15 +3,14 @@ package pl.karol202.bolekgame.game;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import pl.karol202.bolekgame.client.Client;
-import pl.karol202.bolekgame.client.outputpacket.OutputPacketExitGame;
-import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
-import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
-import pl.karol202.bolekgame.client.outputpacket.OutputPacketSetPrimeMinister;
+import pl.karol202.bolekgame.client.inputpacket.InputPacketFailure;
+import pl.karol202.bolekgame.client.outputpacket.*;
 import pl.karol202.bolekgame.game.gameplay.Act;
 import pl.karol202.bolekgame.game.gameplay.Position;
 import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.gameplay.WinCause;
 import pl.karol202.bolekgame.game.main.ActionManager;
+import pl.karol202.bolekgame.game.main.VotingResult;
 import pl.karol202.bolekgame.game.main.actions.*;
 import pl.karol202.bolekgame.game.players.LocalPlayer;
 import pl.karol202.bolekgame.game.players.Player;
@@ -28,7 +27,10 @@ public class GameLogic extends Logic<ActivityGame>
 	private Players players;
 	private TextChat textChat;
 	private ActionManager actionManager;
+	
 	private boolean ignoreGameExit;
+	private Player primeMinisterCandidate;
+	private ActionVoteOnPrimeMinister votingAction;
 	
 	GameLogic(Client client, TextChat textChat, String localPlayerName)
 	{
@@ -54,9 +56,22 @@ public class GameLogic extends Logic<ActivityGame>
 		actionManager = new ActionManager();
 	}
 	
+	@Override
+	protected void setActivity(ActivityGame activity)
+	{
+		super.setActivity(activity);
+		actionManager.setContext(activity);
+	}
+	
 	private void choosePrimeMinister(Player primeMinister)
 	{
 		sendPacket(new OutputPacketSetPrimeMinister(primeMinister.getName()));
+	}
+	
+	private void voteOnPrimeMinister(boolean vote)
+	{
+		sendPacket(new OutputPacketPrimeMinisterVote(vote));
+		votingAction.onVote(vote);
 	}
 	
 	void exit()
@@ -80,6 +95,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private void onPlayerLeaved(Player player)
 	{
 		activity.onPlayerLeaved(player);
+		actionManager.addAction(new ActionPlayerLeaved(actionManager, player.getName()));
 	}
 	
 	@Override
@@ -97,7 +113,8 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onFailure(int problem)
 	{
-		runInUIThread(activity::onError);
+		if(problem == InputPacketFailure.PROBLEM_INVALID_USER) runInUIThread(activity::onInvalidUserError);
+		else runInUIThread(activity::onError);
 	}
 	
 	@Override
@@ -117,7 +134,7 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onRoleAssigned(Role role)
 	{
 		runInUIThread(() -> {
-			actionManager.addAction(new ActionRoleAssigned(activity, role));
+			actionManager.addAction(new ActionRoleAssigned(actionManager, role));
 			activity.onRoleAssigned(role);
 		});
 	}
@@ -127,7 +144,7 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			Map<Player, Role> playerRoles = createRolesMap(collaborators, bolek);
-			actionManager.addAction(new ActionCollaboratorsRevealment(activity, playerRoles));
+			actionManager.addAction(new ActionCollaboratorsRevealment(actionManager, playerRoles));
 		});
 	}
 	
@@ -151,17 +168,19 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			boolean amIPresident = president.equals(players.getLocalPlayerName());
-			actionManager.addAction(new ActionPresidentAssigned(activity, president, amIPresident));
+			actionManager.addAction(new ActionPresidentAssigned(actionManager, president, amIPresident));
 			players.setPlayerPositionAndResetRest(president, Position.PRESIDENT);
 		});
 	}
 	
 	@Override
-	public void onChoosePrimeMinisterRequest(List<String> candidatesNames)
+	public void onChoosePrimeMinisterRequest(boolean update, List<String> candidatesNames)
 	{
 		runInUIThread(() -> {
 			List<Player> candidates = StreamSupport.stream(candidatesNames).map(players::findPlayer).collect(Collectors.toList());
-			actionManager.addAction(new ActionChoosePrimeMinister(activity, this::choosePrimeMinister, candidates));
+			if(update && actionManager.getLastAction() instanceof ActionChoosePrimeMinister)
+				((ActionChoosePrimeMinister) actionManager.getLastAction()).setCandidates(candidates);
+			else actionManager.addAction(new ActionChoosePrimeMinister(actionManager, this::choosePrimeMinister, candidates));
 		});
 	}
 	
@@ -169,29 +188,49 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onPrimeMinisterChoose(String primeMinister)
 	{
 		runInUIThread(() -> {
+			primeMinisterCandidate = players.findPlayer(primeMinister);
 			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
 			boolean amIPresident = president.equals(players.getLocalPlayerName());
 			boolean amIPrimeMinister = primeMinister.equals(players.getLocalPlayerName());
-			actionManager.addAction(new ActionPrimeMinisterChosen(activity, president, primeMinister, amIPresident, amIPrimeMinister));
+			actionManager.addAction(new ActionPrimeMinisterChosen(actionManager, president, primeMinister, amIPresident, amIPrimeMinister));
 		});
 	}
 	
 	@Override
 	public void onVoteOnPrimeMinisterRequest()
 	{
-	
+		runInUIThread(() -> {
+			if(primeMinisterCandidate == null) return;
+			votingAction = new ActionVoteOnPrimeMinister(actionManager, primeMinisterCandidate, this::voteOnPrimeMinister);
+			actionManager.addAction(votingAction);
+			primeMinisterCandidate = null;
+		});
 	}
 	
 	@Override
 	public void onVotingResult(int upvotes, int totalVotes, boolean passed, List<String> upvoters)
 	{
+		runInUIThread(() -> {
+			Map<Player, Boolean> voters = createVotersMap(upvoters);
+			VotingResult votingResult = new VotingResult(passed, upvotes, totalVotes, voters);
+			votingAction.onVotingEnd(votingResult);
+			votingAction = null;
+		});
+	}
 	
+	private Map<Player, Boolean> createVotersMap(List<String> upvoters)
+	{
+		return StreamSupport.stream(players.getPlayers()).collect(Collectors.toMap(p -> p, p -> upvoters.contains(p.getName())));
 	}
 	
 	@Override
 	public void onPrimeMinisterAssigment(String primeMinister)
 	{
-	
+		runInUIThread(() -> {
+			boolean amIPrimeMinister = primeMinister.equals(players.getLocalPlayerName());
+			actionManager.addAction(new ActionPrimeMinisterAssigned(actionManager, primeMinister, amIPrimeMinister));
+			players.setPlayerPositionAndResetRest(primeMinister, Position.PRIME_MINISTER);
+		});
 	}
 	
 	@Override
@@ -261,7 +300,7 @@ public class GameLogic extends Logic<ActivityGame>
 	}
 	
 	@Override
-	public void onCheckPlayerPresidentRequest(List<String> chechablePlayers)
+	public void onCheckPlayerPresidentRequest(boolean update, List<String> chechablePlayers)
 	{
 	
 	}

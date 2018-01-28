@@ -48,7 +48,7 @@ public class ClientListenerAdapter implements ClientListener
 	public void onPresidentAssignment(String president) { }
 	
 	@Override
-	public void onChoosePrimeMinisterRequest(List<String> candidates) { }
+	public void onChoosePrimeMinisterRequest(boolean update, List<String> candidates) { }
 	
 	@Override
 	public void onPrimeMinisterChoose(String primeMinister) { }
@@ -96,7 +96,7 @@ public class ClientListenerAdapter implements ClientListener
 	public void onPresidentCheckingPlayer() { }
 	
 	@Override
-	public void onCheckPlayerPresidentRequest(List<String> chechablePlayers) { }
+	public void onCheckPlayerPresidentRequest(boolean update, List<String> chechablePlayers) { }
 	
 	@Override
 	public void onPlayerCheckingResult(int result) { }

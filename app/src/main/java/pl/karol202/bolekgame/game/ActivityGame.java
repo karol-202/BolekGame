@@ -126,7 +126,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		dialog.setMessage(gameLogic.willGameBeEndedAfterMyLeave() ? R.string.dialog_leave_are_you_sure_detail_game_end :
 																	R.string.dialog_leave_are_you_sure_detail);
 		dialog.setPositiveButton(R.string.leave, (d, w) -> leaveGame());
-		dialog.setNegativeButton(R.string.remain, null);
+		dialog.setNegativeButton(R.string.remain);
 		dialog.commit();
 	}
 	
@@ -142,13 +142,18 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		dialog.setTitle(R.string.dialog_disconnection);
 		dialog.setMessage(R.string.dialog_disconnection_detail);
 		dialog.setPositiveButton(R.string.ok, (d, w) -> finish());
-		dialog.setCancelable(false);
+		dialog.setUncancelable();
 		dialog.commit();
 	}
 	
 	void onError()
 	{
 		Toast.makeText(this, R.string.message_error, Toast.LENGTH_LONG).show();
+	}
+	
+	void onInvalidUserError()
+	{
+		Toast.makeText(this, R.string.message_invalid_user, Toast.LENGTH_LONG).show();
 	}
 	
 	void onPlayerLeaved(Player player)
@@ -180,7 +185,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		dialog.setTitle(R.string.dialog_too_few_players);
 		dialog.setMessage(R.string.dialog_too_few_players_detail);
 		dialog.setPositiveButton(R.string.ok, (d, w) -> finish());
-		dialog.setCancelable(false);
+		dialog.setUncancelable();
 		dialog.commit();
 	}
 	

@@ -11,6 +11,7 @@ public class InputPacketFailure implements InputPacket
 	public static final int PROBLEM_USER_TOO_MANY = 4;
 	public static final int PROBLEM_USER_NAME_BUSY = 5;
 	public static final int PROBLEM_SERVER_CODE_INVALID = 6;
+	public static final int PROBLEM_INVALID_USER = 7;
 	
 	private int problem;
 	

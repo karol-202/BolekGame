@@ -17,14 +17,14 @@ public abstract class Logic<A extends Activity> extends ClientListenerAdapter
 	
 	public void resume(A activity)
 	{
-		this.activity = activity;
+		setActivity(activity);
 		resumeClient();
 	}
 	
 	public void suspend()
 	{
 		suspendClient();
-		this.activity = null;
+		setActivity(null);
 	}
 	
 	private void resumeClient()
@@ -45,5 +45,10 @@ public abstract class Logic<A extends Activity> extends ClientListenerAdapter
 	protected void runInUIThread(Runnable runnable)
 	{
 		Utils.runInUIThread(runnable);
+	}
+	
+	protected void setActivity(A activity)
+	{
+		this.activity = activity;
 	}
 }

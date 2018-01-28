@@ -33,6 +33,7 @@
 	<string name="message_cannot_create_server">Nie można utworzyć gry</string>
 	<string name="message_cannot_login">Nie można zalogować</string>
 	<string name="message_error">Nieznany błąd</string>
+	<string name="message_invalid_user">Niewłaściwy użytkownik</string>
 	
 	<string name="dialog_disconnection">Rozłączono</string>
 	<string name="dialog_disconnection_detail">Utracono połączenie z serwerem</string>
@@ -50,6 +51,7 @@
 	<string name="item_game_players">Gracze</string>
 	<string name="item_game_chat">Czat</string>
 	
+	<string name="action_player_leaved">%s wyszedł z gry</string>
 	<string name="action_role_assigned">Zostałeś %s</string>
 	<string name="action_president_assigned">%s został prezydentem</string>
 	<string name="action_president_assigned_you">Zostałeś prezydentem</string>
@@ -57,6 +59,10 @@
 	<string name="action_prime_minister_chosen">%s został wybrany na premiera przez %s</string>
 	<string name="action_prime_minister_chosen_you">%s wybrał cię na premiera</string>
 	<string name="action_prime_minister_chosen_by_you">Wybrałeś %s na premiera</string>
+	<string name="action_vote_on_prime_minister">Głosowanie nad premierem %s</string>
+	<string name="action_prime_minister_assigned">%s został premierem</string>
+	<string name="action_prime_minister_assigned_you">Zostałeś premierem</string>
+	<string name="action_prime_minister_assigned_empty">Stanowisko premiera zostało opróżnione</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
@@ -80,4 +86,10 @@
 	<string name="leave">Wyjdź</string>
 	<string name="remain">Zostań</string>
 	<string name="all_players">Wszyscy gracze</string>
+	<string name="vote_yes">Za</string>
+	<string name="vote_no">Przeciw</string>
+	<string name="votes">Głosy</string>
+	<string name="votes_value">%d/%d</string>
+	<string name="your_vote_yes">Głosowałeś za</string>
+	<string name="your_vote_no">Głosowałeś przeciw</string>
 </resources>

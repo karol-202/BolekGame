@@ -1,12 +1,13 @@
 package pl.karol202.bolekgame.game.main;
 
+import android.content.Context;
 import pl.karol202.bolekgame.game.main.actions.Action;
 import pl.karol202.bolekgame.game.main.actions.UpdatingAction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActionManager
+public class ActionManager implements ContextSupplier
 {
 	public interface ActionUpdateCallback
 	{
@@ -20,8 +21,10 @@ public class ActionManager
 		void onActionUpdate(int position);
 	}
 	
+	private Context context;
 	private List<Action> actions;
 	private List<OnActionsUpdateListener> actionsUpdateListeners;
+	private Action lastAction;
 	
 	public ActionManager()
 	{
@@ -33,6 +36,7 @@ public class ActionManager
 	{
 		if(action instanceof UpdatingAction) ((UpdatingAction) action).setUpdateCallback(() -> updateAction(action));
 		actions.add(action);
+		lastAction = action;
 		for(OnActionsUpdateListener listener : actionsUpdateListeners) listener.onActionAdd();
 	}
 	
@@ -57,6 +61,11 @@ public class ActionManager
 		return actions.size();
 	}
 	
+	public Action getLastAction()
+	{
+		return lastAction;
+	}
+	
 	void addOnActionsUpdateListener(OnActionsUpdateListener actionsUpdateListener)
 	{
 		actionsUpdateListeners.add(actionsUpdateListener);
@@ -65,5 +74,22 @@ public class ActionManager
 	void removeOnActionsUpdateListener(OnActionsUpdateListener actionsUpdateListener)
 	{
 		actionsUpdateListeners.remove(actionsUpdateListener);
+	}
+	
+	@Override
+	public String getString(int resId, Object... formatArgs)
+	{
+		return context.getString(resId, formatArgs);
+	}
+	
+	@Override
+	public Context getContext()
+	{
+		return context;
+	}
+	
+	public void setContext(Context context)
+	{
+		this.context = context;
 	}
 }
