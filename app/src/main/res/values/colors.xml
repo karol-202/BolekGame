@@ -27,6 +27,8 @@
 	<color name="text_server">#4D88D4</color>
 	<color name="text_primary">#D6000000</color>
 	<color name="text_secondary">#8A000000</color>
+	<color name="text_acts">#BF000000</color>
+	<color name="text_primary_white">#FFFFFF</color>
 	
 	<color name="icon_default">#8A000000</color>
 	<color name="icon_disabled">#61000000</color>
@@ -34,4 +36,7 @@
 	<color name="votes_bar_border">#B0000000</color>
 	<color name="votes_bar_yes">#50DA31</color>
 	<color name="votes_bar_no">#F44336</color>
+	
+	<color name="panel_poll_index">#FFFFFF</color>
+	<color name="panel_poll_index_dark">#D6000000</color>
 </resources>

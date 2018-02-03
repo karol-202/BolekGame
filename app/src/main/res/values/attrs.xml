@@ -16,5 +16,9 @@
 		<attr name="votesTextColor" format="color"/>
 		<attr name="votesTextSize" format="dimension"/>
 	</declare-styleable>
+	<declare-styleable name="AspectImageView">
+		<attr name="aspect" format="float"/>
+	</declare-styleable>
+	
 	<attr name="votesBarStyle" format="reference"/>
 </resources>

@@ -5,6 +5,7 @@ import java8.util.stream.StreamSupport;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketFailure;
 import pl.karol202.bolekgame.client.outputpacket.*;
+import pl.karol202.bolekgame.game.acts.Acts;
 import pl.karol202.bolekgame.game.gameplay.Act;
 import pl.karol202.bolekgame.game.gameplay.Position;
 import pl.karol202.bolekgame.game.gameplay.Role;
@@ -12,7 +13,6 @@ import pl.karol202.bolekgame.game.gameplay.WinCause;
 import pl.karol202.bolekgame.game.main.ActionManager;
 import pl.karol202.bolekgame.game.main.VotingResult;
 import pl.karol202.bolekgame.game.main.actions.*;
-import pl.karol202.bolekgame.game.players.LocalPlayer;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.Players;
 import pl.karol202.bolekgame.server.Users;
@@ -24,9 +24,10 @@ import java.util.Map;
 
 public class GameLogic extends Logic<ActivityGame>
 {
+	private ActionManager actionManager;
+	private Acts acts;
 	private Players players;
 	private TextChat textChat;
-	private ActionManager actionManager;
 	
 	private boolean ignoreGameExit;
 	private Player primeMinisterCandidate;
@@ -36,7 +37,11 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		super(client);
 		
-		players = new Players(new LocalPlayer(localPlayerName));
+		actionManager = new ActionManager();
+		
+		acts = new Acts();
+		
+		players = new Players(localPlayerName);
 		players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
 			@Override
 			public void onPlayerAdd() { }
@@ -52,8 +57,6 @@ public class GameLogic extends Logic<ActivityGame>
 		});
 		
 		this.textChat = textChat;
-		
-		actionManager = new ActionManager();
 	}
 	
 	@Override
@@ -160,7 +163,10 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onStackRefill(int totalActs)
 	{
-	
+		runInUIThread(() -> {
+			if(!acts.isIgnoringStackRefill()) actionManager.addAction(new ActionStackRefill(actionManager));
+			acts.refillStack();
+		});
 	}
 	
 	@Override
@@ -236,7 +242,12 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onPollIndexChange(int pollIndex)
 	{
-	
+		runInUIThread(() -> {
+			if(pollIndex == 3) return;
+			actionManager.addAction(new ActionPollIndexChange(pollIndex));
+			acts.updatePollIndex(pollIndex);
+			activity.onPollIndexChange();
+		});
 	}
 	
 	@Override
@@ -403,14 +414,19 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(activity::onTooFewPlayers);
 	}
 	
-	public Players getPlayers()
-	{
-		return players;
-	}
-	
 	public ActionManager getActionManager()
 	{
 		return actionManager;
+	}
+	
+	public Acts getActs()
+	{
+		return acts;
+	}
+	
+	public Players getPlayers()
+	{
+		return players;
 	}
 	
 	boolean willGameBeEndedAfterMyLeave()

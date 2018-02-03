@@ -142,7 +142,6 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		dialog.setTitle(R.string.dialog_disconnection);
 		dialog.setMessage(R.string.dialog_disconnection_detail);
 		dialog.setPositiveButton(R.string.ok, (d, w) -> finish());
-		dialog.setUncancelable();
 		dialog.commit();
 	}
 	
@@ -167,8 +166,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	void onTextChatUpdate()
 	{
 		ScreenChat screenChat = getScreenChat();
-		if(screenChat == null) return;
-		screenChat.onChatUpdate();
+		if(screenChat != null) screenChat.onChatUpdate();
 	}
 	
 	void onRoleAssigned(Role role)
@@ -179,13 +177,24 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		dialog.commit();
 	}
 	
+	void onPollIndexChange()
+	{
+		ScreenActs screenActs = getScreenActs();
+		if(screenActs != null) screenActs.onPollIndexUpdate();
+	}
+	
+	void onActsUpdate()
+	{
+		ScreenActs screenActs = getScreenActs();
+		if(screenActs != null) screenActs.onActsUpdate();
+	}
+	
 	void onTooFewPlayers()
 	{
 		Dialog dialog = new Dialog(dialogManager);
 		dialog.setTitle(R.string.dialog_too_few_players);
 		dialog.setMessage(R.string.dialog_too_few_players_detail);
 		dialog.setPositiveButton(R.string.ok, (d, w) -> finish());
-		dialog.setUncancelable();
 		dialog.commit();
 	}
 	

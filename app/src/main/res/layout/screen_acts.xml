@@ -1,13 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent" android:layout_height="match_parent">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fillViewport="true"
+	android:scrollbars="vertical">
 	
-	<Button
-		android:id="@+id/button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:text="Button"
-		tools:layout_editor_absoluteX="88dp"
-		tools:layout_editor_absoluteY="165dp" />
-</android.support.constraint.ConstraintLayout>
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/background_acts"
+			android:orientation="vertical">
+			
+			<TextView
+				android:id="@+id/text_poll_index_text"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="8dp"
+				android:layout_marginTop="8dp"
+				android:gravity="center"
+				android:text="@string/poll_index"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textColor="@color/text_primary_white" />
+			
+			<TextView
+				android:id="@+id/text_poll_index"
+				android:layout_width="48dp"
+				android:layout_height="48dp"
+				android:layout_gravity="center"
+				android:layout_marginBottom="8dp"
+				android:background="@drawable/background_poll_index_panel"
+				android:gravity="center"
+				android:text="@string/zero"
+				android:textColor="@color/text_primary"
+				android:textSize="24sp" />
+			
+			<android.support.constraint.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				
+				<ImageView
+					android:id="@+id/panel_sign_acts_lustration"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="8dp"
+					android:layout_marginTop="8dp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/sign" />
+				
+				<TextView
+					android:id="@+id/text_acts_lustration"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/acts_lustration"
+					android:textColor="@color/text_acts"
+					android:textSize="20sp"
+					android:textStyle="bold"
+					app:layout_constraintBottom_toBottomOf="@+id/panel_sign_acts_lustration"
+					app:layout_constraintEnd_toEndOf="@+id/panel_sign_acts_lustration"
+					app:layout_constraintStart_toStartOf="@+id/panel_sign_acts_lustration"
+					app:layout_constraintTop_toTopOf="@+id/panel_sign_acts_lustration" />
+			</android.support.constraint.ConstraintLayout>
+			
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:paddingBottom="8dp"
+				android:paddingEnd="4dp"
+				android:paddingLeft="4dp"
+				android:paddingRight="4dp"
+				android:paddingStart="4dp"
+				android:paddingTop="8dp">
+				
+				<pl.karol202.bolekgame.utils.AspectImageView
+					android:id="@+id/panel_act_slot_lustration_1"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="4dp"
+					android:layout_marginLeft="4dp"
+					android:layout_marginRight="4dp"
+					android:layout_marginStart="4dp"
+					android:layout_weight="1"
+					android:scaleType="fitXY"
+					app:aspect="1.5"
+					app:srcCompat="@drawable/panel_act_slot" />
+				
+				<pl.karol202.bolekgame.utils.AspectImageView
+					android:id="@+id/panel_act_slot_lustration_2"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="4dp"
+					android:layout_marginLeft="4dp"
+					android:layout_marginRight="4dp"
+					android:layout_marginStart="4dp"
+					android:layout_weight="1"
+					android:scaleType="fitXY"
+					app:aspect="1.5"
+					app:srcCompat="@drawable/panel_act_slot" />
+				
+				<pl.karol202.bolekgame.utils.AspectImageView
+					android:id="@+id/panel_act_slot_lustration_3"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="4dp"
+					android:layout_marginLeft="4dp"
+					android:layout_marginRight="4dp"
+					android:layout_marginStart="4dp"
+					android:layout_weight="1"
+					android:scaleType="fitXY"
+					app:aspect="1.5"
+					app:srcCompat="@drawable/panel_act_slot" />
+				
+				<pl.karol202.bolekgame.utils.AspectImageView
+					android:id="@+id/panel_act_slot_lustration_4"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="4dp"
+					android:layout_marginLeft="4dp"
+					android:layout_marginRight="4dp"
+					android:layout_marginStart="4dp"
+					android:layout_weight="1"
+					android:scaleType="fitXY"
+					app:aspect="1.5"
+					app:srcCompat="@drawable/panel_act_slot" />
+				
+				<pl.karol202.bolekgame.utils.AspectImageView
+					android:id="@+id/panel_act_slot_lustration_5"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginEnd="4dp"
+					android:layout_marginLeft="4dp"
+					android:layout_marginRight="4dp"
+					android:layout_marginStart="4dp"
+					android:layout_weight="1"
+					android:scaleType="fitXY"
+					app:aspect="1.5"
+					app:srcCompat="@drawable/panel_act_slot" />
+			
+			</LinearLayout>
+			
+			<android.support.constraint.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				
+				<ImageView
+					android:id="@+id/panel_sign_acts_antilustration"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="8dp"
+					android:layout_marginTop="8dp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/sign" />
+				
+				<TextView
+					android:id="@+id/text_acts_antilustration"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/acts_antilustration"
+					android:textColor="@color/text_acts"
+					android:textSize="20sp"
+					android:textStyle="bold"
+					app:layout_constraintBottom_toBottomOf="@+id/panel_sign_acts_antilustration"
+					app:layout_constraintEnd_toEndOf="@+id/panel_sign_acts_antilustration"
+					app:layout_constraintStart_toStartOf="@+id/panel_sign_acts_antilustration"
+					app:layout_constraintTop_toTopOf="@+id/panel_sign_acts_antilustration" />
+			
+			</android.support.constraint.ConstraintLayout>
+			
+			<TableLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:stretchColumns="0,1,2">
+				
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:paddingBottom="8dp"
+					android:paddingTop="8dp">
+					
+					<pl.karol202.bolekgame.utils.AspectImageView
+						android:id="@+id/panel_act_slot_antilustration_1"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="4dp"
+						android:layout_marginLeft="8dp"
+						android:layout_marginRight="4dp"
+						android:layout_marginStart="8dp"
+						android:scaleType="fitXY"
+						app:srcCompat="@drawable/panel_act_slot"
+						app:aspect="1.5"/>
+					
+					<pl.karol202.bolekgame.utils.AspectImageView
+						android:id="@+id/panel_act_slot_antilustration_2"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="4dp"
+						android:layout_marginLeft="4dp"
+						android:layout_marginRight="4dp"
+						android:layout_marginStart="4dp"
+						android:scaleType="fitXY"
+						app:srcCompat="@drawable/panel_act_slot"
+						app:aspect="1.5"/>
+					
+					<pl.karol202.bolekgame.utils.AspectImageView
+						android:id="@+id/panel_act_slot_antilustration_3"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="8dp"
+						android:layout_marginLeft="4dp"
+						android:layout_marginRight="8dp"
+						android:layout_marginStart="4dp"
+						android:scaleType="fitXY"
+						app:srcCompat="@drawable/panel_act_slot"
+						app:aspect="1.5"/>
+				</TableRow>
+				
+				<TableRow
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:paddingBottom="8dp"
+					android:paddingTop="8dp">
+					
+					<pl.karol202.bolekgame.utils.AspectImageView
+						android:id="@+id/panel_act_slot_antilustration_4"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="4dp"
+						android:layout_marginLeft="8dp"
+						android:layout_marginRight="4dp"
+						android:layout_marginStart="8dp"
+						android:scaleType="fitXY"
+						app:srcCompat="@drawable/panel_act_slot"
+						app:aspect="1.5"/>
+					
+					<pl.karol202.bolekgame.utils.AspectImageView
+						android:id="@+id/panel_act_slot_antilustration_5"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="4dp"
+						android:layout_marginLeft="4dp"
+						android:layout_marginRight="4dp"
+						android:layout_marginStart="4dp"
+						android:scaleType="fitXY"
+						app:srcCompat="@drawable/panel_act_slot"
+						app:aspect="1.5"/>
+					
+					<pl.karol202.bolekgame.utils.AspectImageView
+						android:id="@+id/panel_act_slot_antilustration_6"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="8dp"
+						android:layout_marginLeft="4dp"
+						android:layout_marginRight="8dp"
+						android:layout_marginStart="4dp"
+						android:scaleType="fitXY"
+						app:srcCompat="@drawable/panel_act_slot"
+						app:aspect="1.5"/>
+				
+				</TableRow>
+			</TableLayout>
+		</LinearLayout>
+		
+		<pl.karol202.bolekgame.game.acts.ActsOverlayView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/acts_overlay_view"/>
+	</FrameLayout>
+</ScrollView>

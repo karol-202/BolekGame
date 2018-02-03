@@ -88,4 +88,9 @@ public class ActionAdapter extends RecyclerView.Adapter<ActionViewHolder> implem
 		this.actionManager = actionManager;
 		notifyDataSetChanged();
 	}
+	
+	void setContext(Context context)
+	{
+		this.context = context;
+	}
 }

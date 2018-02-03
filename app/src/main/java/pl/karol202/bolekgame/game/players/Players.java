@@ -17,15 +17,14 @@ public class Players
 	}
 	
 	private List<Player> players;
-	private LocalPlayer localPlayer;
+	private String localPlayerName;
 	
 	private List<OnPlayersUpdateListener> playersUpdateListeners;
 	
-	public Players(LocalPlayer localPlayer)
+	public Players(String localPlayerName)
 	{
 		this.players = new ArrayList<>();
-		this.localPlayer = localPlayer;
-		players.add(localPlayer);
+		this.localPlayerName = localPlayerName;
 		
 		playersUpdateListeners = new ArrayList<>();
 	}
@@ -54,7 +53,8 @@ public class Players
 		for(String name : names)
 		{
 			for(Player player : players) if(name.equals(player.getName())) continue namesLoop;
-			playersToAdd.add(new RemotePlayer(name));
+			if(name.equals(localPlayerName)) playersToAdd.add(new LocalPlayer(name));
+			else playersToAdd.add(new RemotePlayer(name));
 		}
 		for(Player player : players)
 			if(!names.contains(player.getName())) playersToRemove.add(player);
@@ -113,7 +113,7 @@ public class Players
 	
 	public String getLocalPlayerName()
 	{
-		return localPlayer.getName();
+		return localPlayerName;
 	}
 	
 	public void addOnPlayersUpdateListener(OnPlayersUpdateListener listener)

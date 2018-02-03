@@ -38,4 +38,12 @@ public abstract class Screen extends Fragment
 		super.onActivityCreated(savedInstanceState);
 		gameLogic = gameLogicSupplier.getGameLogic();
 	}
+	
+	@Override
+	public void onDetach()
+	{
+		super.onDetach();
+		gameLogicSupplier = null;
+		gameLogic = null;
+	}
 }

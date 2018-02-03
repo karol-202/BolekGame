@@ -38,14 +38,29 @@ public class ScreenMain extends Screen
 	{
 		super.onActivityCreated(savedInstanceState);
 		actionManager = gameLogic.getActionManager();
-		actionManager.addOnActionsUpdateListener(actionAdapter);
+		actionManager.addOnActionsUpdateListener(new ActionManager.OnActionsUpdateListener() {
+			@Override
+			public void onActionAdd()
+			{
+				actionAdapter.onActionAdd();
+				recyclerActions.smoothScrollToPosition(actionAdapter.getItemCount() - 1);
+			}
+			
+			@Override
+			public void onActionUpdate(int position)
+			{
+				actionAdapter.onActionUpdate(position);
+			}
+		});
+		
 		actionAdapter.setActionManager(actionManager);
 	}
 	
 	@Override
-	public void onDestroy()
+	public void onDetach()
 	{
-		super.onDestroy();
-		if(actionManager != null) actionManager.removeOnActionsUpdateListener(actionAdapter);
+		super.onDetach();
+		actionManager.removeOnActionsUpdateListener(actionAdapter);
+		actionAdapter.setContext(null);
 	}
 }

@@ -71,9 +71,10 @@ public class ScreenPlayers extends Screen
 	}
 	
 	@Override
-	public void onDestroy()
+	public void onDetach()
 	{
-		super.onDestroy();
-		if(players != null) players.removeOnPlayersUpdateListener(playersListener);
+		super.onDetach();
+		players.removeOnPlayersUpdateListener(playersListener);
+		playersAdapter.setContext(null);
 	}
 }

@@ -20,9 +20,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.ActivityServer;
+import pl.karol202.bolekgame.server.ServerData;
 import pl.karol202.bolekgame.settings.ActivitySettings;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.server.ServerData;
 import pl.karol202.bolekgame.utils.FragmentRetain;
 
 public class ActivityMain extends AppCompatActivity
@@ -224,6 +224,8 @@ public class ActivityMain extends AppCompatActivity
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		editTextServerName.setOnEditorActionListener(null);
+		editTextServerCode.setOnEditorActionListener(null);
 		controlLogic.suspend(); //On orientation changes
 	}
 	

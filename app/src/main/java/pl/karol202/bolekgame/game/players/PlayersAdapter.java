@@ -80,4 +80,9 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 		this.players = players;
 		notifyDataSetChanged();
 	}
+	
+	void setContext(Context context)
+	{
+		this.context = context;
+	}
 }

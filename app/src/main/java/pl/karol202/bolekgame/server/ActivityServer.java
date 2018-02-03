@@ -155,6 +155,7 @@ public class ActivityServer extends AppCompatActivity
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		editTextChat.setOnEditorActionListener(null);
 		if(!isFinishing()) serverLogic.suspend(); //On configuration changes
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) removeLayoutListener();
 	}

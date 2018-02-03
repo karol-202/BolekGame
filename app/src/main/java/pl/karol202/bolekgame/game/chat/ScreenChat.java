@@ -60,6 +60,13 @@ public class ScreenChat extends Screen
 		onChatUpdate();
 	}
 	
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		editTextChat.setOnEditorActionListener(null);
+	}
+	
 	private void onMessageEdit(String message)
 	{
 		buttonSend.setEnabled(message != null && !message.isEmpty());

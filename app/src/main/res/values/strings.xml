@@ -53,6 +53,7 @@
 	
 	<string name="action_player_leaved">%s wyszedł z gry</string>
 	<string name="action_role_assigned">Zostałeś %s</string>
+	<string name="action_stack_refilled">Stos ustaw został uzupełniony</string>
 	<string name="action_president_assigned">%s został prezydentem</string>
 	<string name="action_president_assigned_you">Zostałeś prezydentem</string>
 	<string name="action_choose_prime_minister">Wybierz premiera</string>
@@ -63,6 +64,8 @@
 	<string name="action_prime_minister_assigned">%s został premierem</string>
 	<string name="action_prime_minister_assigned_you">Zostałeś premierem</string>
 	<string name="action_prime_minister_assigned_empty">Stanowisko premiera zostało opróżnione</string>
+	<string name="action_poll_index_change">Wskaźnik wyborczy został zmieniony</string>
+	<string name="action_poll_index_change_hint">Jeśli premier nie zostanie wybrany w najbliższej rundzie, zostanie uchwalona losowa ustawa</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
@@ -92,4 +95,8 @@
 	<string name="votes_value">%d/%d</string>
 	<string name="your_vote_yes">Głosowałeś za</string>
 	<string name="your_vote_no">Głosowałeś przeciw</string>
+	<string name="acts_lustration">Ustawy lustracyjne</string>
+	<string name="acts_antilustration">Ustawy antylustracyjne</string>
+	<string name="poll_index">Wskaźnik wyborczy</string>
+	<string name="zero">0</string>
 </resources>
