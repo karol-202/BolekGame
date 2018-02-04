@@ -66,6 +66,7 @@
 	<string name="action_prime_minister_assigned_empty">Stanowisko premiera zostało opróżnione</string>
 	<string name="action_poll_index_change">Wskaźnik wyborczy został zmieniony</string>
 	<string name="action_poll_index_change_hint">Jeśli premier nie zostanie wybrany w najbliższej rundzie, zostanie uchwalona losowa ustawa</string>
+	<string name="action_random_act_passed">Została uchwalona losowa ustawa</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
