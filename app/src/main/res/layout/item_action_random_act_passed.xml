@@ -21,6 +21,8 @@
 			android:layout_marginBottom="8dp"
 			android:layout_marginEnd="8dp"
 			android:layout_marginStart="8dp"
+			android:layout_marginLeft="8dp"
+			android:layout_marginRight="8dp"
 			android:layout_marginTop="8dp"
 			android:text="@string/action_random_act_passed"
 			android:textAppearance="?android:attr/textAppearanceMedium"
@@ -28,20 +30,29 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent" />
-
+		
 		<ImageView
 			android:id="@+id/image_random_act"
 			android:layout_width="100dp"
 			android:layout_height="0dp"
-			android:layout_marginBottom="8dp"
-			android:layout_marginEnd="8dp"
-			android:layout_marginStart="8dp"
 			android:layout_marginTop="8dp"
-			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintDimensionRatio="h,3:4"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/text_action_random_act_passed" />
+			app:layout_constraintTop_toBottomOf="@+id/text_action_random_act_passed"
+			app:srcCompat="@drawable/act_lustration" />
+		
+		<TextView
+			android:id="@+id/text_action_random_act_passed_act"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
+			android:layout_marginTop="8dp"
+			android:text="@string/unknown"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/image_random_act" />
 	</android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

@@ -85,6 +85,9 @@
 	<string name="position_president">Prezydent</string>
 	<string name="position_prime_minister">Premier</string>
 	
+	<string name="act_lustration">Ustawa lustracyjna</string>
+	<string name="act_antilustration">Ustawa antylustracyjna</string>
+	
 	<string name="unknown">Nieznany</string>
 	<string name="ok">OK</string>
 	<string name="leave">Wyjdź</string>

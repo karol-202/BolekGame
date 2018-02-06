@@ -23,7 +23,16 @@ public class Acts
 		ignoreStackRefill = false;
 	}
 	
-	public void passAct(Act act)
+	public Act updateActs(int lustrationActs, int antilustrationActs)
+	{
+		Act act = null;
+		if(lustrationActs == this.lustrationActs + 1) act = Act.LUSTRATION;
+		else if(antilustrationActs == this.antilustrationActs + 1) act = Act.ANTILUSTRATION;
+		if(act != null) passAct(act);
+		return act;
+	}
+	
+	private void passAct(Act act)
 	{
 		if(act == Act.LUSTRATION) lustrationActs++;
 		else if(act == Act.ANTILUSTRATION) antilustrationActs++;

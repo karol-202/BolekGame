@@ -32,6 +32,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private boolean ignoreGameExit;
 	private Player primeMinisterCandidate;
 	private ActionVoteOnPrimeMinister votingAction;
+	private boolean randomAct;
 	
 	GameLogic(Client client, TextChat textChat, String localPlayerName)
 	{
@@ -253,7 +254,7 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onRandomActPassed()
 	{
-	
+		runInUIThread(() -> randomAct = true);
 	}
 	
 	@Override
@@ -301,7 +302,11 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onActPass(int lustrationPassed, int antilustrationPassed)
 	{
-	
+		runInUIThread(() -> {
+			Act act = acts.updateActs(lustrationPassed, antilustrationPassed);
+			if(randomAct) actionManager.addAction(new ActionRandomActPassed(act));
+			activity.onActsUpdate();
+		});
 	}
 	
 	@Override
