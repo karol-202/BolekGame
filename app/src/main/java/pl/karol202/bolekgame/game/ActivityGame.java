@@ -125,8 +125,8 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		dialog.setTitle(R.string.dialog_leave_are_you_sure);
 		dialog.setMessage(gameLogic.willGameBeEndedAfterMyLeave() ? R.string.dialog_leave_are_you_sure_detail_game_end :
 																	R.string.dialog_leave_are_you_sure_detail);
-		dialog.setPositiveButton(R.string.leave, (d, w) -> leaveGame());
-		dialog.setNegativeButton(R.string.remain);
+		dialog.setPositiveButton(R.string.button_leave, (d, w) -> leaveGame());
+		dialog.setNegativeButton(R.string.button_remain);
 		dialog.commit();
 	}
 	
@@ -141,7 +141,8 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		Dialog dialog = new Dialog(dialogManager);
 		dialog.setTitle(R.string.dialog_disconnection);
 		dialog.setMessage(R.string.dialog_disconnection_detail);
-		dialog.setPositiveButton(R.string.ok, (d, w) -> finish());
+		dialog.setPositiveButton(R.string.button_ok, (d, w) -> finish());
+		dialog.setUncancelable();
 		dialog.commit();
 	}
 	
@@ -159,7 +160,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	{
 		Dialog dialog = new Dialog(dialogManager);
 		dialog.setTitle(getString(R.string.dialog_player_leaved, player.getName()));
-		dialog.setPositiveButton(R.string.ok, null);
+		dialog.setPositiveButton(R.string.button_ok, null);
 		dialog.commit();
 	}
 	
@@ -173,7 +174,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	{
 		Dialog dialog = new Dialog(dialogManager);
 		dialog.setTitle(getString(R.string.action_role_assigned, getString(role.getNameInstr())));
-		dialog.setPositiveButton(R.string.ok, null);
+		dialog.setPositiveButton(R.string.button_ok, null);
 		dialog.commit();
 	}
 	
@@ -194,7 +195,8 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		Dialog dialog = new Dialog(dialogManager);
 		dialog.setTitle(R.string.dialog_too_few_players);
 		dialog.setMessage(R.string.dialog_too_few_players_detail);
-		dialog.setPositiveButton(R.string.ok, (d, w) -> finish());
+		dialog.setPositiveButton(R.string.button_ok, (d, w) -> finish());
+		dialog.setUncancelable();
 		dialog.commit();
 	}
 	

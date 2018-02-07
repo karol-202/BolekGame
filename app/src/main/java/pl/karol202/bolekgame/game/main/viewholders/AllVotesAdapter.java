@@ -28,7 +28,7 @@ public class AllVotesAdapter extends RecyclerView.Adapter<AllVotesAdapter.ViewHo
 		void bind(Player player, boolean vote)
 		{
 			textName.setText(player.getName());
-			textVote.setText(vote ? R.string.vote_yes : R.string.vote_no);
+			textVote.setText(vote ? R.string.text_vote_yes : R.string.text_vote_no);
 		}
 	}
 	

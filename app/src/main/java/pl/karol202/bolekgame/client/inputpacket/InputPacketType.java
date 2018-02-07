@@ -25,7 +25,7 @@ enum InputPacketType
 	RANDOMACT(InputPacketRandomAct::new),
 	CHOOSEACTSPRESIDENT(InputPacketChooseActsPresident::new),
 	PRESIDENTCHOOSINGACTS(InputPacketPresidentChoosingActs::new),
-	CHOOSEACTSPRIMEMINISER(InputPacketChooseActsPrimeMinister::new),
+	CHOOSEACTSPRIMEMINISTER(InputPacketChooseActsPrimeMinister::new),
 	CHOOSEACTSORVETOPRIMEMINISTER(InputPacketChooseActsOrVetoPrimeMinister::new),
 	PRIMEMINISTERCHOOSINGACTS(InputPacketPrimeMinisterChoosingActs::new),
 	VETOREQUEST(InputPacketVetoRequest::new),

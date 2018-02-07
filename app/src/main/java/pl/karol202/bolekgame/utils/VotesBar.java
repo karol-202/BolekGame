@@ -81,7 +81,7 @@ public class VotesBar extends ConstraintLayout
 	
 	private void updateValueText()
 	{
-		textValue.setText(getContext().getString(R.string.votes_value, upvotes, allVotes));
+		textValue.setText(getContext().getString(R.string.text_votes_value, upvotes, allVotes));
 	}
 	
 	public int getBorderSize()

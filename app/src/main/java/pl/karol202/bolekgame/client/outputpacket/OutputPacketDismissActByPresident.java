@@ -2,11 +2,11 @@ package pl.karol202.bolekgame.client.outputpacket;
 
 import pl.karol202.bolekgame.client.DataBundle;
 
-public class OutputPacketDismissActPyPresident implements OutputPacket
+public class OutputPacketDismissActByPresident implements OutputPacket
 {
 	private String act;
 	
-	public OutputPacketDismissActPyPresident(String act)
+	public OutputPacketDismissActByPresident(String act)
 	{
 		this.act = act;
 	}
@@ -20,6 +20,6 @@ public class OutputPacketDismissActPyPresident implements OutputPacket
 	@Override
 	public String getName()
 	{
-		return "DISMISSACTPYPRESIDENT";
+		return "DISMISSACTBYPRESIDENT";
 	}
 }

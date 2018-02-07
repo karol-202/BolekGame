@@ -249,7 +249,7 @@ public class ActivityServer extends AppCompatActivity
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.dialog_disconnection);
 		builder.setMessage(R.string.dialog_disconnection_detail);
-		builder.setPositiveButton(R.string.ok, (d, w) -> finish());
+		builder.setPositiveButton(R.string.button_ok, (d, w) -> finish());
 		builder.setCancelable(false);
 		builder.show();
 	}

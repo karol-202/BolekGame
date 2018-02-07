@@ -43,7 +43,7 @@
 		<item name="borderColor">@color/votes_bar_border</item>
 		<item name="votesYesColor">@color/button_vote_yes</item>
 		<item name="votesNoColor">@color/button_vote_no</item>
-		<item name="votesText">@string/votes</item>
+		<item name="votesText">@string/text_votes</item>
 		<item name="votesTextColor">@color/text_primary</item>
 	</style>
 </resources>

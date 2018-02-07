@@ -10,6 +10,11 @@
 	<string name="button_create_server_apply">Stwórz grę</string>
 	<string name="button_join_server_apply">Dołącz do gry</string>
 	<string name="button_user_ready">Jestem gotowy</string>
+	<string name="button_ok">OK</string>
+	<string name="button_leave">Wyjdź</string>
+	<string name="button_remain">Zostań</string>
+	<string name="button_done">Gotowe</string>
+	<string name="button_veto">Weto</string>
 	
 	<string name="text_connecting">Łączenie…</string>
 	<string name="text_cannot_connect">Nie można połączyć</string>
@@ -21,6 +26,19 @@
 	<string name="text_ready_users_amount">Gotowi do gry: %d</string>
 	<string name="text_too_few_users">Za mało, aby grać</string>
 	<string name="text_game_in_progress">Gra już trwa</string>
+	<string name="text_all_players">Wszyscy gracze</string>
+	<string name="text_vote_yes">Za</string>
+	<string name="text_vote_no">Przeciw</string>
+	<string name="text_votes">Głosy</string>
+	<string name="text_votes_value">%d/%d</string>
+	<string name="text_your_vote_yes">Głosowałeś za</string>
+	<string name="text_your_vote_no">Głosowałeś przeciw</string>
+	<string name="text_acts_lustration">Ustawy lustracyjne</string>
+	<string name="text_acts_antilustration">Ustawy antylustracyjne</string>
+	<string name="text_poll_index">Wskaźnik wyborczy</string>
+	<string name="text_waiting_for_veto_response">Oczekiwanie na prezydenta…</string>
+	<string name="text_veto_accepted">Weto przyjęte</string>
+	<string name="text_veto_rejected">Weto odrzucone</string>
 	
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
 	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
@@ -67,6 +85,10 @@
 	<string name="action_poll_index_change">Wskaźnik wyborczy został zmieniony</string>
 	<string name="action_poll_index_change_hint">Jeśli premier nie zostanie wybrany w najbliższej rundzie, zostanie uchwalona losowa ustawa</string>
 	<string name="action_random_act_passed">Została uchwalona losowa ustawa</string>
+	<string name="action_choose_acts_president">Wybierz dwie ustawy</string>
+	<string name="action_choose_acts_prime_minister">Wybierz ustawę, którą chcesz uchwalić</string>
+	<string name="action_president_choosing_acts">Prezydent %s wybiera ustawy</string>
+	<string name="action_prime_minister_choosing_acts">Premier %s wybiera ustawy</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
@@ -89,18 +111,5 @@
 	<string name="act_antilustration">Ustawa antylustracyjna</string>
 	
 	<string name="unknown">Nieznany</string>
-	<string name="ok">OK</string>
-	<string name="leave">Wyjdź</string>
-	<string name="remain">Zostań</string>
-	<string name="all_players">Wszyscy gracze</string>
-	<string name="vote_yes">Za</string>
-	<string name="vote_no">Przeciw</string>
-	<string name="votes">Głosy</string>
-	<string name="votes_value">%d/%d</string>
-	<string name="your_vote_yes">Głosowałeś za</string>
-	<string name="your_vote_no">Głosowałeś przeciw</string>
-	<string name="acts_lustration">Ustawy lustracyjne</string>
-	<string name="acts_antilustration">Ustawy antylustracyjne</string>
-	<string name="poll_index">Wskaźnik wyborczy</string>
 	<string name="zero">0</string>
 </resources>

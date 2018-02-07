@@ -78,6 +78,21 @@ public class GameLogic extends Logic<ActivityGame>
 		votingAction.onVote(vote);
 	}
 	
+	private void dismissActByPresident(Act act)
+	{
+		sendPacket(new OutputPacketDismissActByPresident(act.name()));
+	}
+	
+	private void dismissActByPrimeMinister(Act act)
+	{
+		sendPacket(new OutputPacketDismissActByPrimeMinister(act.name()));
+	}
+	
+	private void requestVeto()
+	{
+	
+	}
+	
 	void exit()
 	{
 		sendPacket(new OutputPacketExitGame());
@@ -260,31 +275,40 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onChooseActsPresidentRequest(Act[] acts)
 	{
-	
+		runInUIThread(() -> actionManager.addAction(new ActionChooseActs(this::dismissActByPresident, null,
+				false, acts)));
 	}
 	
 	@Override
 	public void onPresidentChoosingActs()
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			actionManager.addAction(new ActionPresidentChoosingActs(actionManager, president));
+		});
 	}
 	
 	@Override
 	public void onChooseActsPrimeMinisterRequest(Act[] acts)
 	{
-	
+		runInUIThread(() -> actionManager.addAction(new ActionChooseActs(this::dismissActByPrimeMinister, this::requestVeto,
+				false, acts)));
 	}
 	
 	@Override
 	public void onChooseActsOrVetoPrimeMinisterRequest(Act[] acts)
 	{
-	
+		runInUIThread(() -> actionManager.addAction(new ActionChooseActs(this::dismissActByPrimeMinister, this::requestVeto,
+				true, acts)));
 	}
 	
 	@Override
 	public void onPrimeMinisterChoosingActs()
 	{
-	
+		runInUIThread(() -> {
+			String primeMinister = players.getPlayerAtPosition(Position.PRIME_MINISTER).getName();
+			actionManager.addAction(new ActionPrimeMinisterChoosingActs(actionManager, primeMinister));
+		});
 	}
 	
 	@Override
