@@ -32,6 +32,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private boolean ignoreGameExit;
 	private Player primeMinisterCandidate;
 	private ActionVoteOnPrimeMinister votingAction;
+	private ActionChooseActs chooseActsAction;
 	private boolean randomAct;
 	
 	GameLogic(Client client, TextChat textChat, String localPlayerName)
@@ -90,7 +91,12 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	private void requestVeto()
 	{
+		sendPacket(new OutputPacketVetoRequest());
+	}
 	
+	private void respondOnVeto(boolean response)
+	{
+		sendPacket(new OutputPacketVetoResponse(response));
 	}
 	
 	void exit()
@@ -233,6 +239,7 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onVotingResult(int upvotes, int totalVotes, boolean passed, List<String> upvoters)
 	{
 		runInUIThread(() -> {
+			if(votingAction == null) return;
 			Map<Player, Boolean> voters = createVotersMap(upvoters);
 			VotingResult votingResult = new VotingResult(passed, upvotes, totalVotes, voters);
 			votingAction.onVotingEnd(votingResult);
@@ -298,8 +305,10 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onChooseActsOrVetoPrimeMinisterRequest(Act[] acts)
 	{
-		runInUIThread(() -> actionManager.addAction(new ActionChooseActs(this::dismissActByPrimeMinister, this::requestVeto,
-				true, acts)));
+		runInUIThread(() -> {
+			chooseActsAction = new ActionChooseActs(this::dismissActByPrimeMinister, this::requestVeto, true, acts);
+			actionManager.addAction(chooseActsAction);
+		});
 	}
 	
 	@Override
@@ -314,13 +323,29 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onVetoRequest()
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			String primeMinister = players.getPlayerAtPosition(Position.PRIME_MINISTER).getName();
+			boolean amIPresident = president.equals(players.getLocalPlayerName());
+			boolean amIPrimeMinister = primeMinister.equals(players.getLocalPlayerName());
+			if(amIPresident)
+				actionManager.addAction(new ActionVetoRequestPresident(actionManager, primeMinister, this::respondOnVeto));
+			else actionManager.addAction(new ActionVetoRequest(actionManager, primeMinister, amIPrimeMinister));
+		});
 	}
 	
 	@Override
 	public void onVetoResponse(boolean accepted)
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			String primeMinister = players.getPlayerAtPosition(Position.PRIME_MINISTER).getName();
+			boolean amIPresident = president.equals(players.getLocalPlayerName());
+			boolean amIPrimeMinister = primeMinister.equals(players.getLocalPlayerName());
+			if(amIPrimeMinister && chooseActsAction != null) chooseActsAction.setVetoResult(accepted);
+			else if(!amIPresident) actionManager.addAction(new ActionVetoResponse(actionManager, president, accepted));
+			chooseActsAction = null;
+		});
 	}
 	
 	@Override

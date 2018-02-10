@@ -94,7 +94,7 @@ public class ActionViewHolderChooseActs extends ActionViewHolder<ActionChooseAct
 		if(action.isVetoApplicable())
 		{
 			buttonVeto.setVisibility(action.isVetoRequested() ? View.GONE : View.VISIBLE);
-			buttonVeto.setEnabled(action.isChosen());
+			buttonVeto.setEnabled(!action.isChosen());
 			textVeto.setVisibility(action.isVetoRequested() ? View.VISIBLE : View.GONE);
 			if(!action.isVetoResponsed()) textVeto.setText(R.string.text_waiting_for_veto_response);
 			else textVeto.setText(action.isVetoAccepted() ? R.string.text_veto_accepted : R.string.text_veto_rejected);
