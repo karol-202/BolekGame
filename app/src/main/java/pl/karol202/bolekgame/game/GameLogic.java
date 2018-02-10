@@ -353,7 +353,9 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			Act act = acts.updateActs(lustrationPassed, antilustrationPassed);
+			if(act == null) return;
 			if(randomAct) actionManager.addAction(new ActionRandomActPassed(act));
+			else actionManager.addAction(new ActionActPassed(act));
 			activity.onActsUpdate();
 		});
 	}

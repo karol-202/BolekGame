@@ -12,6 +12,7 @@ import pl.karol202.bolekgame.game.Screen;
 
 public class ScreenActs extends Screen
 {
+	private ViewGroup mainLayout;
 	private TextView textPollIndex;
 	private ImageView panelActLustration1;
 	private ImageView panelActLustration2;
@@ -34,6 +35,8 @@ public class ScreenActs extends Screen
 	{
 		View view = inflater.inflate(R.layout.screen_acts, container, false);
 		
+		mainLayout = view.findViewById(R.id.main_layout);
+		
 		textPollIndex = view.findViewById(R.id.text_poll_index);
 		
 		panelActLustration1 = view.findViewById(R.id.panel_act_slot_lustration_1);
@@ -50,14 +53,26 @@ public class ScreenActs extends Screen
 		panelActAntilustration6 = view.findViewById(R.id.panel_act_slot_antilustration_6);
 		
 		overlayView = view.findViewById(R.id.acts_overlay_view);
+		overlayView.setRootView(mainLayout);
+		overlayView.setLustrationActSlotView(0, panelActLustration1);
+		overlayView.setLustrationActSlotView(1, panelActLustration2);
+		overlayView.setLustrationActSlotView(2, panelActLustration3);
+		overlayView.setLustrationActSlotView(3, panelActLustration4);
+		overlayView.setLustrationActSlotView(4, panelActLustration5);
+		overlayView.setAntiustrationActSlotView(0, panelActAntilustration1);
+		overlayView.setAntiustrationActSlotView(1, panelActAntilustration2);
+		overlayView.setAntiustrationActSlotView(2, panelActAntilustration3);
+		overlayView.setAntiustrationActSlotView(3, panelActAntilustration4);
+		overlayView.setAntiustrationActSlotView(4, panelActAntilustration5);
+		overlayView.setAntiustrationActSlotView(5, panelActAntilustration6);
 		
 		return view;
 	}
 	
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState)
+	public void onStart()
 	{
-		super.onActivityCreated(savedInstanceState);
+		super.onStart();
 		acts = gameLogic.getActs();
 		onPollIndexUpdate();
 		onActsUpdate();
@@ -70,6 +85,7 @@ public class ScreenActs extends Screen
 	
 	public void onActsUpdate()
 	{
-	
+		overlayView.setLustrationActs(acts.getLustrationActs());
+		overlayView.setAntilustrationActs(acts.getAntilustrationActs());
 	}
 }

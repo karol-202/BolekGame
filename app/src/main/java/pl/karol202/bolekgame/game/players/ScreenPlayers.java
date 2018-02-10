@@ -62,9 +62,9 @@ public class ScreenPlayers extends Screen
 	}
 	
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState)
+	public void onStart()
 	{
-		super.onActivityCreated(savedInstanceState);
+		super.onStart();
 		players = gameLogic.getPlayers();
 		players.addOnPlayersUpdateListener(playersListener);
 		playersAdapter.setPlayers(players);

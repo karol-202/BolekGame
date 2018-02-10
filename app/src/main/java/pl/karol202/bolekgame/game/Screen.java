@@ -1,10 +1,8 @@
 package pl.karol202.bolekgame.game;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.app.Fragment;
+import android.content.Context;
 
 public abstract class Screen extends Fragment
 {
@@ -33,9 +31,9 @@ public abstract class Screen extends Fragment
 	}
 	
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState)
+	public void onStart()
 	{
-		super.onActivityCreated(savedInstanceState);
+		super.onStart();
 		gameLogic = gameLogicSupplier.getGameLogic();
 	}
 	

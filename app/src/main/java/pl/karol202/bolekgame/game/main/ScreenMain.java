@@ -15,6 +15,7 @@ public class ScreenMain extends Screen
 	private RecyclerView recyclerActions;
 	
 	private ActionAdapter actionAdapter;
+	private ActionManager.OnActionsUpdateListener actionsUpdateListener;
 	
 	private ActionManager actionManager;
 	
@@ -34,11 +35,11 @@ public class ScreenMain extends Screen
 	}
 	
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState)
+	public void onStart()
 	{
-		super.onActivityCreated(savedInstanceState);
-		actionManager = gameLogic.getActionManager();
-		actionManager.addOnActionsUpdateListener(new ActionManager.OnActionsUpdateListener() {
+		super.onStart();
+		
+		actionsUpdateListener = new ActionManager.OnActionsUpdateListener() {
 			@Override
 			public void onActionAdd()
 			{
@@ -51,7 +52,10 @@ public class ScreenMain extends Screen
 			{
 				actionAdapter.onActionUpdate(position);
 			}
-		});
+		};
+		
+		actionManager = gameLogic.getActionManager();
+		actionManager.addOnActionsUpdateListener(actionsUpdateListener);
 		
 		actionAdapter.setActionManager(actionManager);
 	}
@@ -60,7 +64,7 @@ public class ScreenMain extends Screen
 	public void onDetach()
 	{
 		super.onDetach();
-		actionManager.removeOnActionsUpdateListener(actionAdapter);
+		actionManager.removeOnActionsUpdateListener(actionsUpdateListener);
 		actionAdapter.setContext(null);
 	}
 }

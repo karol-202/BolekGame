@@ -54,9 +54,9 @@ public class ScreenChat extends Screen
 	}
 	
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState)
+	public void onStart()
 	{
-		super.onActivityCreated(savedInstanceState);
+		super.onStart();
 		onChatUpdate();
 	}
 	
