@@ -3,6 +3,7 @@ package pl.karol202.bolekgame.game;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
 
 public abstract class Screen extends Fragment
 {
@@ -31,9 +32,9 @@ public abstract class Screen extends Fragment
 	}
 	
 	@Override
-	public void onStart()
+	public void onActivityCreated(Bundle bundle)
 	{
-		super.onStart();
+		super.onActivityCreated(bundle);
 		gameLogic = gameLogicSupplier.getGameLogic();
 	}
 	

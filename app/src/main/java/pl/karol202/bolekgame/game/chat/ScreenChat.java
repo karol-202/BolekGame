@@ -64,6 +64,7 @@ public class ScreenChat extends Screen
 	public void onDestroy()
 	{
 		super.onDestroy();
+		if(editTextChat == null) return;
 		editTextChat.setOnEditorActionListener(null);
 	}
 	

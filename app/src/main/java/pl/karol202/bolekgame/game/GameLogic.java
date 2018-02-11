@@ -461,6 +461,7 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		if(ignoreGameExit) return;
 		runInUIThread(() -> activity.onGameExit());
+		suspendClient();
 	}
 	
 	@Override
@@ -468,6 +469,7 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		ignoreGameExit = true;
 		runInUIThread(activity::onTooFewPlayers);
+		suspendClient();
 	}
 	
 	public ActionManager getActionManager()

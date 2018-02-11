@@ -12,6 +12,23 @@ import pl.karol202.bolekgame.game.Screen;
 
 public class ScreenMain extends Screen
 {
+	private class ActionsListener implements ActionManager.OnActionsUpdateListener
+	{
+		@Override
+		public void onActionAdd()
+		{
+			actionAdapter.onActionAdd();
+			recyclerActions.smoothScrollToPosition(actionAdapter.getItemCount() - 1);
+			System.out.println("Action add: " + (actionAdapter.getItemCount() - 1));
+		}
+		
+		@Override
+		public void onActionUpdate(int position)
+		{
+			actionAdapter.onActionUpdate(position);
+		}
+	}
+	
 	private RecyclerView recyclerActions;
 	
 	private ActionAdapter actionAdapter;
@@ -35,28 +52,20 @@ public class ScreenMain extends Screen
 	}
 	
 	@Override
-	public void onStart()
+	public void onActivityCreated(Bundle bundle)
 	{
-		super.onStart();
-		
-		actionsUpdateListener = new ActionManager.OnActionsUpdateListener() {
-			@Override
-			public void onActionAdd()
-			{
-				actionAdapter.onActionAdd();
-				recyclerActions.smoothScrollToPosition(actionAdapter.getItemCount() - 1);
-			}
-			
-			@Override
-			public void onActionUpdate(int position)
-			{
-				actionAdapter.onActionUpdate(position);
-			}
-		};
+		super.onActivityCreated(bundle);
+		if(actionsUpdateListener != null) return;
+		actionsUpdateListener = new ActionsListener();
 		
 		actionManager = gameLogic.getActionManager();
 		actionManager.addOnActionsUpdateListener(actionsUpdateListener);
-		
+	}
+	
+	@Override
+	public void onStart()
+	{
+		super.onStart();
 		actionAdapter.setActionManager(actionManager);
 	}
 	
@@ -64,6 +73,7 @@ public class ScreenMain extends Screen
 	public void onDetach()
 	{
 		super.onDetach();
+		if(actionManager == null) return;
 		actionManager.removeOnActionsUpdateListener(actionsUpdateListener);
 		actionAdapter.setContext(null);
 	}

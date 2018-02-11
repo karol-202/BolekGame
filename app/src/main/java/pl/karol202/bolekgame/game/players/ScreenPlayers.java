@@ -51,7 +51,6 @@ public class ScreenPlayers extends Screen
 		View view = inflater.inflate(R.layout.screen_players, container, false);
 		
 		playersAdapter = new PlayersAdapter(getActivity());
-		playersListener = new PlayersListener();
 		
 		recyclerPlayers = view.findViewById(R.id.recycler_players);
 		recyclerPlayers.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -62,11 +61,20 @@ public class ScreenPlayers extends Screen
 	}
 	
 	@Override
+	public void onActivityCreated(Bundle bundle)
+	{
+		super.onActivityCreated(bundle);
+		if(playersListener != null) return;
+		playersListener = new PlayersListener();
+		
+		players = gameLogic.getPlayers();
+		players.addOnPlayersUpdateListener(playersListener);
+	}
+	
+	@Override
 	public void onStart()
 	{
 		super.onStart();
-		players = gameLogic.getPlayers();
-		players.addOnPlayersUpdateListener(playersListener);
 		playersAdapter.setPlayers(players);
 	}
 	
@@ -74,6 +82,7 @@ public class ScreenPlayers extends Screen
 	public void onDetach()
 	{
 		super.onDetach();
+		if(players == null) return;
 		players.removeOnPlayersUpdateListener(playersListener);
 		playersAdapter.setContext(null);
 	}
