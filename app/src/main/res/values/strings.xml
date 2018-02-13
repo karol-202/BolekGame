@@ -35,12 +35,15 @@
 	<string name="text_votes_value">%d/%d</string>
 	<string name="text_your_vote_yes">Głosowałeś za</string>
 	<string name="text_your_vote_no">Głosowałeś przeciw</string>
+	<string name="text_poll_index_change_hint">Jeśli premier nie zostanie wybrany w najbliższej rundzie, zostanie uchwalona losowa ustawa</string>
 	<string name="text_acts_lustration">Ustawy lustracyjne</string>
 	<string name="text_acts_antilustration">Ustawy antylustracyjne</string>
 	<string name="text_poll_index">Wskaźnik wyborczy</string>
 	<string name="text_waiting_for_veto_response">Oczekiwanie na prezydenta…</string>
 	<string name="text_veto_accepted">Weto przyjęte</string>
 	<string name="text_veto_rejected">Weto odrzucone</string>
+	<string name="text_checking_result_positive">%s jest ministrem</string>
+	<string name="text_checking_result_negative">%s jest TW lub Bolkiem</string>
 	
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
 	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
@@ -85,7 +88,6 @@
 	<string name="action_prime_minister_assigned_you">Zostałeś premierem</string>
 	<string name="action_prime_minister_assigned_empty">Stanowisko premiera zostało opróżnione</string>
 	<string name="action_poll_index_change">Wskaźnik wyborczy został zmieniony</string>
-	<string name="action_poll_index_change_hint">Jeśli premier nie zostanie wybrany w najbliższej rundzie, zostanie uchwalona losowa ustawa</string>
 	<string name="action_choose_acts_president">Wybierz dwie ustawy</string>
 	<string name="action_choose_acts_prime_minister">Wybierz ustawę, którą chcesz uchwalić</string>
 	<string name="action_president_choosing_acts">Prezydent %s wybiera ustawy</string>
@@ -96,6 +98,11 @@
 	<string name="action_veto_response_rejected">Weto zostało odrzucone przez prezydenta %s</string>
 	<string name="action_act_passed">Została uchwalona ustawa</string>
 	<string name="action_random_act_passed">Została uchwalona losowa ustawa</string>
+	<string name="action_president_checking_player">Uchwalona ustawa antylustracyjna pozwala prezydentowi %s sprawdzić jednego gracza</string>
+	<string name="action_check_player">Uchwalona ustawa antylustracyjna pozwala ci sprawdzić jednego gracza</string>
+	<string name="action_check_player_result">Sprawdziłeś %s</string>
+	<string name="action_president_checked_player">Prezydent %s sprawdził %s</string>
+	<string name="action_president_checked_player_you">Prezydent %s sprawdził ciebie</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>

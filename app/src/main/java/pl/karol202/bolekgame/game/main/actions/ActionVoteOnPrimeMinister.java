@@ -17,11 +17,11 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction
 		void onVote(boolean vote);
 	}
 	
-	private ActionUpdateCallback updateCallback;
-	
 	private ContextSupplier contextSupplier;
-	private Player primeMinister;
+	private ActionUpdateCallback updateCallback;
 	private OnVoteListener voteListener;
+	
+	private Player primeMinister;
 	private boolean voted;
 	private boolean vote;
 	private VotingResult votingResult;
@@ -29,8 +29,9 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction
 	public ActionVoteOnPrimeMinister(ContextSupplier contextSupplier, Player primeMinister, OnVoteListener voteListener)
 	{
 		this.contextSupplier = contextSupplier;
-		this.primeMinister = primeMinister;
 		this.voteListener = voteListener;
+		
+		this.primeMinister = primeMinister;
 	}
 	
 	public void onVote(boolean vote)
@@ -49,7 +50,7 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction
 	@Override
 	public int getViewHolderLayout()
 	{
-		return R.layout.item_action_vote_on_prime_minister;
+		return R.layout.item_action_scenes;
 	}
 	
 	@Override
@@ -70,14 +71,14 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction
 		updateCallback = callback;
 	}
 	
-	public String getPrimeMinisterName()
-	{
-		return primeMinister.getName();
-	}
-	
 	public OnVoteListener getOnVoteListener()
 	{
 		return voteListener;
+	}
+	
+	public String getPrimeMinisterName()
+	{
+		return primeMinister.getName();
 	}
 	
 	public boolean isVoted()

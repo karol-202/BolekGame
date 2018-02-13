@@ -96,7 +96,7 @@ public class ClientListenerAdapter implements ClientListener
 	public void onPresidentCheckingPlayer() { }
 	
 	@Override
-	public void onCheckPlayerPresidentRequest(boolean update, List<String> chechablePlayers) { }
+	public void onCheckPlayerPresidentRequest(boolean update, List<String> checkablePlayers) { }
 	
 	@Override
 	public void onPlayerCheckingResult(int result) { }
@@ -120,13 +120,13 @@ public class ClientListenerAdapter implements ClientListener
 	public void onPresidentChoosingPresident() { }
 	
 	@Override
-	public void onChoosePresidentRequest() { }
+	public void onChoosePresidentRequest(boolean update, List<String> availablePlayers) { }
 	
 	@Override
 	public void onPresidentLustrating() { }
 	
 	@Override
-	public void onLustratePresidentRequest() { }
+	public void onLustratePresidentRequest(boolean update, List<String> availablePlayers) { }
 	
 	@Override
 	public void onYouAreLustrated() { }

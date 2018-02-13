@@ -66,7 +66,7 @@ public interface ClientListener
 	
 	void onPresidentCheckingPlayer();
 	
-	void onCheckPlayerPresidentRequest(boolean update, List<String> chechablePlayers);
+	void onCheckPlayerPresidentRequest(boolean update, List<String> checkablePlayers);
 	
 	void onPlayerCheckingResult(int result);
 	
@@ -82,11 +82,11 @@ public interface ClientListener
 	
 	void onPresidentChoosingPresident();
 	
-	void onChoosePresidentRequest();
+	void onChoosePresidentRequest(boolean update, List<String> availablePlayers);
 	
 	void onPresidentLustrating();
 	
-	void onLustratePresidentRequest();
+	void onLustratePresidentRequest(boolean update, List<String> availablePlayers);
 	
 	void onYouAreLustrated();
 	
