@@ -22,16 +22,18 @@ public class ActionCheckPlayer implements UpdatingAction
 	private OnPlayerCheckListener playerCheckListener;
 	private ActionManager.ActionUpdateCallback updateCallback;
 	
+	private boolean description;
 	private List<Player> playersToCheck;
 	private Player checkedPlayer;
 	private boolean hasResult;
 	private boolean result;
 	
-	public ActionCheckPlayer(ContextSupplier contextSupplier, OnPlayerCheckListener playerCheckListener, List<Player> playersToCheck)
+	public ActionCheckPlayer(ContextSupplier contextSupplier, OnPlayerCheckListener playerCheckListener, boolean description, List<Player> playersToCheck)
 	{
 		this.contextSupplier = contextSupplier;
 		this.playerCheckListener = playerCheckListener;
 		
+		this.description = description;
 		this.playersToCheck = playersToCheck;
 	}
 	
@@ -71,6 +73,11 @@ public class ActionCheckPlayer implements UpdatingAction
 		hasResult = true;
 		this.result = result;
 		if(updateCallback != null) updateCallback.updateAction();
+	}
+	
+	public boolean hasDescription()
+	{
+		return description;
 	}
 	
 	public List<Player> getPlayersToCheck()

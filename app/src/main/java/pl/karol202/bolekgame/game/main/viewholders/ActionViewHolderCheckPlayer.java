@@ -39,6 +39,7 @@ public class ActionViewHolderCheckPlayer extends ActionViewHolder<ActionCheckPla
 	
 	private class StateChoosing extends State
 	{
+		private TextView textAction;
 		private RecyclerView recyclerPlayers;
 		
 		private PlayersToCheckAdapter adapter;
@@ -47,6 +48,8 @@ public class ActionViewHolderCheckPlayer extends ActionViewHolder<ActionCheckPla
 		{
 			super(layoutInflater);
 			adapter = new PlayersToCheckAdapter(context);
+			
+			textAction = sceneView.findViewById(R.id.text_check_player_choosing);
 			
 			recyclerPlayers = sceneView.findViewById(R.id.recycler_players_to_check);
 			recyclerPlayers.setLayoutManager(new LinearLayoutManager(context));
@@ -57,6 +60,7 @@ public class ActionViewHolderCheckPlayer extends ActionViewHolder<ActionCheckPla
 		@Override
 		void bind(ActionCheckPlayer action)
 		{
+			textAction.setText(action.hasDescription() ? R.string.action_check_player : R.string.action_check_player_no_description);
 			adapter.setAction(action);
 		}
 		

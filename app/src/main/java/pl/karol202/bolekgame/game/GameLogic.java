@@ -35,6 +35,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private ActionChooseActs chooseActsAction;
 	private boolean randomAct;
 	private ActionCheckPlayer playerCheckAction;
+	private boolean playerCheckNoDescription;
 	
 	GameLogic(Client client, TextChat textChat, String localPlayerName)
 	{
@@ -103,6 +104,13 @@ public class GameLogic extends Logic<ActivityGame>
 	private void checkPlayer(Player player)
 	{
 		sendPacket(new OutputPacketCheckPlayerPresient(player.getName()));
+	}
+	
+	private void choosePlayerOrActsChecking(ActionChoosePlayerOrActsChecking.Choose choose)
+	{
+		if(choose == ActionChoosePlayerOrActsChecking.Choose.PLAYER_CHECKING) playerCheckNoDescription = true;
+		int choice = choose == ActionChoosePlayerOrActsChecking.Choose.PLAYER_CHECKING ? 0 : 1;
+		sendPacket(new OutputPacketChoosePlayerOrActsCheckingPresident(choice));
 	}
 	
 	void exit()
@@ -386,8 +394,9 @@ public class GameLogic extends Logic<ActivityGame>
 				((ActionCheckPlayer) actionManager.getLastAction()).setPlayersToCheck(candidates);
 			else
 			{
-				playerCheckAction = new ActionCheckPlayer(actionManager, this::checkPlayer, candidates);
+				playerCheckAction = new ActionCheckPlayer(actionManager, this::checkPlayer, !playerCheckNoDescription, candidates);
 				actionManager.addAction(playerCheckAction);
+				playerCheckNoDescription = false;
 			}
 		});
 	}
@@ -416,25 +425,31 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onPresidentCheckingPlayerOrActs()
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			actionManager.addAction(new ActionPresidentCheckingPlayerOrActs(actionManager, president));
+		});
 	}
 	
 	@Override
 	public void onChoosePlayerOrActsCheckingPresidentRequest()
 	{
-	
+		runInUIThread(() -> actionManager.addAction(new ActionChoosePlayerOrActsChecking(actionManager, this::choosePlayerOrActsChecking)));
 	}
 	
 	@Override
 	public void onActsCheckingResult(Act[] acts)
 	{
-	
+		runInUIThread(() -> actionManager.addAction(new ActionActsCheckingResult(acts)));
 	}
 	
 	@Override
 	public void onPresidentCheckedActs()
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			actionManager.addAction(new ActionPresidentCheckedActs(actionManager, president));
+		});
 	}
 	
 	@Override
