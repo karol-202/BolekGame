@@ -110,6 +110,8 @@
 	<string name="action_choose_player_or_acts_checking">Uchwalona ustawa antylustracyjna pozwala ci sprawdzić jednego gracza lub 3 następne ustawy</string>
 	<string name="action_acts_checking_result">Oto 3 następne ustawy</string>
 	<string name="action_president_checked_acts">Prezydent %s sprawdził 3 następne ustawy</string>
+	<string name="action_president_choosing_president">Uchwalona ustawa antylustracyjna pozwala prezydentowi %s wybrać nowego prezydenta</string>
+	<string name="action_choose_president">Uchwalona ustawa antylustracyjna pozwala ci wybrać nowego prezydenta</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>

@@ -113,6 +113,11 @@ public class GameLogic extends Logic<ActivityGame>
 		sendPacket(new OutputPacketChoosePlayerOrActsCheckingPresident(choice));
 	}
 	
+	private void choosePresident(Player player)
+	{
+		sendPacket(new OutputPacketChoosePresident(player.getName()));
+	}
+	
 	void exit()
 	{
 		sendPacket(new OutputPacketExitGame());
@@ -455,13 +460,21 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onPresidentChoosingPresident()
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			actionManager.addAction(new ActionPresidentChoosingPresident(actionManager, president));
+		});
 	}
 	
 	@Override
 	public void onChoosePresidentRequest(boolean update, List<String> availablePlayers)
 	{
-	
+		runInUIThread(() -> {
+			List<Player> candidates = StreamSupport.stream(availablePlayers).map(players::findPlayer).collect(Collectors.toList());
+			if(update && actionManager.getLastAction() instanceof ActionChoosePresident)
+				((ActionChoosePresident) actionManager.getLastAction()).setCandidates(candidates);
+			else actionManager.addAction(new ActionChoosePresident(actionManager, this::choosePresident, candidates));
+		});
 	}
 	
 	@Override

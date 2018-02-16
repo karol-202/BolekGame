@@ -12,13 +12,11 @@ public class ActionViewHolderChoosePrimeMinister extends ActionViewHolder<Action
 {
 	private RecyclerView recyclerPrimeMinisterCandidates;
 	
-	private Context context;
 	private PrimeMinisterCandidatesAdapter adapter;
 	
 	public ActionViewHolderChoosePrimeMinister(View view, Context context)
 	{
 		super(view);
-		this.context = context;
 		adapter = new PrimeMinisterCandidatesAdapter(context);
 		
 		recyclerPrimeMinisterCandidates = view.findViewById(R.id.recycler_prime_minister_candidates);
