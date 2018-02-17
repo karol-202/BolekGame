@@ -190,11 +190,11 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		if(screenActs != null) screenActs.onActsUpdate();
 	}
 	
-	void onTooFewPlayers()
+	void onYouAreLustrated()
 	{
 		Dialog dialog = new Dialog(dialogManager);
-		dialog.setTitle(R.string.dialog_too_few_players);
-		dialog.setMessage(R.string.dialog_too_few_players_detail);
+		dialog.setTitle(R.string.dialog_you_are_lustrated);
+		dialog.setMessage(R.string.dialog_you_are_lustrated_detail);
 		dialog.setPositiveButton(R.string.button_ok, (d, w) -> finish());
 		dialog.setUncancelable();
 		dialog.commit();
@@ -203,6 +203,16 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	void onGameExit()
 	{
 		finish();
+	}
+	
+	void onTooFewPlayers()
+	{
+		Dialog dialog = new Dialog(dialogManager);
+		dialog.setTitle(R.string.dialog_too_few_players);
+		dialog.setMessage(R.string.dialog_too_few_players_detail);
+		dialog.setPositiveButton(R.string.button_ok, (d, w) -> finish());
+		dialog.setUncancelable();
+		dialog.commit();
 	}
 	
 	@Override

@@ -46,6 +46,12 @@
 	<string name="text_veto_rejected">Weto odrzucone</string>
 	<string name="text_checking_result_positive">%s jest ministrem</string>
 	<string name="text_checking_result_negative">%s jest TW lub Bolkiem</string>
+	<string name="text_lustration_result_bolek">%s był Bolkiem</string>
+	<string name="text_lustration_result_not_bolek">%s nie był Bolkiem</string>
+	<string name="text_win_cause_acts_ministers">Zostało uchwalonych 5 ustaw lustracyjnych</string>
+	<string name="text_win_cause_acts_collaborators">Zostało uchwalonych 6 ustaw antylustracyjnych</string>
+	<string name="text_win_cause_bolek_ministers">Bolek został wyeliminowany</string>
+	<string name="text_win_cause_bolek_collaborators">Bolek został premierem</string>
 	
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
 	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
@@ -68,6 +74,8 @@
 	<string name="dialog_leave_are_you_sure">Czy na pewno chcesz wyjść?</string>
 	<string name="dialog_leave_are_you_sure_detail">Po wyjściu nie będziesz mógł kontynuować gry</string>
 	<string name="dialog_leave_are_you_sure_detail_game_end">Po wyjściu gra zostanie zakończona ze względu na zbyt małą liczbę graczy</string>
+	<string name="dialog_you_are_lustrated">Zostałeś wyeliminowany przez prezydenta %s</string>
+	<string name="dialog_you_are_lustrated_detail">Odchodzisz z gry</string>
 	
 	<string name="snackbar_action_change_username">Zmień</string>
 	
@@ -112,6 +120,14 @@
 	<string name="action_president_checked_acts">Prezydent %s sprawdził 3 następne ustawy</string>
 	<string name="action_president_choosing_president">Uchwalona ustawa antylustracyjna pozwala prezydentowi %s wybrać nowego prezydenta</string>
 	<string name="action_choose_president">Uchwalona ustawa antylustracyjna pozwala ci wybrać nowego prezydenta</string>
+	<string name="action_president_chosen_presiednt">Na nowego prezydenta został wybrany %s</string>
+	<string name="action_president_chosen_president_you">Zostałeś wybrany na nowego prezydenta</string>
+	<string name="action_president_lustrating">Uchwalona ustawa antylustracyjna pozwala prezydentowi %s wyeliminować jednego gracza.</string>
+	<string name="action_lustrate">Uchwalona ustwa antylustracyjna pozwali ci wyeliminować jednego gracza</string>
+	<string name="action_lustration_result">Gracz %s został wyeliminowany przez prezydenta %s</string>
+	<string name="action_lustration_result_you">Wyeliminowałeś gracza %s</string>
+	<string name="action_win_ministers">Ministrowie wygrywają</string>
+	<string name="action_win_collaborators">Tajni współpracownicy wygrywają</string>
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>

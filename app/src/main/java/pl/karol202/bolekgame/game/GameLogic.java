@@ -36,6 +36,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private boolean randomAct;
 	private ActionCheckPlayer playerCheckAction;
 	private boolean playerCheckNoDescription;
+	private boolean choosingOfPresident;
 	
 	GameLogic(Client client, TextChat textChat, String localPlayerName)
 	{
@@ -116,6 +117,11 @@ public class GameLogic extends Logic<ActivityGame>
 	private void choosePresident(Player player)
 	{
 		sendPacket(new OutputPacketChoosePresident(player.getName()));
+	}
+	
+	private void lustrate(Player player)
+	{
+		sendPacket(new OutputPacketLustratePresident(player.getName()));
 	}
 	
 	void exit()
@@ -215,8 +221,9 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			boolean amIPresident = president.equals(players.getLocalPlayerName());
-			actionManager.addAction(new ActionPresidentAssigned(actionManager, president, amIPresident));
+			actionManager.addAction(new ActionPresidentAssigned(actionManager, president, amIPresident, choosingOfPresident));
 			players.setPlayerPositionAndResetRest(president, Position.PRESIDENT);
+			choosingOfPresident = false;
 		});
 	}
 	
@@ -463,6 +470,7 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(() -> {
 			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
 			actionManager.addAction(new ActionPresidentChoosingPresident(actionManager, president));
+			choosingOfPresident = true;
 		});
 	}
 	
@@ -480,25 +488,40 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onPresidentLustrating()
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			actionManager.addAction(new ActionPresidentLustrating(actionManager, president));
+		});
 	}
 	
 	@Override
 	public void onLustratePresidentRequest(boolean update, List<String> availablePlayers)
 	{
-	
+		runInUIThread(() -> {
+			List<Player> candidates = StreamSupport.stream(availablePlayers).map(players::findPlayer).collect(Collectors.toList());
+			if(update && actionManager.getLastAction() instanceof ActionLustrate)
+				((ActionLustrate) actionManager.getLastAction()).setAvailablePlayers(candidates);
+			else actionManager.addAction(new ActionLustrate(actionManager, this::lustrate, candidates));
+		});
 	}
 	
 	@Override
 	public void onYouAreLustrated()
 	{
-		ignoreGameExit = true;
+		runInUIThread(() -> {
+			activity.onYouAreLustrated();
+			ignoreGameExit = true;
+		});
 	}
 	
 	@Override
 	public void onPresidentLustrated(String player, boolean wasBolek)
 	{
-	
+		runInUIThread(() -> {
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			boolean amIPresident = president.equals(players.getLocalPlayerName());
+			actionManager.addAction(new ActionLustrationResult(actionManager, president, amIPresident, player, wasBolek));
+		});
 	}
 	
 	@Override
@@ -516,17 +539,20 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onGameExited()
 	{
-		if(ignoreGameExit) return;
-		runInUIThread(() -> activity.onGameExit());
+		runInUIThread(() -> {
+			if(ignoreGameExit) return;
+			activity.onGameExit();
+		});
 		suspendClient();
 	}
 	
 	@Override
 	public void onTooFewPlayers()
 	{
-		ignoreGameExit = true;
-		runInUIThread(activity::onTooFewPlayers);
-		suspendClient();
+		runInUIThread(() -> {
+			activity.onTooFewPlayers();
+			ignoreGameExit = true;
+		});
 	}
 	
 	public ActionManager getActionManager()
