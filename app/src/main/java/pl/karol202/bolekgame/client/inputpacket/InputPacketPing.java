@@ -9,8 +9,5 @@ public class InputPacketPing implements InputPacket
 	public void readData(DataBundle bundle) { }
 	
 	@Override
-	public void execute(ClientListener clientListener)
-	{
-		clientListener.onPing();
-	}
+	public void execute(ClientListener clientListener) { }
 }

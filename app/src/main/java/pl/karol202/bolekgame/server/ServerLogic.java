@@ -3,7 +3,6 @@ package pl.karol202.bolekgame.server;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogout;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
-import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.utils.Logic;
@@ -58,12 +57,6 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 	public void onDisconnect()
 	{
 		runInUIThread(() -> activity.onDisconnect());
-	}
-	
-	@Override
-	public void onPing()
-	{
-		sendPacket(new OutputPacketPong());
 	}
 	
 	@Override

@@ -14,7 +14,7 @@ public class OutputPacketLustratePresident implements OutputPacket
 	@Override
 	public void saveData(DataBundle bundle)
 	{
-		bundle.getString("player", player);
+		bundle.putString("player", player);
 	}
 	
 	@Override

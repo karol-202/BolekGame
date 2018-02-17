@@ -190,10 +190,10 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		if(screenActs != null) screenActs.onActsUpdate();
 	}
 	
-	void onYouAreLustrated()
+	void onYouAreLustrated(String president)
 	{
 		Dialog dialog = new Dialog(dialogManager);
-		dialog.setTitle(R.string.dialog_you_are_lustrated);
+		dialog.setTitle(getString(R.string.dialog_you_are_lustrated, president));
 		dialog.setMessage(R.string.dialog_you_are_lustrated_detail);
 		dialog.setPositiveButton(R.string.button_ok, (d, w) -> finish());
 		dialog.setUncancelable();

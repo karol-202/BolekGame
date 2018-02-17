@@ -2,8 +2,10 @@ package pl.karol202.bolekgame.client;
 
 import pl.karol202.bolekgame.client.inputpacket.InputPacket;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketFactory;
+import pl.karol202.bolekgame.client.inputpacket.InputPacketPing;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacket;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketEncoder;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketPong;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,7 +87,8 @@ public class Client
 		{
 			InputPacket packet = receivePacket();
 			if(packet == null) break;
-			if(!suspendPacketExecution) executePacket(packet);
+			if(packet instanceof InputPacketPing) handlePingPacket();
+			else if(!suspendPacketExecution) executePacket(packet);
 			else packetBuffer.offer(packet);
 		}
 		closeSocket();
@@ -100,6 +103,11 @@ public class Client
 		if(bytesRead != length) return null;
 		
 		return InputPacketFactory.createPacket(bytes);
+	}
+	
+	private void handlePingPacket() throws IOException
+	{
+		writePacket(new OutputPacketPong());
 	}
 	
 	private void executePacket(InputPacket packet)
@@ -151,7 +159,7 @@ public class Client
 	
 	public boolean isConnected()
 	{
-		return socket != null &&socket.isConnected() && !socket.isClosed();
+		return socket != null && socket.isConnected() && !socket.isClosed();
 	}
 	
 	public synchronized void setClientListener(ClientListener listener)

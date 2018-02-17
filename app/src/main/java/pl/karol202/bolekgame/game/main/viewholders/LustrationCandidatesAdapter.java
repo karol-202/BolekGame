@@ -26,7 +26,7 @@ public class LustrationCandidatesAdapter extends RecyclerView.Adapter<Lustration
 			super(view);
 			view.setOnClickListener(v -> listener.onLustration(player));
 			
-			textName = view.findViewById(R.id.text_president_candidate_name);
+			textName = view.findViewById(R.id.text_lustration_candidate_name);
 		}
 		
 		private void bind(Player player)

@@ -7,7 +7,7 @@ public class ActionPresidentAssigned extends SimpleAction
 {
 	private String text;
 	
-	public ActionPresidentAssigned(ContextSupplier contextSupplier, String president, boolean amIPresident, boolean extraordinary)
+	public ActionPresidentAssigned(ContextSupplier contextSupplier, String president, boolean amIPresident, boolean again, boolean extraordinary)
 	{
 		if(extraordinary)
 		{
@@ -16,8 +16,16 @@ public class ActionPresidentAssigned extends SimpleAction
 		}
 		else
 		{
-			if(amIPresident) text = contextSupplier.getString(R.string.action_president_assigned_you);
-			else text = contextSupplier.getString(R.string.action_president_assigned, president);
+			if(amIPresident)
+			{
+				if(again) text = contextSupplier.getString(R.string.action_president_assigned_again_you);
+				else text = contextSupplier.getString(R.string.action_president_assigned_you);
+			}
+			else
+			{
+				if(again) text = contextSupplier.getString(R.string.action_president_assigned_again, president);
+				else text = contextSupplier.getString(R.string.action_president_assigned, president);
+			}
 		}
 	}
 	

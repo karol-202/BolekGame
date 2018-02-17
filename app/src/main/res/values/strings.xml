@@ -19,6 +19,7 @@
 	<string name="button_veto_reject">Odrzuć</string>
 	<string name="button_choose_player_checking">Sprawdź gracza</string>
 	<string name="button_choose_acts_checking">Sprawdź ustawy</string>
+	<string name="button_end_game">Zakończ grę</string>
 	
 	<string name="text_connecting">Łączenie…</string>
 	<string name="text_cannot_connect">Nie można połączyć</string>
@@ -89,6 +90,8 @@
 	<string name="action_stack_refilled">Stos ustaw został uzupełniony</string>
 	<string name="action_president_assigned">%s został prezydentem</string>
 	<string name="action_president_assigned_you">Zostałeś prezydentem</string>
+	<string name="action_president_assigned_again">%s został ponownie prezydentem</string>
+	<string name="action_president_assigned_again_you">Ponownie zostałeś prezydentem</string>
 	<string name="action_choose_prime_minister">Wybierz premiera</string>
 	<string name="action_prime_minister_chosen">%s został wybrany na premiera przez %s</string>
 	<string name="action_prime_minister_chosen_you">%s wybrał cię na premiera</string>

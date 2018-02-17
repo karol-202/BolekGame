@@ -10,8 +10,6 @@ public interface ClientListener
 {
 	void onDisconnect();
 	
-	void onPing();
-	
 	void onFailure(int problem);
 	
 	void onLoggedIn(String serverName, int serverCode);

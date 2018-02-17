@@ -12,9 +12,6 @@ public class ClientListenerAdapter implements ClientListener
 	public void onDisconnect() { }
 	
 	@Override
-	public void onPing() { }
-	
-	@Override
 	public void onFailure(int problem) { }
 	
 	@Override

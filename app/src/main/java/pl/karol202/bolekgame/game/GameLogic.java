@@ -29,6 +29,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private Players players;
 	private TextChat textChat;
 	
+	private Role role;
 	private boolean ignoreGameExit;
 	private Player primeMinisterCandidate;
 	private ActionVoteOnPrimeMinister votingAction;
@@ -37,6 +38,8 @@ public class GameLogic extends Logic<ActivityGame>
 	private ActionCheckPlayer playerCheckAction;
 	private boolean playerCheckNoDescription;
 	private boolean choosingOfPresident;
+	private String lustratedPlayerName;
+	private boolean gameEnd;
 	
 	GameLogic(Client client, TextChat textChat, String localPlayerName)
 	{
@@ -144,20 +147,18 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	private void onPlayerLeaved(Player player)
 	{
-		activity.onPlayerLeaved(player);
-		actionManager.addAction(new ActionPlayerLeaved(actionManager, player.getName()));
+		if(!player.getName().equals(lustratedPlayerName))
+		{
+			activity.onPlayerLeaved(player);
+			actionManager.addAction(new ActionPlayerLeaved(actionManager, player.getName()));
+		}
+		lustratedPlayerName = null;
 	}
 	
 	@Override
 	public void onDisconnect()
 	{
 		runInUIThread(activity::onDisconnect);
-	}
-	
-	@Override
-	public void onPing()
-	{
-		sendPacket(new OutputPacketPong());
 	}
 	
 	@Override
@@ -184,6 +185,7 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onRoleAssigned(Role role)
 	{
 		runInUIThread(() -> {
+			this.role = role;
 			actionManager.addAction(new ActionRoleAssigned(actionManager, role));
 			activity.onRoleAssigned(role);
 		});
@@ -220,8 +222,11 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onPresidentAssignment(String president)
 	{
 		runInUIThread(() -> {
+			Player previousPresident = players.getPlayerAtPosition(Position.PRESIDENT);
+			boolean again = previousPresident != null && president.equals(previousPresident.getName());
+			
 			boolean amIPresident = president.equals(players.getLocalPlayerName());
-			actionManager.addAction(new ActionPresidentAssigned(actionManager, president, amIPresident, choosingOfPresident));
+			actionManager.addAction(new ActionPresidentAssigned(actionManager, president, amIPresident, again, choosingOfPresident));
 			players.setPlayerPositionAndResetRest(president, Position.PRESIDENT);
 			choosingOfPresident = false;
 		});
@@ -282,10 +287,11 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onPrimeMinisterAssigment(String primeMinister)
 	{
 		runInUIThread(() -> {
+			players.setPlayerPositionAndResetRest(primeMinister, Position.PRIME_MINISTER);
+			
 			if(actionManager.getLastAction() instanceof ActionPresidentAssigned) return;
 			boolean amIPrimeMinister = primeMinister.equals(players.getLocalPlayerName());
 			actionManager.addAction(new ActionPrimeMinisterAssigned(actionManager, primeMinister, amIPrimeMinister));
-			players.setPlayerPositionAndResetRest(primeMinister, Position.PRIME_MINISTER);
 		});
 	}
 	
@@ -509,7 +515,8 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onYouAreLustrated()
 	{
 		runInUIThread(() -> {
-			activity.onYouAreLustrated();
+			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
+			activity.onYouAreLustrated(president);
 			ignoreGameExit = true;
 		});
 	}
@@ -521,19 +528,28 @@ public class GameLogic extends Logic<ActivityGame>
 			String president = players.getPlayerAtPosition(Position.PRESIDENT).getName();
 			boolean amIPresident = president.equals(players.getLocalPlayerName());
 			actionManager.addAction(new ActionLustrationResult(actionManager, president, amIPresident, player, wasBolek));
+			lustratedPlayerName = player;
 		});
 	}
 	
 	@Override
 	public void onWin(WinCause cause)
 	{
-		ignoreGameExit = true;
+		runInUIThread(() -> onGameEnd(true, cause));
 	}
 	
 	@Override
 	public void onLoss(WinCause cause)
 	{
-		ignoreGameExit = true;
+		runInUIThread(() -> onGameEnd(false, cause));
+	}
+	
+	private void onGameEnd(boolean win, WinCause cause)
+	{
+		boolean ministersWin = win && role == Role.MINISTER ||
+							  !win && role != Role.MINISTER;
+		actionManager.addAction(new ActionWin(ministersWin, cause));
+		gameEnd = true;
 	}
 	
 	@Override
@@ -541,7 +557,8 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			if(ignoreGameExit) return;
-			activity.onGameExit();
+			if(!gameEnd) activity.onGameExit();
+			else actionManager.addAction(new ActionEndGame(activity::onGameExit));
 		});
 		suspendClient();
 	}
@@ -553,6 +570,7 @@ public class GameLogic extends Logic<ActivityGame>
 			activity.onTooFewPlayers();
 			ignoreGameExit = true;
 		});
+		suspendClient();
 	}
 	
 	public ActionManager getActionManager()
