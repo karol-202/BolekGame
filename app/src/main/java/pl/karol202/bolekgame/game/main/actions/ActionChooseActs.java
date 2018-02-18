@@ -8,7 +8,7 @@ import pl.karol202.bolekgame.game.main.ActionManager;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderChooseActs;
 
-public class ActionChooseActs implements UpdatingAction
+public class ActionChooseActs implements UpdatingAction, CancellableAction
 {
 	public interface OnActDismissListener
 	{
@@ -24,6 +24,7 @@ public class ActionChooseActs implements UpdatingAction
 	private OnVetoRequestListener vetoListener;
 	private ActionManager.ActionUpdateCallback updateCallback;
 	
+	private boolean cancelled;
 	private boolean vetoApplicable;
 	private Act[] acts;
 	private boolean[] actSelection;
@@ -61,9 +62,22 @@ public class ActionChooseActs implements UpdatingAction
 		return ActionViewHolderChooseActs::new;
 	}
 	
+	@Override
+	public void cancel()
+	{
+		cancelled = true;
+		for(int i = 0; i < actSelection.length; i++) actSelection[i] = false;
+		if(updateCallback != null) updateCallback.updateAction();
+	}
+	
+	public boolean isCancelled()
+	{
+		return cancelled;
+	}
+	
 	public void dismissAct(Act act)
 	{
-		if(!canActBeDismissed()) return;
+		if(!canActBeDismissed() || cancelled) return;
 		chosen = true;
 		if(actListener != null) actListener.onActDismiss(act);
 		if(updateCallback != null) updateCallback.updateAction();
@@ -71,7 +85,7 @@ public class ActionChooseActs implements UpdatingAction
 	
 	public void requestVeto()
 	{
-		if(!vetoApplicable || vetoRequested) return;
+		if(!vetoApplicable || vetoRequested || cancelled) return;
 		vetoRequested = true;
 		for(int i = 0; i < actSelection.length; i++) actSelection[i] = false;
 		if(vetoListener != null) vetoListener.onVetoRequest();
@@ -107,6 +121,7 @@ public class ActionChooseActs implements UpdatingAction
 	
 	public void setActSelection(int index, boolean selection)
 	{
+		if(cancelled) return;
 		actSelection[index] = selection;
 	}
 	
@@ -117,7 +132,7 @@ public class ActionChooseActs implements UpdatingAction
 	
 	public boolean canActBeDismissed()
 	{
-		return !(chosen || (vetoRequested && !vetoResponsed) || (vetoResponsed && vetoAccepted));
+		return !chosen && !(vetoRequested && !vetoResponsed) && !(vetoResponsed && vetoAccepted) && !cancelled;
 	}
 	
 	public boolean isVetoRequested()

@@ -11,7 +11,7 @@ import pl.karol202.bolekgame.game.players.Player;
 
 import java.util.List;
 
-public class ActionCheckPlayer implements UpdatingAction
+public class ActionCheckPlayer implements UpdatingAction, CancellableAction
 {
 	public interface OnPlayerCheckListener
 	{
@@ -22,6 +22,7 @@ public class ActionCheckPlayer implements UpdatingAction
 	private OnPlayerCheckListener playerCheckListener;
 	private ActionManager.ActionUpdateCallback updateCallback;
 	
+	private boolean cancelled;
 	private boolean description;
 	private List<Player> playersToCheck;
 	private Player checkedPlayer;
@@ -56,6 +57,12 @@ public class ActionCheckPlayer implements UpdatingAction
 	}
 	
 	@Override
+	public void cancel()
+	{
+		 cancelled = true;
+	}
+	
+	@Override
 	public void setUpdateCallback(ActionManager.ActionUpdateCallback callback)
 	{
 		updateCallback = callback;
@@ -63,7 +70,7 @@ public class ActionCheckPlayer implements UpdatingAction
 	
 	public void checkPlayer(Player player)
 	{
-		if(!playersToCheck.contains(player) || checkedPlayer != null) return;
+		if(!playersToCheck.contains(player) || checkedPlayer != null || cancelled) return;
 		checkedPlayer = player;
 		if(playerCheckListener != null) playerCheckListener.onPlayerCheck(player);
 	}

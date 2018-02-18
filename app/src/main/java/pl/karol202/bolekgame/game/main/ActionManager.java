@@ -2,6 +2,7 @@ package pl.karol202.bolekgame.game.main;
 
 import android.content.Context;
 import pl.karol202.bolekgame.game.main.actions.Action;
+import pl.karol202.bolekgame.game.main.actions.CancellableAction;
 import pl.karol202.bolekgame.game.main.actions.UpdatingAction;
 
 import java.util.ArrayList;
@@ -44,6 +45,11 @@ public class ActionManager implements ContextSupplier
 	{
 		int position = actions.indexOf(action);
 		for(OnActionsUpdateListener listener : actionsUpdateListeners) listener.onActionUpdate(position);
+	}
+	
+	public void cancelAllActions()
+	{
+		for(Action action : actions) if(action instanceof CancellableAction) ((CancellableAction) action).cancel();
 	}
 	
 	boolean containsAction(int position)

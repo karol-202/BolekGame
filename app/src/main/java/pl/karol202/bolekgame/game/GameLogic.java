@@ -229,6 +229,8 @@ public class GameLogic extends Logic<ActivityGame>
 			actionManager.addAction(new ActionPresidentAssigned(actionManager, president, amIPresident, again, choosingOfPresident));
 			players.setPlayerPositionAndResetRest(president, Position.PRESIDENT);
 			choosingOfPresident = false;
+			
+			actionManager.cancelAllActions();
 		});
 	}
 	
@@ -452,7 +454,7 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onChoosePlayerOrActsCheckingPresidentRequest()
 	{
-		runInUIThread(() -> actionManager.addAction(new ActionChoosePlayerOrActsChecking(actionManager, this::choosePlayerOrActsChecking)));
+		runInUIThread(() -> actionManager.addAction(new ActionChoosePlayerOrActsChecking(this::choosePlayerOrActsChecking)));
 	}
 	
 	@Override

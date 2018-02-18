@@ -11,7 +11,7 @@ import pl.karol202.bolekgame.game.players.Player;
 
 import java.util.List;
 
-public class ActionLustrate implements UpdatingAction
+public class ActionLustrate implements UpdatingAction, CancellableAction
 {
 	public interface OnLustrationListener
 	{
@@ -22,6 +22,7 @@ public class ActionLustrate implements UpdatingAction
 	private OnLustrationListener lustrationListener;
 	private ActionManager.ActionUpdateCallback updateCallback;
 	
+	private boolean cancelled;
 	private List<Player> availablePlayers;
 	private Player lustratedPlayer;
 	
@@ -51,9 +52,15 @@ public class ActionLustrate implements UpdatingAction
 		return v -> new ActionViewHolderLustrate(v, contextSupplier.getContext());
 	}
 	
+	@Override
+	public void cancel()
+	{
+		cancelled = true;
+	}
+	
 	private void lustrate(Player player)
 	{
-		if(!availablePlayers.contains(player) || lustratedPlayer != null) return;
+		if(!availablePlayers.contains(player) || lustratedPlayer != null || cancelled) return;
 		lustratedPlayer = player;
 		if(lustrationListener != null) lustrationListener.onLustration(player);
 		if(updateCallback != null) updateCallback.updateAction();

@@ -4,11 +4,10 @@ import android.view.View;
 import java8.util.function.Function;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.main.ActionManager;
-import pl.karol202.bolekgame.game.main.ContextSupplier;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderChoosePlayerOrActsChecking;
 
-public class ActionChoosePlayerOrActsChecking implements UpdatingAction
+public class ActionChoosePlayerOrActsChecking implements UpdatingAction, CancellableAction
 {
 	public enum Choose
 	{
@@ -20,15 +19,14 @@ public class ActionChoosePlayerOrActsChecking implements UpdatingAction
 		void onChoose(Choose choose);
 	}
 	
-	private ContextSupplier contextSupplier;
 	private OnPlayerOrActsCheckingChoose chooseListener;
 	private ActionManager.ActionUpdateCallback updateCallback;
 	
+	private boolean cancelled;
 	private boolean chosen;
 	
-	public ActionChoosePlayerOrActsChecking(ContextSupplier contextSupplier, OnPlayerOrActsCheckingChoose chooseListener)
+	public ActionChoosePlayerOrActsChecking(OnPlayerOrActsCheckingChoose chooseListener)
 	{
-		this.contextSupplier = contextSupplier;
 		this.chooseListener = chooseListener;
 	}
 	
@@ -50,8 +48,20 @@ public class ActionChoosePlayerOrActsChecking implements UpdatingAction
 		return ActionViewHolderChoosePlayerOrActsChecking::new;
 	}
 	
+	@Override
+	public void cancel()
+	{
+		cancelled = true;
+	}
+	
+	public boolean isCancelled()
+	{
+		return cancelled;
+	}
+	
 	public void choosePlayerChecking()
 	{
+		if(cancelled) return;
 		chooseListener.onChoose(Choose.PLAYER_CHECKING);
 		chosen = true;
 		if(updateCallback != null) updateCallback.updateAction();
@@ -59,6 +69,7 @@ public class ActionChoosePlayerOrActsChecking implements UpdatingAction
 	
 	public void chooseActsChecking()
 	{
+		if(cancelled) return;
 		chooseListener.onChoose(Choose.ACTS_CHECKING);
 		chosen = true;
 		if(updateCallback != null) updateCallback.updateAction();

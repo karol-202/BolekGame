@@ -10,7 +10,7 @@ import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderVoteOnPrimeMinister;
 import pl.karol202.bolekgame.game.players.Player;
 
-public class ActionVoteOnPrimeMinister implements UpdatingAction
+public class ActionVoteOnPrimeMinister implements UpdatingAction, CancellableAction
 {
 	public interface OnVoteListener
 	{
@@ -21,6 +21,7 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction
 	private ActionUpdateCallback updateCallback;
 	private OnVoteListener voteListener;
 	
+	private boolean cancelled;
 	private Player primeMinister;
 	private boolean voted;
 	private boolean vote;
@@ -36,6 +37,7 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction
 	
 	public void onVote(boolean vote)
 	{
+		if(voted || cancelled) return;
 		this.voted = true;
 		this.vote = vote;
 		updateCallback.updateAction();
@@ -63,6 +65,18 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction
 	public Function<View, ? extends ActionViewHolder> getViewHolderCreator()
 	{
 		return v -> new ActionViewHolderVoteOnPrimeMinister(v, contextSupplier.getContext());
+	}
+	
+	@Override
+	public void cancel()
+	{
+		cancelled = true;
+		if(updateCallback != null) updateCallback.updateAction();
+	}
+	
+	public boolean isCancelled()
+	{
+		return cancelled;
 	}
 	
 	@Override

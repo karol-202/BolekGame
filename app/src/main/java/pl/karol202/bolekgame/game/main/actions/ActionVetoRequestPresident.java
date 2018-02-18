@@ -8,7 +8,7 @@ import pl.karol202.bolekgame.game.main.ContextSupplier;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderVetoRequest;
 
-public class ActionVetoRequestPresident implements UpdatingAction
+public class ActionVetoRequestPresident implements UpdatingAction, CancellableAction
 {
 	public interface OnVetoResponseListener
 	{
@@ -19,6 +19,7 @@ public class ActionVetoRequestPresident implements UpdatingAction
 	private OnVetoResponseListener listener;
 	private ActionUpdateCallback updateCallback;
 	
+	private boolean cancelled;
 	private String primeMinister;
 	private boolean responsed;
 	private boolean response;
@@ -48,9 +49,20 @@ public class ActionVetoRequestPresident implements UpdatingAction
 		return v -> new ActionViewHolderVetoRequest(v, contextSupplier.getContext());
 	}
 	
+	@Override
+	public void cancel()
+	{
+		cancelled = true;
+	}
+	
+	public boolean isCancelled()
+	{
+		return cancelled;
+	}
+	
 	public void makeADecision(boolean decision)
 	{
-		if(responsed) return;
+		if(responsed || cancelled) return;
 		responsed = true;
 		response = decision;
 		if(listener != null) listener.onVetoResponse(response);

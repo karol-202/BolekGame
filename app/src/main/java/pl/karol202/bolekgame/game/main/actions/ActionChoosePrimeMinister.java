@@ -11,7 +11,7 @@ import pl.karol202.bolekgame.game.players.Player;
 
 import java.util.List;
 
-public class ActionChoosePrimeMinister implements UpdatingAction
+public class ActionChoosePrimeMinister implements UpdatingAction, CancellableAction
 {
 	public interface OnPrimeMinisterCandidateChooseListener
 	{
@@ -22,6 +22,7 @@ public class ActionChoosePrimeMinister implements UpdatingAction
 	private OnPrimeMinisterCandidateChooseListener listener;
 	private ActionUpdateCallback updateCallback;
 	
+	private boolean cancelled;
 	private List<Player> candidates;
 	private Player choosenCandidate;
 	
@@ -51,6 +52,12 @@ public class ActionChoosePrimeMinister implements UpdatingAction
 	}
 	
 	@Override
+	public void cancel()
+	{
+		cancelled = true;
+	}
+	
+	@Override
 	public void setUpdateCallback(ActionUpdateCallback callback)
 	{
 		updateCallback = callback;
@@ -58,7 +65,7 @@ public class ActionChoosePrimeMinister implements UpdatingAction
 	
 	private void chooseCandidate(Player player)
 	{
-		if(!candidates.contains(player) || choosenCandidate != null) return;
+		if(!candidates.contains(player) || choosenCandidate != null || cancelled) return;
 		choosenCandidate = player;
 		if(updateCallback != null) updateCallback.updateAction();
 		if(listener != null) listener.onPrimeMinisterCandidateChoose(player);

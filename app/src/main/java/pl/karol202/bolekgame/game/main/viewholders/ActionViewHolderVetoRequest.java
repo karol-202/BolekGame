@@ -32,10 +32,10 @@ public class ActionViewHolderVetoRequest extends ActionViewHolder<ActionVetoRequ
 	{
 		textVetoRequest.setText(context.getString(R.string.action_veto_request, action.getPrimeMinisterName()));
 		
-		buttonAccept.setEnabled(!action.isResponsed());
+		buttonAccept.setEnabled(!action.isResponsed() && !action.isCancelled());
 		buttonAccept.setOnClickListener(v -> action.makeADecision(true));
 		
-		buttonReject.setEnabled(!action.isResponsed());
+		buttonReject.setEnabled(!action.isResponsed() && !action.isCancelled());
 		buttonReject.setOnClickListener(v -> action.makeADecision(false));
 		
 		textDecision.setVisibility(action.isResponsed() ? View.VISIBLE : View.GONE);

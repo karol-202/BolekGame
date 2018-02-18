@@ -439,6 +439,10 @@ public class ActivityMain extends AppCompatActivity
 		
 		mainConstraintSet.applyTo(mainLayout);
 		connectingConstraintSet.applyTo(panelConnection);
+		
+		editTextServerName.setEnabled(true);
+		editTextServerCode.setEnabled(false);
+		editTextServerName.requestFocus();
 	}
 	
 	private void setJoinServerLayout()
@@ -452,6 +456,10 @@ public class ActivityMain extends AppCompatActivity
 		
 		mainConstraintSet.applyTo(mainLayout);
 		connectingConstraintSet.applyTo(panelConnection);
+		
+		editTextServerName.setEnabled(false);
+		editTextServerCode.setEnabled(true);
+		editTextServerCode.requestFocus();
 	}
 	
 	private void applyConstraintTransition(ConstraintChange change, OnTransitionEndListener listener)
