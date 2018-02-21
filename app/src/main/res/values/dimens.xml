@@ -2,4 +2,5 @@
 <resources>
 	<dimen name="text_connecting_margin">0dp</dimen>
 	<dimen name="text_cannot_connect_margin">16dp</dimen>
+	<dimen name="act_image_width">80dp</dimen>
 </resources>

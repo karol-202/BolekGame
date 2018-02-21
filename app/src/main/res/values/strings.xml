@@ -126,7 +126,7 @@
 	<string name="action_president_chosen_presiednt">Na nowego prezydenta został wybrany %s</string>
 	<string name="action_president_chosen_president_you">Zostałeś wybrany na nowego prezydenta</string>
 	<string name="action_president_lustrating">Uchwalona ustawa antylustracyjna pozwala prezydentowi %s wyeliminować jednego gracza.</string>
-	<string name="action_lustrate">Uchwalona ustwa antylustracyjna pozwali ci wyeliminować jednego gracza</string>
+	<string name="action_lustrate">Uchwalona ustawa antylustracyjna pozwala ci wyeliminować jednego gracza</string>
 	<string name="action_lustration_result">Gracz %s został wyeliminowany przez prezydenta %s</string>
 	<string name="action_lustration_result_you">Wyeliminowałeś gracza %s</string>
 	<string name="action_win_ministers">Ministrowie wygrywają</string>
