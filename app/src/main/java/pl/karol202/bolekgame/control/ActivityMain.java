@@ -55,6 +55,7 @@ public class ActivityMain extends AppCompatActivity
 	private CoordinatorLayout coordinatorLayout;
 	private ConstraintLayout mainLayout;
 	private ImageButton buttonSettings;
+	private ImageButton buttonHelp;
 	private ConstraintLayout panelConnection;
 	private ProgressBar progressBarConnecting;
 	private TextView textConnection;
@@ -94,6 +95,9 @@ public class ActivityMain extends AppCompatActivity
 		
 		buttonSettings = findViewById(R.id.button_settings);
 		buttonSettings.setOnClickListener(v -> showSettings());
+		
+		buttonHelp = findViewById(R.id.button_help);
+		buttonHelp.setOnClickListener(v -> showHelp());
 		
 		panelConnection = findViewById(R.id.panel_connection);
 		connectingConstraintSet = new ConstraintSet();
@@ -243,6 +247,12 @@ public class ActivityMain extends AppCompatActivity
 	private void showSettings()
 	{
 		Intent intent = new Intent(this, ActivitySettings.class);
+		startActivity(intent);
+	}
+	
+	private void showHelp()
+	{
+		Intent intent = new Intent(this, ActivityHelp.class);
 		startActivity(intent);
 	}
 	

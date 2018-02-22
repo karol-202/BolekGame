@@ -4,17 +4,18 @@ import pl.karol202.bolekgame.game.gameplay.Act;
 
 public class Acts
 {
+	private int playersAmount;
+	
 	private boolean ignoreStackRefill;
 	
 	private int lustrationActs;
 	private int antilustrationActs;
 	
-	private Act[] currentActs;
-	
 	private int pollIndex;
 	
-	public Acts()
+	public Acts(int playersAmount)
 	{
+		this.playersAmount = playersAmount;
 		ignoreStackRefill = true;
 	}
 	
@@ -43,33 +44,33 @@ public class Acts
 		this.pollIndex = pollIndex;
 	}
 	
-	public void setCurrentActs(Act[] currentActs)
-	{
-		this.currentActs = currentActs;
-	}
-	
 	public boolean isIgnoringStackRefill()
 	{
 		return ignoreStackRefill;
 	}
 	
-	public int getLustrationActs()
+	int getLustrationActs()
 	{
 		return lustrationActs;
 	}
 	
-	public int getAntilustrationActs()
+	int getAntilustrationActs()
 	{
 		return antilustrationActs;
 	}
 	
-	public int getPollIndex()
+	int getPollIndex()
 	{
 		return pollIndex;
 	}
 	
-	public Act[] getCurrentActs()
+	boolean isPlayerCheckingAvailable()
 	{
-		return currentActs;
+		return true;//playersAmount >= 8;
+	}
+	
+	boolean isPlayerOrActsCheckingAvailable()
+	{
+		return true;//playersAmount >= 6;
 	}
 }

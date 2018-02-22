@@ -30,6 +30,7 @@
 	<color name="text_secondary">#8A000000</color>
 	<color name="text_acts">#BF000000</color>
 	<color name="text_primary_white">#FFFFFF</color>
+	<color name="text_act_effect">#C0FFFFFF</color>
 	
 	<color name="icon_default">#8A000000</color>
 	<color name="icon_disabled">#61000000</color>

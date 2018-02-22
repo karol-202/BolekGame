@@ -47,8 +47,6 @@ public class GameLogic extends Logic<ActivityGame>
 		
 		actionManager = new ActionManager();
 		
-		acts = new Acts();
-		
 		players = new Players(localPlayerName);
 		players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
 			@Override
@@ -63,6 +61,8 @@ public class GameLogic extends Logic<ActivityGame>
 			@Override
 			public void onPlayerUpdate(int position) { }
 		});
+		
+		acts = new Acts(players.getPlayersAmount());
 		
 		this.textChat = textChat;
 	}

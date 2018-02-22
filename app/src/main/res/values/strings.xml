@@ -1,6 +1,7 @@
 <resources>
 	<string name="app_name">Nocna zmiana</string>
 	<string name="activity_settings">Ustawienia</string>
+	<string name="activity_help">Zasady gry</string>
 	
 	<string name="button_nick_change_apply">Zmień</string>
 	<string name="button_cancel">Anuluj</string>
@@ -52,7 +53,7 @@
 	<string name="text_win_cause_acts_ministers">Zostało uchwalonych 5 ustaw lustracyjnych</string>
 	<string name="text_win_cause_acts_collaborators">Zostało uchwalonych 6 ustaw antylustracyjnych</string>
 	<string name="text_win_cause_bolek_ministers">Bolek został wyeliminowany</string>
-	<string name="text_win_cause_bolek_collaborators">Bolek został premierem</string>
+	<string name="text_win_cause_bolek_collaborators">Bolek został premierem po trzeciej ustawie antylustracyjnej</string>
 	
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
 	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
@@ -151,6 +152,20 @@
 	
 	<string name="act_lustration">Ustawa lustracyjna</string>
 	<string name="act_antilustration">Ustawa antylustracyjna</string>
+	
+	<string name="act_effect_checking_player">Sprawdzanie gracza</string>
+	<string name="act_effect_checking_player_or_acts">Sprawdzanie gracza lub ustaw</string>
+	<string name="act_effect_new_president">Wybór nowego prezydenta</string>
+	<string name="act_effect_lustration">Eliminacja gracza</string>
+	
+	<string name="hint_antilustration_1">Po uchwaleniu ustawy prezydent sprawdza jednego gracza</string>
+	<string name="hint_antilustration_2">Po uchwaleniu ustawy prezydent sprawdza jednego gracza lub 3 następne ustawy</string>
+	<string name="hint_antilustration_3">Po uchwaleniu ustawy prezydent wybiera nowego prezydenta. Jeśli Bolek zostanie premierem, grę wygrywają TW i Bolek</string>
+	<string name="hint_antilustration_4">Po uchwaleniu ustawy prezydent eliminuje jedną osobę</string>
+	<string name="hint_antilustration_5">Po uchwaleniu ustawy prezydent eliminuje jedną osobę. Premier zyskuje prawo weta.</string>
+	<string name="hint_antilustration_6">Po uchwaleniu ustawy grę wygrywają TW i Bolek</string>
+	
+	<string name="help_content_1">Dostępne już wkrótce</string>
 	
 	<string name="unknown">Nieznany</string>
 	<string name="zero">0</string>
