@@ -22,6 +22,8 @@
 	<string name="button_choose_acts_checking">Sprawdź ustawy</string>
 	<string name="button_end_game">Zakończ grę</string>
 	
+	<string name="text_nick">Podaj swój nick</string>
+	<string name="text_nick_hint">Nick można zmienić później w ustawieniach</string>
 	<string name="text_connecting">Łączenie…</string>
 	<string name="text_cannot_connect">Nie można połączyć</string>
 	<string name="text_server_name">Nazwa serwera</string>
@@ -55,6 +57,7 @@
 	<string name="text_win_cause_bolek_ministers">Bolek został wyeliminowany</string>
 	<string name="text_win_cause_bolek_collaborators">Bolek został premierem po trzeciej ustawie antylustracyjnej</string>
 	
+	<string name="message_invalid_nick">Nick musi mieć od 3 do 20 znaków</string>
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
 	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
 	<string name="message_too_many_servers">Serwer zajęty</string>
@@ -68,6 +71,8 @@
 	<string name="message_error">Nieznany błąd</string>
 	<string name="message_invalid_user">Niewłaściwy użytkownik</string>
 	
+	<string name="dialog_invalid_nick">Niewłaściwy nick</string>
+	<string name="dialog_invalid_nick_detail">Nick musi mieć od 3 do 20 znaków</string>
 	<string name="dialog_disconnection">Rozłączono</string>
 	<string name="dialog_disconnection_detail">Utracono połączenie z serwerem</string>
 	<string name="dialog_too_few_players">Za mało graczy</string>
@@ -136,7 +141,7 @@
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
 	
-	<string name="default_nick">Gracz</string>
+	<string name="default_nick" />
 	<string name="default_server_address">192.168.0.15</string>
 	
 	<string name="role_minister">Minister</string>

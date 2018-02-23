@@ -85,6 +85,7 @@ public class ActivityMain extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		checkFirstStart();
 		restoreRetainFragment();
 		
 		coordinatorLayout = findViewById(R.id.coordinator_layout);
@@ -143,6 +144,14 @@ public class ActivityMain extends AppCompatActivity
 		buttonJoinServerApply.setOnClickListener(v -> applyServerJoin());
 		
 		state = State.CONNECTING;
+	}
+	
+	private void checkFirstStart()
+	{
+		if(!Settings.isFirstStart(this)) return;
+		
+		Intent intent = new Intent(this, ActivityStart.class);
+		startActivity(intent);
 	}
 	
 	@SuppressWarnings("unchecked")

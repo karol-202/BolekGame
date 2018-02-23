@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.settings;
 
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
@@ -11,6 +12,7 @@ import pl.karol202.bolekgame.R;
 public class FragmentSettings extends PreferenceFragment
 {
 	private String preferenceToEdit;
+	private SharedPreferences.OnSharedPreferenceChangeListener changeListener;
 	
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState)
@@ -19,9 +21,13 @@ public class FragmentSettings extends PreferenceFragment
 		addPreferencesFromResource(R.xml.settings);
 		loadData();
 		
+		EditTextPreference nickPreference = (EditTextPreference) findPreference(Settings.KEY_NICK);
+		nickPreference.setOnPreferenceChangeListener((preference, newValue) -> validateNick((String) newValue));
+		
 		SharedPreferences preferences = getPreferenceScreen().getSharedPreferences();
 		updateAllPreferences();
-		preferences.registerOnSharedPreferenceChangeListener((p, k) -> onSharedPreferenceChange(k));
+		changeListener = (p, k) -> onSharedPreferenceChange(k);
+		preferences.registerOnSharedPreferenceChangeListener(changeListener);
 	}
 	
 	private void loadData()
@@ -53,5 +59,21 @@ public class FragmentSettings extends PreferenceFragment
 		
 		if(preference instanceof CallableEditTextPreference && preference.getKey().equals(preferenceToEdit))
 			((CallableEditTextPreference) preference).showDialog(null);
+	}
+	
+	private boolean validateNick(String nick)
+	{
+		if(Settings.isValidNick(nick)) return true;
+		showInvalidNickDialog();
+		return false;
+	}
+	
+	private void showInvalidNickDialog()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(R.string.dialog_invalid_nick);
+		builder.setMessage(R.string.dialog_invalid_nick_detail);
+		builder.setPositiveButton(R.string.button_ok, null);
+		builder.show();
 	}
 }
