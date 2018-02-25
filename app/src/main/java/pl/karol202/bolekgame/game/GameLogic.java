@@ -15,19 +15,24 @@ import pl.karol202.bolekgame.game.main.VotingResult;
 import pl.karol202.bolekgame.game.main.actions.*;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.Players;
+import pl.karol202.bolekgame.server.RemoteUser;
 import pl.karol202.bolekgame.server.Users;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
+import pl.karol202.bolekgame.voice.UsersVoiceHandler;
+import pl.karol202.bolekgame.voice.VoiceBinder;
+import pl.karol202.bolekgame.voice.VoiceBinderSupplier;
 
 import java.util.List;
 import java.util.Map;
 
-public class GameLogic extends Logic<ActivityGame>
+public class GameLogic extends Logic<ActivityGame> implements VoiceBinderSupplier
 {
 	private ActionManager actionManager;
 	private Acts acts;
 	private Players players;
 	private TextChat textChat;
+	private VoiceBinder voiceBinder;
 	
 	private Role role;
 	private boolean ignoreGameExit;
@@ -41,16 +46,17 @@ public class GameLogic extends Logic<ActivityGame>
 	private String lustratedPlayerName;
 	private boolean gameEnd;
 	
-	GameLogic(Client client, TextChat textChat, String localPlayerName)
+	GameLogic(Client client, Users users, TextChat textChat)
 	{
 		super(client);
 		
 		actionManager = new ActionManager();
 		
-		players = new Players(localPlayerName);
+		players = new Players(users);
+		players.addOnUsersUpdateListener(new UsersVoiceHandler(this));
 		players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
 			@Override
-			public void onPlayerAdd() { }
+			public void onPlayerAdd(Player player) { }
 			
 			@Override
 			public void onPlayerRemove(int position, Player player)
@@ -72,6 +78,27 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		super.setActivity(activity);
 		actionManager.setContext(activity);
+		if(activity != null) activity.bindVoiceService();
+		else onVoiceServiceUnbind();
+	}
+	
+	@Override
+	protected void suspendClient()
+	{
+		super.suspendClient();
+		players.removeAllListeners();
+	}
+	
+	void onVoiceServiceBind(VoiceBinder voiceBinder)
+	{
+		this.voiceBinder = voiceBinder;
+		voiceBinder.clearPeers();
+		players.getUsersStream().filter(u -> u instanceof RemoteUser).map(u -> (RemoteUser) u).forEach(u -> voiceBinder.addPeer(u.getAddress()));
+	}
+	
+	void onVoiceServiceUnbind()
+	{
+		this.voiceBinder = null;
 	}
 	
 	private void choosePrimeMinister(Player primeMinister)
@@ -169,6 +196,12 @@ public class GameLogic extends Logic<ActivityGame>
 	}
 	
 	@Override
+	public void onUsersUpdate(List<String> usernames, List<Boolean> readiness, List<String> addresses)
+	{
+		runInUIThread(() -> players.updateUsersList(usernames, readiness, addresses));
+	}
+	
+	@Override
 	public void onPlayersUpdated(List<String> updatedPlayers)
 	{
 		runInUIThread(() -> players.updatePlayersList(updatedPlayers));
@@ -202,7 +235,7 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	private Map<Player, Role> createRolesMap(List<String> collaboratorsNames, String bolekName)
 	{
-		return StreamSupport.stream(players.getPlayers()).collect(Collectors.toMap(p -> p, p -> {
+		return players.getPlayersStream().collect(Collectors.toMap(p -> p, p -> {
 			if(bolekName.equals(p.getName())) return Role.BOLEK;
 			else if(collaboratorsNames.contains(p.getName())) return Role.COLLABORATOR;
 			else return Role.MINISTER;
@@ -282,7 +315,7 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	private Map<Player, Boolean> createVotersMap(List<String> upvoters)
 	{
-		return StreamSupport.stream(players.getPlayers()).collect(Collectors.toMap(p -> p, p -> upvoters.contains(p.getName())));
+		return players.getPlayersStream().collect(Collectors.toMap(p -> p, p -> upvoters.contains(p.getName())));
 	}
 	
 	@Override
@@ -593,5 +626,11 @@ public class GameLogic extends Logic<ActivityGame>
 	boolean willGameBeEndedAfterMyLeave()
 	{
 		return players.getPlayersAmount() == Users.MIN_USERS;
+	}
+	
+	@Override
+	public VoiceBinder getVoiceBinder()
+	{
+		return voiceBinder;
 	}
 }

@@ -1,6 +1,12 @@
 package pl.karol202.bolekgame.game.players;
 
+import java8.util.stream.Stream;
+import java8.util.stream.StreamSupport;
 import pl.karol202.bolekgame.game.gameplay.Position;
+import pl.karol202.bolekgame.server.LocalUser;
+import pl.karol202.bolekgame.server.RemoteUser;
+import pl.karol202.bolekgame.server.User;
+import pl.karol202.bolekgame.server.Users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,23 +15,25 @@ public class Players
 {
 	public interface OnPlayersUpdateListener
 	{
-		void onPlayerAdd();
+		void onPlayerAdd(Player player);
 		
 		void onPlayerRemove(int position, Player player);
 		
 		void onPlayerUpdate(int position);
 	}
 	
+	private Users users;
 	private List<Player> players;
-	private String localPlayerName;
 	
+	private List<Users.OnUsersUpdateListener> usersUpdateListeners;
 	private List<OnPlayersUpdateListener> playersUpdateListeners;
 	
-	public Players(String localPlayerName)
+	public Players(Users users)
 	{
+		this.users = users;
 		this.players = new ArrayList<>();
-		this.localPlayerName = localPlayerName;
 		
+		usersUpdateListeners = new ArrayList<>();
 		playersUpdateListeners = new ArrayList<>();
 	}
 	
@@ -33,7 +41,7 @@ public class Players
 	{
 		if(players.contains(player)) return;
 		players.add(player);
-		for(OnPlayersUpdateListener listener : playersUpdateListeners) listener.onPlayerAdd();
+		for(OnPlayersUpdateListener listener : playersUpdateListeners) listener.onPlayerAdd(player);
 	}
 	
 	private void removePlayer(Player player)
@@ -42,6 +50,11 @@ public class Players
 		int playerIndex = players.indexOf(player);
 		players.remove(player);
 		for(OnPlayersUpdateListener listener : playersUpdateListeners) listener.onPlayerRemove(playerIndex, player);
+	}
+	
+	public void updateUsersList(List<String> names, List<Boolean> readiness, List<String> addresses)
+	{
+		users.updateUsersList(names, readiness, addresses);
 	}
 	
 	public void updatePlayersList(List<String> names)
@@ -53,8 +66,13 @@ public class Players
 		for(String name : names)
 		{
 			for(Player player : players) if(name.equals(player.getName())) continue namesLoop;
-			if(name.equals(localPlayerName)) playersToAdd.add(new LocalPlayer(name));
-			else playersToAdd.add(new RemotePlayer(name));
+			
+			User correspondingUser = users.getUsersStream().filter(u -> u.getName().equals(name)).findAny().orElse(null);
+			
+			if(correspondingUser instanceof LocalUser && name.equals(getLocalPlayerName()))
+				playersToAdd.add(new LocalPlayer((LocalUser) correspondingUser));
+			else if(correspondingUser instanceof RemoteUser)
+				playersToAdd.add(new RemotePlayer((RemoteUser) correspondingUser));
 		}
 		for(Player player : players)
 			if(!names.contains(player.getName())) playersToRemove.add(player);
@@ -96,6 +114,23 @@ public class Players
 		return null;
 	}
 	
+	public Stream<User> getUsersStream()
+	{
+		return users.getUsersStream();
+	}
+	
+	public Stream<Player> getPlayersStream()
+	{
+		return StreamSupport.stream(players);
+	}
+	
+	boolean containsPlayerOfUser(User user)
+	{
+		for(Player player : players)
+			if(player.getUser() == user) return true;
+		return false;
+	}
+	
 	Player getPlayer(int position)
 	{
 		return players.get(position);
@@ -106,14 +141,21 @@ public class Players
 		return players.size();
 	}
 	
-	public List<Player> getPlayers()
-	{
-		return players;
-	}
-	
 	public String getLocalPlayerName()
 	{
-		return localPlayerName;
+		return users.getLocalUserName();
+	}
+	
+	public void addOnUsersUpdateListener(Users.OnUsersUpdateListener listener)
+	{
+		usersUpdateListeners.add(listener);
+		users.addOnUsersUpdateListener(listener);
+	}
+	
+	void removeOnUsersUpdateListener(Users.OnUsersUpdateListener listener)
+	{
+		usersUpdateListeners.remove(listener);
+		users.removeOnUsersUpdateListener(listener);
 	}
 	
 	public void addOnPlayersUpdateListener(OnPlayersUpdateListener listener)
@@ -124,5 +166,10 @@ public class Players
 	void removeOnPlayersUpdateListener(OnPlayersUpdateListener listener)
 	{
 		playersUpdateListeners.remove(listener);
+	}
+	
+	public void removeAllListeners()
+	{
+		for(Users.OnUsersUpdateListener listener : usersUpdateListeners) users.removeOnUsersUpdateListener(listener);
 	}
 }

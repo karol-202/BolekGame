@@ -7,11 +7,12 @@ import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
+import pl.karol202.bolekgame.voice.UsersVoiceHandler;
 import pl.karol202.bolekgame.voice.VoiceBinder;
 
 import java.util.List;
 
-class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
+class ServerLogic extends Logic<ActivityServer>
 {
 	private String serverName;
 	private int serverCode;
@@ -28,25 +29,8 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 		this.serverName = serverName;
 		this.serverCode = serverCode;
 		
-		users = new Users(new LocalUser(localUserName, this));
-		users.addOnUsersUpdateListener(new Users.OnUsersUpdateListener() {
-			@Override
-			public void onUserAdd(User user)
-			{
-				if(voiceBinder == null) return;
-				voiceBinder.addPeer(user.getAddress());
-			}
-			
-			@Override
-			public void onUserRemove(User user, int position)
-			{
-				if(voiceBinder == null) return;
-				voiceBinder.removePeer(user.getAddress());
-			}
-			
-			@Override
-			public void onUsersUpdate() { }
-		});
+		users = new Users(localUserName);
+		users.addOnUsersUpdateListener(new UsersVoiceHandler(() -> voiceBinder));
 		
 		textChat = new TextChat();
 	}
@@ -55,14 +39,15 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 	protected void setActivity(ActivityServer activity)
 	{
 		super.setActivity(activity);
-		activity.bindVoiceService();
+		if(activity != null) activity.bindVoiceService();
+		else onVoiceServiceUnbind();
 	}
 	
 	void onVoiceServiceBind(VoiceBinder voiceBinder)
 	{
 		this.voiceBinder = voiceBinder;
 		voiceBinder.clearPeers();
-		users.getRemoteUsersStream().forEach(u -> voiceBinder.addPeer(u.getAddress()));
+		users.getUsersStream().filter(u -> u instanceof RemoteUser).map(u -> (RemoteUser) u).forEach(u -> voiceBinder.addPeer(u.getAddress()));
 	}
 	
 	void onVoiceServiceUnbind()
@@ -140,7 +125,12 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 	
 	GameData createGameData()
 	{
-		return new GameData(client, textChat, serverName, serverCode);
+		return new GameData(client, users, textChat, serverName, serverCode);
+	}
+	
+	boolean isConnected()
+	{
+		return client.isConnected();
 	}
 	
 	String getServerName()
@@ -158,13 +148,7 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 		return users;
 	}
 	
-	boolean isConnected()
-	{
-		return client.isConnected();
-	}
-	
-	@Override
-	public boolean isGameInProgress()
+	boolean isGameInProgress()
 	{
 		return gameInProgress;
 	}

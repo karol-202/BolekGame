@@ -1,9 +1,11 @@
 package pl.karol202.bolekgame.game.players;
 
+import pl.karol202.bolekgame.server.RemoteUser;
+
 class RemotePlayer extends Player
 {
-	RemotePlayer(String name)
+	RemotePlayer(RemoteUser remoteUser)
 	{
-		super(name);
+		super(remoteUser);
 	}
 }

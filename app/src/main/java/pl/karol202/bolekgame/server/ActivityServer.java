@@ -67,7 +67,7 @@ public class ActivityServer extends AppCompatActivity
 		loadServerData();
 		restoreRetainFragment();
 		
-		usersAdapter = new UsersAdapter(this, serverLogic.getUsers(), serverLogic);
+		usersAdapter = new UsersAdapter(this, serverLogic.getUsers(), () -> serverLogic.isGameInProgress(), () -> serverLogic.setReady());
 		layoutListener = this::onLayoutUpdate;
 		
 		coordinatorLayout = findViewById(R.id.coordinator_layout);

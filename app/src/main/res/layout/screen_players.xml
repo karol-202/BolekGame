@@ -14,22 +14,91 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
 		app:srcCompat="@drawable/ic_microphone_on_black_24dp"
-		app:tint="@drawable/icon_tint"/>
+		app:tint="@drawable/icon_tint" />
 	
 	<View
-		android:id="@+id/view"
+		android:id="@+id/view_separator_players_top"
 		android:layout_width="0dp"
 		android:layout_height="1dp"
 		android:background="@color/divider_solid"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/button_microphone" />
+	
+	<TextView
+		android:id="@+id/text_players"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="8dp"
+		android:text="@string/text_players"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/view_separator_players_top"
+		android:layout_marginLeft="16dp" />
+	
+	<View
+		android:id="@+id/view_separator_players_bottom"
+		android:layout_width="0dp"
+		android:layout_height="1dp"
+		android:layout_marginTop="8dp"
+		android:background="@color/divider_solid"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/text_players" />
 	
 	<android.support.v7.widget.RecyclerView
 		android:id="@+id/recycler_players"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
+		app:layout_constraintBottom_toTopOf="@+id/view_separator_non_players_top"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/view_separator_players_bottom" />
+	
+	<View
+		android:id="@+id/view_separator_non_players_top"
+		android:layout_width="0dp"
+		android:layout_height="1dp"
+		android:layout_marginBottom="8dp"
+		android:background="@color/divider_solid"
+		app:layout_constraintBottom_toTopOf="@+id/text_non_players"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+	
+	<TextView
+		android:id="@+id/text_non_players"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:layout_marginStart="16dp"
+		android:text="@string/text_non_players"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/view_separator_players_top"
+		app:layout_constraintVertical_bias="0.65"
+		android:layout_marginLeft="16dp" />
+	
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/recycler_non_players"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/view" />
+		app:layout_constraintTop_toBottomOf="@+id/view_separator_non_players_bottom" />
+	
+	<View
+		android:id="@+id/view_separator_non_players_bottom"
+		android:layout_width="0dp"
+		android:layout_height="1dp"
+		android:layout_marginTop="8dp"
+		android:background="@color/divider_solid"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/text_non_players" />
 
 </android.support.constraint.ConstraintLayout>

@@ -13,6 +13,16 @@ import pl.karol202.bolekgame.R;
 
 class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements Users.OnUsersUpdateListener
 {
+	interface ServerStatusSupplier
+	{
+		boolean isGameInProgress();
+	}
+	
+	interface OnUserReadyListener
+	{
+		void onUserReady();
+	}
+	
 	abstract class ViewHolder extends RecyclerView.ViewHolder
 	{
 		ViewHolder(View view)
@@ -41,7 +51,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private void onReadyButtonClick()
 		{
 			if(!(user instanceof LocalUser)) return;
-			((LocalUser) user).changeReadiness(true);
+			userReadyListener.onUserReady();
 			onUsersUpdate();
 		}
 		
@@ -68,8 +78,8 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		
 		private boolean canBeMadeReady()
 		{
-			return user == users.getLocalUser() && !serverStatusSupplier.isGameInProgress() && users.areThereEnoughUsers() &&
-					!user.isReady();
+			return user instanceof LocalUser && !serverStatusSupplier.isGameInProgress() && users.areThereEnoughUsers() &&
+				   !user.isReady();
 		}
 	}
 	
@@ -100,12 +110,14 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 	private Context context;
 	private Users users;
 	private ServerStatusSupplier serverStatusSupplier;
+	private OnUserReadyListener userReadyListener;
 	
-	UsersAdapter(Context context, Users users, ServerStatusSupplier serverStatusSupplier)
+	UsersAdapter(Context context, Users users, ServerStatusSupplier serverStatusSupplier, OnUserReadyListener userReadyListener)
 	{
 		this.context = context;
 		this.users = users;
 		this.serverStatusSupplier = serverStatusSupplier;
+		this.userReadyListener = userReadyListener;
 		users.addOnUsersUpdateListener(this);
 	}
 	

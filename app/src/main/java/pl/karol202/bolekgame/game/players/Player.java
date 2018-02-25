@@ -1,21 +1,27 @@
 package pl.karol202.bolekgame.game.players;
 
 import pl.karol202.bolekgame.game.gameplay.Position;
+import pl.karol202.bolekgame.server.User;
 
 public abstract class Player
 {
-	private String name;
+	private User user;
 	private Position position;
 	
-	Player(String name)
+	Player(User user)
 	{
-		this.name = name;
+		this.user = user;
 		position = Position.NONE;
+	}
+	
+	User getUser()
+	{
+		return user;
 	}
 	
 	public String getName()
 	{
-		return name;
+		return user.getName();
 	}
 	
 	Position getPosition()

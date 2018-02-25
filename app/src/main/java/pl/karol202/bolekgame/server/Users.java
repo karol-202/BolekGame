@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Users
 {
-	interface OnUsersUpdateListener
+	public interface OnUsersUpdateListener
 	{
 		void onUserAdd(User user);
 		
@@ -20,16 +20,15 @@ public class Users
 	public static final int MIN_USERS = 2;
 	
 	private List<User> users;
-	private LocalUser localUser;
+	private String localUserName;
 	
 	private List<OnUsersUpdateListener> usersUpdateListeners;
 	
-	Users(LocalUser localUser)
+	Users(String localUserName)
 	{
 		this.users = new ArrayList<>();
-		this.localUser = localUser;
+		this.localUserName = localUserName;
 		this.usersUpdateListeners = new ArrayList<>();
-		users.add(localUser);
 	}
 	
 	private void addUser(User user)
@@ -47,7 +46,7 @@ public class Users
 		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUserRemove(user, userIndex);
 	}
 	
-	void updateUsersList(List<String> usernames, List<Boolean> readiness, List<String> addresses)
+	public void updateUsersList(List<String> usernames, List<Boolean> readiness, List<String> addresses)
 	{
 		List<User> usersToAdd = new ArrayList<>();
 		List<User> usersToRemove = new ArrayList<>();
@@ -60,7 +59,8 @@ public class Users
 			int userIndex = usernames.indexOf(username);
 			boolean ready = readiness.get(userIndex);
 			String address = addresses.get(userIndex);
-			usersToAdd.add(new User(username, ready, address));
+			if(username.equals(localUserName)) usersToAdd.add(new LocalUser(username, ready));
+			else usersToAdd.add(new RemoteUser(username, ready, address));
 		}
 		for(User user : users)
 		{
@@ -85,9 +85,9 @@ public class Users
 		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUsersUpdate();
 	}
 	
-	Stream<User> getRemoteUsersStream()
+	public Stream<User> getUsersStream()
 	{
-		return StreamSupport.stream(users).filter(u -> u != localUser);
+		return StreamSupport.stream(users);
 	}
 	
 	User getUser(int position)
@@ -110,22 +110,17 @@ public class Users
 		return users.size() >= MIN_USERS;
 	}
 	
-	LocalUser getLocalUser()
+	public String getLocalUserName()
 	{
-		return localUser;
+		return localUserName;
 	}
 	
-	String getLocalUserName()
-	{
-		return localUser.getName();
-	}
-	
-	void addOnUsersUpdateListener(OnUsersUpdateListener listener)
+	public void addOnUsersUpdateListener(OnUsersUpdateListener listener)
 	{
 		usersUpdateListeners.add(listener);
 	}
 	
-	void removeOnUsersUpdateListener(OnUsersUpdateListener listener)
+	public void removeOnUsersUpdateListener(OnUsersUpdateListener listener)
 	{
 		usersUpdateListeners.remove(listener);
 	}

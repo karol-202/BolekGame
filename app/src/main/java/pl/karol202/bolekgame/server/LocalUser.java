@@ -1,19 +1,9 @@
 package pl.karol202.bolekgame.server;
 
-class LocalUser extends User
+public class LocalUser extends User
 {
-	private ServerLogic serverLogic;
-	
-	LocalUser(String name, ServerLogic serverLogic)
+	LocalUser(String name, boolean ready)
 	{
-		super(name);
-		this.serverLogic = serverLogic;
-	}
-	
-	void changeReadiness(boolean ready)
-	{
-		if(isReady() == ready) return;
-		setReady(ready);
-		serverLogic.setReady();
+		super(name, ready);
 	}
 }

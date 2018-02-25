@@ -56,6 +56,8 @@
 	<string name="text_win_cause_acts_collaborators">Zostało uchwalonych 6 ustaw antylustracyjnych</string>
 	<string name="text_win_cause_bolek_ministers">Bolek został wyeliminowany</string>
 	<string name="text_win_cause_bolek_collaborators">Bolek został premierem po trzeciej ustawie antylustracyjnej</string>
+	<string name="text_players">Gracze</string>
+	<string name="text_non_players">Nie grający</string>
 	
 	<string name="message_invalid_nick">Nick musi mieć od 3 do 20 znaków</string>
 	<string name="message_server_name_too_short">Za krótka nazwa</string>

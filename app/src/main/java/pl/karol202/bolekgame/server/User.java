@@ -1,25 +1,17 @@
 package pl.karol202.bolekgame.server;
 
-public class User
+public abstract class User
 {
 	private String name;
 	private boolean ready;
-	private String address;
 	
-	User(String name)
-	{
-		this.name = name;
-		this.ready = false;
-	}
-	
-	User(String name, boolean ready, String address)
+	User(String name, boolean ready)
 	{
 		this.name = name;
 		this.ready = ready;
-		this.address = address;
 	}
 	
-	String getName()
+	public String getName()
 	{
 		return name;
 	}
@@ -32,10 +24,5 @@ public class User
 	void setReady(boolean ready)
 	{
 		this.ready = ready;
-	}
-	
-	public String getAddress()
-	{
-		return address;
 	}
 }
