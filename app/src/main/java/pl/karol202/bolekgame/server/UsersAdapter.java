@@ -106,7 +106,12 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		this.context = context;
 		this.users = users;
 		this.serverStatusSupplier = serverStatusSupplier;
-		users.setOnUsersUpdateListener(this);
+		users.addOnUsersUpdateListener(this);
+	}
+	
+	void onDestroy()
+	{
+		users.removeOnUsersUpdateListener(this);
 	}
 	
 	@Override
@@ -140,14 +145,14 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 	}
 	
 	@Override
-	public void onUserAdd()
+	public void onUserAdd(User user)
 	{
 		notifyItemInserted(users.getUsersAmount());
 		for(int i = 0; i < users.getUsersAmount(); i++) notifyItemChanged(i);
 	}
 	
 	@Override
-	public void onUserRemove(int position)
+	public void onUserRemove(User user, int position)
 	{
 		notifyItemRemoved(position);
 		for(int i = 0; i < users.getUsersAmount() + 1; i++) notifyItemChanged(i);

@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.server;
 
+import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 
 import java.util.ArrayList;
@@ -9,9 +10,9 @@ public class Users
 {
 	interface OnUsersUpdateListener
 	{
-		void onUserAdd();
+		void onUserAdd(User user);
 		
-		void onUserRemove(int position);
+		void onUserRemove(User user, int position);
 		
 		void onUsersUpdate();
 	}
@@ -21,12 +22,13 @@ public class Users
 	private List<User> users;
 	private LocalUser localUser;
 	
-	private OnUsersUpdateListener usersUpdateListener;
+	private List<OnUsersUpdateListener> usersUpdateListeners;
 	
 	Users(LocalUser localUser)
 	{
 		this.users = new ArrayList<>();
 		this.localUser = localUser;
+		this.usersUpdateListeners = new ArrayList<>();
 		users.add(localUser);
 	}
 	
@@ -34,7 +36,7 @@ public class Users
 	{
 		if(users.contains(user)) return;
 		users.add(user);
-		if(usersUpdateListener != null) usersUpdateListener.onUserAdd();
+		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUserAdd(user);
 	}
 	
 	private void removeUser(User user)
@@ -42,25 +44,27 @@ public class Users
 		if(!users.contains(user)) return;
 		int userIndex = users.indexOf(user);
 		users.remove(user);
-		if(usersUpdateListener != null) usersUpdateListener.onUserRemove(userIndex);
+		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUserRemove(user, userIndex);
 	}
 	
-	void updateUsersList(List<String> usernames, List<Boolean> readiness)
+	void updateUsersList(List<String> usernames, List<Boolean> readiness, List<String> addresses)
 	{
 		List<User> usersToAdd = new ArrayList<>();
-		List<User> usersToRemvoe = new ArrayList<>();
+		List<User> usersToRemove = new ArrayList<>();
 		
 		usernamesLoop:
 		for(String username : usernames)
 		{
 			for(User user : users) if(username.equals(user.getName())) continue usernamesLoop;
+			
 			int userIndex = usernames.indexOf(username);
 			boolean ready = readiness.get(userIndex);
-			usersToAdd.add(new User(username, ready));
+			String address = addresses.get(userIndex);
+			usersToAdd.add(new User(username, ready, address));
 		}
 		for(User user : users)
 		{
-			if(!usernames.contains(user.getName())) usersToRemvoe.add(user);
+			if(!usernames.contains(user.getName())) usersToRemove.add(user);
 			else
 			{
 				int userIndex = usernames.indexOf(user.getName());
@@ -71,14 +75,19 @@ public class Users
 		}
 		
 		for(User user : usersToAdd) addUser(user);
-		for(User user : usersToRemvoe) removeUser(user);
-		if(usersToAdd.size() == 0 && usersToRemvoe.size() == 0 && usersUpdateListener != null)
-			usersUpdateListener.onUsersUpdate();
+		for(User user : usersToRemove) removeUser(user);
+		if(usersToAdd.size() == 0 && usersToRemove.size() == 0)
+			for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUsersUpdate();
 	}
 	
 	void onServerStatusUpdate()
 	{
-		if(usersUpdateListener != null) usersUpdateListener.onUsersUpdate();
+		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUsersUpdate();
+	}
+	
+	Stream<User> getRemoteUsersStream()
+	{
+		return StreamSupport.stream(users).filter(u -> u != localUser);
 	}
 	
 	User getUser(int position)
@@ -111,8 +120,13 @@ public class Users
 		return localUser.getName();
 	}
 	
-	void setOnUsersUpdateListener(OnUsersUpdateListener listener)
+	void addOnUsersUpdateListener(OnUsersUpdateListener listener)
 	{
-		usersUpdateListener = listener;
+		usersUpdateListeners.add(listener);
+	}
+	
+	void removeOnUsersUpdateListener(OnUsersUpdateListener listener)
+	{
+		usersUpdateListeners.remove(listener);
 	}
 }

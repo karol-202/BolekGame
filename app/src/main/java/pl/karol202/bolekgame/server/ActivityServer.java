@@ -2,10 +2,13 @@ package pl.karol202.bolekgame.server;
 
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
@@ -27,7 +30,11 @@ import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.ActivityGame;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.*;
+import pl.karol202.bolekgame.utils.AnimatedImageButton;
+import pl.karol202.bolekgame.utils.FragmentRetain;
+import pl.karol202.bolekgame.utils.ItemDivider;
+import pl.karol202.bolekgame.voice.VoiceBinder;
+import pl.karol202.bolekgame.voice.VoiceService;
 
 public class ActivityServer extends AppCompatActivity
 {
@@ -158,6 +165,7 @@ public class ActivityServer extends AppCompatActivity
 		editTextChat.setOnEditorActionListener(null);
 		if(!isFinishing()) serverLogic.suspend(); //On configuration changes
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) removeLayoutListener();
+		usersAdapter.onDestroy();
 	}
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -237,6 +245,34 @@ public class ActivityServer extends AppCompatActivity
 	{
 		if(hidingTextChatLayout) textChatLayoutBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
 		hidingTextChatLayout = false;
+	}
+	
+	void bindVoiceService()
+	{
+		Intent intent = new Intent(this, VoiceService.class);
+		bindService(intent, new ServiceConnection() {
+			@Override
+			public void onServiceConnected(ComponentName name, IBinder service)
+			{
+				ActivityServer.this.onServiceConnected(name, service);
+			}
+			
+			@Override
+			public void onServiceDisconnected(ComponentName name)
+			{
+				ActivityServer.this.onServiceDisconnected(name);
+			}
+		}, Context.BIND_AUTO_CREATE);
+	}
+	
+	public void onServiceConnected(ComponentName name, IBinder service)
+	{
+		if(service instanceof VoiceBinder) serverLogic.onVoiceServiceBind((VoiceBinder) service);
+	}
+	
+	public void onServiceDisconnected(ComponentName name)
+	{
+		serverLogic.onVoiceServiceUnbind();
 	}
 	
 	void onDisconnect()

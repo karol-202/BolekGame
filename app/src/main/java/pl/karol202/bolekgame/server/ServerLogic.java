@@ -7,6 +7,7 @@ import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
+import pl.karol202.bolekgame.voice.VoiceBinder;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 	
 	private Users users;
 	private TextChat textChat;
+	private VoiceBinder voiceBinder;
 	private boolean gameInProgress;
 	
 	ServerLogic(Client client, String serverName, int serverCode, String localUserName)
@@ -26,8 +28,46 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 		this.serverName = serverName;
 		this.serverCode = serverCode;
 		
-		this.users = new Users(new LocalUser(localUserName, this));
-		this.textChat = new TextChat();
+		users = new Users(new LocalUser(localUserName, this));
+		users.addOnUsersUpdateListener(new Users.OnUsersUpdateListener() {
+			@Override
+			public void onUserAdd(User user)
+			{
+				if(voiceBinder == null) return;
+				voiceBinder.addPeer(user.getAddress());
+			}
+			
+			@Override
+			public void onUserRemove(User user, int position)
+			{
+				if(voiceBinder == null) return;
+				voiceBinder.removePeer(user.getAddress());
+			}
+			
+			@Override
+			public void onUsersUpdate() { }
+		});
+		
+		textChat = new TextChat();
+	}
+	
+	@Override
+	protected void setActivity(ActivityServer activity)
+	{
+		super.setActivity(activity);
+		activity.bindVoiceService();
+	}
+	
+	void onVoiceServiceBind(VoiceBinder voiceBinder)
+	{
+		this.voiceBinder = voiceBinder;
+		voiceBinder.clearPeers();
+		users.getRemoteUsersStream().forEach(u -> voiceBinder.addPeer(u.getAddress()));
+	}
+	
+	void onVoiceServiceUnbind()
+	{
+		this.voiceBinder = null;
 	}
 	
 	void logout()
@@ -72,9 +112,9 @@ class ServerLogic extends Logic<ActivityServer> implements ServerStatusSupplier
 	}
 	
 	@Override
-	public void onUsersUpdate(List<String> usernames, List<Boolean> readiness)
+	public void onUsersUpdate(List<String> usernames, List<Boolean> readiness, List<String> addresses)
 	{
-		runInUIThread(() -> users.updateUsersList(usernames, readiness));
+		runInUIThread(() -> users.updateUsersList(usernames, readiness, addresses));
 	}
 	
 	@Override

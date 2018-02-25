@@ -10,11 +10,13 @@ public class InputPacketUsersUpdate implements InputPacket
 {
 	private List<String> users;
 	private List<Boolean> readiness;
+	private List<String> addresses;
 	
 	InputPacketUsersUpdate()
 	{
 		users = new ArrayList<>();
 		readiness = new ArrayList<>();
+		addresses = new ArrayList<>();
 	}
 	
 	@Override
@@ -25,12 +27,13 @@ public class InputPacketUsersUpdate implements InputPacket
 		{
 			users.add(bundle.getString("user" + i, ""));
 			readiness.add(bundle.getBoolean("ready" + i, false));
+			addresses.add(bundle.getString("inetAddress" + i, ""));
 		}
 	}
 	
 	@Override
 	public void execute(ClientListener listener)
 	{
-		listener.onUsersUpdate(users, readiness);
+		listener.onUsersUpdate(users, readiness, addresses);
 	}
 }

@@ -1,9 +1,10 @@
 package pl.karol202.bolekgame.server;
 
-class User
+public class User
 {
 	private String name;
 	private boolean ready;
+	private String address;
 	
 	User(String name)
 	{
@@ -11,10 +12,11 @@ class User
 		this.ready = false;
 	}
 	
-	User(String name, boolean ready)
+	User(String name, boolean ready, String address)
 	{
 		this.name = name;
 		this.ready = ready;
+		this.address = address;
 	}
 	
 	String getName()
@@ -30,5 +32,10 @@ class User
 	void setReady(boolean ready)
 	{
 		this.ready = ready;
+	}
+	
+	public String getAddress()
+	{
+		return address;
 	}
 }
