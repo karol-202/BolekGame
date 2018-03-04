@@ -1,12 +1,7 @@
 package pl.karol202.bolekgame.game;
 
 import android.app.FragmentManager;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -22,8 +17,6 @@ import pl.karol202.bolekgame.game.main.dialog.DialogManager;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.utils.BottomNavigationBarHelper;
 import pl.karol202.bolekgame.utils.FragmentRetain;
-import pl.karol202.bolekgame.voice.VoiceBinder;
-import pl.karol202.bolekgame.voice.VoiceService;
 
 public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 {
@@ -132,34 +125,6 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		dialog.setPositiveButton(R.string.button_leave, (d, w) -> leaveGame());
 		dialog.setNegativeButton(R.string.button_remain);
 		dialog.commit();
-	}
-	
-	void bindVoiceService()
-	{
-		Intent intent = new Intent(this, VoiceService.class);
-		bindService(intent, new ServiceConnection() {
-			@Override
-			public void onServiceConnected(ComponentName name, IBinder service)
-			{
-				ActivityGame.this.onServiceConnected(service);
-			}
-			
-			@Override
-			public void onServiceDisconnected(ComponentName name)
-			{
-				ActivityGame.this.onServiceDisconnected();
-			}
-		}, Context.BIND_AUTO_CREATE);
-	}
-	
-	public void onServiceConnected(IBinder service)
-	{
-		if(service instanceof VoiceBinder) gameLogic.onVoiceServiceBind((VoiceBinder) service);
-	}
-	
-	public void onServiceDisconnected()
-	{
-		gameLogic.onVoiceServiceUnbind();
 	}
 	
 	private void leaveGame()

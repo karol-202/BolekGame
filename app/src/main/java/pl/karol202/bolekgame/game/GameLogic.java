@@ -15,24 +15,19 @@ import pl.karol202.bolekgame.game.main.VotingResult;
 import pl.karol202.bolekgame.game.main.actions.*;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.Players;
-import pl.karol202.bolekgame.server.RemoteUser;
 import pl.karol202.bolekgame.server.Users;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
-import pl.karol202.bolekgame.voice.UsersVoiceHandler;
-import pl.karol202.bolekgame.voice.VoiceBinder;
-import pl.karol202.bolekgame.voice.VoiceBinderSupplier;
 
 import java.util.List;
 import java.util.Map;
 
-public class GameLogic extends Logic<ActivityGame> implements VoiceBinderSupplier
+public class GameLogic extends Logic<ActivityGame>
 {
 	private ActionManager actionManager;
 	private Acts acts;
 	private Players players;
 	private TextChat textChat;
-	private VoiceBinder voiceBinder;
 	
 	private Role role;
 	private boolean ignoreGameExit;
@@ -53,7 +48,6 @@ public class GameLogic extends Logic<ActivityGame> implements VoiceBinderSupplie
 		actionManager = new ActionManager();
 		
 		players = new Players(users);
-		players.addOnUsersUpdateListener(new UsersVoiceHandler(this));
 		players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
 			@Override
 			public void onPlayerAdd(Player player) { }
@@ -78,8 +72,6 @@ public class GameLogic extends Logic<ActivityGame> implements VoiceBinderSupplie
 	{
 		super.setActivity(activity);
 		actionManager.setContext(activity);
-		if(activity != null) activity.bindVoiceService();
-		else onVoiceServiceUnbind();
 	}
 	
 	@Override
@@ -87,18 +79,6 @@ public class GameLogic extends Logic<ActivityGame> implements VoiceBinderSupplie
 	{
 		super.suspendClient();
 		players.removeAllListeners();
-	}
-	
-	void onVoiceServiceBind(VoiceBinder voiceBinder)
-	{
-		this.voiceBinder = voiceBinder;
-		voiceBinder.clearPeers();
-		players.getUsersStream().filter(u -> u instanceof RemoteUser).map(u -> (RemoteUser) u).forEach(u -> voiceBinder.addPeer(u.getAddress()));
-	}
-	
-	void onVoiceServiceUnbind()
-	{
-		this.voiceBinder = null;
 	}
 	
 	private void choosePrimeMinister(Player primeMinister)
@@ -626,11 +606,5 @@ public class GameLogic extends Logic<ActivityGame> implements VoiceBinderSupplie
 	boolean willGameBeEndedAfterMyLeave()
 	{
 		return players.getPlayersAmount() == Users.MIN_USERS;
-	}
-	
-	@Override
-	public VoiceBinder getVoiceBinder()
-	{
-		return voiceBinder;
 	}
 }

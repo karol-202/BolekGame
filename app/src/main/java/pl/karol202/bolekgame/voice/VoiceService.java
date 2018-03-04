@@ -2,28 +2,26 @@ package pl.karol202.bolekgame.voice;
 
 import android.app.Service;
 import android.content.Intent;
-import android.net.rtp.AudioCodec;
-import android.net.rtp.AudioGroup;
-import android.net.rtp.AudioStream;
 import android.os.Binder;
 import android.support.annotation.Nullable;
+import pl.karol202.bolekgame.server.RemoteUser;
+import pl.karol202.bolekgame.server.User;
+import pl.karol202.bolekgame.server.Users;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.SocketException;
 
 public class VoiceService extends Service
 {
-	private VoiceBinder binder;
+	static final int VOICE_PORT = 6007;
 	
-	private AudioGroup audioGroup;
-	private Map<String, AudioStream> streams;
+	private VoiceBinder binder;
+	private VoiceRecorder voiceRecorder;
+	private VoicePlayer voicePlayer;
 	
 	public VoiceService()
 	{
-		audioGroup = new AudioGroup();
-		streams = new HashMap<>();
+		voiceRecorder = new VoiceRecorder();
+		voicePlayer = new VoicePlayer();
 	}
 	
 	@Nullable
@@ -34,22 +32,60 @@ public class VoiceService extends Service
 		return binder;
 	}
 	
-	void addPeer(String address) throws IOException
+	public void setUsers(Users users)
 	{
-		InetAddress inetAddress = InetAddress.getByName(address);
-		AudioStream audioStream = new AudioStream(inetAddress);
-		audioStream.setCodec(AudioCodec.PCMA);
-		audioStream.join(audioGroup);
-		streams.put(address, audioStream);
+		users.getUsersStream().forEach(this::onUserAdd);
+		users.addOnUsersUpdateListener(new Users.OnUsersUpdateListener() {
+			@Override
+			public void onUserAdd(User user)
+			{
+				VoiceService.this.onUserAdd(user);
+			}
+			
+			@Override
+			public void onUserRemove(User user, int position)
+			{
+				VoiceService.this.onUserRemove(user);
+			}
+			
+			@Override
+			public void onUsersUpdate() { }
+		});
 	}
 	
-	void removePeer(String address)
+	private void onUserAdd(User user)
 	{
-		streams.remove(address);
+		try
+		{
+			if(!(user instanceof RemoteUser)) return;
+			RemoteUser remoteUser = (RemoteUser) user;
+			if(remoteUser.getAddress() == null) return;
+			voiceRecorder.addUser(remoteUser);
+			voicePlayer.addUser(remoteUser);
+		}
+		catch(SocketException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
-	void clearPeers()
+	private void onUserRemove(User user)
 	{
-		streams.clear();
+		if(!(user instanceof RemoteUser)) return;
+		RemoteUser remoteUser = (RemoteUser) user;
+		voiceRecorder.removeUser(remoteUser);
+		voicePlayer.removeUser(remoteUser);
+	}
+	
+	public void start()
+	{
+		new Thread(voiceRecorder).start();
+		new Thread(voicePlayer).start();
+	}
+	
+	public void stop()
+	{
+		voiceRecorder.stop();
+		voicePlayer.stop();
 	}
 }

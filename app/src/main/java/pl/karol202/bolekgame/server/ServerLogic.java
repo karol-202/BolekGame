@@ -7,8 +7,8 @@ import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
-import pl.karol202.bolekgame.voice.UsersVoiceHandler;
 import pl.karol202.bolekgame.voice.VoiceBinder;
+import pl.karol202.bolekgame.voice.VoiceService;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ class ServerLogic extends Logic<ActivityServer>
 	
 	private Users users;
 	private TextChat textChat;
-	private VoiceBinder voiceBinder;
+	private VoiceService voiceService;
 	private boolean gameInProgress;
 	
 	ServerLogic(Client client, String serverName, int serverCode, String localUserName)
@@ -30,7 +30,6 @@ class ServerLogic extends Logic<ActivityServer>
 		this.serverCode = serverCode;
 		
 		users = new Users(localUserName);
-		users.addOnUsersUpdateListener(new UsersVoiceHandler(() -> voiceBinder));
 		
 		textChat = new TextChat();
 	}
@@ -45,14 +44,14 @@ class ServerLogic extends Logic<ActivityServer>
 	
 	void onVoiceServiceBind(VoiceBinder voiceBinder)
 	{
-		this.voiceBinder = voiceBinder;
-		voiceBinder.clearPeers();
-		users.getUsersStream().filter(u -> u instanceof RemoteUser).map(u -> (RemoteUser) u).forEach(u -> voiceBinder.addPeer(u.getAddress()));
+		voiceService = voiceBinder.getVoiceService();
+		voiceService.setUsers(users);
+		voiceService.start();
 	}
 	
 	void onVoiceServiceUnbind()
 	{
-		this.voiceBinder = null;
+		voiceService.stop();
 	}
 	
 	void logout()
