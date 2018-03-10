@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.server;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.content.ComponentName;
@@ -33,10 +34,12 @@ import pl.karol202.bolekgame.settings.Settings;
 import pl.karol202.bolekgame.utils.AnimatedImageButton;
 import pl.karol202.bolekgame.utils.FragmentRetain;
 import pl.karol202.bolekgame.utils.ItemDivider;
+import pl.karol202.bolekgame.utils.PermissionGrantingActivity;
+import pl.karol202.bolekgame.utils.PermissionRequest;
 import pl.karol202.bolekgame.voice.VoiceBinder;
 import pl.karol202.bolekgame.voice.VoiceService;
 
-public class ActivityServer extends AppCompatActivity
+public class ActivityServer extends PermissionGrantingActivity
 {
 	private static final String TAG_FRAGMENT_RETAIN = "TAG_FRAG_RETAIN";
 	
@@ -66,6 +69,7 @@ public class ActivityServer extends AppCompatActivity
 		setContentView(R.layout.activity_server);
 		loadServerData();
 		restoreRetainFragment();
+		requestMicrophonePermission();
 		
 		usersAdapter = new UsersAdapter(this, serverLogic.getUsers(), () -> serverLogic.isGameInProgress(), () -> serverLogic.setReady());
 		layoutListener = this::onLayoutUpdate;
@@ -147,6 +151,11 @@ public class ActivityServer extends AppCompatActivity
 		fragmentRetain = new FragmentRetain<>();
 		fragmentRetain.setLogic(serverLogic);
 		fragmentManager.beginTransaction().add(fragmentRetain, TAG_FRAGMENT_RETAIN).commit();
+	}
+	
+	private void requestMicrophonePermission()
+	{
+		new PermissionRequest<>(this, Manifest.permission.RECORD_AUDIO, null);
 	}
 	
 	@Override
