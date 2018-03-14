@@ -58,6 +58,8 @@
 	<string name="text_win_cause_bolek_collaborators">Bolek został premierem po trzeciej ustawie antylustracyjnej</string>
 	<string name="text_players">Gracze</string>
 	<string name="text_non_players">Nie grający</string>
+	<string name="text_user_mute">Wycisz</string>
+	<string name="text_user_unmute">Wyłącz wyciszenie</string>
 	
 	<string name="message_invalid_nick">Nick musi mieć od 3 do 20 znaków</string>
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
@@ -176,4 +178,5 @@
 	
 	<string name="unknown">Nieznany</string>
 	<string name="zero">0</string>
+	<string name="percent_100">100%</string>
 </resources>
