@@ -115,6 +115,11 @@ public class Users
 		return localUserName;
 	}
 	
+	public LocalUser getLocalUser()
+	{
+		return (LocalUser) getUsersStream().filter(u -> u instanceof LocalUser).findAny().orElse(null);
+	}
+	
 	public void addOnUsersUpdateListener(OnUsersUpdateListener listener)
 	{
 		usersUpdateListeners.add(listener);

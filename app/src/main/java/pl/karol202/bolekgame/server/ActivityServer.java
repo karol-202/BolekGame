@@ -3,19 +3,15 @@ package pl.karol202.bolekgame.server;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.FragmentManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -27,17 +23,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import pl.karol202.bolekgame.BolekApplication;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.ActivityGame;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.AnimatedImageButton;
-import pl.karol202.bolekgame.utils.FragmentRetain;
-import pl.karol202.bolekgame.utils.ItemDivider;
-import pl.karol202.bolekgame.utils.PermissionGrantingActivity;
-import pl.karol202.bolekgame.utils.PermissionRequest;
-import pl.karol202.bolekgame.voice.VoiceBinder;
-import pl.karol202.bolekgame.voice.VoiceService;
+import pl.karol202.bolekgame.utils.*;
 
 public class ActivityServer extends PermissionGrantingActivity
 {
@@ -49,6 +41,8 @@ public class ActivityServer extends PermissionGrantingActivity
 	private RecyclerView recyclerUsers;
 	private View textChatLayout;
 	private AnimatedImageButton buttonTextChatToggle;
+	private ImageButton buttonVoiceChatMicrophone;
+	private ImageButton buttonVoiceChatSpeaker;
 	private TextView textChat;
 	private EditText editTextChat;
 	private ImageButton buttonTextChatSend;
@@ -61,6 +55,7 @@ public class ActivityServer extends PermissionGrantingActivity
 	
 	private FragmentRetain<ServerLogic> fragmentRetain;
 	private ServerLogic serverLogic;
+	private BolekApplication bolekApplication;
 	
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -69,7 +64,7 @@ public class ActivityServer extends PermissionGrantingActivity
 		setContentView(R.layout.activity_server);
 		loadServerData();
 		restoreRetainFragment();
-		requestMicrophonePermission();
+		bolekApplication = (BolekApplication) getApplication();
 		
 		usersAdapter = new UsersAdapter(this, serverLogic.getUsers(), () -> serverLogic.isGameInProgress(), () -> serverLogic.setReady());
 		layoutListener = this::onLayoutUpdate;
@@ -105,6 +100,12 @@ public class ActivityServer extends PermissionGrantingActivity
 		buttonTextChatToggle = findViewById(R.id.button_text_chat_toggle);
 		buttonTextChatToggle.setOnClickListener(v -> toggleTextChat());
 		
+		buttonVoiceChatMicrophone = findViewById(R.id.button_voice_chat_microphone);
+		buttonVoiceChatMicrophone.setOnClickListener(v -> toggleVoiceChatMicrophone());
+		
+		buttonVoiceChatSpeaker = findViewById(R.id.button_voice_chat_speaker);
+		buttonVoiceChatSpeaker.setOnClickListener(v -> toggleVoiceChatSpeaker());
+		
 		textChat = findViewById(R.id.text_chat);
 		onTextChatUpdate();
 		
@@ -127,6 +128,8 @@ public class ActivityServer extends PermissionGrantingActivity
 		buttonTextChatSend = findViewById(R.id.button_text_chat_send);
 		buttonTextChatSend.setOnClickListener(v -> sendTextChatMessage());
 		buttonTextChatSend.setEnabled(false);
+		
+		tryToStartVoiceCommunication();
 	}
 	
 	private void loadServerData()
@@ -153,9 +156,13 @@ public class ActivityServer extends PermissionGrantingActivity
 		fragmentManager.beginTransaction().add(fragmentRetain, TAG_FRAGMENT_RETAIN).commit();
 	}
 	
-	private void requestMicrophonePermission()
+	private void tryToStartVoiceCommunication()
 	{
-		new PermissionRequest<>(this, Manifest.permission.RECORD_AUDIO, null);
+		bolekApplication.bindToVoiceService(service -> {
+			if(service != null)
+				PermissionRequest.requestPermission(this, Manifest.permission.RECORD_AUDIO, () -> serverLogic.startVoiceCommunication(service));
+			else Toast.makeText(ActivityServer.this, R.string.message_voice_chat_network_error, Toast.LENGTH_LONG).show();
+		});
 	}
 	
 	@Override
@@ -172,9 +179,11 @@ public class ActivityServer extends PermissionGrantingActivity
 	{
 		super.onDestroy();
 		editTextChat.setOnEditorActionListener(null);
-		if(!isFinishing()) serverLogic.suspend(); //On configuration changes
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) removeLayoutListener();
 		usersAdapter.onDestroy();
+		
+		if(!isFinishing()) serverLogic.suspend(); //On configuration changes
+		else bolekApplication.unbindFromVoiceService();
 	}
 	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -256,32 +265,18 @@ public class ActivityServer extends PermissionGrantingActivity
 		hidingTextChatLayout = false;
 	}
 	
-	void bindVoiceService()
+	private void toggleVoiceChatMicrophone()
 	{
-		Intent intent = new Intent(this, VoiceService.class);
-		bindService(intent, new ServiceConnection() {
-			@Override
-			public void onServiceConnected(ComponentName name, IBinder service)
-			{
-				ActivityServer.this.onServiceConnected(name, service);
-			}
-			
-			@Override
-			public void onServiceDisconnected(ComponentName name)
-			{
-				ActivityServer.this.onServiceDisconnected(name);
-			}
-		}, Context.BIND_AUTO_CREATE);
+		boolean enable = !serverLogic.isMicrophoneEnabled();
+		serverLogic.setMicrophoneEnabled(enable);
+		buttonVoiceChatMicrophone.setImageResource(enable ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
 	}
 	
-	public void onServiceConnected(ComponentName name, IBinder service)
+	private void toggleVoiceChatSpeaker()
 	{
-		if(service instanceof VoiceBinder) serverLogic.onVoiceServiceBind((VoiceBinder) service);
-	}
-	
-	public void onServiceDisconnected(ComponentName name)
-	{
-		serverLogic.onVoiceServiceUnbind();
+		boolean enable = !serverLogic.isSpeakerEnabled();
+		serverLogic.setSpeakerEnabled(enable);
+		buttonVoiceChatSpeaker.setImageResource(enable ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
 	}
 	
 	void onDisconnect()

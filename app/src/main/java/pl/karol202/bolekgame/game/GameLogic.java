@@ -18,6 +18,7 @@ import pl.karol202.bolekgame.game.players.Players;
 import pl.karol202.bolekgame.server.Users;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
+import pl.karol202.bolekgame.voice.VoiceService;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private Acts acts;
 	private Players players;
 	private TextChat textChat;
+	private VoiceService voiceService;
 	
 	private Role role;
 	private boolean ignoreGameExit;
@@ -45,10 +47,10 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		super(client);
 		
-		actionManager = new ActionManager();
+		this.actionManager = new ActionManager();
 		
-		players = new Players(users);
-		players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
+		this.players = new Players(users);
+		this.players.addOnPlayersUpdateListener(new Players.OnPlayersUpdateListener() {
 			@Override
 			public void onPlayerAdd(Player player) { }
 			
@@ -62,9 +64,16 @@ public class GameLogic extends Logic<ActivityGame>
 			public void onPlayerUpdate(int position) { }
 		});
 		
-		acts = new Acts(players.getPlayersAmount());
+		this.acts = new Acts(players.getPlayersAmount());
 		
 		this.textChat = textChat;
+	}
+	
+	void startVoiceCommunication(VoiceService voiceService)
+	{
+		this.voiceService = voiceService;
+		voiceService.setUsers(players);
+		voiceService.start();
 	}
 	
 	@Override

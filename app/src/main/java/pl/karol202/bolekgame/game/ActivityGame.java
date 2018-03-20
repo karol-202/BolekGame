@@ -1,13 +1,14 @@
 package pl.karol202.bolekgame.game;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
+import pl.karol202.bolekgame.BolekApplication;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.acts.ScreenActs;
 import pl.karol202.bolekgame.game.chat.ScreenChat;
@@ -17,8 +18,10 @@ import pl.karol202.bolekgame.game.main.dialog.DialogManager;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.utils.BottomNavigationBarHelper;
 import pl.karol202.bolekgame.utils.FragmentRetain;
+import pl.karol202.bolekgame.utils.PermissionGrantingActivity;
+import pl.karol202.bolekgame.utils.PermissionRequest;
 
-public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
+public class ActivityGame extends PermissionGrantingActivity implements GameLogicSupplier
 {
 	private static final String TAG_FRAGMENT_RETAIN = "TAG_FRAG_RETAIN";
 	
@@ -30,6 +33,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	
 	private FragmentRetain<GameLogic> fragmentRetain;
 	private GameLogic gameLogic;
+	private BolekApplication bolekApplication;
 	
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -38,6 +42,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		setContentView(R.layout.activity_game);
 		loadGameData();
 		restoreRetainFragment();
+		bolekApplication = (BolekApplication) getApplication();
 		
 		gameScreenAdapter = new GameScreenAdapter(getFragmentManager());
 		dialogManager = new DialogManager(this);
@@ -61,6 +66,8 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		bottomBar = findViewById(R.id.bottomBar_game);
 		bottomBar.setOnNavigationItemSelectedListener(this::onScreenItemSelected);
 		BottomNavigationBarHelper.disableShiftAnimation(bottomBar);
+		
+		tryToStartVoiceCommunication();
 	}
 	
 	private void loadGameData()
@@ -86,6 +93,15 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 		fragmentManager.beginTransaction().add(fragmentRetain, TAG_FRAGMENT_RETAIN).commit();
 	}
 	
+	private void tryToStartVoiceCommunication()
+	{
+		bolekApplication.bindToVoiceService(service -> {
+			if(service != null)
+				PermissionRequest.requestPermission(this, Manifest.permission.RECORD_AUDIO, () -> gameLogic.startVoiceCommunication(service));
+			else Toast.makeText(ActivityGame.this, R.string.message_voice_chat_network_error, Toast.LENGTH_LONG).show();
+		});
+	}
+	
 	@Override
 	protected void onResume()
 	{
@@ -98,6 +114,7 @@ public class ActivityGame extends AppCompatActivity implements GameLogicSupplier
 	{
 		super.onDestroy();
 		if(!isFinishing()) gameLogic.suspend(); //On orientation changes
+		else bolekApplication.unbindFromVoiceService();
 	}
 	
 	private boolean onScreenItemSelected(MenuItem menuItem)

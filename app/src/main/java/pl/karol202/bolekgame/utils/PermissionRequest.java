@@ -23,7 +23,7 @@ public class PermissionRequest<A extends Activity & PermissionRequest.Permission
 	private String permission;
 	private PermissionGrantListener grantListener;
 	
-	public PermissionRequest(A activity, String permission, PermissionGrantListener grantListener)
+	private PermissionRequest(A activity, String permission, PermissionGrantListener grantListener)
 	{
 		this.activity = activity;
 		this.permission = permission;
@@ -50,5 +50,10 @@ public class PermissionRequest<A extends Activity & PermissionRequest.Permission
 	{
 		activity.registerPermissionGrantListener(requestCode, grantListener);
 		ActivityCompat.requestPermissions(activity, new String[] { permission }, requestCode++);
+	}
+	
+	public static <A extends Activity & PermissionGrantingActivity> void requestPermission(A activity, String permission, PermissionGrantListener grantListener)
+	{
+		new PermissionRequest<>(activity, permission, grantListener);
 	}
 }

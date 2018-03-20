@@ -7,7 +7,6 @@ import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
-import pl.karol202.bolekgame.voice.VoiceBinder;
 import pl.karol202.bolekgame.voice.VoiceService;
 
 import java.util.List;
@@ -29,29 +28,16 @@ class ServerLogic extends Logic<ActivityServer>
 		this.serverName = serverName;
 		this.serverCode = serverCode;
 		
-		users = new Users(localUserName);
+		this.users = new Users(localUserName);
 		
-		textChat = new TextChat();
+		this.textChat = new TextChat();
 	}
 	
-	@Override
-	protected void setActivity(ActivityServer activity)
+	void startVoiceCommunication(VoiceService voiceService)
 	{
-		super.setActivity(activity);
-		if(activity != null) activity.bindVoiceService();
-		else onVoiceServiceUnbind();
-	}
-	
-	void onVoiceServiceBind(VoiceBinder voiceBinder)
-	{
-		voiceService = voiceBinder.getVoiceService();
+		this.voiceService = voiceService;
 		voiceService.setUsers(users);
 		voiceService.start();
-	}
-	
-	void onVoiceServiceUnbind()
-	{
-		voiceService.stop();
 	}
 	
 	void logout()
@@ -75,6 +61,26 @@ class ServerLogic extends Logic<ActivityServer>
 	String getTextChatString()
 	{
 		return textChat.getTextChatString();
+	}
+	
+	boolean isMicrophoneEnabled()
+	{
+		return users.getLocalUser().isMicrophoneEnabled();
+	}
+	
+	void setMicrophoneEnabled(boolean enabled)
+	{
+		users.getLocalUser().setMicrophoneEnabled(enabled);
+	}
+	
+	boolean isSpeakerEnabled()
+	{
+		return users.getLocalUser().isSpeakerEnabled();
+	}
+	
+	void setSpeakerEnabled(boolean enabled)
+	{
+		users.getLocalUser().setSpeakerEnabled(enabled);
 	}
 	
 	@Override

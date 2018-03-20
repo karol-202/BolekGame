@@ -2,16 +2,12 @@ package pl.karol202.bolekgame.game.players;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.*;
 import java8.util.stream.Collectors;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.RemoteUser;
@@ -68,7 +64,7 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 		private void initMutePanel(View view, RemoteUser user)
 		{
 			View panelMute = view.findViewById(R.id.panel_user_mute);
-			panelMute.setOnClickListener(v -> toggleUserMute());
+			panelMute.setOnClickListener(v -> toggleUserMute(user));
 			
 			ImageView imageMute = panelMute.findViewById(R.id.image_user_mute);
 			imageMute.setImageResource(user.isMuted() ? R.drawable.ic_speaker_on_black_24dp : R.drawable.ic_speaker_off_black_24dp);
@@ -101,15 +97,16 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 		usersList = new ArrayList<>();
 	}
 	
+	@NonNull
 	@Override
-	public NonPlayersAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+	public NonPlayersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
 	{
 		LayoutInflater inflater = LayoutInflater.from(context);
 		return new NonPlayersAdapter.ViewHolder(inflater.inflate(R.layout.item_non_player, parent, false));
 	}
 	
 	@Override
-	public void onBindViewHolder(NonPlayersAdapter.ViewHolder holder, int position)
+	public void onBindViewHolder(@NonNull NonPlayersAdapter.ViewHolder holder, int position)
 	{
 		holder.bind(usersList.get(position));
 	}

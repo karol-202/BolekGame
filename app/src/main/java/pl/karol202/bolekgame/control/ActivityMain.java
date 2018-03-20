@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.crash.FirebaseCrash;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.ActivityServer;
 import pl.karol202.bolekgame.server.ServerData;
@@ -87,7 +85,6 @@ public class ActivityMain extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		initFirebaseIfNotDebug();
 		checkFirstStart();
 		restoreRetainFragment();
 		
@@ -147,12 +144,6 @@ public class ActivityMain extends AppCompatActivity
 		buttonJoinServerApply.setOnClickListener(v -> applyServerJoin());
 		
 		state = State.CONNECTING;
-	}
-	
-	private void initFirebaseIfNotDebug()
-	{
-		if(getResources().getBoolean(R.bool.debug)) FirebaseCrash.setCrashCollectionEnabled(false);
-		else FirebaseAnalytics.getInstance(this);
 	}
 	
 	private void checkFirstStart()

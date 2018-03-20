@@ -3,18 +3,18 @@ package pl.karol202.bolekgame.game.players;
 import pl.karol202.bolekgame.game.gameplay.Position;
 import pl.karol202.bolekgame.server.User;
 
-public abstract class Player
+public abstract class Player<U extends User>
 {
-	private User user;
+	private U user;
 	private Position position;
 	
-	Player(User user)
+	Player(U user)
 	{
 		this.user = user;
 		position = Position.NONE;
 	}
 	
-	User getUser()
+	U getUser()
 	{
 		return user;
 	}

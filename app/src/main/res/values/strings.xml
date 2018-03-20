@@ -74,6 +74,7 @@
 	<string name="message_cannot_login">Nie można zalogować</string>
 	<string name="message_error">Nieznany błąd</string>
 	<string name="message_invalid_user">Niewłaściwy użytkownik</string>
+	<string name="message_voice_chat_network_error">Błąd sieci</string>
 	
 	<string name="dialog_invalid_nick">Niewłaściwy nick</string>
 	<string name="dialog_invalid_nick_detail">Nick musi mieć od 3 do 20 znaków</string>

@@ -2,44 +2,77 @@ package pl.karol202.bolekgame.voice;
 
 import android.media.*;
 import android.os.Build;
+import android.os.Process;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
+import com.crashlytics.android.Crashlytics;
+import pl.karol202.bolekgame.server.LocalUser;
 import pl.karol202.bolekgame.server.RemoteUser;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
-import java.net.SocketException;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 class VoicePlayer implements Runnable
 {
 	private AudioTrack audioTrack;
-	private DatagramSocket socket;
-	private List<RemoteUser> users;
-	private byte[] buffer;
+	private DatagramChannel channel;
+	private LocalUser localUser;
+	private Map<RemoteUser, InetSocketAddress> users;
+	private Map<RemoteUser, short[]> userBuffers;
+	private ByteBuffer temporaryBuffer;
+	private short[] buffer;
 	private boolean run;
 	
-	VoicePlayer()
+	VoicePlayer(DatagramChannel channel)
 	{
-		createAudioRecord();
-		createSocket();
-		users = new ArrayList<>();
-		buffer = new byte[VoiceRecorder.BUFFER_SIZE];
-		run = true;
+		this.channel = channel;
+		users = new HashMap<>();
+		userBuffers = new HashMap<>();
+		temporaryBuffer = ByteBuffer.allocate(VoiceRecorder.BUFFER_SIZE);
+		buffer = new short[VoiceRecorder.SAMPLES_TO_SEND];
 	}
 	
-	private void createAudioRecord()
+	@Override
+	public void run()
 	{
-		int bufferSize = 10 * AudioRecord.getMinBufferSize(VoiceRecorder.SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) createAudioRecordLollipop(bufferSize);
-		else createAudioRecordOlder(bufferSize);
+		if(run) return;
+		run = true;
+		
+		try
+		{
+			Process.setThreadPriority(Process.THREAD_PRIORITY_AUDIO);
+			
+			createAudioTrack();
+			if(audioTrack.getState() == AudioRecord.STATE_UNINITIALIZED) return;
+			
+			while(run) doWork();
+			
+			audioTrack.release();
+			channel.close();
+		}
+		catch(Exception exception)
+		{
+			exception.printStackTrace();
+		}
+	}
+	
+	private void createAudioTrack()
+	{
+		int bufferSize = 4 * AudioTrack.getMinBufferSize(VoiceRecorder.SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) createAudioTrackLollipop(bufferSize);
+		else createAudioTrackOlder(bufferSize);
+		
+		if(audioTrack.getState() == AudioRecord.STATE_UNINITIALIZED)
+			Crashlytics.log(Log.ERROR, "BolekGame", "Cannot initialize AudioTrack.");
 	}
 	
 	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-	private void createAudioRecordLollipop(int bufferSize)
+	private void createAudioTrackLollipop(int bufferSize)
 	{
 		AudioAttributes.Builder aaBuilder = new AudioAttributes.Builder();
 		aaBuilder.setContentType(AudioAttributes.CONTENT_TYPE_SPEECH);
@@ -55,57 +88,107 @@ class VoicePlayer implements Runnable
 		audioTrack = new AudioTrack(audioAttributes, audioFormat, bufferSize, AudioTrack.MODE_STREAM, AudioManager.AUDIO_SESSION_ID_GENERATE);
 	}
 	
-	private void createAudioRecordOlder(int bufferSize)
+	private void createAudioTrackOlder(int bufferSize)
 	{
 		audioTrack = new AudioTrack(AudioManager.STREAM_VOICE_CALL, VoiceRecorder.SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
-									AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
+				AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
 	}
 	
-	private void createSocket()
+	private void doWork() throws IOException, InterruptedException
 	{
-		try
+		checkState();
+		if(localUser.isSpeakerEnabled())
 		{
-			DatagramChannel channel = DatagramChannel.open();
-			socket = channel.socket();
-			socket.setReuseAddress(true);
-			socket.bind(new InetSocketAddress(VoiceService.VOICE_PORT));
+			receiveSamples();
+			mixSamples();
+			play();
 		}
-		catch(IOException exception)
+		else Thread.sleep(10);
+	}
+	
+	private void checkState()
+	{
+		if(localUser.isSpeakerEnabled() && audioTrack.getPlayState() == AudioTrack.PLAYSTATE_PAUSED)
+			audioTrack.play();
+		else if(!localUser.isSpeakerEnabled() && audioTrack.getPlayState() == AudioTrack.PLAYSTATE_PLAYING)
 		{
-			exception.printStackTrace();
+			audioTrack.pause();
+			audioTrack.flush();
 		}
 	}
 	
-	@Override
-	public void run()
+	private void receiveSamples() throws IOException
 	{
-		audioTrack.play();
-		try
+		SocketAddress address;
+		while((address = channel.receive(temporaryBuffer)) != null)
 		{
-			while(run)
+			RemoteUser user = findUser(address);
+			receiveUserSamples(user, temporaryBuffer);
+			temporaryBuffer.clear();
+		}
+	}
+	
+	private RemoteUser findUser(SocketAddress address)
+	{
+		for(Map.Entry<RemoteUser, InetSocketAddress> entry : users.entrySet())
+		{
+			if(entry.getValue() == address) return entry.getKey();
+		}
+		return null;
+	}
+	
+	private void receiveUserSamples(RemoteUser user, ByteBuffer buffer)
+	{
+		if(user == null) return;
+		buffer.flip();
+		short[] userBuffer = userBuffers.get(user);
+		for(int i = 0; i < buffer.limit() / 2; i++)
+		{
+			if(user.isMuted()) userBuffer[i] = 0;
+			else
 			{
-				System.out.println("before receive");
-				DatagramPacket packet = new DatagramPacket(buffer, VoiceRecorder.BUFFER_SIZE);
-				socket.receive(packet);
-				System.out.println("receive");
-				for(int i = 0; i < buffer.length; i++) System.out.println(buffer[i]);
-				audioTrack.write(buffer, 0, VoiceRecorder.BUFFER_SIZE);
+				byte high = buffer.get();
+				byte low = buffer.get();
+				int sample = high << 8 | low;
+				userBuffer[i] = (short) Math.round(sample * user.getVolume());
 			}
 		}
-		catch(IOException exception)
+	}
+	
+	private void mixSamples()
+	{
+		for(int i = 0; i < buffer.length; i++)
 		{
-			exception.printStackTrace();
+			short sum = 0;
+			for(short[] samples : userBuffers.values()) sum += samples[i];
+			float sampleFloat = (float) Math.tanh(sum / 32768f);
+			buffer[i] = (short) (sampleFloat * 32768);
 		}
 	}
 	
-	void addUser(RemoteUser user) throws SocketException
+	private void play()
 	{
-		users.add(user);
+		audioTrack.write(buffer, 0, VoiceRecorder.BUFFER_SIZE);
+	}
+	
+	void addUser(RemoteUser user)
+	{
+		users.put(user, new InetSocketAddress(user.getAddress(), VoiceService.VOICE_PORT));
 	}
 	
 	void removeUser(RemoteUser user)
 	{
 		users.remove(user);
+	}
+	
+	void removeAllUsers()
+	{
+		users.clear();
+	}
+	
+	void setLocalUser(LocalUser localUser)
+	{
+		this.localUser = localUser;
 	}
 	
 	void stop()

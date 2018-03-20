@@ -1,6 +1,7 @@
 package pl.karol202.bolekgame.server;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.transition.TransitionManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 
@@ -36,6 +38,8 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private ConstraintLayout view;
 		private TextView textUserName;
 		private Button buttonUserReady;
+		private ImageButton buttonUserSettings;
+		private UserSettingsWindow settingsWindow;
 		
 		private User user;
 		
@@ -43,9 +47,16 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		{
 			super(view);
 			this.view = (ConstraintLayout) view;
+			
 			textUserName = view.findViewById(R.id.text_user_name);
+			
 			buttonUserReady = view.findViewById(R.id.button_user_ready);
 			buttonUserReady.setOnClickListener(v -> onReadyButtonClick());
+			
+			buttonUserSettings = view.findViewById(R.id.button_user_settings);
+			buttonUserSettings.setOnClickListener(v -> settingsWindow.showSettingsWindow(buttonUserSettings));
+			
+			settingsWindow = new UserSettingsWindow(context);
 		}
 		
 		private void onReadyButtonClick()
@@ -64,9 +75,12 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private void bindNewUser(User user)
 		{
 			this.user = user;
+			if(user instanceof RemoteUser) settingsWindow.setUser((RemoteUser) user);
+			
 			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_checked : R.drawable.background_item);
 			textUserName.setText(user.getName());
 			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE : View.GONE);
+			buttonUserSettings.setVisibility(user instanceof RemoteUser ? View.VISIBLE : View.GONE);
 		}
 		
 		private void update()
@@ -74,6 +88,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 			TransitionManager.beginDelayedTransition(view);
 			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_checked : R.drawable.background_item);
 			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE: View.GONE);
+			buttonUserSettings.setVisibility(canBeMadeReady() ? View.GONE : View.VISIBLE);
 		}
 		
 		private boolean canBeMadeReady()
@@ -126,19 +141,18 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		users.removeOnUsersUpdateListener(this);
 	}
 	
+	@NonNull
 	@Override
-	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
 	{
 		LayoutInflater inflater = LayoutInflater.from(context);
-		if(viewType == VIEW_USER)
-			return new UserViewHolder(inflater.inflate(R.layout.item_user, parent, false));
-		else if(viewType == VIEW_SUMMARY)
+		if(viewType == VIEW_SUMMARY)
 			return new UsersSummaryViewHolder(inflater.inflate(R.layout.item_users_summary, parent, false));
-		else return null;
+		else return new UserViewHolder(inflater.inflate(R.layout.item_user, parent, false));
 	}
 	
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position)
+	public void onBindViewHolder(@NonNull ViewHolder holder, int position)
 	{
 		if(position == 0) ((UsersSummaryViewHolder) holder).bind();
 		else ((UserViewHolder) holder).bind(users.getUser(position - 1));

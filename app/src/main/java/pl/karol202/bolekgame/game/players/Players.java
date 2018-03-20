@@ -146,6 +146,11 @@ public class Players
 		return users.getLocalUserName();
 	}
 	
+	public LocalUser getLocalUser()
+	{
+		return (LocalUser) getUsersStream().filter(u -> u instanceof LocalUser).findAny().orElse(null);
+	}
+	
 	public void addOnUsersUpdateListener(Users.OnUsersUpdateListener listener)
 	{
 		usersUpdateListeners.add(listener);

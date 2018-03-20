@@ -17,7 +17,7 @@ import java.util.Queue;
 
 public class Client
 {
-	private static final int PORT = 6006;
+	private static final int PORT = 60606;
 	private static final int TIMEOUT = 5000;
 	
 	private ClientListener clientListener;

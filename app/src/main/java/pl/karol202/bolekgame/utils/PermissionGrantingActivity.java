@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PermissionGrantingActivity extends AppCompatActivity implements PermissionRequest.PermissionGrantingActivity
+public abstract class PermissionGrantingActivity extends AppCompatActivity implements PermissionRequest.PermissionGrantingActivity
 {
 	private Map<Integer, PermissionRequest.PermissionGrantListener> listeners;
 	
@@ -33,7 +33,11 @@ public class PermissionGrantingActivity extends AppCompatActivity implements Per
 	{
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if(!listeners.containsKey(requestCode)) return;
-		if(grantResults[0] == PackageManager.PERMISSION_GRANTED) listeners.get(requestCode).onPermissionGrant();
+		if(grantResults.length != 0 &&grantResults[0] == PackageManager.PERMISSION_GRANTED)
+		{
+			PermissionRequest.PermissionGrantListener listener = listeners.get(requestCode);
+			if(listener != null) listener.onPermissionGrant();
+		}
 		listeners.remove(requestCode);
 	}
 }
