@@ -29,7 +29,6 @@ public class GameLogic extends Logic<ActivityGame>
 	private Acts acts;
 	private Players players;
 	private TextChat textChat;
-	private VoiceService voiceService;
 	
 	private Role role;
 	private boolean ignoreGameExit;
@@ -71,7 +70,6 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	void startVoiceCommunication(VoiceService voiceService)
 	{
-		this.voiceService = voiceService;
 		voiceService.setUsers(players);
 		voiceService.start();
 	}

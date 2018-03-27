@@ -7,7 +7,7 @@
 	<color name="panel_background">#FFFFFF</color>
 	<color name="dark_background">#303030</color>
 	<color name="item_background">#00000000</color>
-	<color name="item_background_pressed">#1f000000</color>
+	<color name="item_background_pressed">#1F000000</color>
 	<color name="item_background_checked">#C9FCA2</color>
 	<color name="item_background_checked_pressed">#add98b</color>
 	<color name="divider">#1F000000</color>
@@ -24,6 +24,8 @@
 	<color name="button_vote_no">#F44336</color>
 	<color name="button_vote_no_pressed">#CC372D</color>
 	<color name="button_vote_no_disabled">#F17D74</color>
+	<color name="button_transparent">#00000000</color>
+	<color name="button_transparent_pressed">#41000000</color>
 	
 	<color name="text_server">#4D88D4</color>
 	<color name="text_primary">#D6000000</color>

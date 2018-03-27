@@ -55,6 +55,8 @@ public class UserSettingsWindow
 	private void toggleUserMute(RemoteUser user)
 	{
 		user.setMute(!user.isMuted());
+		imageMute.setImageResource(user.isMuted() ? R.drawable.ic_speaker_on_black_24dp : R.drawable.ic_speaker_off_black_24dp);
+		textMute.setText(user.isMuted() ? R.string.text_user_unmute : R.string.text_user_mute);
 	}
 	
 	private void initVolumePanel(View view)
@@ -85,10 +87,11 @@ public class UserSettingsWindow
 		textVolume.setText(String.format("%d%%", seekBarValue));
 	}
 	
-	public void showSettingsWindow(View anchor)
+	public void toggleSettingsWindow(View anchor)
 	{
 		if(user == null) return;
-		window.showAsDropDown(anchor);
+		if(!window.isShowing()) window.showAsDropDown(anchor);
+		else window.dismiss();
 	}
 	
 	public void setUser(RemoteUser user)

@@ -54,7 +54,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 			buttonUserReady.setOnClickListener(v -> onReadyButtonClick());
 			
 			buttonUserSettings = view.findViewById(R.id.button_user_settings);
-			buttonUserSettings.setOnClickListener(v -> settingsWindow.showSettingsWindow(buttonUserSettings));
+			buttonUserSettings.setOnClickListener(v -> settingsWindow.toggleSettingsWindow(buttonUserSettings));
 			
 			settingsWindow = new UserSettingsWindow(context);
 		}
@@ -77,18 +77,21 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 			this.user = user;
 			if(user instanceof RemoteUser) settingsWindow.setUser((RemoteUser) user);
 			
-			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_checked : R.drawable.background_item);
 			textUserName.setText(user.getName());
-			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE : View.GONE);
-			buttonUserSettings.setVisibility(user instanceof RemoteUser ? View.VISIBLE : View.GONE);
+			updateViews();
 		}
 		
 		private void update()
 		{
 			TransitionManager.beginDelayedTransition(view);
+			updateViews();
+		}
+		
+		private void updateViews()
+		{
 			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_checked : R.drawable.background_item);
 			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE: View.GONE);
-			buttonUserSettings.setVisibility(canBeMadeReady() ? View.GONE : View.VISIBLE);
+			buttonUserSettings.setVisibility(user instanceof RemoteUser ? View.VISIBLE : View.GONE);
 		}
 		
 		private boolean canBeMadeReady()

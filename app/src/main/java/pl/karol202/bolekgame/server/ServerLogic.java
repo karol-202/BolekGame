@@ -18,7 +18,6 @@ class ServerLogic extends Logic<ActivityServer>
 	
 	private Users users;
 	private TextChat textChat;
-	private VoiceService voiceService;
 	private boolean gameInProgress;
 	
 	ServerLogic(Client client, String serverName, int serverCode, String localUserName)
@@ -29,13 +28,30 @@ class ServerLogic extends Logic<ActivityServer>
 		this.serverCode = serverCode;
 		
 		this.users = new Users(localUserName);
+		users.addOnUsersUpdateListener(new Users.OnUsersUpdateListener() {
+			@Override
+			public void onUserAdd(User user) { }
+			
+			@Override
+			public void onUserRemove(User user, int position) { }
+			
+			@Override
+			public void onUsersUpdate()
+			{
+				ServerLogic.this.onUsersUpdate();
+			}
+		});
 		
 		this.textChat = new TextChat();
 	}
 	
+	private void onUsersUpdate()
+	{
+		activity.onVoiceChatUpdate();
+	}
+	
 	void startVoiceCommunication(VoiceService voiceService)
 	{
-		this.voiceService = voiceService;
 		voiceService.setUsers(users);
 		voiceService.start();
 	}

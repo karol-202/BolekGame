@@ -1,7 +1,6 @@
 package pl.karol202.bolekgame.server;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
@@ -98,7 +97,7 @@ public class ActivityServer extends PermissionGrantingActivity
 		});
 		
 		buttonTextChatToggle = findViewById(R.id.button_text_chat_toggle);
-		buttonTextChatToggle.setOnClickListener(v -> toggleTextChat());
+		buttonTextChatToggle.setOnClickListener(v -> toggleTextChatLayout());
 		
 		buttonVoiceChatMicrophone = findViewById(R.id.button_voice_chat_microphone);
 		buttonVoiceChatMicrophone.setOnClickListener(v -> toggleVoiceChatMicrophone());
@@ -179,16 +178,16 @@ public class ActivityServer extends PermissionGrantingActivity
 	{
 		super.onDestroy();
 		editTextChat.setOnEditorActionListener(null);
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) removeLayoutListener();
+		removeLayoutListener();
 		usersAdapter.onDestroy();
 		
 		if(!isFinishing()) serverLogic.suspend(); //On configuration changes
 		else bolekApplication.unbindFromVoiceService();
 	}
 	
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void removeLayoutListener()
 	{
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 		coordinatorLayout.getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
 	}
 	
@@ -199,7 +198,7 @@ public class ActivityServer extends PermissionGrantingActivity
 		super.onBackPressed();
 	}
 	
-	private void toggleTextChat()
+	private void toggleTextChatLayout()
 	{
 		if(textChatLayoutBehaviour.getState() == BottomSheetBehavior.STATE_COLLAPSED)
 		{
@@ -225,6 +224,20 @@ public class ActivityServer extends PermissionGrantingActivity
 		if(textChatLayoutStateChangeByClick) textChatLayoutStateChangeByClick = false;
 		else if(state == BottomSheetBehavior.STATE_COLLAPSED) buttonTextChatToggle.toggleAnimation(false);
 		else if(state == BottomSheetBehavior.STATE_EXPANDED) buttonTextChatToggle.toggleAnimation(true);
+	}
+	
+	private void toggleVoiceChatMicrophone()
+	{
+		boolean enable = !serverLogic.isMicrophoneEnabled();
+		serverLogic.setMicrophoneEnabled(enable);
+		buttonVoiceChatMicrophone.setImageResource(enable ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
+	}
+	
+	private void toggleVoiceChatSpeaker()
+	{
+		boolean enable = !serverLogic.isSpeakerEnabled();
+		serverLogic.setSpeakerEnabled(enable);
+		buttonVoiceChatSpeaker.setImageResource(enable ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
 	}
 	
 	void onTextChatUpdate()
@@ -265,18 +278,10 @@ public class ActivityServer extends PermissionGrantingActivity
 		hidingTextChatLayout = false;
 	}
 	
-	private void toggleVoiceChatMicrophone()
+	public void onVoiceChatUpdate()
 	{
-		boolean enable = !serverLogic.isMicrophoneEnabled();
-		serverLogic.setMicrophoneEnabled(enable);
-		buttonVoiceChatMicrophone.setImageResource(enable ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
-	}
-	
-	private void toggleVoiceChatSpeaker()
-	{
-		boolean enable = !serverLogic.isSpeakerEnabled();
-		serverLogic.setSpeakerEnabled(enable);
-		buttonVoiceChatSpeaker.setImageResource(enable ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
+		buttonVoiceChatMicrophone.setImageResource(serverLogic.isMicrophoneEnabled() ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
+		buttonVoiceChatSpeaker.setImageResource(serverLogic.isSpeakerEnabled() ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
 	}
 	
 	void onDisconnect()

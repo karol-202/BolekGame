@@ -8,6 +8,8 @@ public class LocalUser extends User
 	LocalUser(String name, boolean ready)
 	{
 		super(name, ready);
+		microphoneEnabled = true;
+		speakerEnabled = true;
 	}
 	
 	public boolean isMicrophoneEnabled()
