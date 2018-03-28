@@ -19,22 +19,23 @@ import java.util.Map;
 class VoiceRecorder implements Runnable
 {
 	static final int SAMPLE_RATE = 8000;//Hz
-	static final int SAMPLE_SIZE = 2;//Bytes
-	static final int SAMPLES_TO_SEND = 300;
-	static final int BUFFER_SIZE = SAMPLES_TO_SEND * SAMPLE_SIZE;
+	static final int BUFFER_SIZE_SHORTS = 1000;
+	static final int BUFFER_SIZE_BYTES = BUFFER_SIZE_SHORTS * 2;
 	
 	private AudioRecord audioRecord;
 	private DatagramChannel channel;
 	private LocalUser localUser;
 	private Map<RemoteUser, InetSocketAddress> users;
-	private ByteBuffer buffer;
+	private byte[] byteArray;
+	private ByteBuffer byteBuffer;
 	private boolean run;
 	
 	VoiceRecorder(DatagramChannel channel)
 	{
 		this.channel = channel;
 		users = new HashMap<>();
-		buffer = ByteBuffer.allocate(BUFFER_SIZE);
+		byteArray = new byte[BUFFER_SIZE_BYTES];
+		byteBuffer = ByteBuffer.allocate(BUFFER_SIZE_BYTES);
 	}
 	
 	@Override
@@ -54,7 +55,6 @@ class VoiceRecorder implements Runnable
 			
 			audioRecord.stop();
 			audioRecord.release();
-			channel.close();
 		}
 		catch(Exception exception)
 		{
@@ -65,7 +65,8 @@ class VoiceRecorder implements Runnable
 	private void createAudioRecord()
 	{
 		int bufferSize = 4 * AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
-		audioRecord = new AudioRecord(MediaRecorder.AudioSource.VOICE_COMMUNICATION, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, bufferSize);
+		audioRecord = new AudioRecord(MediaRecorder.AudioSource.VOICE_COMMUNICATION, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO,
+									  AudioFormat.ENCODING_PCM_16BIT, bufferSize);
 		
 		if(audioRecord.getState() == AudioRecord.STATE_UNINITIALIZED)
 			Crashlytics.log(Log.ERROR, "BolekGame", "Cannot initialize AudioRecord.");
@@ -77,8 +78,8 @@ class VoiceRecorder implements Runnable
 		if(localUser.isMicrophoneEnabled())
 		{
 			record();
-			for(Map.Entry<RemoteUser, InetSocketAddress> entry : users.entrySet())
-				sendSamplesToUser(entry.getKey(), entry.getValue());
+			for(InetSocketAddress address : users.values())
+				sendSamplesToUser(address);
 		}
 		else Thread.sleep(10);
 	}
@@ -93,12 +94,15 @@ class VoiceRecorder implements Runnable
 	
 	private void record() throws IOException
 	{
-		audioRecord.read(buffer, BUFFER_SIZE);
+		audioRecord.read(byteArray, 0, BUFFER_SIZE_BYTES);
+		byteBuffer.clear();
+		byteBuffer.put(byteArray);
+		byteBuffer.flip();
 	}
 	
-	private void sendSamplesToUser(RemoteUser user, InetSocketAddress address) throws IOException
+	private void sendSamplesToUser(InetSocketAddress address) throws IOException
 	{
-		channel.send(buffer, address);
+		channel.send(byteBuffer, address);
 	}
 	
 	void addUser(RemoteUser user)

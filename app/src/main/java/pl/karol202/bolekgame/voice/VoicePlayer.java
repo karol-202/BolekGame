@@ -24,17 +24,19 @@ class VoicePlayer implements Runnable
 	private LocalUser localUser;
 	private Map<RemoteUser, InetSocketAddress> users;
 	private Map<RemoteUser, short[]> userBuffers;
-	private ByteBuffer temporaryBuffer;
-	private short[] buffer;
+	
 	private boolean run;
+	private ByteBuffer temporaryBuffer;
+	private byte[] buffer;
 	
 	VoicePlayer(DatagramChannel channel)
 	{
 		this.channel = channel;
 		users = new HashMap<>();
 		userBuffers = new HashMap<>();
-		temporaryBuffer = ByteBuffer.allocate(VoiceRecorder.BUFFER_SIZE);
-		buffer = new short[VoiceRecorder.SAMPLES_TO_SEND];
+		
+		temporaryBuffer = ByteBuffer.allocate(VoiceRecorder.BUFFER_SIZE_BYTES);
+		buffer = new byte[VoiceRecorder.BUFFER_SIZE_BYTES];
 	}
 	
 	@Override
@@ -53,7 +55,6 @@ class VoicePlayer implements Runnable
 			while(run) doWork();
 			
 			audioTrack.release();
-			channel.close();
 		}
 		catch(Exception exception)
 		{
@@ -90,17 +91,18 @@ class VoicePlayer implements Runnable
 	
 	private void createAudioTrackOlder(int bufferSize)
 	{
-		audioTrack = new AudioTrack(AudioManager.STREAM_VOICE_CALL, VoiceRecorder.SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
+		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, VoiceRecorder.SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
 				AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
 	}
 	
-	private void doWork() throws IOException, InterruptedException
+	private void doWork() throws InterruptedException, IOException
 	{
 		checkState();
 		if(localUser.isSpeakerEnabled())
 		{
 			receiveSamples();
-			mixSamples();
+			//mixSamples();
+			clearSamples();
 			play();
 		}
 		else Thread.sleep(10);
@@ -108,7 +110,7 @@ class VoicePlayer implements Runnable
 	
 	private void checkState()
 	{
-		if(localUser.isSpeakerEnabled() && audioTrack.getPlayState() == AudioTrack.PLAYSTATE_PAUSED)
+		if(localUser.isSpeakerEnabled() && audioTrack.getPlayState() != AudioTrack.PLAYSTATE_PLAYING)
 			audioTrack.play();
 		else if(!localUser.isSpeakerEnabled() && audioTrack.getPlayState() == AudioTrack.PLAYSTATE_PLAYING)
 		{
@@ -123,7 +125,8 @@ class VoicePlayer implements Runnable
 		while((address = channel.receive(temporaryBuffer)) != null)
 		{
 			RemoteUser user = findUser(address);
-			receiveUserSamples(user, temporaryBuffer);
+			//receiveUserSamples(user, temporaryBuffer);
+			buffer = temporaryBuffer.array();
 			temporaryBuffer.clear();
 		}
 	}
@@ -131,9 +134,7 @@ class VoicePlayer implements Runnable
 	private RemoteUser findUser(SocketAddress address)
 	{
 		for(Map.Entry<RemoteUser, InetSocketAddress> entry : users.entrySet())
-		{
-			if(entry.getValue() == address) return entry.getKey();
-		}
+			if(entry.getValue().equals(address)) return entry.getKey();
 		return null;
 	}
 	
@@ -147,8 +148,8 @@ class VoicePlayer implements Runnable
 			if(user.isMuted()) userBuffer[i] = 0;
 			else
 			{
-				byte high = buffer.get();
 				byte low = buffer.get();
+				byte high = buffer.get();
 				int sample = high << 8 | low;
 				userBuffer[i] = (short) Math.round(sample * user.getVolume());
 			}
@@ -162,28 +163,39 @@ class VoicePlayer implements Runnable
 			short sum = 0;
 			for(short[] samples : userBuffers.values()) sum += samples[i];
 			float sampleFloat = (float) Math.tanh(sum / 32768f);
-			buffer[i] = (short) (sampleFloat * 32768);
+			//buffer[i] = (short) (sampleFloat * 32768);
+		}
+	}
+	
+	private void clearSamples()
+	{
+		for(short[] samples : userBuffers.values())
+		{
+			for(int i = 0; i < samples.length; i++) samples[i] = 0;
 		}
 	}
 	
 	private void play()
 	{
-		audioTrack.write(buffer, 0, VoiceRecorder.BUFFER_SIZE);
+		audioTrack.write(buffer, 0, VoiceRecorder.BUFFER_SIZE_BYTES);
 	}
 	
 	void addUser(RemoteUser user)
 	{
 		users.put(user, new InetSocketAddress(user.getAddress(), VoiceService.VOICE_PORT));
+		userBuffers.put(user, new short[VoiceRecorder.BUFFER_SIZE_SHORTS]);
 	}
 	
 	void removeUser(RemoteUser user)
 	{
 		users.remove(user);
+		userBuffers.remove(user);
 	}
 	
 	void removeAllUsers()
 	{
 		users.clear();
+		userBuffers.clear();
 	}
 	
 	void setLocalUser(LocalUser localUser)

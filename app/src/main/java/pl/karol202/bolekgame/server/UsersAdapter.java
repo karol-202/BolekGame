@@ -54,9 +54,9 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 			buttonUserReady.setOnClickListener(v -> onReadyButtonClick());
 			
 			buttonUserSettings = view.findViewById(R.id.button_user_settings);
-			buttonUserSettings.setOnClickListener(v -> settingsWindow.toggleSettingsWindow(buttonUserSettings));
+			buttonUserSettings.setOnClickListener(v -> showSettingsWindow(settingsWindow, buttonUserSettings));
 			
-			settingsWindow = new UserSettingsWindow(context);
+			settingsWindow = new UserSettingsWindow(view);
 		}
 		
 		private void onReadyButtonClick()
@@ -129,6 +129,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 	private Users users;
 	private ServerStatusSupplier serverStatusSupplier;
 	private OnUserReadyListener userReadyListener;
+	private UserSettingsWindow currentSettingsWindow;
 	
 	UsersAdapter(Context context, Users users, ServerStatusSupplier serverStatusSupplier, OnUserReadyListener userReadyListener)
 	{
@@ -173,6 +174,13 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		return position == 0 ? VIEW_SUMMARY : VIEW_USER;
 	}
 	
+	private void showSettingsWindow(UserSettingsWindow settingsWindow, View anchor)
+	{
+		if(currentSettingsWindow != null && currentSettingsWindow.isShowing()) currentSettingsWindow.dismiss();
+		currentSettingsWindow = settingsWindow;
+		settingsWindow.show(anchor);
+	}
+	
 	@Override
 	public void onUserAdd(User user)
 	{
@@ -185,6 +193,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 	{
 		notifyItemRemoved(position);
 		for(int i = 0; i < users.getUsersAmount() + 1; i++) notifyItemChanged(i);
+		if(currentSettingsWindow != null && currentSettingsWindow.getUser() == user) currentSettingsWindow.dismiss();
 	}
 	
 	@Override

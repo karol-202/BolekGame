@@ -90,5 +90,6 @@ public class BolekApplication extends Application
 	public void unbindFromVoiceService()
 	{
 		if(--boundActivities == 0) unbindVoiceService();
+		voiceServiceBindListeners.clear();
 	}
 }

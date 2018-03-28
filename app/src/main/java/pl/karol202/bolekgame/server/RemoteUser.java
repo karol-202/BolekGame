@@ -6,17 +6,19 @@ import java.net.UnknownHostException;
 public class RemoteUser extends User
 {
 	private InetAddress address;
-	
 	private float volume;
 	private boolean mute;
+	
+	private boolean connected;
 	
 	RemoteUser(String name, boolean ready, String address)
 	{
 		super(name, ready);
 		createInetAddress(address);
-		
 		volume = 1;
 		mute = false;
+		
+		connected = true;
 	}
 	
 	private void createInetAddress(String address)
@@ -55,5 +57,15 @@ public class RemoteUser extends User
 	public void setMute(boolean mute)
 	{
 		this.mute = mute;
+	}
+	
+	public boolean isConnected()
+	{
+		return connected;
+	}
+	
+	public void setDisconnected()
+	{
+		connected = false;
 	}
 }

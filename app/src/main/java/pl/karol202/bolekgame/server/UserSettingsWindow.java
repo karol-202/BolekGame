@@ -2,8 +2,10 @@ package pl.karol202.bolekgame.server;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
@@ -13,6 +15,7 @@ import pl.karol202.bolekgame.R;
 public class UserSettingsWindow
 {
 	private Context context;
+	private View parentView;
 	private RemoteUser user;
 	
 	private PopupWindow window;
@@ -23,17 +26,21 @@ public class UserSettingsWindow
 	private SeekBar seekBarVolume;
 	private TextView textVolume;
 	
-	public UserSettingsWindow(Context context)
+	public UserSettingsWindow(View parentView)
 	{
-		this.context = context;
+		this.context = parentView.getContext();
+		this.parentView = parentView;
 		initWindow();
 	}
 	
 	@SuppressLint("InflateParams")
 	private void initWindow()
 	{
-		window = new PopupWindow(context);
+		window = new PopupWindow(parentView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+		window.setOutsideTouchable(true);
+		window.setBackgroundDrawable(ContextCompat.getDrawable(context, R.drawable.background_user_settings_popup));
 		
+		//TODO Add border
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View view = inflater.inflate(R.layout.popup_user_settings, null);
 		initMutePanel(view);
@@ -64,7 +71,8 @@ public class UserSettingsWindow
 		panelVolume = view.findViewById(R.id.panel_user_volume);
 		
 		seekBarVolume = panelVolume.findViewById(R.id.seekBar_user_volume);
-		seekBarVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+		seekBarVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+		{
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 			{
@@ -87,11 +95,25 @@ public class UserSettingsWindow
 		textVolume.setText(String.format("%d%%", seekBarValue));
 	}
 	
-	public void toggleSettingsWindow(View anchor)
+	public void show(View anchor)
 	{
-		if(user == null) return;
-		if(!window.isShowing()) window.showAsDropDown(anchor);
-		else window.dismiss();
+		if(user == null || window.isShowing()) return;
+		window.showAsDropDown(anchor);
+	}
+	
+	public void dismiss()
+	{
+		window.dismiss();
+	}
+	
+	public boolean isShowing()
+	{
+		return window.isShowing();
+	}
+	
+	public RemoteUser getUser()
+	{
+		return user;
 	}
 	
 	public void setUser(RemoteUser user)

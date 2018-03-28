@@ -11,8 +11,7 @@ import pl.karol202.bolekgame.server.User;
 import pl.karol202.bolekgame.server.Users;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.InetSocketAddress;
 import java.nio.channels.DatagramChannel;
 
 public class VoiceService extends Service
@@ -20,6 +19,7 @@ public class VoiceService extends Service
 	static final int VOICE_PORT = 60607;
 	
 	private VoiceBinder binder;
+	private DatagramChannel datagramChannel;
 	private VoiceRecorder voiceRecorder;
 	private VoicePlayer voicePlayer;
 	
@@ -32,9 +32,11 @@ public class VoiceService extends Service
 	{
 		try
 		{
-			DatagramChannel channel = DatagramChannel.open();
-			voiceRecorder = new VoiceRecorder(channel);
-			voicePlayer = new VoicePlayer(channel);
+			datagramChannel = DatagramChannel.open();
+			datagramChannel.socket().bind(new InetSocketAddress(VOICE_PORT));
+			datagramChannel.configureBlocking(false);
+			voiceRecorder = new VoiceRecorder(datagramChannel);
+			voicePlayer = new VoicePlayer(datagramChannel);
 		}
 		catch(IOException e)
 		{
@@ -49,6 +51,20 @@ public class VoiceService extends Service
 		if(binder != null) return binder;
 		binder = new VoiceBinder(voiceRecorder != null && voicePlayer != null ? this : null);
 		return binder;
+	}
+	
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		try
+		{
+			datagramChannel.close();
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public void setUsers(Users users)
