@@ -2,6 +2,7 @@ package pl.karol202.bolekgame.game;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.support.annotation.NonNull;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.util.SparseArray;
 import android.view.ViewGroup;
@@ -40,6 +41,7 @@ class GameScreenAdapter extends FragmentPagerAdapter
 		return 4;
 	}
 	
+	@NonNull
 	@Override
 	public Object instantiateItem(ViewGroup container, int position)
 	{

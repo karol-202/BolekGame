@@ -313,7 +313,6 @@ public class ActivityServer extends PermissionGrantingActivity
 	{
 		serverLogic.suspend();
 		GameData.setGameData(serverLogic.createGameData());
-		
 		Intent intent = new Intent(this, ActivityGame.class);
 		startActivity(intent);
 	}

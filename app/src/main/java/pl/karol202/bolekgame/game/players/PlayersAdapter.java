@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.gameplay.Position;
+import pl.karol202.bolekgame.server.UserSettingsWindow;
 
 class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 {
@@ -17,13 +19,22 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 		private TextView textName;
 		private View panelPosition;
 		private TextView textPosition;
+		private ImageButton buttonSettings;
+		private UserSettingsWindow settingsWindow;
 		
 		ViewHolder(View view)
 		{
 			super(view);
 			textName = view.findViewById(R.id.text_player_name);
+			
 			panelPosition = view.findViewById(R.id.panel_player_position);
+			
 			textPosition = view.findViewById(R.id.text_player_position);
+			
+			buttonSettings = view.findViewById(R.id.button_player_settings);
+			buttonSettings.setOnClickListener(v -> showSettingsWindow(settingsWindow, buttonSettings));
+			
+			settingsWindow = new UserSettingsWindow(view);
 		}
 		
 		void bind(Player player)
@@ -31,11 +42,14 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 			textName.setText(player.getName());
 			panelPosition.setVisibility(player.getPosition() != Position.NONE ? View.VISIBLE : View.GONE);
 			textPosition.setText(player.getPosition().getName());
+			buttonSettings.setVisibility(player instanceof RemotePlayer ? View.VISIBLE : View.GONE);
+			if(player instanceof RemotePlayer) settingsWindow.setUser(((RemotePlayer) player).getUser());
 		}
 	}
 	
 	private Context context;
 	private Players players;
+	private UserSettingsWindow currentSettingsWindow;
 	
 	PlayersAdapter(Context context)
 	{
@@ -62,14 +76,23 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 		return players != null ? players.getPlayersAmount() : 0;
 	}
 	
+	private void showSettingsWindow(UserSettingsWindow settingsWindow, View anchor)
+	{
+		if(currentSettingsWindow != null && currentSettingsWindow.isShowing()) currentSettingsWindow.dismiss();
+		currentSettingsWindow = settingsWindow;
+		settingsWindow.show(anchor);
+	}
+	
 	void onPlayerAdd()
 	{
 		notifyItemInserted(players.getPlayersAmount() - 1);
 	}
 	
-	void onPlayerRemove(int position)
+	void onPlayerRemove(int position, Player player)
 	{
 		notifyItemRemoved(position);
+		if(currentSettingsWindow != null && currentSettingsWindow.getUser() == player.getUser())
+			currentSettingsWindow.dismiss();
 	}
 	
 	void onPlayerUpdate(int position)

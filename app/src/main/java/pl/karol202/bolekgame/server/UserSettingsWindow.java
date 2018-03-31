@@ -98,6 +98,7 @@ public class UserSettingsWindow
 	public void show(View anchor)
 	{
 		if(user == null || window.isShowing()) return;
+		setUser(user);
 		window.showAsDropDown(anchor);
 	}
 	

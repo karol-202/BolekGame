@@ -21,7 +21,7 @@
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<android.support.v7.widget.AppCompatImageButton
-		android:id="@+id/button_user_settings"
+		android:id="@+id/button_non_player_settings"
 		android:layout_width="48dp"
 		android:layout_height="48dp"
 		android:layout_marginEnd="4dp"

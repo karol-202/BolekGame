@@ -67,12 +67,14 @@ public class BolekApplication extends Application
 		voiceBinder = null;
 		
 		unbindService(serviceConnection);
+		serviceConnection = null;
 	}
 	
 	private void onVoiceServiceBind(IBinder binder)
 	{
 		voiceBinder = (VoiceBinder) binder;
-		for(VoiceServiceBindListener listener : voiceServiceBindListeners) listener.onVoiceServiceBind(voiceBinder.getVoiceService());
+		for(VoiceServiceBindListener listener : voiceServiceBindListeners)
+			listener.onVoiceServiceBind(voiceBinder.getVoiceService());
 		voiceServiceBindListeners.clear();
 	}
 	
@@ -81,8 +83,9 @@ public class BolekApplication extends Application
 		boundActivities++;
 		if(voiceBinder == null)
 		{
-			bindVoiceService();
 			voiceServiceBindListeners.add(listener);
+			bindVoiceService();
+			
 		}
 		else listener.onVoiceServiceBind(voiceBinder.getVoiceService());
 	}

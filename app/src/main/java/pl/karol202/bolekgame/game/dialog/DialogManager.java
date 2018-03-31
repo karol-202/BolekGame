@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.game.main.dialog;
+package pl.karol202.bolekgame.game.dialog;
 
 import android.content.Context;
 
@@ -32,6 +32,12 @@ public class DialogManager
 		if(dialog != currentDialog) return;
 		currentDialog = null;
 		commitDialog(dialogQueue.poll());
+	}
+	
+	public void dismissAll()
+	{
+		if(currentDialog != null) currentDialog.dismiss();
+		dialogQueue.clear();
 	}
 	
 	Context getContext()

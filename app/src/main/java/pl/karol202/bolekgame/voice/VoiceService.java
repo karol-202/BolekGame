@@ -144,6 +144,7 @@ public class VoiceService extends Service
 	
 	public void start()
 	{
+		//New thread is immediately ended if component is already running
 		new Thread(voiceRecorder).start();
 		new Thread(voicePlayer).start();
 	}

@@ -12,9 +12,9 @@ import pl.karol202.bolekgame.BolekApplication;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.acts.ScreenActs;
 import pl.karol202.bolekgame.game.chat.ScreenChat;
+import pl.karol202.bolekgame.game.dialog.Dialog;
+import pl.karol202.bolekgame.game.dialog.DialogManager;
 import pl.karol202.bolekgame.game.gameplay.Role;
-import pl.karol202.bolekgame.game.main.dialog.Dialog;
-import pl.karol202.bolekgame.game.main.dialog.DialogManager;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.utils.BottomNavigationBarHelper;
 import pl.karol202.bolekgame.utils.FragmentRetain;
@@ -34,6 +34,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	private FragmentRetain<GameLogic> fragmentRetain;
 	private GameLogic gameLogic;
 	private BolekApplication bolekApplication;
+	private boolean finish;
 	
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -41,11 +42,11 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 		loadGameData();
-		restoreRetainFragment();
 		bolekApplication = (BolekApplication) getApplication();
-		
 		gameScreenAdapter = new GameScreenAdapter(getFragmentManager());
 		dialogManager = new DialogManager(this);
+		
+		restoreRetainFragment();
 		
 		viewPager = findViewById(R.id.viewPager_game);
 		viewPager.setAdapter(gameScreenAdapter);
@@ -113,7 +114,12 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		if(!isFinishing()) gameLogic.suspend(); //On orientation changes
+		if(!isFinishing()) //On orientation changes
+		{
+			gameLogic.suspend();
+			dialogManager.dismissAll();
+			if(finish) finish();
+		}
 		else bolekApplication.unbindFromVoiceService();
 	}
 	
@@ -158,6 +164,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		dialog.setPositiveButton(R.string.button_ok, (d, w) -> finish());
 		dialog.setUncancelable();
 		dialog.commit();
+		finish = true;
 	}
 	
 	void onError()
@@ -212,6 +219,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		dialog.setPositiveButton(R.string.button_ok, (d, w) -> finish());
 		dialog.setUncancelable();
 		dialog.commit();
+		finish = true;
 	}
 	
 	void onGameExit()
@@ -227,6 +235,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		dialog.setPositiveButton(R.string.button_ok, (d, w) -> finish());
 		dialog.setUncancelable();
 		dialog.commit();
+		finish = true;
 	}
 	
 	@Override

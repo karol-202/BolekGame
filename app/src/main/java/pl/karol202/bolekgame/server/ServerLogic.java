@@ -47,7 +47,7 @@ class ServerLogic extends Logic<ActivityServer>
 	
 	private void onUsersUpdate()
 	{
-		activity.onVoiceChatUpdate();
+		if(activity != null) activity.onVoiceChatUpdate();
 	}
 	
 	void startVoiceCommunication(VoiceService voiceService)

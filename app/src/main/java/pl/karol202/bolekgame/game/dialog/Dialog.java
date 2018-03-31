@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.game.main.dialog;
+package pl.karol202.bolekgame.game.dialog;
 
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -60,5 +60,10 @@ public class Dialog
 	void show()
 	{
 		if(dialog != null) dialog.show();
+	}
+	
+	void dismiss()
+	{
+		if(dialog != null) dialog.dismiss();
 	}
 }

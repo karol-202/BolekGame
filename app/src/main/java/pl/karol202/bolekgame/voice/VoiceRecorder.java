@@ -60,6 +60,10 @@ class VoiceRecorder implements Runnable
 		{
 			exception.printStackTrace();
 		}
+		finally
+		{
+			run = false;
+		}
 	}
 	
 	private void createAudioRecord()

@@ -60,6 +60,10 @@ class VoicePlayer implements Runnable
 		{
 			exception.printStackTrace();
 		}
+		finally
+		{
+			run = false;
+		}
 	}
 	
 	private void createAudioTrack()

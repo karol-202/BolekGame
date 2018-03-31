@@ -1,17 +1,18 @@
 package pl.karol202.bolekgame.game.players;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import java8.util.stream.Collectors;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.RemoteUser;
 import pl.karol202.bolekgame.server.User;
+import pl.karol202.bolekgame.server.UserSettingsWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 	{
 		private TextView textName;
 		private ImageButton buttonSettings;
+		private UserSettingsWindow settingsWindow;
 		
 		private User user;
 		
@@ -29,67 +31,27 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 		{
 			super(view);
 			textName = view.findViewById(R.id.text_non_player_name);
-			buttonSettings = view.findViewById(R.id.button_user_settings);
-			buttonSettings.setOnClickListener(v -> showSettingsWindow());
+			
+			buttonSettings = view.findViewById(R.id.button_non_player_settings);
+			buttonSettings.setOnClickListener(v -> showSettingsWindow(settingsWindow, buttonSettings));
+			
+			settingsWindow = new UserSettingsWindow(view);
 		}
 		
 		void bind(User user)
 		{
 			this.user = user;
+			if(user instanceof RemoteUser) settingsWindow.setUser((RemoteUser) user);
 			
 			textName.setText(user.getName());
-			buttonSettings.setEnabled(user instanceof RemoteUser);
-		}
-		
-		@SuppressLint("InflateParams")
-		private void showSettingsWindow()
-		{
-			if(user == null || !(user instanceof RemoteUser)) return;
-			RemoteUser user = (RemoteUser) this.user;
-			PopupWindow window = new PopupWindow(context);
-			
-			LayoutInflater inflater = LayoutInflater.from(context);
-			View view = inflater.inflate(R.layout.popup_user_settings, null);
-			onSettingsViewCreate(view, user);
-			
-			window.setContentView(view);
-			window.showAsDropDown(buttonSettings);
-		}
-		
-		private void onSettingsViewCreate(View view, RemoteUser user)
-		{
-			initMutePanel(view, user);
-		}
-		
-		private void initMutePanel(View view, RemoteUser user)
-		{
-			View panelMute = view.findViewById(R.id.panel_user_mute);
-			panelMute.setOnClickListener(v -> toggleUserMute(user));
-			
-			ImageView imageMute = panelMute.findViewById(R.id.image_user_mute);
-			imageMute.setImageResource(user.isMuted() ? R.drawable.ic_speaker_on_black_24dp : R.drawable.ic_speaker_off_black_24dp);
-			
-			TextView textMute = panelMute.findViewById(R.id.text_user_mute);
-			textMute.setText(user.isMuted() ? R.string.text_user_unmute : R.string.text_user_mute);
-		}
-		
-		private void toggleUserMute(RemoteUser user)
-		{
-			user.setMute(!user.isMuted());
-		}
-		
-		private void initVolumePanel(View view, RemoteUser user)
-		{
-			View panelVolume = view.findViewById(R.id.panel_user_volume);
-			
-			SeekBar seekBarVolume = panelVolume.findViewById(R.id.seekBar_user_volume);
+			buttonSettings.setVisibility(user instanceof RemoteUser ? View.VISIBLE : View.GONE);
 		}
 	}
 	
 	private Context context;
 	private Players players;
-	
 	private List<User> usersList;
+	private UserSettingsWindow currentSettingsWindow;
 	
 	NonPlayersAdapter(Context context)
 	{
@@ -117,6 +79,13 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 		return usersList.size();
 	}
 	
+	private void showSettingsWindow(UserSettingsWindow settingsWindow, View anchor)
+	{
+		if(currentSettingsWindow != null && currentSettingsWindow.isShowing()) currentSettingsWindow.dismiss();
+		currentSettingsWindow = settingsWindow;
+		settingsWindow.show(anchor);
+	}
+	
 	void onUserAdd(User user)
 	{
 		usersList.add(user);
@@ -128,6 +97,7 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 		int index = usersList.indexOf(user);
 		usersList.remove(user);
 		notifyItemRemoved(index);
+		if(currentSettingsWindow != null && currentSettingsWindow.getUser() == user) currentSettingsWindow.dismiss();
 	}
 	
 	void onPlayerAdd(Player player)
@@ -135,6 +105,8 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 		int index = usersList.indexOf(player.getUser());
 		usersList.remove(player.getUser());
 		notifyItemRemoved(index);
+		if(currentSettingsWindow != null && currentSettingsWindow.getUser() == player.getUser())
+			currentSettingsWindow.dismiss();
 	}
 	
 	void onPlayerRemove(Player player)
