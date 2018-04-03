@@ -34,6 +34,10 @@
 			android:id="@+id/image_action_acts_checking_result_act_1"
 			android:layout_width="100dp"
 			android:layout_height="0dp"
+			android:layout_marginEnd="8dp"
+			android:layout_marginStart="8dp"
+			android:layout_marginLeft="8dp"
+			android:layout_marginRight="8dp"
 			android:layout_marginTop="8dp"
 			app:layout_constraintDimensionRatio="h,3:4"
 			app:layout_constraintEnd_toStartOf="@+id/image_action_acts_checking_result_act_2"
@@ -59,15 +63,17 @@
 			android:id="@+id/image_action_acts_checking_result_act_2"
 			android:layout_width="100dp"
 			android:layout_height="0dp"
+			android:layout_marginEnd="8dp"
 			android:layout_marginStart="8dp"
+			android:layout_marginLeft="8dp"
+			android:layout_marginRight="8dp"
 			android:layout_marginTop="8dp"
 			app:layout_constraintDimensionRatio="h,3:4"
 			app:layout_constraintEnd_toStartOf="@+id/image_action_acts_checking_result_act_3"
 			app:layout_constraintHorizontal_bias="0.5"
 			app:layout_constraintStart_toEndOf="@+id/image_action_acts_checking_result_act_1"
 			app:layout_constraintTop_toBottomOf="@+id/text_action_acts_checking_result"
-			app:srcCompat="@drawable/act_antilustration"
-			android:layout_marginLeft="8dp" />
+			app:srcCompat="@drawable/act_antilustration" />
 		
 		<TextView
 			android:id="@+id/text_action_acts_checking_result_2"

@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.client.outputpacket;
 
+import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.DataBundle;
 
 public class OutputPacketLogin implements OutputPacket
@@ -18,6 +19,7 @@ public class OutputPacketLogin implements OutputPacket
 	{
 		bundle.putInt("serverCode", serverCode);
 		bundle.putString("username", username);
+		bundle.putInt("apiVersion", Client.API_VERSION);
 	}
 	
 	@Override

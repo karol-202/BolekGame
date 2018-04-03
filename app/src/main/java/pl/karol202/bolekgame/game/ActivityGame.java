@@ -16,6 +16,7 @@ import pl.karol202.bolekgame.game.dialog.Dialog;
 import pl.karol202.bolekgame.game.dialog.DialogManager;
 import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.players.Player;
+import pl.karol202.bolekgame.game.players.ScreenPlayers;
 import pl.karol202.bolekgame.utils.BottomNavigationBarHelper;
 import pl.karol202.bolekgame.utils.FragmentRetain;
 import pl.karol202.bolekgame.utils.PermissionGrantingActivity;
@@ -128,6 +129,11 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		int fragmentId = gameScreenAdapter.getScreenPositionByItemId(menuItem.getItemId());
 		if(fragmentId == -1) return false;
 		viewPager.setCurrentItem(fragmentId);
+		if(fragmentId == 2)
+		{
+			ScreenPlayers players = getScreenPlayers();
+			if(players != null) getScreenPlayers().updateVoiceChatControls();
+		}
 		return true;
 	}
 	
@@ -247,6 +253,11 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	ScreenActs getScreenActs()
 	{
 		return (ScreenActs) gameScreenAdapter.getScreenOnPosition(1);
+	}
+	
+	ScreenPlayers getScreenPlayers()
+	{
+		return (ScreenPlayers) gameScreenAdapter.getScreenOnPosition(2);
 	}
 	
 	ScreenChat getScreenChat()

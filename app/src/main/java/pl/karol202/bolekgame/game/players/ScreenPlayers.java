@@ -128,6 +128,8 @@ public class ScreenPlayers extends Screen
 		players = gameLogic.getPlayers();
 		players.addOnUsersUpdateListener(usersListener);
 		players.addOnPlayersUpdateListener(playersListener);
+		
+		updateVoiceChatControls();
 	}
 	
 	@Override
@@ -173,5 +175,12 @@ public class ScreenPlayers extends Screen
 		textNonPlayers.setVisibility(visibility);
 		viewSeparatorNonPlayersBottom.setVisibility(visibility);
 		recyclerNonPlayers.setVisibility(visibility);
+	}
+	
+	public void updateVoiceChatControls()
+	{
+		LocalUser localUser = players.getLocalUser();
+		buttonVoiceChatMicrophone.setImageResource(localUser.isMicrophoneEnabled() ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
+		buttonVoiceChatSpeaker.setImageResource(localUser.isSpeakerEnabled() ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
 	}
 }

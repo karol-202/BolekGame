@@ -7,16 +7,15 @@ import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.main.ContextSupplier;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderCollaboratorsRevealment;
-import pl.karol202.bolekgame.game.players.Player;
 
 import java.util.Map;
 
 public class ActionCollaboratorsRevealment implements Action
 {
 	private ContextSupplier contextSupplier;
-	private Map<Player, Role> playerRoles;
+	private Map<String, Role> playerRoles;
 	
-	public ActionCollaboratorsRevealment(ContextSupplier contextSupplier, Map<Player, Role> playerRoles)
+	public ActionCollaboratorsRevealment(ContextSupplier contextSupplier, Map<String, Role> playerRoles)
 	{
 		this.contextSupplier = contextSupplier;
 		this.playerRoles = playerRoles;
@@ -40,7 +39,7 @@ public class ActionCollaboratorsRevealment implements Action
 		return v -> new ActionViewHolderCollaboratorsRevealment(v, contextSupplier.getContext());
 	}
 	
-	public Map<Player, Role> getPlayerRoles()
+	public Map<String, Role> getPlayerRoles()
 	{
 		return playerRoles;
 	}

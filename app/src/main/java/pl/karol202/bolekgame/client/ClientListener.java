@@ -26,7 +26,7 @@ public interface ClientListener
 	
 	void onRoleAssigned(Role role);
 	
-	void onCollaboratorsRevealment(List<String> collaborators, String bolek);
+	void onCollaboratorsRevealment(List<String> ministers, List<String> collaborators, String bolek);
 	
 	void onStackRefill(int totalActs);
 	

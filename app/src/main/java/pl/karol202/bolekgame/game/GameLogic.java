@@ -20,6 +20,7 @@ import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
 import pl.karol202.bolekgame.voice.VoiceService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -169,6 +170,11 @@ public class GameLogic extends Logic<ActivityGame>
 		lustratedPlayerName = null;
 	}
 	
+	private void exitActivity()
+	{
+		activity.onGameExit();
+	}
+	
 	@Override
 	public void onDisconnect()
 	{
@@ -212,21 +218,21 @@ public class GameLogic extends Logic<ActivityGame>
 	}
 	
 	@Override
-	public void onCollaboratorsRevealment(List<String> collaborators, String bolek)
+	public void onCollaboratorsRevealment(List<String> ministers, List<String> collaborators, String bolek)
 	{
 		runInUIThread(() -> {
-			Map<Player, Role> playerRoles = createRolesMap(collaborators, bolek);
+			Map<String, Role> playerRoles = createRolesMap(ministers, collaborators, bolek);
 			actionManager.addAction(new ActionCollaboratorsRevealment(actionManager, playerRoles));
 		});
 	}
 	
-	private Map<Player, Role> createRolesMap(List<String> collaboratorsNames, String bolekName)
+	private Map<String, Role> createRolesMap(List<String> ministersNames, List<String> collaboratorsNames, String bolekName)
 	{
-		return players.getPlayersStream().collect(Collectors.toMap(p -> p, p -> {
-			if(bolekName.equals(p.getName())) return Role.BOLEK;
-			else if(collaboratorsNames.contains(p.getName())) return Role.COLLABORATOR;
-			else return Role.MINISTER;
-		}));
+		Map<String, Role> rolesMap = new HashMap<>();
+		for(String minister : ministersNames) rolesMap.put(minister, Role.MINISTER);
+		for(String collaborator : collaboratorsNames) rolesMap.put(collaborator, Role.COLLABORATOR);
+		rolesMap.put(bolekName, Role.BOLEK);
+		return rolesMap;
 	}
 	
 	@Override
@@ -580,7 +586,7 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(() -> {
 			if(ignoreGameExit) return;
 			if(!gameEnd) activity.onGameExit();
-			else actionManager.addAction(new ActionEndGame(activity::onGameExit));
+			else actionManager.addAction(new ActionEndGame(this::exitActivity));
 		});
 		suspendClient();
 	}

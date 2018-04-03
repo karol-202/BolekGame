@@ -1,6 +1,7 @@
 package pl.karol202.bolekgame.game.main;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,8 +19,7 @@ public class ScreenMain extends Screen
 		public void onActionAdd()
 		{
 			actionAdapter.onActionAdd();
-			recyclerActions.smoothScrollToPosition(actionAdapter.getItemCount() - 1);
-			System.out.println("Action add: " + (actionAdapter.getItemCount() - 1));
+			new Handler().postDelayed(() -> recyclerActions.smoothScrollToPosition(actionAdapter.getItemCount() - 1), 20);
 		}
 		
 		@Override

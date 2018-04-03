@@ -34,6 +34,7 @@ public class ScreenActs extends Screen
 	private TextView textActAntilustration2;
 	
 	private ActsOverlayView overlayView;
+	private ViewTooltip currentTooltip;
 	
 	private Acts acts;
 	
@@ -136,14 +137,16 @@ public class ScreenActs extends Screen
 		int color = ResourcesCompat.getColor(getResources(), R.color.colorAccent, null);
 		int textColor = ResourcesCompat.getColor(getResources(), R.color.text_primary_white, null);
 		String text = getString(textId);
-		ViewTooltip.on(view)
-				.autoHide(true, 5000)
-				.clickToHide(true)
-				.position(ViewTooltip.Position.TOP)
-				.color(color)
-				.textColor(textColor)
-				.withShadow(false)
-				.text(text)
-				.show();
+		
+		if(currentTooltip != null) currentTooltip.close();
+		currentTooltip = ViewTooltip.on(view)
+									.autoHide(true, 5000)
+									.clickToHide(true)
+									.position(ViewTooltip.Position.TOP)
+									.color(color)
+									.textColor(textColor)
+									.withShadow(false)
+									.text(text);
+		currentTooltip.show();
 	}
 }

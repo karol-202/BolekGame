@@ -6,6 +6,7 @@
 		<item name="windowActionBar">false</item>
 		<item name="windowNoTitle">true</item>
 		<item name="selectableItemBackground">@drawable/button</item>
+		<item name="cardViewStyle">@style/CardView</item> <!-- Workaround for Android Studio bug-->
 		
 		<item name="android:buttonStyle">@style/Button</item>
 		<item name="buttonStyle">@style/Button</item>

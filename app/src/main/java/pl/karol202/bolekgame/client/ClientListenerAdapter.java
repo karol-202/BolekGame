@@ -36,7 +36,7 @@ public class ClientListenerAdapter implements ClientListener
 	public void onRoleAssigned(Role role) { }
 	
 	@Override
-	public void onCollaboratorsRevealment(List<String> collaborators, String bolek) { }
+	public void onCollaboratorsRevealment(List<String> ministers, List<String> collaborators, String bolek) { }
 	
 	@Override
 	public void onStackRefill(int totalActs) { }

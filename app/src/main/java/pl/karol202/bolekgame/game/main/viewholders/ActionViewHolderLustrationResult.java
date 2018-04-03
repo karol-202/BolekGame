@@ -9,7 +9,6 @@ import pl.karol202.bolekgame.game.main.actions.ActionLustrationResult;
 public class ActionViewHolderLustrationResult extends ActionViewHolder<ActionLustrationResult>
 {
 	private TextView textAction;
-	//private ImageView imageResult;
 	private TextView textResult;
 	
 	private Context context;
