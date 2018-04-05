@@ -30,6 +30,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private Acts acts;
 	private Players players;
 	private TextChat textChat;
+	private int serverCode;
 	
 	private Role role;
 	private boolean ignoreGameExit;
@@ -43,7 +44,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private String lustratedPlayerName;
 	private boolean gameEnd;
 	
-	GameLogic(Client client, Users users, TextChat textChat)
+	GameLogic(Client client, Users users, TextChat textChat, int serverCode)
 	{
 		super(client);
 		
@@ -67,6 +68,8 @@ public class GameLogic extends Logic<ActivityGame>
 		this.acts = new Acts(players.getPlayersAmount());
 		
 		this.textChat = textChat;
+		
+		this.serverCode = serverCode;
 	}
 	
 	void startVoiceCommunication(VoiceService voiceService)
@@ -614,6 +617,11 @@ public class GameLogic extends Logic<ActivityGame>
 	public Players getPlayers()
 	{
 		return players;
+	}
+	
+	public int getServerCode()
+	{
+		return serverCode;
 	}
 	
 	boolean willGameBeEndedAfterMyLeave()

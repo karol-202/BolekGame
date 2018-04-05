@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout android:id="@+id/coordinator_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 	
@@ -42,11 +41,11 @@
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:textColor="@color/text_server"
 				android:textStyle="bold"
-				app:layout_constraintLeft_toRightOf="@id/text_server_name"
+				app:layout_constraintStart_toEndOf="@id/text_server_name"
 				app:layout_constraintTop_toTopOf="parent" />
 			
 			<TextView
-				android:id="@+id/text_server_code"
+				android:id="@+id/text_game_server_code"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="8dp"
@@ -69,8 +68,19 @@
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:textColor="@color/text_server"
 				android:textStyle="bold"
-				app:layout_constraintLeft_toRightOf="@id/text_server_code"
+				app:layout_constraintStart_toEndOf="@id/text_game_server_code"
 				app:layout_constraintTop_toBottomOf="@+id/text_server_name_value" />
+			
+			<android.support.v7.widget.AppCompatImageButton
+				android:id="@+id/button_help"
+				android:layout_width="48dp"
+				android:layout_height="48dp"
+				android:layout_marginEnd="8dp"
+				android:background="@drawable/button_transparent"
+				app:srcCompat="@drawable/ic_help_white_24dp"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintBottom_toBottomOf="parent"/>
 		
 		</android.support.constraint.ConstraintLayout>
 		

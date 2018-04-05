@@ -17,6 +17,7 @@ import pl.karol202.bolekgame.game.dialog.DialogManager;
 import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.ScreenPlayers;
+import pl.karol202.bolekgame.settings.Settings;
 import pl.karol202.bolekgame.utils.BottomNavigationBarHelper;
 import pl.karol202.bolekgame.utils.FragmentRetain;
 import pl.karol202.bolekgame.utils.PermissionGrantingActivity;
@@ -76,7 +77,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	{
 		GameData gameData = GameData.getGameData();
 		if(gameData != null && gameData.getClient() != null)
-			gameLogic = new GameLogic(gameData.getClient(), gameData.getUsers(), gameData.getTextChat());
+			gameLogic = new GameLogic(gameData.getClient(), gameData.getUsers(), gameData.getTextChat(), gameData.getServerCode());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -97,6 +98,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	
 	private void tryToStartVoiceCommunication()
 	{
+		if(!Settings.isVoiceChatEnabled(this)) return;
 		bolekApplication.bindToVoiceService(service -> {
 			if(service != null)
 				PermissionRequest.requestPermission(this, Manifest.permission.RECORD_AUDIO, () -> gameLogic.startVoiceCommunication(service));

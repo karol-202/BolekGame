@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.game.players;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.control.ActivityHelp;
 import pl.karol202.bolekgame.game.Screen;
 import pl.karol202.bolekgame.server.LocalUser;
 import pl.karol202.bolekgame.server.User;
@@ -68,6 +70,8 @@ public class ScreenPlayers extends Screen
 		}
 	}
 	
+	private TextView textServerCode;
+	private ImageButton buttonHelp;
 	private ImageButton buttonVoiceChatMicrophone;
 	private ImageButton buttonVoiceChatSpeaker;
 	private RecyclerView recyclerPlayers;
@@ -91,6 +95,11 @@ public class ScreenPlayers extends Screen
 		
 		playersAdapter = new PlayersAdapter(getActivity());
 		nonPlayersAdapter = new NonPlayersAdapter(getActivity());
+		
+		textServerCode = view.findViewById(R.id.text_game_server_code_value);
+		
+		buttonHelp = view.findViewById(R.id.button_help);
+		buttonHelp.setOnClickListener(v -> showHelp());
 		
 		buttonVoiceChatMicrophone = view.findViewById(R.id.button_voice_chat_microphone);
 		buttonVoiceChatMicrophone.setOnClickListener(v -> toggleVoiceChatMicrophone());
@@ -129,6 +138,7 @@ public class ScreenPlayers extends Screen
 		players.addOnUsersUpdateListener(usersListener);
 		players.addOnPlayersUpdateListener(playersListener);
 		
+		updateServerCode();
 		updateVoiceChatControls();
 	}
 	
@@ -150,6 +160,12 @@ public class ScreenPlayers extends Screen
 		players.removeOnPlayersUpdateListener(playersListener);
 		playersAdapter.setContext(null);
 		nonPlayersAdapter.setContext(null);
+	}
+	
+	private void showHelp()
+	{
+		Intent intent = new Intent(getActivity(), ActivityHelp.class);
+		startActivity(intent);
 	}
 	
 	private void toggleVoiceChatMicrophone()
@@ -175,6 +191,11 @@ public class ScreenPlayers extends Screen
 		textNonPlayers.setVisibility(visibility);
 		viewSeparatorNonPlayersBottom.setVisibility(visibility);
 		recyclerNonPlayers.setVisibility(visibility);
+	}
+	
+	private void updateServerCode()
+	{
+		textServerCode.setText(String.valueOf(gameLogic.getServerCode()));
 	}
 	
 	public void updateVoiceChatControls()

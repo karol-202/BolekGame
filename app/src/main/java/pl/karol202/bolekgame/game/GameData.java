@@ -31,6 +31,12 @@ public class GameData extends ServerData
 		GameData.gameData = gameData;
 	}
 	
+	@Override
+	protected int getServerCode()
+	{
+		return super.getServerCode();
+	}
+	
 	Users getUsers()
 	{
 		return users;

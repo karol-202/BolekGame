@@ -34,12 +34,12 @@ public class ServerData
 		return client;
 	}
 	
-	String getServerName()
+	protected String getServerName()
 	{
 		return serverName;
 	}
 	
-	int getServerCode()
+	protected int getServerCode()
 	{
 		return serverCode;
 	}

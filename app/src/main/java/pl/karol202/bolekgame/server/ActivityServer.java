@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import pl.karol202.bolekgame.BolekApplication;
 import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.control.ActivityHelp;
 import pl.karol202.bolekgame.game.ActivityGame;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.settings.Settings;
@@ -37,6 +38,7 @@ public class ActivityServer extends PermissionGrantingActivity
 	private View coordinatorLayout;
 	private TextView textServerName;
 	private TextView textServerCode;
+	private ImageButton buttonHelp;
 	private RecyclerView recyclerUsers;
 	private View textChatLayout;
 	private AnimatedImageButton buttonTextChatToggle;
@@ -76,6 +78,9 @@ public class ActivityServer extends PermissionGrantingActivity
 		
 		textServerCode = findViewById(R.id.text_server_code_value);
 		textServerCode.setText(String.valueOf(serverLogic.getServerCode()));
+		
+		buttonHelp = findViewById(R.id.button_help);
+		buttonHelp.setOnClickListener(v -> showHelp());
 		
 		recyclerUsers = findViewById(R.id.recycler_users);
 		recyclerUsers.setLayoutManager(new LinearLayoutManager(this));
@@ -157,6 +162,7 @@ public class ActivityServer extends PermissionGrantingActivity
 	
 	private void tryToStartVoiceCommunication()
 	{
+		if(!Settings.isVoiceChatEnabled(this)) return;
 		bolekApplication.bindToVoiceService(service -> {
 			if(service != null)
 				PermissionRequest.requestPermission(this, Manifest.permission.RECORD_AUDIO, () -> serverLogic.startVoiceCommunication(service));
@@ -196,6 +202,12 @@ public class ActivityServer extends PermissionGrantingActivity
 	{
 		serverLogic.logout();
 		super.onBackPressed();
+	}
+	
+	private void showHelp()
+	{
+		Intent intent = new Intent(this, ActivityHelp.class);
+		startActivity(intent);
 	}
 	
 	private void toggleTextChatLayout()

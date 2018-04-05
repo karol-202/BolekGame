@@ -145,6 +145,8 @@
 	
 	<string name="preference_nick">Twój nick</string>
 	<string name="preference_server_address">Adres serwera</string>
+	<string name="preference_voice_chat">Czat głosowy</string>
+	<string name="preference_voice_chat_detail">Może działać niestabilnie</string>
 	
 	<string name="default_nick" />
 	<string name="default_server_address">192.168.0.15</string>

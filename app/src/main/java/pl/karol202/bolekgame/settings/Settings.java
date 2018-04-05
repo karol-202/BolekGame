@@ -6,9 +6,10 @@ import android.preference.PreferenceManager;
 
 public class Settings
 {
-	public static final String KEY_INITIALIZED = "preference_initialized";
+	private static final String KEY_INITIALIZED = "preference_initialized";
 	public static final String KEY_NICK = "preference_nick";
-	public static final String KEY_SERVER_ADDRESS = "preference_server_address";
+	private static final String KEY_SERVER_ADDRESS = "preference_server_address";
+	private static final String KEY_VOICE_CHAT = "preference_voice_chat";
 	
 	public static boolean isFirstStart(Context context)
 	{
@@ -47,5 +48,11 @@ public class Settings
 	{
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		return preferences.getString(KEY_SERVER_ADDRESS, null);
+	}
+	
+	public static boolean isVoiceChatEnabled(Context context)
+	{
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		return preferences.getBoolean(KEY_VOICE_CHAT, false);
 	}
 }
