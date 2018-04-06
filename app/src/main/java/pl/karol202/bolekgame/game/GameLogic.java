@@ -154,7 +154,7 @@ public class GameLogic extends Logic<ActivityGame>
 	public void sendMessage(String message)
 	{
 		sendPacket(new OutputPacketMessage(message));
-		textChat.addEntry(players.getLocalPlayerName(), message);
+		textChat.addEntry(players.getLocalPlayerName(), message, true);
 		activity.onTextChatUpdate();
 	}
 	
@@ -204,9 +204,9 @@ public class GameLogic extends Logic<ActivityGame>
 	}
 	
 	@Override
-	public void onMessage(String sender, String message)
+	public void onMessage(String sender, String message, boolean newMessage)
 	{
-		textChat.addEntry(sender, message);
+		textChat.addEntry(sender, message, newMessage);
 		runInUIThread(() -> activity.onTextChatUpdate());
 	}
 	

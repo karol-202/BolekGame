@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatDelegate;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import pl.karol202.bolekgame.BolekApplication;
@@ -26,6 +28,11 @@ import pl.karol202.bolekgame.utils.PermissionRequest;
 public class ActivityGame extends PermissionGrantingActivity implements GameLogicSupplier
 {
 	private static final String TAG_FRAGMENT_RETAIN = "TAG_FRAG_RETAIN";
+	
+	static
+	{
+		AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+	}
 	
 	private ViewPager viewPager;
 	private BottomNavigationView bottomBar;
@@ -52,7 +59,8 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		
 		viewPager = findViewById(R.id.viewPager_game);
 		viewPager.setAdapter(gameScreenAdapter);
-		viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+		{
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 			
@@ -67,6 +75,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		});
 		
 		bottomBar = findViewById(R.id.bottomBar_game);
+		bottomBar.setItemIconTintList(null);
 		bottomBar.setOnNavigationItemSelectedListener(this::onScreenItemSelected);
 		BottomNavigationBarHelper.disableShiftAnimation(bottomBar);
 		
@@ -131,11 +140,12 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		int fragmentId = gameScreenAdapter.getScreenPositionByItemId(menuItem.getItemId());
 		if(fragmentId == -1) return false;
 		viewPager.setCurrentItem(fragmentId);
-		if(fragmentId == 2)
+		if(fragmentId == GameScreenAdapter.ITEM_PLAYERS)
 		{
 			ScreenPlayers players = getScreenPlayers();
-			if(players != null) getScreenPlayers().updateVoiceChatControls();
+			if(players != null) players.updateVoiceChatControls();
 		}
+		else if(fragmentId == GameScreenAdapter.ITEM_CHAT) menuItem.setIcon(R.drawable.ic_menu_text_chat);
 		return true;
 	}
 	
@@ -151,8 +161,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	{
 		Dialog dialog = new Dialog(dialogManager);
 		dialog.setTitle(R.string.dialog_leave_are_you_sure);
-		dialog.setMessage(gameLogic.willGameBeEndedAfterMyLeave() ? R.string.dialog_leave_are_you_sure_detail_game_end :
-																	R.string.dialog_leave_are_you_sure_detail);
+		dialog.setMessage(gameLogic.willGameBeEndedAfterMyLeave() ? R.string.dialog_leave_are_you_sure_detail_game_end : R.string.dialog_leave_are_you_sure_detail);
 		dialog.setPositiveButton(R.string.button_leave, (d, w) -> leaveGame());
 		dialog.setNegativeButton(R.string.button_remain);
 		dialog.commit();
@@ -197,6 +206,16 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	{
 		ScreenChat screenChat = getScreenChat();
 		if(screenChat != null) screenChat.onChatUpdate();
+		
+		changeTextChatIcon();
+	}
+	
+	private void changeTextChatIcon()
+	{
+		if(viewPager.getCurrentItem() == GameScreenAdapter.ITEM_CHAT) return;
+		Menu menu = bottomBar.getMenu();
+		MenuItem item = menu.findItem(R.id.item_game_chat);
+		item.setIcon(R.drawable.ic_menu_text_chat_attention_black_24dp);
 	}
 	
 	void onRoleAssigned(Role role)

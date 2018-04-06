@@ -21,7 +21,6 @@
 		android:layout_height="wrap_content"
 		android:background="@drawable/background_game_bottom_bar"
 		app:itemBackground="@drawable/button"
-		app:itemIconTint="@color/game_screen_item_tint"
 		app:itemTextColor="@color/game_screen_item_tint"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"

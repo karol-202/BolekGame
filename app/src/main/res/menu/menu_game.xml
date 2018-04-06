@@ -4,17 +4,17 @@
 	<item
 		android:id="@+id/item_game_main"
 		android:title="@string/item_game_main"
-		android:icon="@drawable/ic_game_black_24dp"/>
+		android:icon="@drawable/ic_menu_game"/>
 	<item
 		android:id="@+id/item_game_acts"
 		android:title="@string/item_game_acts"
-		android:icon="@drawable/ic_acts_black_24dp"/>
+		android:icon="@drawable/ic_menu_acts"/>
 	<item
 		android:id="@+id/item_game_players"
 		android:title="@string/item_game_players"
-		android:icon="@drawable/ic_players_black_24dp"/>
+		android:icon="@drawable/ic_menu_players"/>
 	<item
 		android:id="@+id/item_game_chat"
 		android:title="@string/item_game_chat"
-		android:icon="@drawable/ic_text_chat_black_24dp"/>
+		android:icon="@drawable/ic_menu_text_chat"/>
 </menu>

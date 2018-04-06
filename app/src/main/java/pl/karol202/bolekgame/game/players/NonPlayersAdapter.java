@@ -13,6 +13,7 @@ import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.server.RemoteUser;
 import pl.karol202.bolekgame.server.User;
 import pl.karol202.bolekgame.server.UserSettingsWindow;
+import pl.karol202.bolekgame.settings.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 			if(user instanceof RemoteUser) settingsWindow.setUser((RemoteUser) user);
 			
 			textName.setText(user.getName());
-			buttonSettings.setVisibility(user instanceof RemoteUser ? View.VISIBLE : View.GONE);
+			buttonSettings.setVisibility(Settings.isVoiceChatEnabled(context) && user instanceof RemoteUser ? View.VISIBLE : View.GONE);
 		}
 	}
 	

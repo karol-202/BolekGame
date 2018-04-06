@@ -27,7 +27,7 @@ public class ClientListenerAdapter implements ClientListener
 	public void onServerStatusUpdate(boolean gameAvailable) { }
 	
 	@Override
-	public void onMessage(String sender, String message) { }
+	public void onMessage(String sender, String message, boolean newMessage) { }
 	
 	@Override
 	public void onGameStart(List<String> players) { }

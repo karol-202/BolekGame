@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.settings.Settings;
 
 class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> implements Users.OnUsersUpdateListener
 {
@@ -91,7 +92,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		{
 			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_checked : R.drawable.background_item);
 			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE: View.GONE);
-			buttonUserSettings.setVisibility(user instanceof RemoteUser ? View.VISIBLE : View.GONE);
+			buttonUserSettings.setVisibility(Settings.isVoiceChatEnabled(context) && user instanceof RemoteUser ? View.VISIBLE : View.GONE);
 		}
 		
 		private boolean canBeMadeReady()

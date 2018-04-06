@@ -14,6 +14,11 @@ import pl.karol202.bolekgame.game.players.ScreenPlayers;
 
 class GameScreenAdapter extends FragmentPagerAdapter
 {
+	static final int ITEM_MAIN = 0;
+	static final int ITEM_ACTS = 1;
+	static final int ITEM_PLAYERS = 2;
+	static final int ITEM_CHAT = 3;
+	
 	private SparseArray<Screen> screens;
 	
 	GameScreenAdapter(FragmentManager fm)
@@ -27,10 +32,10 @@ class GameScreenAdapter extends FragmentPagerAdapter
 	{
 		switch(position)
 		{
-		case 0: return new ScreenMain();
-		case 1: return new ScreenActs();
-		case 2: return new ScreenPlayers();
-		case 3: return new ScreenChat();
+		case ITEM_MAIN: return new ScreenMain();
+		case ITEM_ACTS: return new ScreenActs();
+		case ITEM_PLAYERS: return new ScreenPlayers();
+		case ITEM_CHAT: return new ScreenChat();
 		}
 		return null;
 	}
@@ -61,10 +66,10 @@ class GameScreenAdapter extends FragmentPagerAdapter
 	{
 		switch(itemId)
 		{
-		case R.id.item_game_main: return 0;
-		case R.id.item_game_acts: return 1;
-		case R.id.item_game_players: return 2;
-		case R.id.item_game_chat: return 3;
+		case R.id.item_game_main: return ITEM_MAIN;
+		case R.id.item_game_acts: return ITEM_ACTS;
+		case R.id.item_game_players: return ITEM_PLAYERS;
+		case R.id.item_game_chat: return ITEM_CHAT;
 		}
 		return -1;
 	}
@@ -78,10 +83,10 @@ class GameScreenAdapter extends FragmentPagerAdapter
 	{
 		switch(screenPosition)
 		{
-		case 0: return R.id.item_game_main;
-		case 1: return R.id.item_game_acts;
-		case 2: return R.id.item_game_players;
-		case 3: return R.id.item_game_chat;
+		case ITEM_MAIN: return R.id.item_game_main;
+		case ITEM_ACTS: return R.id.item_game_acts;
+		case ITEM_PLAYERS: return R.id.item_game_players;
+		case ITEM_CHAT: return R.id.item_game_chat;
 		}
 		return -1;
 	}

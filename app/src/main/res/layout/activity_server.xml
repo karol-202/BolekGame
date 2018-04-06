@@ -149,6 +149,24 @@
 				app:srcCompat="@drawable/ic_speaker_off_black_24dp"
 				app:tint="@drawable/icon_tint" />
 			
+			<TextView
+				android:id="@+id/text_chat_message"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_marginBottom="8dp"
+				android:layout_marginEnd="8dp"
+				android:layout_marginLeft="8dp"
+				android:layout_marginRight="8dp"
+				android:layout_marginStart="8dp"
+				android:layout_marginTop="8dp"
+				android:gravity="center_vertical"
+				android:maxLines="1"
+				android:text="@string/unknown"
+				app:layout_constraintBottom_toBottomOf="@+id/button_text_chat_toggle"
+				app:layout_constraintEnd_toStartOf="@+id/button_text_chat_toggle"
+				app:layout_constraintStart_toEndOf="@+id/button_voice_chat_speaker"
+				app:layout_constraintTop_toTopOf="@+id/button_text_chat_toggle" />
+			
 			<android.support.v4.widget.NestedScrollView
 				android:id="@+id/scrollView_text_chat"
 				android:layout_width="0dp"

@@ -20,7 +20,7 @@ public interface ClientListener
 	
 	void onServerStatusUpdate(boolean gameAvailable);
 	
-	void onMessage(String sender, String message);
+	void onMessage(String sender, String message, boolean newMessage);
 	
 	void onGameStart(List<String> players);
 	

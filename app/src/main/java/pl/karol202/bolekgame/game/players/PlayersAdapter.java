@@ -11,6 +11,7 @@ import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.gameplay.Position;
 import pl.karol202.bolekgame.server.UserSettingsWindow;
+import pl.karol202.bolekgame.settings.Settings;
 
 class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 {
@@ -42,7 +43,7 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 			textName.setText(player.getName());
 			panelPosition.setVisibility(player.getPosition() != Position.NONE ? View.VISIBLE : View.GONE);
 			textPosition.setText(player.getPosition().getName());
-			buttonSettings.setVisibility(player instanceof RemotePlayer ? View.VISIBLE : View.GONE);
+			buttonSettings.setVisibility(Settings.isVoiceChatEnabled(context) && player instanceof RemotePlayer ? View.VISIBLE : View.GONE);
 			if(player instanceof RemotePlayer) settingsWindow.setUser(((RemotePlayer) player).getUser());
 		}
 	}

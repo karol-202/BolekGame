@@ -16,6 +16,7 @@ import pl.karol202.bolekgame.game.Screen;
 import pl.karol202.bolekgame.server.LocalUser;
 import pl.karol202.bolekgame.server.User;
 import pl.karol202.bolekgame.server.Users;
+import pl.karol202.bolekgame.settings.Settings;
 import pl.karol202.bolekgame.utils.ItemDivider;
 
 public class ScreenPlayers extends Screen
@@ -102,9 +103,11 @@ public class ScreenPlayers extends Screen
 		buttonHelp.setOnClickListener(v -> showHelp());
 		
 		buttonVoiceChatMicrophone = view.findViewById(R.id.button_voice_chat_microphone);
+		buttonVoiceChatMicrophone.setVisibility(Settings.isVoiceChatEnabled(getActivity()) ? View.VISIBLE : View.GONE);
 		buttonVoiceChatMicrophone.setOnClickListener(v -> toggleVoiceChatMicrophone());
 		
 		buttonVoiceChatSpeaker = view.findViewById(R.id.button_voice_chat_speaker);
+		buttonVoiceChatSpeaker.setVisibility(Settings.isVoiceChatEnabled(getActivity()) ? View.VISIBLE : View.GONE);
 		buttonVoiceChatSpeaker.setOnClickListener(v -> toggleVoiceChatSpeaker());
 		
 		recyclerPlayers = view.findViewById(R.id.recycler_players);

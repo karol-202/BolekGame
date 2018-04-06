@@ -44,6 +44,7 @@ public class ActivityServer extends PermissionGrantingActivity
 	private AnimatedImageButton buttonTextChatToggle;
 	private ImageButton buttonVoiceChatMicrophone;
 	private ImageButton buttonVoiceChatSpeaker;
+	private TextView textChatMessage;
 	private TextView textChat;
 	private EditText editTextChat;
 	private ImageButton buttonTextChatSend;
@@ -105,13 +106,18 @@ public class ActivityServer extends PermissionGrantingActivity
 		buttonTextChatToggle.setOnClickListener(v -> toggleTextChatLayout());
 		
 		buttonVoiceChatMicrophone = findViewById(R.id.button_voice_chat_microphone);
+		buttonVoiceChatMicrophone.setVisibility(Settings.isVoiceChatEnabled(this) ? View.VISIBLE : View.GONE);
 		buttonVoiceChatMicrophone.setOnClickListener(v -> toggleVoiceChatMicrophone());
 		
 		buttonVoiceChatSpeaker = findViewById(R.id.button_voice_chat_speaker);
+		buttonVoiceChatSpeaker.setVisibility(Settings.isVoiceChatEnabled(this) ? View.VISIBLE : View.GONE);
 		buttonVoiceChatSpeaker.setOnClickListener(v -> toggleVoiceChatSpeaker());
 		
+		textChatMessage = findViewById(R.id.text_chat_message);
+		textChatMessage.setText(null);
+		
 		textChat = findViewById(R.id.text_chat);
-		onTextChatUpdate();
+		onTextChatUpdate(false);
 		
 		editTextChat = findViewById(R.id.editText_chat);
 		editTextChat.addTextChangedListener(new TextWatcher() {
@@ -175,7 +181,7 @@ public class ActivityServer extends PermissionGrantingActivity
 	{
 		super.onResume();
 		serverLogic.resume(this); //On orientation changes and on back from other activity
-		onTextChatUpdate();
+		onTextChatUpdate(false);
 		if(!serverLogic.isConnected()) finish();
 	}
 	
@@ -219,6 +225,8 @@ public class ActivityServer extends PermissionGrantingActivity
 			textChatLayoutBehaviour.setState(BottomSheetBehavior.STATE_EXPANDED);
 			buttonTextChatToggle.toggleAnimation(true);
 			textChatLayoutStateChangeByClick = true;
+			
+			textChatMessage.setText(null);
 		}
 		else if(textChatLayoutBehaviour.getState() == BottomSheetBehavior.STATE_EXPANDED)
 		{
@@ -235,7 +243,11 @@ public class ActivityServer extends PermissionGrantingActivity
 	{
 		if(textChatLayoutStateChangeByClick) textChatLayoutStateChangeByClick = false;
 		else if(state == BottomSheetBehavior.STATE_COLLAPSED) buttonTextChatToggle.toggleAnimation(false);
-		else if(state == BottomSheetBehavior.STATE_EXPANDED) buttonTextChatToggle.toggleAnimation(true);
+		else if(state == BottomSheetBehavior.STATE_EXPANDED)
+		{
+			buttonTextChatToggle.toggleAnimation(true);
+			textChatMessage.setText(null);
+		}
 	}
 	
 	private void toggleVoiceChatMicrophone()
@@ -252,9 +264,12 @@ public class ActivityServer extends PermissionGrantingActivity
 		buttonVoiceChatSpeaker.setImageResource(enable ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
 	}
 	
-	void onTextChatUpdate()
+	void onTextChatUpdate(boolean notification)
 	{
 		textChat.setText(serverLogic.getTextChatString());
+		
+		if(notification && textChatLayoutBehaviour.getState() == BottomSheetBehavior.STATE_COLLAPSED)
+			textChatMessage.setText(serverLogic.getLastChatEntryString());
 	}
 	
 	private void onMessageEdit(String message)
@@ -273,8 +288,10 @@ public class ActivityServer extends PermissionGrantingActivity
 	{
 		String message = editTextChat.getText().toString();
 		if(message.isEmpty()) return;
+		
 		serverLogic.sendMessage(message);
 		editTextChat.setText(null);
+		textChatMessage.setText(null);
 		hideKeyboard(editTextChat);
 	}
 	
@@ -292,8 +309,10 @@ public class ActivityServer extends PermissionGrantingActivity
 	
 	public void onVoiceChatUpdate()
 	{
-		buttonVoiceChatMicrophone.setImageResource(serverLogic.isMicrophoneEnabled() ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
-		buttonVoiceChatSpeaker.setImageResource(serverLogic.isSpeakerEnabled() ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
+		buttonVoiceChatMicrophone.setImageResource(serverLogic.isMicrophoneEnabled() ? R.drawable.ic_microphone_off_black_24dp :
+																					   R.drawable.ic_microphone_on_black_24dp);
+		buttonVoiceChatSpeaker.setImageResource(serverLogic.isSpeakerEnabled() ? R.drawable.ic_speaker_off_black_24dp :
+																				 R.drawable.ic_speaker_on_black_24dp);
 	}
 	
 	void onDisconnect()

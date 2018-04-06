@@ -70,13 +70,18 @@ class ServerLogic extends Logic<ActivityServer>
 	void sendMessage(String message)
 	{
 		sendPacket(new OutputPacketMessage(message));
-		textChat.addEntry(users.getLocalUserName(), message);
-		activity.onTextChatUpdate();
+		textChat.addEntry(users.getLocalUserName(), message, true);
+		activity.onTextChatUpdate(false);
 	}
 	
 	String getTextChatString()
 	{
 		return textChat.getTextChatString();
+	}
+	
+	String getLastChatEntryString()
+	{
+		return textChat.getLastEntryString();
 	}
 	
 	boolean isMicrophoneEnabled()
@@ -131,10 +136,10 @@ class ServerLogic extends Logic<ActivityServer>
 	}
 	
 	@Override
-	public void onMessage(String sender, String message)
+	public void onMessage(String sender, String message, boolean newMessage)
 	{
-		textChat.addEntry(sender, message);
-		runInUIThread(() -> activity.onTextChatUpdate());
+		textChat.addEntry(sender, message, newMessage);
+		runInUIThread(() -> activity.onTextChatUpdate(true));
 	}
 	
 	@Override

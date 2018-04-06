@@ -25,15 +25,18 @@ public class TextChat
 	}
 	
 	private List<Entry> entries;
+	private Entry lastEntry;
 	
 	public TextChat()
 	{
 		entries = new ArrayList<>();
 	}
 	
-	public void addEntry(String sender, String message)
+	public void addEntry(String sender, String message, boolean newMessage)
 	{
-		entries.add(new Entry(sender, message));
+		Entry entry = new Entry(sender, message);
+		entries.add(entry);
+		if(newMessage) lastEntry = entry;
 	}
 	
 	public String getTextChatString()
@@ -44,6 +47,14 @@ public class TextChat
 			entry.writeEntry(builder);
 			builder.append("\n");
 		}
+		return builder.toString();
+	}
+	
+	public String getLastEntryString()
+	{
+		if(lastEntry == null) return null;
+		StringBuilder builder = new StringBuilder();
+		lastEntry.writeEntry(builder);
 		return builder.toString();
 	}
 }
