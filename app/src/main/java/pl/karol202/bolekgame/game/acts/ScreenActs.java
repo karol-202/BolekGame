@@ -149,4 +149,9 @@ public class ScreenActs extends Screen
 									.text(text);
 		currentTooltip.show();
 	}
+	
+	public void closeAllHints()
+	{
+		if(currentTooltip != null) currentTooltip.close();
+	}
 }

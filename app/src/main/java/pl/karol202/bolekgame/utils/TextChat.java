@@ -26,6 +26,7 @@ public class TextChat
 	
 	private List<Entry> entries;
 	private Entry lastEntry;
+	private boolean notification;
 	
 	public TextChat()
 	{
@@ -56,5 +57,15 @@ public class TextChat
 		StringBuilder builder = new StringBuilder();
 		lastEntry.writeEntry(builder);
 		return builder.toString();
+	}
+	
+	public boolean isNotificationEnabled()
+	{
+		return notification;
+	}
+	
+	public void setNotification(boolean enabled)
+	{
+		this.notification = enabled;
 	}
 }

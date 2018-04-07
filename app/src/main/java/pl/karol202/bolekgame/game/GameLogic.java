@@ -163,6 +163,16 @@ public class GameLogic extends Logic<ActivityGame>
 		return textChat.getTextChatString();
 	}
 	
+	public boolean isNotificationEnabled()
+	{
+		return textChat.isNotificationEnabled();
+	}
+	
+	public void setTextChatNotification(boolean enabled)
+	{
+		textChat.setNotification(enabled);
+	}
+	
 	private void onPlayerLeaved(Player player)
 	{
 		if(!player.getName().equals(lustratedPlayerName))

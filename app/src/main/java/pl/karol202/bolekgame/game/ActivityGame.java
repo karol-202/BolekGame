@@ -120,6 +120,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	{
 		super.onResume();
 		gameLogic.resume(this); //On orientation changes
+		if(gameLogic.isNotificationEnabled()) setTextChatNotification();
 	}
 	
 	@Override
@@ -140,12 +141,22 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		int fragmentId = gameScreenAdapter.getScreenPositionByItemId(menuItem.getItemId());
 		if(fragmentId == -1) return false;
 		viewPager.setCurrentItem(fragmentId);
+		if(fragmentId != GameScreenAdapter.ITEM_ACTS)
+		{
+			ScreenActs acts = getScreenActs();
+			if(acts != null) acts.closeAllHints();
+		}
+		
 		if(fragmentId == GameScreenAdapter.ITEM_PLAYERS)
 		{
 			ScreenPlayers players = getScreenPlayers();
 			if(players != null) players.updateVoiceChatControls();
 		}
-		else if(fragmentId == GameScreenAdapter.ITEM_CHAT) menuItem.setIcon(R.drawable.ic_menu_text_chat);
+		else if(fragmentId == GameScreenAdapter.ITEM_CHAT)
+		{
+			menuItem.setIcon(R.drawable.ic_menu_text_chat);
+			gameLogic.setTextChatNotification(false);
+		}
 		return true;
 	}
 	
@@ -207,12 +218,18 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		ScreenChat screenChat = getScreenChat();
 		if(screenChat != null) screenChat.onChatUpdate();
 		
-		changeTextChatIcon();
+		setTextChatNotification();
 	}
 	
-	private void changeTextChatIcon()
+	private void setTextChatNotification()
 	{
 		if(viewPager.getCurrentItem() == GameScreenAdapter.ITEM_CHAT) return;
+		gameLogic.setTextChatNotification(true);
+		setTextChatNotificationIcon();
+	}
+	
+	private void setTextChatNotificationIcon()
+	{
 		Menu menu = bottomBar.getMenu();
 		MenuItem item = menu.findItem(R.id.item_game_chat);
 		item.setIcon(R.drawable.ic_menu_text_chat_attention_black_24dp);

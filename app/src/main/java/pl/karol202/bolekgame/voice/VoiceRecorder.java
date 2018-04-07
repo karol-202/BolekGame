@@ -19,8 +19,8 @@ import java.util.Map;
 class VoiceRecorder implements Runnable
 {
 	static final int SAMPLE_RATE = 8000;//Hz
-	static final int BUFFER_SIZE_SHORTS = 1000;
-	static final int BUFFER_SIZE_BYTES = BUFFER_SIZE_SHORTS * 2;
+	//static final int BUFFER_SIZE_SHORTS = 1000;
+	static final int BUFFER_SIZE_BYTES = 1000;//BUFFER_SIZE_SHORTS;
 	
 	private AudioRecord audioRecord;
 	private DatagramChannel channel;
@@ -68,9 +68,9 @@ class VoiceRecorder implements Runnable
 	
 	private void createAudioRecord()
 	{
-		int bufferSize = 4 * AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+		int bufferSize = 2 * AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_8BIT);
 		audioRecord = new AudioRecord(MediaRecorder.AudioSource.VOICE_COMMUNICATION, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO,
-									  AudioFormat.ENCODING_PCM_16BIT, bufferSize);
+									  AudioFormat.ENCODING_PCM_8BIT, bufferSize);
 		
 		if(audioRecord.getState() == AudioRecord.STATE_UNINITIALIZED)
 			Crashlytics.log(Log.ERROR, "BolekGame", "Cannot initialize AudioRecord.");
@@ -96,7 +96,7 @@ class VoiceRecorder implements Runnable
 			audioRecord.stop();
 	}
 	
-	private void record() throws IOException
+	private void record()
 	{
 		audioRecord.read(byteArray, 0, BUFFER_SIZE_BYTES);
 		byteBuffer.clear();

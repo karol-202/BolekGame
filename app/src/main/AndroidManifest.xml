@@ -43,6 +43,7 @@
 			android:label="@string/app_name"/>
 		<service
 			android:name=".voice.VoiceService"
-			android:exported="false"/>
+			android:exported="false"
+			android:stopWithTask="true"/>
 	</application>
 </manifest>
