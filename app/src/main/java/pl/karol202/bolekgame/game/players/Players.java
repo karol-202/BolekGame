@@ -153,6 +153,7 @@ public class Players
 	
 	public void addOnUsersUpdateListener(Users.OnUsersUpdateListener listener)
 	{
+		if(usersUpdateListeners.contains(listener)) return;
 		usersUpdateListeners.add(listener);
 		users.addOnUsersUpdateListener(listener);
 	}
@@ -165,6 +166,7 @@ public class Players
 	
 	public void addOnPlayersUpdateListener(OnPlayersUpdateListener listener)
 	{
+		if(playersUpdateListeners.contains(listener)) return;
 		playersUpdateListeners.add(listener);
 	}
 	

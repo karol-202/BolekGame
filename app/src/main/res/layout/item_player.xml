@@ -62,5 +62,6 @@
 		app:layout_constraintTop_toTopOf="parent"
 		app:srcCompat="@drawable/ic_user_settings_black_24dp"
 		app:tint="@drawable/icon_tint"
-		android:layout_marginRight="4dp" />
+		android:layout_marginRight="4dp"
+		android:contentDescription="@string/acc_voice_chat_user"/>
 </android.support.constraint.ConstraintLayout>

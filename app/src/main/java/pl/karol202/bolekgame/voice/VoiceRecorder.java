@@ -19,14 +19,14 @@ import java.util.Map;
 class VoiceRecorder implements Runnable
 {
 	static final int SAMPLE_RATE = 8000;//Hz
-	//static final int BUFFER_SIZE_SHORTS = 1000;
-	static final int BUFFER_SIZE_BYTES = 1000;//BUFFER_SIZE_SHORTS;
+	static final int BUFFER_SIZE_SHORTS = 1000;
+	static final int BUFFER_SIZE_BYTES = 2 * BUFFER_SIZE_SHORTS;
 	
 	private AudioRecord audioRecord;
 	private DatagramChannel channel;
 	private LocalUser localUser;
 	private Map<RemoteUser, InetSocketAddress> users;
-	private byte[] byteArray;
+	private short[] shortArray;
 	private ByteBuffer byteBuffer;
 	private boolean run;
 	
@@ -34,7 +34,7 @@ class VoiceRecorder implements Runnable
 	{
 		this.channel = channel;
 		users = new HashMap<>();
-		byteArray = new byte[BUFFER_SIZE_BYTES];
+		shortArray = new short[BUFFER_SIZE_SHORTS];
 		byteBuffer = ByteBuffer.allocate(BUFFER_SIZE_BYTES);
 	}
 	
@@ -68,9 +68,9 @@ class VoiceRecorder implements Runnable
 	
 	private void createAudioRecord()
 	{
-		int bufferSize = 2 * AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_8BIT);
+		int bufferSize = 10 * AudioRecord.getMinBufferSize(SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
 		audioRecord = new AudioRecord(MediaRecorder.AudioSource.VOICE_COMMUNICATION, SAMPLE_RATE, AudioFormat.CHANNEL_IN_MONO,
-									  AudioFormat.ENCODING_PCM_8BIT, bufferSize);
+									  AudioFormat.ENCODING_PCM_16BIT, bufferSize);
 		
 		if(audioRecord.getState() == AudioRecord.STATE_UNINITIALIZED)
 			Crashlytics.log(Log.ERROR, "BolekGame", "Cannot initialize AudioRecord.");
@@ -98,9 +98,13 @@ class VoiceRecorder implements Runnable
 	
 	private void record()
 	{
-		audioRecord.read(byteArray, 0, BUFFER_SIZE_BYTES);
+		audioRecord.read(shortArray, 0, BUFFER_SIZE_SHORTS);
 		byteBuffer.clear();
-		byteBuffer.put(byteArray);
+		for(short s : shortArray)
+		{
+			byteBuffer.put((byte) (s & 0xFF));
+			byteBuffer.put((byte) (s >> 8));
+		}
 		byteBuffer.flip();
 	}
 	

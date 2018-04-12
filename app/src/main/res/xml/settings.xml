@@ -17,5 +17,6 @@
 		android:defaultValue="@bool/voice_chat_default_enable"
 		android:key="preference_voice_chat"
 		android:title="@string/preference_voice_chat"
-		android:summary="@string/preference_voice_chat_detail"/>
+		android:summary="@string/preference_voice_chat_detail"
+		android:enabled="@bool/voice_chat_available"/>
 </PreferenceScreen>

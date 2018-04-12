@@ -44,7 +44,8 @@
 			app:layout_constraintHorizontal_bias="0.5"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/text_action_acts_checking_result"
-			app:srcCompat="@drawable/act_antilustration" />
+			app:srcCompat="@drawable/act_antilustration"
+			tools:ignore="ContentDescription"/>
 		
 		<TextView
 			android:id="@+id/text_action_acts_checking_result_1"
@@ -73,7 +74,8 @@
 			app:layout_constraintHorizontal_bias="0.5"
 			app:layout_constraintStart_toEndOf="@+id/image_action_acts_checking_result_act_1"
 			app:layout_constraintTop_toBottomOf="@+id/text_action_acts_checking_result"
-			app:srcCompat="@drawable/act_antilustration" />
+			app:srcCompat="@drawable/act_antilustration"
+			tools:ignore="ContentDescription"/>
 		
 		<TextView
 			android:id="@+id/text_action_acts_checking_result_2"
@@ -102,7 +104,8 @@
 			app:layout_constraintHorizontal_bias="0.5"
 			app:layout_constraintStart_toEndOf="@+id/image_action_acts_checking_result_act_2"
 			app:layout_constraintTop_toBottomOf="@+id/text_action_acts_checking_result"
-			app:srcCompat="@drawable/act_antilustration" />
+			app:srcCompat="@drawable/act_antilustration"
+			tools:ignore="ContentDescription"/>
 		
 		<TextView
 			android:id="@+id/text_action_acts_checking_result_3"

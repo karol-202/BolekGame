@@ -16,17 +16,8 @@ public class ScreenActs extends Screen
 {
 	private ViewGroup mainLayout;
 	private TextView textPollIndex;
-	private ImageView panelActLustration1;
-	private ImageView panelActLustration2;
-	private ImageView panelActLustration3;
-	private ImageView panelActLustration4;
-	private ImageView panelActLustration5;
-	private ImageView panelActAntilustration1;
-	private ImageView panelActAntilustration2;
-	private ImageView panelActAntilustration3;
-	private ImageView panelActAntilustration4;
-	private ImageView panelActAntilustration5;
-	private ImageView panelActAntilustration6;
+	private ImageView[] panelsActLustration;
+	private ImageView[] panelsActAntilustration;
 	
 	private ImageView imageActAntilustration1Icon;
 	private TextView textActAntilustration1;
@@ -48,29 +39,31 @@ public class ScreenActs extends Screen
 		
 		textPollIndex = view.findViewById(R.id.text_poll_index);
 		
-		panelActLustration1 = view.findViewById(R.id.panel_act_slot_lustration_1);
-		panelActLustration2 = view.findViewById(R.id.panel_act_slot_lustration_2);
-		panelActLustration3 = view.findViewById(R.id.panel_act_slot_lustration_3);
-		panelActLustration4 = view.findViewById(R.id.panel_act_slot_lustration_4);
-		panelActLustration5 = view.findViewById(R.id.panel_act_slot_lustration_5);
+		panelsActLustration = new ImageView[5];
+		panelsActLustration[0] = view.findViewById(R.id.panel_act_slot_lustration_1);
+		panelsActLustration[1] = view.findViewById(R.id.panel_act_slot_lustration_2);
+		panelsActLustration[2] = view.findViewById(R.id.panel_act_slot_lustration_3);
+		panelsActLustration[3] = view.findViewById(R.id.panel_act_slot_lustration_4);
+		panelsActLustration[4] = view.findViewById(R.id.panel_act_slot_lustration_5);
 		
-		panelActAntilustration1 = view.findViewById(R.id.panel_act_slot_antilustration_1);
-		panelActAntilustration1.setOnClickListener(v -> showHint(panelActAntilustration1, R.string.hint_antilustration_1));
+		panelsActAntilustration = new ImageView[6];
+		panelsActAntilustration[0] = view.findViewById(R.id.panel_act_slot_antilustration_1);
+		panelsActAntilustration[0].setOnClickListener(v -> showHint(panelsActAntilustration[0], R.string.hint_antilustration_1));
 		
-		panelActAntilustration2 = view.findViewById(R.id.panel_act_slot_antilustration_2);
-		panelActAntilustration2.setOnClickListener(v -> showHint(panelActAntilustration2, R.string.hint_antilustration_2));
+		panelsActAntilustration[1] = view.findViewById(R.id.panel_act_slot_antilustration_2);
+		panelsActAntilustration[1].setOnClickListener(v -> showHint(panelsActAntilustration[1], R.string.hint_antilustration_2));
 		
-		panelActAntilustration3 = view.findViewById(R.id.panel_act_slot_antilustration_3);
-		panelActAntilustration3.setOnClickListener(v -> showHint(panelActAntilustration3, R.string.hint_antilustration_3));
+		panelsActAntilustration[2] = view.findViewById(R.id.panel_act_slot_antilustration_3);
+		panelsActAntilustration[2].setOnClickListener(v -> showHint(panelsActAntilustration[2], R.string.hint_antilustration_3));
 		
-		panelActAntilustration4 = view.findViewById(R.id.panel_act_slot_antilustration_4);
-		panelActAntilustration4.setOnClickListener(v -> showHint(panelActAntilustration4, R.string.hint_antilustration_4));
+		panelsActAntilustration[3] = view.findViewById(R.id.panel_act_slot_antilustration_4);
+		panelsActAntilustration[3].setOnClickListener(v -> showHint(panelsActAntilustration[3], R.string.hint_antilustration_4));
 		
-		panelActAntilustration5 = view.findViewById(R.id.panel_act_slot_antilustration_5);
-		panelActAntilustration5.setOnClickListener(v -> showHint(panelActAntilustration5, R.string.hint_antilustration_5));
+		panelsActAntilustration[4] = view.findViewById(R.id.panel_act_slot_antilustration_5);
+		panelsActAntilustration[4].setOnClickListener(v -> showHint(panelsActAntilustration[4], R.string.hint_antilustration_5));
 		
-		panelActAntilustration6 = view.findViewById(R.id.panel_act_slot_antilustration_6);
-		panelActAntilustration6.setOnClickListener(v -> showHint(panelActAntilustration6, R.string.hint_antilustration_6));
+		panelsActAntilustration[5] = view.findViewById(R.id.panel_act_slot_antilustration_6);
+		panelsActAntilustration[5].setOnClickListener(v -> showHint(panelsActAntilustration[5], R.string.hint_antilustration_6));
 		
 		imageActAntilustration1Icon = view.findViewById(R.id.image_act_slot_antilustration_1_icon);
 		textActAntilustration1 = view.findViewById(R.id.text_act_slot_antilustration_1);
@@ -80,17 +73,8 @@ public class ScreenActs extends Screen
 		
 		overlayView = view.findViewById(R.id.acts_overlay_view);
 		overlayView.setRootView(mainLayout);
-		overlayView.setLustrationActSlotView(0, panelActLustration1);
-		overlayView.setLustrationActSlotView(1, panelActLustration2);
-		overlayView.setLustrationActSlotView(2, panelActLustration3);
-		overlayView.setLustrationActSlotView(3, panelActLustration4);
-		overlayView.setLustrationActSlotView(4, panelActLustration5);
-		overlayView.setAntiustrationActSlotView(0, panelActAntilustration1);
-		overlayView.setAntiustrationActSlotView(1, panelActAntilustration2);
-		overlayView.setAntiustrationActSlotView(2, panelActAntilustration3);
-		overlayView.setAntiustrationActSlotView(3, panelActAntilustration4);
-		overlayView.setAntiustrationActSlotView(4, panelActAntilustration5);
-		overlayView.setAntiustrationActSlotView(5, panelActAntilustration6);
+		for(int i = 0; i < 5; i++) overlayView.setLustrationActSlotView(i, panelsActLustration[i]);
+		for(int i = 0; i < 6; i++) overlayView.setAntiustrationActSlotView(i, panelsActAntilustration[i]);
 		
 		return view;
 	}
@@ -103,19 +87,20 @@ public class ScreenActs extends Screen
 		updateHints();
 		onPollIndexUpdate();
 		onActsUpdate();
+		updateAccesibilityContent();
 	}
 	
 	private void updateHints()
 	{
 		if(!acts.isPlayerCheckingAvailable())
 		{
-			panelActAntilustration1.setOnClickListener(null);
+			panelsActAntilustration[0].setOnClickListener(null);
 			imageActAntilustration1Icon.setVisibility(View.GONE);
 			textActAntilustration1.setVisibility(View.GONE);
 		}
 		if(!acts.isPlayerOrActsCheckingAvailable())
 		{
-			panelActAntilustration2.setOnClickListener(null);
+			panelsActAntilustration[1].setOnClickListener(null);
 			imageActAntilustration2Icon.setVisibility(View.GONE);
 			textActAntilustration2.setVisibility(View.GONE);
 		}
@@ -130,6 +115,18 @@ public class ScreenActs extends Screen
 	{
 		overlayView.setLustrationActs(acts.getLustrationActs());
 		overlayView.setAntilustrationActs(acts.getAntilustrationActs());
+		updateAccesibilityContent();
+	}
+	
+	private void updateAccesibilityContent()
+	{
+		for(int i = 0; i < 6; i++) updateAccesibilityContentForSlot(panelsActAntilustration[i], i + 1, acts.getAntilustrationActs() > i);
+	}
+	
+	private void updateAccesibilityContentForSlot(ImageView panel, int slot, boolean passed)
+	{
+		String passedText = getString(passed ? R.string.text_act_passed : R.string.text_act_not_passed);
+		panel.setContentDescription(getString(R.string.acc_act_antilustration_slot, slot, passedText));
 	}
 	
 	private void showHint(View view, int textId)

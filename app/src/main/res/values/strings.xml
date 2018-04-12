@@ -26,9 +26,9 @@
 	<string name="text_nick_hint">Nick można zmienić później w ustawieniach</string>
 	<string name="text_connecting">Łączenie…</string>
 	<string name="text_cannot_connect">Nie można połączyć</string>
-	<string name="text_server_name">Nazwa serwera</string>
-	<string name="text_server_code">Kod serwera</string>
-	<string name="text_server">Serwer:</string>
+	<string name="text_server_name">Nazwa gry</string>
+	<string name="text_server_code">Kod gry</string>
+	<string name="text_server">Nazwa:</string>
 	<string name="text_code">Kod:</string>
 	<string name="text_users_amount">Gracze: %d</string>
 	<string name="text_ready_users_amount">Gotowi do gry: %d</string>
@@ -56,6 +56,8 @@
 	<string name="text_win_cause_acts_collaborators">Zostało uchwalonych 6 ustaw antylustracyjnych</string>
 	<string name="text_win_cause_bolek_ministers">Bolek został wyeliminowany</string>
 	<string name="text_win_cause_bolek_collaborators">Bolek został premierem po trzeciej ustawie antylustracyjnej</string>
+	<string name="text_act_passed">uchwalona</string>
+	<string name="text_act_not_passed">nie uchwalona</string>
 	<string name="text_players">Gracze</string>
 	<string name="text_non_players">Nie grający</string>
 	<string name="text_user_mute">Wycisz</string>
@@ -149,7 +151,7 @@
 	<string name="preference_voice_chat_detail">Może działać niestabilnie</string>
 	
 	<string name="default_nick" />
-	<string name="default_server_address">192.168.0.15</string>
+	<string name="default_server_address" />
 	
 	<string name="role_minister">Minister</string>
 	<string name="role_collaborator">Tajny współpracownik</string>
@@ -170,14 +172,26 @@
 	<string name="act_effect_new_president">Wybór nowego prezydenta</string>
 	<string name="act_effect_lustration">Eliminacja gracza</string>
 	
+	<string name="acc_act_antilustration_slot">Ustawa antylustracyjna %d %s</string>
+	<string name="acc_button_settings">Ustawienia</string>
+	<string name="acc_button_help">Zasady gry</string>
+	<string name="acc_button_close">Zamknij</string>
+	<string name="acc_text_chat_show">Otwórz czat tekstowy</string>
+	<string name="acc_text_chat_hide">Zamknij czat tekstowy</string>
+	<string name="acc_text_chat_hint_message">Wiadomość</string>
+	<string name="acc_text_chat_send">Wyślij</string>
+	<string name="acc_voice_chat_microphone_mute">Wycisz mikrofon</string>
+	<string name="acc_voice_chat_microphone_unmute">Włącz mikrofon</string>
+	<string name="acc_voice_chat_speaker_mute">Wycisz dźwięk</string>
+	<string name="acc_voice_chat_speaker_unmute">Włącz dźwięk</string>
+	<string name="acc_voice_chat_user">Ustawienia gracza</string>
+	
 	<string name="hint_antilustration_1">Po uchwaleniu ustawy prezydent sprawdza jednego gracza</string>
 	<string name="hint_antilustration_2">Po uchwaleniu ustawy prezydent sprawdza jednego gracza lub 3 następne ustawy</string>
 	<string name="hint_antilustration_3">Po uchwaleniu ustawy prezydent wybiera nowego prezydenta. Jeśli Bolek zostanie premierem, grę wygrywają TW i Bolek</string>
 	<string name="hint_antilustration_4">Po uchwaleniu ustawy prezydent eliminuje jedną osobę</string>
 	<string name="hint_antilustration_5">Po uchwaleniu ustawy prezydent eliminuje jedną osobę. Premier zyskuje prawo weta.</string>
 	<string name="hint_antilustration_6">Po uchwaleniu ustawy grę wygrywają TW i Bolek</string>
-	
-	<string name="help_content_1">Dostępne już wkrótce</string>
 	
 	<string name="unknown">Nieznany</string>
 	<string name="zero">0</string>

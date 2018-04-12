@@ -36,7 +36,8 @@
 			app:layout_constraintTop_toTopOf="parent"
 			app:srcCompat="@drawable/ic_settings_black_24dp"
 			android:layout_marginRight="8dp"
-			app:tint="@drawable/icon_tint"/>
+			app:tint="@drawable/icon_tint"
+			android:contentDescription="@string/acc_button_settings"/>
 		
 		<android.support.v7.widget.AppCompatImageButton
 			android:id="@+id/button_help"
@@ -49,7 +50,8 @@
 			app:layout_constraintTop_toBottomOf="@+id/button_settings"
 			app:srcCompat="@drawable/ic_help_black_24dp"
 			app:tint="@drawable/icon_tint"
-			android:layout_marginRight="8dp" />
+			android:layout_marginRight="8dp"
+			android:contentDescription="@string/acc_button_help"/>
 		
 		<android.support.constraint.ConstraintLayout
 			android:id="@+id/panel_connection"
@@ -238,7 +240,8 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				app:srcCompat="@drawable/ic_close_black_24dp"
-				app:tint="@drawable/icon_tint"/>
+				app:tint="@drawable/icon_tint"
+				android:contentDescription="@string/acc_button_close"/>
 		</android.support.constraint.ConstraintLayout>
 		
 		<android.support.constraint.ConstraintLayout
@@ -320,7 +323,8 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
 				app:srcCompat="@drawable/ic_close_black_24dp"
-				app:tint="@drawable/icon_tint"/>
+				app:tint="@drawable/icon_tint"
+				android:contentDescription="@string/acc_button_close"/>
 		
 		</android.support.constraint.ConstraintLayout>
 	

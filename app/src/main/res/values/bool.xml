@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<bool name="voice_chat_default_enable">false</bool>
+	<bool name="voice_chat_available">false</bool>
 </resources>

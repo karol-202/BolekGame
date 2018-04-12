@@ -12,7 +12,7 @@
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="16dp"
 		android:layout_marginStart="16dp"
-		android:text="@string/text_server"
+		android:text="@string/text_code"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		app:layout_constraintBottom_toTopOf="@+id/view_separator_players_top"
 		app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,8 @@
 		app:srcCompat="@drawable/ic_help_black_24dp"
 		app:tint="@drawable/icon_tint"
 		app:layout_constraintEnd_toStartOf="@id/button_voice_chat_microphone"
-		app:layout_constraintTop_toTopOf="parent" />
+		app:layout_constraintTop_toTopOf="parent"
+		android:contentDescription="@string/acc_button_help"/>
 	
 	<android.support.v7.widget.AppCompatImageButton
 		android:id="@+id/button_voice_chat_microphone"
@@ -48,7 +49,8 @@
 		app:layout_constraintEnd_toStartOf="@+id/button_voice_chat_speaker"
 		app:layout_constraintTop_toTopOf="parent"
 		app:srcCompat="@drawable/ic_microphone_off_black_24dp"
-		app:tint="@drawable/icon_tint" />
+		app:tint="@drawable/icon_tint"
+		android:contentDescription="@string/acc_voice_chat_microphone_mute"/>
 	
 	<android.support.v7.widget.AppCompatImageButton
 		android:id="@+id/button_voice_chat_speaker"
@@ -57,7 +59,8 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
 		app:srcCompat="@drawable/ic_speaker_off_black_24dp"
-		app:tint="@drawable/icon_tint" />
+		app:tint="@drawable/icon_tint"
+		android:contentDescription="@string/acc_voice_chat_speaker_mute"/>
 	
 	<View
 		android:id="@+id/view_separator_players_top"

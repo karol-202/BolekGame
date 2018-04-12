@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.game;
 
+import com.vdurmont.emoji.EmojiParser;
 import java8.util.stream.Collectors;
 import java8.util.stream.StreamSupport;
 import pl.karol202.bolekgame.client.Client;
@@ -153,6 +154,7 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	public void sendMessage(String message)
 	{
+		message = EmojiParser.removeAllEmojis(message);
 		sendPacket(new OutputPacketMessage(message));
 		textChat.addEntry(players.getLocalPlayerName(), message, true);
 		activity.onTextChatUpdate();

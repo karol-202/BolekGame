@@ -140,9 +140,6 @@ public class ScreenPlayers extends Screen
 		players = gameLogic.getPlayers();
 		players.addOnUsersUpdateListener(usersListener);
 		players.addOnPlayersUpdateListener(playersListener);
-		
-		updateServerCode();
-		updateVoiceChatControls();
 	}
 	
 	@Override
@@ -152,6 +149,8 @@ public class ScreenPlayers extends Screen
 		playersAdapter.setPlayers(players);
 		nonPlayersAdapter.setPlayers(players);
 		updateNonPlayersViews();
+		updateServerCode();
+		updateVoiceChatControls();
 	}
 	
 	@Override
@@ -177,6 +176,7 @@ public class ScreenPlayers extends Screen
 		boolean enable = !localUser.isMicrophoneEnabled();
 		localUser.setMicrophoneEnabled(enable);
 		buttonVoiceChatMicrophone.setImageResource(enable ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
+		buttonVoiceChatMicrophone.setContentDescription(getString(enable ? R.string.acc_voice_chat_microphone_mute : R.string.acc_voice_chat_microphone_unmute));
 	}
 	
 	private void toggleVoiceChatSpeaker()
@@ -185,6 +185,7 @@ public class ScreenPlayers extends Screen
 		boolean enable = !localUser.isSpeakerEnabled();
 		localUser.setSpeakerEnabled(enable);
 		buttonVoiceChatSpeaker.setImageResource(enable ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
+		buttonVoiceChatSpeaker.setContentDescription(getString(localUser.isSpeakerEnabled() ? R.string.acc_voice_chat_speaker_mute : R.string.acc_voice_chat_speaker_unmute));
 	}
 	
 	private void updateNonPlayersViews()
@@ -205,6 +206,8 @@ public class ScreenPlayers extends Screen
 	{
 		LocalUser localUser = players.getLocalUser();
 		buttonVoiceChatMicrophone.setImageResource(localUser.isMicrophoneEnabled() ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
+		buttonVoiceChatMicrophone.setContentDescription(getString(localUser.isMicrophoneEnabled() ? R.string.acc_voice_chat_microphone_mute : R.string.acc_voice_chat_microphone_unmute));
 		buttonVoiceChatSpeaker.setImageResource(localUser.isSpeakerEnabled() ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
+		buttonVoiceChatSpeaker.setContentDescription(getString(localUser.isSpeakerEnabled() ? R.string.acc_voice_chat_speaker_mute : R.string.acc_voice_chat_speaker_unmute));
 	}
 }

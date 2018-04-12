@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.server;
 
+import com.vdurmont.emoji.EmojiParser;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogout;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
@@ -69,6 +70,7 @@ class ServerLogic extends Logic<ActivityServer>
 	
 	void sendMessage(String message)
 	{
+		message = EmojiParser.removeAllEmojis(message);
 		sendPacket(new OutputPacketMessage(message));
 		textChat.addEntry(users.getLocalUserName(), message, true);
 		activity.onTextChatUpdate(false);

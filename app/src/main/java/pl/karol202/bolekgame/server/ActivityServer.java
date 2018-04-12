@@ -224,6 +224,7 @@ public class ActivityServer extends PermissionGrantingActivity
 			
 			textChatLayoutBehaviour.setState(BottomSheetBehavior.STATE_EXPANDED);
 			buttonTextChatToggle.toggleAnimation(true);
+			buttonTextChatToggle.setContentDescription(getString(R.string.acc_text_chat_hide));
 			textChatLayoutStateChangeByClick = true;
 			
 			textChatMessage.setText(null);
@@ -235,6 +236,7 @@ public class ActivityServer extends PermissionGrantingActivity
 			
 			textChatLayoutBehaviour.setState(BottomSheetBehavior.STATE_COLLAPSED);
 			buttonTextChatToggle.toggleAnimation(false);
+			buttonTextChatToggle.setContentDescription(getString(R.string.acc_text_chat_show));
 			textChatLayoutStateChangeByClick = true;
 		}
 	}
@@ -242,10 +244,15 @@ public class ActivityServer extends PermissionGrantingActivity
 	private void onTextChatLayoutStateChanged(int state)
 	{
 		if(textChatLayoutStateChangeByClick) textChatLayoutStateChangeByClick = false;
-		else if(state == BottomSheetBehavior.STATE_COLLAPSED) buttonTextChatToggle.toggleAnimation(false);
+		else if(state == BottomSheetBehavior.STATE_COLLAPSED)
+		{
+			buttonTextChatToggle.toggleAnimation(false);
+			buttonTextChatToggle.setContentDescription(getString(R.string.acc_text_chat_show));
+		}
 		else if(state == BottomSheetBehavior.STATE_EXPANDED)
 		{
 			buttonTextChatToggle.toggleAnimation(true);
+			buttonTextChatToggle.setContentDescription(getString(R.string.acc_text_chat_hide));
 			textChatMessage.setText(null);
 		}
 	}
@@ -255,6 +262,7 @@ public class ActivityServer extends PermissionGrantingActivity
 		boolean enable = !serverLogic.isMicrophoneEnabled();
 		serverLogic.setMicrophoneEnabled(enable);
 		buttonVoiceChatMicrophone.setImageResource(enable ? R.drawable.ic_microphone_off_black_24dp : R.drawable.ic_microphone_on_black_24dp);
+		buttonVoiceChatMicrophone.setContentDescription(getString(enable ? R.string.acc_voice_chat_microphone_mute : R.string.acc_voice_chat_microphone_unmute));
 	}
 	
 	private void toggleVoiceChatSpeaker()
@@ -262,6 +270,7 @@ public class ActivityServer extends PermissionGrantingActivity
 		boolean enable = !serverLogic.isSpeakerEnabled();
 		serverLogic.setSpeakerEnabled(enable);
 		buttonVoiceChatSpeaker.setImageResource(enable ? R.drawable.ic_speaker_off_black_24dp : R.drawable.ic_speaker_on_black_24dp);
+		buttonVoiceChatSpeaker.setContentDescription(getString(enable ? R.string.acc_voice_chat_speaker_mute : R.string.acc_voice_chat_speaker_unmute));
 	}
 	
 	void onTextChatUpdate(boolean notification)

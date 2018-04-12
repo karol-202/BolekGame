@@ -25,7 +25,8 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/text_check_player_result"
-		app:srcCompat="@drawable/ic_thumb_positive" />
+		app:srcCompat="@drawable/ic_thumb_positive"
+		tools:ignore="ContentDescription"/>
 	
 	<TextView
 		android:id="@+id/text_check_player_result_result"

@@ -122,6 +122,7 @@ public class Users
 	
 	public void addOnUsersUpdateListener(OnUsersUpdateListener listener)
 	{
+		if(usersUpdateListeners.contains(listener)) return;
 		usersUpdateListeners.add(listener);
 	}
 	

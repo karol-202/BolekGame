@@ -39,7 +39,8 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/text_action_act_passed"
-			app:srcCompat="@drawable/act_lustration" />
+			app:srcCompat="@drawable/act_lustration"
+			tools:ignore="ContentDescription" />
 		
 		<TextView
 			android:id="@+id/text_action_act_passed_act"

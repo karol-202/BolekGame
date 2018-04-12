@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="help_content"><![CDATA[
+		<b>Jest noc z 4 na 5 czerwca 1992 roku. Rzeczpospolita Polska jest w trakcie transformacji ustrojowej.
+		W grze „Nocna Zmiana” graczami są polscy politycy, którzy próbują utrzymać przy władzy rząd Jana Olszewskiego.
+		Muszą jednak uważać – są wśród nich Tajni Współpracownicy SB, a jeden z graczy to Bolek.</b><br>
+		<br>
+		<big><b>ZASADY OGÓLNE</b></big><br>
+		Na początku gry każdy z graczy zostaje obsadzony w jednej z trzech ról:
+		ministra rządu Jana Olszewskiego, Tajnego Współpracownika lub Bolka. Ministrowie dysponują większością parlamentarną,
+		ale nie mają pewności, kto naprawdę jest, kim. TW, aby osiągnąć swoje cele, muszą się uciekać do działań w sekrecie i do sabotażu.
+		Bolek gra na rzecz obozu TW, a oni od początku znają jego tożsamość, on natomiast musi dopiero ustalić, którzy gracze go popierają.
+		Ministrowie wygrają, jeśli przegłosują pięć ustaw lustracyjnych lub dokonają lustracji Bolka.
+		TW wygrają, jeśli przegłosują sześć ustaw antylustracyjnych lub Bolek zostanie wybrany premierem po przegłosowaniu trzech antylustracyjnych ustaw.
+		Po każdym przegłosowaniu ustawy antylustracyjnej rząd staje się silniejszy, a prezydent uzyskuje jednorazowe uprawnienia,
+		które musi wykorzystać przed następną rundą. Nie ma znaczenia, do którego obozu należy prezydent.
+		Nawet ministrowie rządu Jana Olszewskiego mogą bowiem, ulec pokusie głosowania za antylustracyjną ustawą,
+		aby zdobyć nowe uprawnienia.<br>
+		<br>
+		Każdy gracz jest tajnym członkiem albo obozu ministrów rządu Jana Olszewskiego albo Tajnych Współpracowników SB.<br>
+		<br>
+		<b>Obóz Ministrów wygra, jeśli:</b><br>
+		• przegłosuje pięć ustaw lustracyjnych lub<br>
+		• zostanie dokonana lustracja Bolka<br>
+		<br>
+		<b>Obóz Tajnych Współpracowników wygra, jeśli:</b><br>
+		• przegłosuje sześć ustaw antylustracyjnych lub<br>
+		• Bolek zostanie premierem - w dowolnym momencie po przegłosowaniu trzeciej antylustracyjnej ustawy<br>
+		<br>
+		<big><b>POCZĄTEK GRY</b></big><br>
+		Na początku gry każdemu z graczy zostaje przydzielona jedna z ról: ministra, Tajnego Współpracownika lub Bolka.
+		Liczba Tajnych Współpracowników i Ministrów zależy od aktualnej liczby graczy:<br>
+		• 5 lub 6 graczy: 1 Tajny Współpracownik + Bolek<br>
+		• 7 lub 8 graczy: 2 Tajnych Współpracowników + Bolek<br>
+		• 9 lub 10 graczy: 3 Tajnych Współpracowników + Bolek<br>
+		<br>
+		Graczom, którzy są Tajnymi Współpracownikami zostaje wyświetlona lista ról wszystkich graczy, wiedzą, kto jest kim.
+		W przypadku, gdy gra tylko 5 lub 6 graczy, Bolek także wie, kto jest kim. Ministrowie nie mają takiej wiedzy.<br>
+		<br>
+		Przed rozpoczęciem gry przygotowywany jest tzw. stos ustaw zawierający 6 ustaw lustracyjnych i 11 ustaw lustracyjnych,
+		które będą uchwalane w czasie gry.<br>
+		<br>
+		<big><b>ROZGRYWKA</b></big><br>
+		Gra w „Nocną zmianę” odbywa się w rundach. Każda runda składa się z wyborów,
+		które pozwalają utworzyć rząd, posiedzenia ustawodawczego, podczas którego uchwala się nowe ustawy,
+		oraz z realizowanej polityki.<br>
+		<br>
+		<big><b>1. Zmiana prezydenta</b></big><br>
+		Na początku nowej rundy kandydatem na prezydenta zostaje gracz następny po graczu, który poprzednio był prezydentem.<br>
+		<br>
+		<big><b>2. Nominowanie premiera</b></big><br>
+		Kandydat na prezydenta wyznacza kandydata na premiera.
+		Nominację tę kandydat na prezydenta może swobodnie uzgadniać z pozostałymi graczami, tak by uzyskać ich akceptację,
+		co zwiększy szanse na wybranie rządu.<br>
+		Gracz, który ostatnio był prezydentem lub premierem jest ograniczony kadencyjnością i
+		nie może zostać kandydatem na premiera w kolejnych wyborach:<br>
+		• Ograniczenie kadencyjnością dotyczy ostatnio wybranego prezydenta i premiera, ale nie graczy,
+		którzy byli tylko nominowani do tych funkcji.<br>
+		• Ograniczenie kadencyjnością dotyczy tylko nominacji na premiera.
+		Prezydentem może zostać każdy, nawet ktoś, kto dopiero co był premierem.<br>
+		• Jeśli w grze pozostało tylko pięciu graczy, niewybieralny na premiera jest tylko ten, który ostatnio był premierem.
+		Nominację może otrzymać ten, który ostatnio był prezydentem.<br>
+		• Wybieralność ograniczają też w różny sposób inne zasady, związane z prawem weta i kalendarzem wyborczym,
+		jednak zostaną one omówione później.<br>
+		<br>
+		<big><b>3. Głosowanie nad rządem</b></big><br>
+		Po wskazaniu przez kandydata na prezydenta wybieralnego kandydata na premiera gracze mogą dyskutować,
+		dopóki wszyscy nie będą gotowi do głosowania.
+		W głosowaniu nad przyszłym rządem uczestniczą wszyscy gracze, również kandydaci.<br>
+		W przypadku remisu lub przewagi niegłosujących głosowanie kończy się niepowodzeniem.
+		Kandydat na premiera nie zostaje wybrany, a kandydatem na prezydenta zostaje kolejny gracz.
+		Wskaźnik w kalendarzu wyborczym zostaje zwiększony o 1.
+		Głosowania potwierdza jednocześnie zgodę (lub jej brak) na sprawowanie rządów przez prezydenta i premiera.<br>
+		<br>
+		Jeżeli trzy razy z rzędu nie uda się przegłosować powstania rządu, kraj ogarnia chaos.
+		Zostaje wtedy wprowadzona w życie losowa ustawa. Nie obowiązują żadne uprawnienia przyznane na mocy tej ustawy,
+		kalendarz wyborczy zaczyna się liczyć od nowa i znikają wszelkie ograniczenia kadencyjności.
+		W następnych wyborach każdy z graczy może objąć urząd premiera.
+		Kalendarz wyborczy liczy się od nowa przy każdym wejściu w życie nowej ustawy – bez względu na to,
+		czy dokonał tego wybrany rząd, czy też była to losowa ustawa.<br>
+		<br>
+		Jeżeli większość graczy głosuje na tak, kandydat na prezydenta zostaje nowym prezydentem,
+		a kandydat na premiera – premierem. Jeżeli weszły już w życie, co najmniej trzy antylustracyjne ustawy,
+		należy zapytać nowego premiera, czy jest Bolkiem. Jeśli tak - gra kończy się w tym momencie zwycięstwem TW.
+		Jeśli nie - inni gracze wiedzą na pewno, że premier nie jest Bolkiem.
+		Wówczas jak zwykle następuje etap posiedzenia ustawodawczego.<br>
+		<br>
+		<big><b>4. Posiedzenie ustawodawcze</b></big><br>
+		Podczas posiedzenia ustawodawczego prezydent i premier współpracują ze sobą,
+		by potajemnie wprowadzić w życie nową ustawę.
+		Prezydent dostaje 3 ustawy ze stosu ustaw, następnie odrzuca jedną z nich, a dwie pozostałe przekazuje premierowi,
+		który wybiera jedną i wprowadza ją w życie. Premier nie zna treści ustawy odrzucanej przez prezydenta,
+		tak samo jak inni gracze nie wiedzą, jakie ustawy dostał prezydent,
+		a jakie premier. Gracze muszą wierzyć na słowo prezydentowi i premierowi - którzy mogą ich okłamywać.<br>
+		<br>
+		Jeżeli na koniec posiedzenia ustawodawczego na stosie ustaw pozostały mniej niż trzy karty,
+		stos jest wypełniany odrzuconymi ustawami.<br>
+		<br>
+		Jeżeli rząd wprowadził w życie lustracyjną lub antylustracyjną ustawę,
+		które nie przyznaje prezydentowi żadnych szczególnych uprawnień, zaczyna się nowa runda z nowymi wyborami.<br>
+		Jeżeli uchwalono antylustracyjną ustawę, która dotyczy jakichś uprawnień prezydenckich,
+		urzędujący prezydent musi z nich skorzystać. Następuje wówczas etap realizowania polityki.<br>
+		<br>
+		<big><b>5. Realizowanie polityki</b></big><br>
+		Przed skorzystaniem ze swoich uprawnień prezydent może swobodnie przedyskutować tę kwestię z innymi graczami,
+		ale ostatecznie to on sam decyduje, jak i kiedy skorzystać z uprawnień.
+		Dopóki tego nie zrobi, gra nie może się toczyć dalej. Z uprawnień prezydenckich korzysta się tylko raz,
+		nie można ich gromadzić, nie przechodzą też do następnej rundy.<br>
+		<br>
+		<b>Sprawdzanie gracza (1. i 2. ustawa antylustracyjna)</b><br>
+		Prezydent sprawdza gracza po uchwaleniu 1. ustawy antylustracyjne
+		(chyba, że gra mniej niż 9 graczy) oraz po uchwaleniu 2. ustawy antylustracyjnej(chyba, że gra mniej niż 7 graczy).
+		Prezydent wybiera gracza, którego chce sprawdzić, po czym sprawdza, czy jest on ministrem,
+		czy też Tajnym Współpracownikiem lub Bolkiem. Prezydent może następnie wedle własnego uznania poinformować pozostałych
+		graczy o wynikach swojego śledztwa (lub ich okłamać!).
+		Lojalność każdego gracza podczas jednej rozgrywki można badać tylko raz.<br>
+		<br>
+		<b>Podglądanie ustaw (2. ustawa antylustracyjna)</b><br>
+		Po uchwaleniu 2. ustawy antylustracyjnej prezydent ma wybór:
+		może skorzystać z prawa sprawdzania gracza lub sprawdzić 3 kolejne ustawy ze stosu ustaw, dzięki czemu będzie wiedział,
+		jakie ustawy dostanie następny prezydent podczas posiedzenia ustawodawczego.<br>
+		<br>
+		<b>Zarządzanie wyborów nadzwyczajnych (3. ustawa antylustracyjna)</b><br>
+		Prezydent wybiera dowolnego innego gracza na następnego kandydata na prezydenta.
+		Prezydentem może zostać każdy gracz, nawet ograniczony kadencyjnością.
+		Nowy prezydent mianuje wybieralnego gracza kandydatem na premiera i następuje etap wyborów.
+		Wybory nadzwyczajne nie powodują przeskoczenia kolejności kandydatów na prezydenta.
+		Po wyborach nadzwyczajnych nowym kandydatem na prezydenta zostaje kolejna osoba po graczu,
+		który będąc prezydentem zarządził wybory nadzwyczajne.
+		Oznacza to, że jeżeli prezydent przekaże prezydencję następnemu graczowi w kolejności,
+		gracz ten ma prawo ubiegać się o urząd prezydencki dwa razy z rzędu:
+		raz podczas wyborów nadzwyczajnych i ponownie, w związku z normalną rotacją kandydatów na prezydenta.<br>
+		<br>
+		<b>Lustracja (4. i 5. ustawa antylustracyjna)</b><br>
+		Prezydent dokonuje lustracji jednego gracza, eliminując go tym samym z dalszej gry.
+		Jeśli tym graczem okaże się Bolek, gra kończy się zwycięstwem Ministrów.
+		Jeśli wyeliminowanym graczem nie jest Bolek, nikt przy stole nie może się dowiedzieć,
+		czy dokonano egzekucji TW czy Ministra. Gracze sami muszą ocenić nową sytuację polityczną.
+		Lustrowani gracze wypadają z gry i nie mogą się odzywać, głosować ani startować w wyborach.<br>
+		<br>
+		<b>Prawo weta (5. ustawa antylustracyjna)</b><br>
+		Prawo weta to specjalna ustawa, która nabiera mocy prawnej po uchwaleniu pięciu antylustracyjnych ustaw.
+		Polega to na tym, że podczas każdego posiedzenia ustawodawczego władza wykonawcza zyskuje stały przywilej
+		odrzucania wszystkich trzech kart z ustawami na wniosek premiera, za zgodą prezydenta.
+		Prezydent dostaje 3 ustawy, odrzuca jedną, a dwie pozostałe jak zwykle przekazuje premierowi.
+		Wówczas premier, zamiast wprowadzać w życie jedną z tych ustaw, może zawetować ustawy.
+		Jeśli prezydent wyrazi na to zgodę, obie ustawy zostają odrzucone, a kandydatem na prezydenta zostaje kolejny gracz,
+		jednak zostaje jednocześnie zwiększony wskaźnik kalendarza wyborczego.
+		Jeżeli jednak prezydent nie poprze weta, premier musi wprowadzić w życie jedną z ustaw, jak przy normalnej procedurze.<br>
+		<br>
+		<big><b>KŁAMANIE</b></big><br>
+		Często zdarza się, że któryś z graczy dowiaduje się czegoś, czego nie wiedzą pozostali:
+		np. prezydent i premier poznają treść ustaw albo prezydent wykorzystuje swoje uprawnienia śledcze,
+		by ustalić czyjąś rolę. W grze „Nocna Zmiana” można wówczas kłamać na ten temat.<br>
+		<br>
+		<big><b>STRATEGIA</b></big><br>
+		• Każdy powinien twierdzić, że jest Ministrem. Ponieważ obóz Ministrów ma parlamentarną większość,
+		może łatwo przegłosować każdego gracza, który przyzna, że jest TW.
+		Tajni Współpracownicy nic nie zyskują, ujawniając się większości. Ministrowie powinni też na ogół mówić prawdę.
+		Dla nich gra jest zagadką do rozwiązania, a kłamstwa utrudniają im realizację tego celu.<br>
+		• Jeśli po raz pierwszy grasz jako Bolek, staraj się maksymalnie upodobnić do Ministrów.
+		Forsuj lustracyjne ustawy. Głosuj za ich rządami. Zaufaj swoim kolegom TW –  to oni mają ci stworzyć możliwości do
+		wykorzystania antylustracyjnych ustaw i wzmocnienia działalności TW. TW wygrywają, subtelnie manipulując grą i
+		czekając na sprzyjające okoliczności, w których uda się przepchnąć antylustracyjne ustawy,
+		a nie otwarcie głosząc, ku czemu zmierzają.<br>
+		• Ministrom często opłaca się spowolnić grę, omawiając dostępne informacje.
+		TW często opłaca się naciskać na jak najszybsze głosowanie i wywoływać zamieszanie.<br>
+		• TW najczęściej wygrywają, wybierając Bolka, a nie wprowadzając w życie sześć swoich ustaw!
+		Wybór „Bolka” nie jest opcjonalnym ani drugorzędnym warunkiem zwycięstwa; to fundament skutecznej strategii TW.
+		Bolek zawsze powinien udawać Ministra  i na ogół nie kłamać ani nie wdawać się w spory z innymi graczami.
+		Kiedy nadejdzie właściwy moment, będzie potrzebował zaufania Ministrów, by zdobyć ich poparcie.
+		Nawet jeśli ostatecznie nie zostanie wybrany,
+		nieufność zasiana wśród Ministrów będzie kluczowa dla zwycięstwa wyborczego TW w późniejszej fazie gry.<br>
+		• Warto pytać innych graczy, dlaczego postąpili tak, a nie inaczej.
+		Jest to szczególnie ważne w przypadku uprawnień prezydenckich – najlepiej wręcz z góry pytać,
+		którego gracza kandydat zamierza poddać badaniu lojalności, mianować premierem lub dokonać lustracji.<br>
+		• Jeśli wejdzie w życie antylustracyjna ustawa, winę za to ponosi albo prezydent,
+		albo premier, albo układ kart w talii. Warto spróbować ustalić, kto lub co do tego doprowadziło.<br>
+	]]></string>
+</resources>

@@ -53,7 +53,8 @@
 				app:layout_constraintHorizontal_chainStyle="spread"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
-				app:srcCompat="@drawable/act_antilustration" />
+				app:srcCompat="@drawable/act_antilustration"
+				tools:ignore="ContentDescription"/>
 			
 			<TextView
 				android:id="@+id/text_current_act_1"
@@ -92,7 +93,8 @@
 				app:layout_constraintHorizontal_chainStyle="spread"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
-				app:srcCompat="@drawable/act_antilustration" />
+				app:srcCompat="@drawable/act_antilustration"
+				tools:ignore="ContentDescription"/>
 			
 			<TextView
 				android:id="@+id/text_current_act_2"
@@ -131,7 +133,8 @@
 				app:layout_constraintHorizontal_chainStyle="spread"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
-				app:srcCompat="@drawable/act_antilustration" />
+				app:srcCompat="@drawable/act_antilustration"
+				tools:ignore="ContentDescription"/>
 			
 			<TextView
 				android:id="@+id/text_current_act_3"
@@ -162,7 +165,7 @@
 			app:layout_constraintBottom_toTopOf="@+id/button_choose_acts_veto"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/barrier_acts"
+			app:layout_constraintTop_toBottomOf="@id/panel_current_act_2"
 			app:layout_constraintVertical_bias="0.0" />
 		
 		<Button
@@ -195,13 +198,6 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/button_choose_acts_done" />
-		
-		<android.support.constraint.Barrier
-			android:id="@+id/barrier_acts"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			app:barrierDirection="bottom"
-			app:constraint_referenced_ids="panel_current_act_1,panel_current_act_2,panel_current_act_3" />
 	
 	</android.support.constraint.ConstraintLayout>
 

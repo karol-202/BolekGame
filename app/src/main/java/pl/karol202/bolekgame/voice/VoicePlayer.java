@@ -27,7 +27,7 @@ class VoicePlayer implements Runnable
 	
 	private boolean run;
 	private ByteBuffer temporaryBuffer;
-	private byte[] buffer;
+	private short[] buffer;
 	
 	VoicePlayer(DatagramChannel channel)
 	{
@@ -36,7 +36,7 @@ class VoicePlayer implements Runnable
 		//userBuffers = new HashMap<>();
 		
 		temporaryBuffer = ByteBuffer.allocate(VoiceRecorder.BUFFER_SIZE_BYTES);
-		buffer = new byte[VoiceRecorder.BUFFER_SIZE_BYTES];
+		buffer = new short[VoiceRecorder.BUFFER_SIZE_SHORTS];
 	}
 	
 	@Override
@@ -68,7 +68,7 @@ class VoicePlayer implements Runnable
 	
 	private void createAudioTrack()
 	{
-		int bufferSize = 4 * AudioTrack.getMinBufferSize(VoiceRecorder.SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_8BIT);
+		int bufferSize = 5 * AudioTrack.getMinBufferSize(VoiceRecorder.SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT);
 		System.out.println("Buffer: " + bufferSize);
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) createAudioTrackLollipop(bufferSize);
 		else createAudioTrackOlder(bufferSize);
@@ -87,7 +87,7 @@ class VoicePlayer implements Runnable
 		
 		AudioFormat.Builder afBuilder = new AudioFormat.Builder();
 		afBuilder.setSampleRate(VoiceRecorder.SAMPLE_RATE);
-		afBuilder.setEncoding(AudioFormat.ENCODING_PCM_8BIT);
+		afBuilder.setEncoding(AudioFormat.ENCODING_PCM_16BIT);
 		afBuilder.setChannelMask(AudioFormat.CHANNEL_OUT_MONO);
 		AudioFormat audioFormat = afBuilder.build();
 		
@@ -97,7 +97,7 @@ class VoicePlayer implements Runnable
 	private void createAudioTrackOlder(int bufferSize)
 	{
 		audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, VoiceRecorder.SAMPLE_RATE, AudioFormat.CHANNEL_OUT_MONO,
-				AudioFormat.ENCODING_PCM_8BIT, bufferSize, AudioTrack.MODE_STREAM);
+				AudioFormat.ENCODING_PCM_16BIT, bufferSize, AudioTrack.MODE_STREAM);
 	}
 	
 	private void doWork() throws InterruptedException, IOException
@@ -129,9 +129,17 @@ class VoicePlayer implements Runnable
 		SocketAddress address;
 		while((address = channel.receive(temporaryBuffer)) != null)
 		{
+			temporaryBuffer.flip();
+			
 			//RemoteUser user = findUser(address);
 			//receiveUserSamples(user, temporaryBuffer);
-			buffer = temporaryBuffer.array();
+			for(int i = 0; i < temporaryBuffer.limit() / 2; i++)
+			{
+				byte low = temporaryBuffer.get();
+				byte high = temporaryBuffer.get();
+				short sample = (short) (high << 8 | low);
+				buffer[i] = sample;
+			}
 			temporaryBuffer.clear();
 		}
 	}
@@ -186,7 +194,7 @@ class VoicePlayer implements Runnable
 	{
 		//System.out.println("before: " + (System.currentTimeMillis() - time));
 		//time = System.currentTimeMillis();
-		audioTrack.write(buffer, 0, VoiceRecorder.BUFFER_SIZE_BYTES);
+		audioTrack.write(buffer, 0, VoiceRecorder.BUFFER_SIZE_SHORTS);
 		//System.out.println("after: " + (System.currentTimeMillis() - time));
 		//time = System.currentTimeMillis();
 	}

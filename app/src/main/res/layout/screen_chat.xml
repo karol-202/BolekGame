@@ -48,7 +48,8 @@
 		android:inputType="text"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toStartOf="@+id/button_text_chat_send"
-		app:layout_constraintStart_toStartOf="parent" />
+		app:layout_constraintStart_toStartOf="parent"
+		android:hint="@string/acc_text_chat_hint_message"/>
 	
 	<android.support.v7.widget.AppCompatImageButton
 		android:id="@+id/button_text_chat_send"
@@ -58,6 +59,7 @@
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toTopOf="@+id/editText_chat"
 		app:srcCompat="@drawable/ic_send_black_24dp"
-		app:tint="@drawable/icon_tint" />
+		app:tint="@drawable/icon_tint"
+		android:contentDescription="@string/acc_text_chat_send"/>
 
 </android.support.constraint.ConstraintLayout>
