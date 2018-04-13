@@ -86,7 +86,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	{
 		GameData gameData = GameData.getGameData();
 		if(gameData != null && gameData.getClient() != null)
-			gameLogic = new GameLogic(gameData.getClient(), gameData.getUsers(), gameData.getTextChat(), gameData.getServerCode());
+			gameLogic = new GameLogic(gameData.getClient(), gameData.getUsers(), gameData.getTextChat(), gameData.getServerCode(), gameData.getImagesCode());
 	}
 	
 	@SuppressWarnings("unchecked")

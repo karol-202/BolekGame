@@ -32,6 +32,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private Players players;
 	private TextChat textChat;
 	private int serverCode;
+	private int imagesCode;
 	
 	private Role role;
 	private boolean ignoreGameExit;
@@ -45,7 +46,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private String lustratedPlayerName;
 	private boolean gameEnd;
 	
-	GameLogic(Client client, Users users, TextChat textChat, int serverCode)
+	GameLogic(Client client, Users users, TextChat textChat, int serverCode, int imagesCode)
 	{
 		super(client);
 		
@@ -71,6 +72,7 @@ public class GameLogic extends Logic<ActivityGame>
 		this.textChat = textChat;
 		
 		this.serverCode = serverCode;
+		this.imagesCode = imagesCode;
 	}
 	
 	void startVoiceCommunication(VoiceService voiceService)

@@ -30,7 +30,7 @@ public class ClientListenerAdapter implements ClientListener
 	public void onMessage(String sender, String message, boolean newMessage) { }
 	
 	@Override
-	public void onGameStart(List<String> players) { }
+	public void onGameStart(List<String> players, int imagesCode) { }
 	
 	@Override
 	public void onRoleAssigned(Role role) { }

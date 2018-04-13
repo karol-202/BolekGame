@@ -22,7 +22,7 @@ public interface ClientListener
 	
 	void onMessage(String sender, String message, boolean newMessage);
 	
-	void onGameStart(List<String> players);
+	void onGameStart(List<String> players, int imagesCode);
 	
 	void onRoleAssigned(Role role);
 	

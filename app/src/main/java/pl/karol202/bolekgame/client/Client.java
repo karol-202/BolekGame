@@ -17,7 +17,7 @@ import java.util.Queue;
 
 public class Client
 {
-	public static final int API_VERSION = 3;
+	public static final int API_VERSION = 4;
 	
 	private static final int PORT = 60606;
 	private static final int TIMEOUT = 5000;
@@ -167,16 +167,16 @@ public class Client
 	public synchronized void setClientListener(ClientListener listener)
 	{
 		this.clientListener = listener;
-		if(listener == null) suspendPacketExcecution();
-		else resumePacketExcecution();
+		if(listener == null) suspendPacketExecution();
+		else resumePacketExecution();
 	}
 	
-	private void suspendPacketExcecution()
+	private void suspendPacketExecution()
 	{
 		suspendPacketExecution = true;
 	}
 	
-	private void resumePacketExcecution()
+	private void resumePacketExecution()
 	{
 		suspendPacketExecution = false;
 		while(!packetBuffer.isEmpty()) executePacket(packetBuffer.poll());

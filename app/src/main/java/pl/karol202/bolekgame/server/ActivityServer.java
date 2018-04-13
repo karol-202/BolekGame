@@ -349,10 +349,14 @@ public class ActivityServer extends PermissionGrantingActivity
 		Snackbar.make(coordinatorLayout, R.string.message_error, Snackbar.LENGTH_LONG).show();
 	}
 	
-	void onGameStart()
+	void onGameStart(int imagesCode)
 	{
 		serverLogic.suspend();
-		GameData.setGameData(serverLogic.createGameData());
+		
+		GameData data = serverLogic.createGameData();
+		data.setImagesCode(imagesCode);
+		GameData.setGameData(data);
+		
 		Intent intent = new Intent(this, ActivityGame.class);
 		startActivity(intent);
 	}
