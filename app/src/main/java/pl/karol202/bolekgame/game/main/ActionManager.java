@@ -1,6 +1,7 @@
 package pl.karol202.bolekgame.game.main;
 
 import android.content.Context;
+import pl.karol202.bolekgame.game.ImagesSet;
 import pl.karol202.bolekgame.game.main.actions.Action;
 import pl.karol202.bolekgame.game.main.actions.CancellableAction;
 import pl.karol202.bolekgame.game.main.actions.UpdatingAction;
@@ -23,12 +24,16 @@ public class ActionManager implements ContextSupplier
 	}
 	
 	private Context context;
+	private ImagesSet imagesSet;
+	
 	private List<Action> actions;
 	private List<OnActionsUpdateListener> actionsUpdateListeners;
 	private Action lastAction;
 	
-	public ActionManager()
+	public ActionManager(ImagesSet imagesSet)
 	{
+		this.imagesSet = imagesSet;
+		
 		actions = new ArrayList<>();
 		actionsUpdateListeners = new ArrayList<>();
 	}
@@ -83,12 +88,6 @@ public class ActionManager implements ContextSupplier
 	}
 	
 	@Override
-	public String getString(int resId, Object... formatArgs)
-	{
-		return context.getString(resId, formatArgs);
-	}
-	
-	@Override
 	public Context getContext()
 	{
 		return context;
@@ -97,5 +96,17 @@ public class ActionManager implements ContextSupplier
 	public void setContext(Context context)
 	{
 		this.context = context;
+	}
+	
+	@Override
+	public String getString(int resId, Object... formatArgs)
+	{
+		return context.getString(resId, formatArgs);
+	}
+	
+	@Override
+	public ImagesSet getImagesSet()
+	{
+		return imagesSet;
 	}
 }

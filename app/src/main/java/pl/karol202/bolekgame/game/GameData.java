@@ -11,7 +11,7 @@ public class GameData extends ServerData
 	
 	private Users users;
 	private TextChat textChat;
-	private int imagesCode;
+	private byte[] imagesCode;
 	
 	public GameData(Client client, Users users, TextChat textChat, String serverName, int serverCode)
 	{
@@ -48,12 +48,12 @@ public class GameData extends ServerData
 		return textChat;
 	}
 	
-	public int getImagesCode()
+	public byte[] getImagesCode()
 	{
 		return imagesCode;
 	}
 	
-	public void setImagesCode(int imagesCode)
+	public void setImagesCode(byte[] imagesCode)
 	{
 		this.imagesCode = imagesCode;
 	}

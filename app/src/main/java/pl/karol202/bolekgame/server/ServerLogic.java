@@ -145,7 +145,7 @@ class ServerLogic extends Logic<ActivityServer>
 	}
 	
 	@Override
-	public void onGameStart(List<String> players, int imagesCode)
+	public void onGameStart(List<String> players, byte[] imagesCode)
 	{
 		runInUIThread(() -> activity.onGameStart(imagesCode));
 		suspendClient();

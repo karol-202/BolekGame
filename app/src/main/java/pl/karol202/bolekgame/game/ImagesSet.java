@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import pl.karol202.bolekgame.game.gameplay.Role;
 
 import javax.crypto.Cipher;
@@ -14,46 +16,61 @@ import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
 
-class ImagesSet
+public class ImagesSet
 {
 	private Map<Role, Bitmap> rolesImages;
 	
-	ImagesSet(Context context, int imagesCode)
+	ImagesSet(Context context, byte[] imagesCode)
 	{
 		rolesImages = new HashMap<>();
-		
-		Key key = new SecretKeySpec(intToBytes(imagesCode), "AES");
-		
-		for(Role role : Role.values())
-		{
-			Bitmap source = BitmapFactory.decodeResource(context.getResources(), role.getImage());
-			rolesImages.put(role, decodeBitmap(source, key));
-		}
+		if(imagesCode.length == 0) return;
+		tryToDecode(context, imagesCode);
 	}
 	
-	private byte[] intToBytes(int value)
-	{
-		byte[] bytes = new byte[4];
-		bytes[0] = (byte) (value & 0xFF);
-		bytes[1] = (byte) ((value >> 8) & 0xFF);
-		bytes[2] = (byte) ((value >> 16) & 0xFF);
-		bytes[3] = (byte) ((value >> 24) & 0xFF);
-		return bytes;
-	}
-	
-	private Bitmap decodeBitmap(Bitmap source, Key key)
+	private void tryToDecode(Context context, byte[] code)
 	{
 		try
 		{
-			byte[] bytes = convertBitmapToBytes(source);
-			bytes = decryptBytes(bytes, key);
-			return createBitmapFromBytes(bytes, source.getWidth(), source.getHeight(), source.getConfig());
+			Key key = new SecretKeySpec(code, "AES");
+			for(Role role : Role.values())
+			{
+				
+				Bitmap source = loadBitmap(context, role.getImage());
+				if(source == null) break;
+				rolesImages.put(role, decodeBitmap(source, key));
+			}
 		}
-		catch(GeneralSecurityException ex)
+		catch(GeneralSecurityException e)
 		{
-			ex.printStackTrace();
-			return null;
+			e.printStackTrace();
 		}
+	}
+	
+	private Bitmap loadBitmap(Context context, int id)
+	{
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) return loadBitmapKitkat(context, id);
+		else return null;
+	}
+	
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
+	private Bitmap loadBitmapKitkat(Context context, int id)
+	{
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inPremultiplied = false;
+		return BitmapFactory.decodeResource(context.getResources(), id, options);
+	}
+	
+	private Bitmap decodeBitmap(Bitmap source, Key key) throws GeneralSecurityException
+	{
+		byte[] loadedBytes = convertBitmapToBytes(source);
+		int encryptedLength = getIntFromBytes(loadedBytes, loadedBytes.length - 12);
+		int width = getIntFromBytes(loadedBytes, loadedBytes.length - 8);
+		int height = getIntFromBytes(loadedBytes, loadedBytes.length - 4);
+		
+		byte[] encrypted = new byte[encryptedLength];
+		System.arraycopy(loadedBytes, 0, encrypted, 0, encryptedLength);
+		byte[] decrypted = decryptBytes(encrypted, key);
+		return createBitmapFromBytes(decrypted, width, height, source.getConfig());
 	}
 	
 	private byte[] convertBitmapToBytes(Bitmap bitmap)
@@ -76,9 +93,20 @@ class ImagesSet
 		Bitmap bitmap = Bitmap.createBitmap(width, height, config);
 		
 		ByteBuffer buffer = ByteBuffer.wrap(bytes);
-		buffer.flip();
+		buffer.rewind();
 		
 		bitmap.copyPixelsFromBuffer(buffer);
 		return bitmap;
+	}
+	
+	private int getIntFromBytes(byte[] bytes, int offset)
+	{
+		ByteBuffer buffer = ByteBuffer.wrap(bytes, offset, 4);
+		return buffer.getInt();
+	}
+	
+	public Bitmap getRoleImage(Role role)
+	{
+		return rolesImages.get(role);
 	}
 }

@@ -9,7 +9,7 @@ import java.util.List;
 public class InputPacketGameStart implements InputPacket
 {
 	private List<String> players;
-	private int imagesCode;
+	private byte[] imagesCode;
 	
 	InputPacketGameStart()
 	{
@@ -19,9 +19,12 @@ public class InputPacketGameStart implements InputPacket
 	@Override
 	public void readData(DataBundle bundle)
 	{
-		int length = bundle.getInt("players", 0);
-		for(int i = 0; i < length; i++) players.add(bundle.getString("player" + i, ""));
-		imagesCode = bundle.getInt("imagesCode", 0);
+		int playersLength = bundle.getInt("players", 0);
+		for(int i = 0; i < playersLength; i++) players.add(bundle.getString("player" + i, ""));
+		int codeLength = bundle.getInt("imagesCodeLength", 0);
+		imagesCode = new byte[codeLength];
+		for(int i = 0; i < codeLength; i++)
+			imagesCode[i] = (byte) bundle.getInt("imagesCode" + i, 0);
 	}
 	
 	@Override

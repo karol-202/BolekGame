@@ -1,8 +1,11 @@
 package pl.karol202.bolekgame.game.main.actions;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import java8.util.function.Function;
 import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.game.ImagesSet;
+import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.main.ContextSupplier;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderLustrationResult;
@@ -62,5 +65,11 @@ public class ActionLustrationResult implements Action
 	public boolean wasPlayerBolek()
 	{
 		return wasBolek;
+	}
+	
+	public Bitmap getBolekImage()
+	{
+		ImagesSet imagesSet = contextSupplier.getImagesSet();
+		return imagesSet.getRoleImage(Role.BOLEK);
 	}
 }
