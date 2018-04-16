@@ -46,7 +46,6 @@ enum InputPacketType
 	YOUARELUSTRATED(InputPacketYouAreLustrated::new),
 	PRESIDENTLUSTRATED(InputPacketPresidentLustrated::new),
 	WIN(InputPacketWin::new),
-	LOSS(InputPacketLoss::new),
 	GAMEEXITED(InputPacketGameExited::new),
 	PLAYERSUPDATED(InputPacketPlayersUpdated::new),
 	TOOFEWPLAYERS(InputPacketTooFewPlayers::new),

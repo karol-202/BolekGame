@@ -90,9 +90,7 @@ public interface ClientListener
 	
 	void onPresidentLustrated(String player, boolean wasBolek);
 	
-	void onWin(WinCause cause);
-	
-	void onLoss(WinCause cause);
+	void onWin(boolean ministers, WinCause cause);
 	
 	void onGameExited();
 	

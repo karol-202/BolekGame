@@ -577,23 +577,12 @@ public class GameLogic extends Logic<ActivityGame>
 	}
 	
 	@Override
-	public void onWin(WinCause cause)
+	public void onWin(boolean ministers, WinCause cause)
 	{
-		runInUIThread(() -> onGameEnd(true, cause));
-	}
-	
-	@Override
-	public void onLoss(WinCause cause)
-	{
-		runInUIThread(() -> onGameEnd(false, cause));
-	}
-	
-	private void onGameEnd(boolean win, WinCause cause)
-	{
-		boolean ministersWin = win && role == Role.MINISTER ||
-							  !win && role != Role.MINISTER;
-		actionManager.addAction(new ActionWin(ministersWin, cause));
-		gameEnd = true;
+		runInUIThread(() -> {
+			actionManager.addAction(new ActionWin(ministers, cause));
+			gameEnd = true;
+		});
 	}
 	
 	@Override

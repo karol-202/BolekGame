@@ -132,10 +132,7 @@ public class ClientListenerAdapter implements ClientListener
 	public void onPresidentLustrated(String player, boolean wasBolek) { }
 	
 	@Override
-	public void onWin(WinCause cause) { }
-	
-	@Override
-	public void onLoss(WinCause cause) { }
+	public void onWin(boolean ministers, WinCause cause) { }
 	
 	@Override
 	public void onGameExited() { }
