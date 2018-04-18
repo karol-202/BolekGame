@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.client;
 
+import com.crashlytics.android.Crashlytics;
 import pl.karol202.bolekgame.client.inputpacket.InputPacket;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketFactory;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketPing;
@@ -89,6 +90,7 @@ public class Client
 		{
 			InputPacket packet = receivePacket();
 			if(packet == null) break;
+			
 			if(packet instanceof InputPacketPing) handlePingPacket();
 			else if(!suspendPacketExecution) executePacket(packet);
 			else packetBuffer.offer(packet);
@@ -99,12 +101,28 @@ public class Client
 	private InputPacket receivePacket() throws IOException
 	{
 		int length = Utils.readInt(inputStream);
-		if(length <= 0) return null;
+		if(length <= 0)
+		{
+			Crashlytics.logException(new CorruptedPacketException("Packet has length lesser than 1."));
+			return null;
+		}
+		
 		byte[] bytes = new byte[length];
 		int bytesRead = inputStream.read(bytes);
-		if(bytesRead != length) return null;
+		if(bytesRead != length)
+		{
+			Crashlytics.logException(new CorruptedPacketException("Packet length mismatch."));
+			return null;
+		}
 		
-		return InputPacketFactory.createPacket(bytes);
+		InputPacket packet = InputPacketFactory.createPacket(bytes);
+		if(packet == null)
+		{
+			Crashlytics.setString("Packet", new String(bytes));
+			Crashlytics.logException(new CorruptedPacketException("Packet is corrupted."));
+			return null;
+		}
+		return packet;
 	}
 	
 	private void handlePingPacket() throws IOException
