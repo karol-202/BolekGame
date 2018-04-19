@@ -163,6 +163,8 @@ public class Client
 		if(!isConnected()) return;
 		try
 		{
+			//Temporary
+			new ClientException("Closing socket(temporary exception)").printStackTrace();
 			socket.close();
 		}
 		catch(IOException e)
