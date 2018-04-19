@@ -103,7 +103,7 @@ public class Client
 		int length = Utils.readInt(inputStream);
 		if(length <= 0)
 		{
-			Crashlytics.logException(new CorruptedPacketException("Packet has length lesser than 1."));
+			Crashlytics.logException(new CorruptedPacketException("Packet has length lesser than 1: " + length));
 			return null;
 		}
 		
@@ -111,7 +111,8 @@ public class Client
 		int bytesRead = inputStream.read(bytes);
 		if(bytesRead != length)
 		{
-			Crashlytics.logException(new CorruptedPacketException("Packet length mismatch."));
+			Crashlytics.setString("Packet", new String(bytes));
+			Crashlytics.logException(new CorruptedPacketException("Packet length mismatch. Expected: " + length + ", received: " + bytesRead));
 			return null;
 		}
 		
