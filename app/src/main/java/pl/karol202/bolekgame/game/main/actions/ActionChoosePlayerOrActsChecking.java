@@ -62,16 +62,16 @@ public class ActionChoosePlayerOrActsChecking implements UpdatingAction, Cancell
 	public void choosePlayerChecking()
 	{
 		if(cancelled) return;
-		chooseListener.onChoose(Choose.PLAYER_CHECKING);
 		chosen = true;
+		if(chooseListener != null) chooseListener.onChoose(Choose.PLAYER_CHECKING);
 		if(updateCallback != null) updateCallback.updateAction();
 	}
 	
 	public void chooseActsChecking()
 	{
 		if(cancelled) return;
-		chooseListener.onChoose(Choose.ACTS_CHECKING);
 		chosen = true;
+		if(chooseListener != null) chooseListener.onChoose(Choose.ACTS_CHECKING);
 		if(updateCallback != null) updateCallback.updateAction();
 	}
 	

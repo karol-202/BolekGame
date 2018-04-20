@@ -13,7 +13,6 @@ import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.main.VotingResult;
 import pl.karol202.bolekgame.game.main.actions.ActionVoteOnPrimeMinister;
-import pl.karol202.bolekgame.game.main.actions.ActionVoteOnPrimeMinister.OnVoteListener;
 import pl.karol202.bolekgame.utils.ItemDivider;
 import pl.karol202.bolekgame.utils.VotesBar;
 
@@ -61,9 +60,9 @@ public class ActionViewHolderVoteOnPrimeMinister extends ActionViewHolder<Action
 		void bind(ActionVoteOnPrimeMinister action)
 		{
 			textVoting.setText(context.getString(R.string.action_vote_on_prime_minister, action.getPrimeMinisterName()));
-			buttonVoteYes.setOnClickListener(v -> listener.onVote(true));
+			buttonVoteYes.setOnClickListener(v -> action.vote(true));
 			buttonVoteYes.setEnabled(!action.isVoted() && !action.isCancelled());
-			buttonVoteNo.setOnClickListener(v -> listener.onVote(false));
+			buttonVoteNo.setOnClickListener(v -> action.vote(false));
 			buttonVoteNo.setEnabled(!action.isVoted() && !action.isCancelled());
 			textYourVote.setVisibility(action.isVoted() ? View.VISIBLE : View.GONE);
 			textYourVote.setText(action.getVote() ? R.string.text_your_vote_yes : R.string.text_your_vote_no);
@@ -123,7 +122,6 @@ public class ActionViewHolderVoteOnPrimeMinister extends ActionViewHolder<Action
 	private State stateResult;
 	
 	private ActionVoteOnPrimeMinister action;
-	private OnVoteListener listener;
 	private State currentState;
 	
 	public ActionViewHolderVoteOnPrimeMinister(View view, Context context)
@@ -155,7 +153,6 @@ public class ActionViewHolderVoteOnPrimeMinister extends ActionViewHolder<Action
 	private void bindNewAction(ActionVoteOnPrimeMinister action)
 	{
 		this.action = action;
-		this.listener = action.getOnVoteListener();
 		
 		currentState = action.isVotingEnded() ? stateResult : stateVoting;
 		Scene currentScene = currentState.getScene();

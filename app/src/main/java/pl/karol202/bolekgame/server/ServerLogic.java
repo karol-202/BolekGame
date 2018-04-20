@@ -5,6 +5,7 @@ import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogout;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
+import pl.karol202.bolekgame.client.outputpacket.OutputPacketSpectate;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.utils.Logic;
 import pl.karol202.bolekgame.utils.TextChat;
@@ -66,6 +67,11 @@ class ServerLogic extends Logic<ActivityServer>
 	void setReady()
 	{
 		sendPacket(new OutputPacketReady());
+	}
+	
+	void spectate()
+	{
+		sendPacket(new OutputPacketSpectate());
 	}
 	
 	void sendMessage(String message)
@@ -147,13 +153,23 @@ class ServerLogic extends Logic<ActivityServer>
 	@Override
 	public void onGameStart(List<String> players, byte[] imagesCode)
 	{
-		runInUIThread(() -> activity.onGameStart(imagesCode));
 		suspendClient();
+		runInUIThread(() -> activity.onGameStart(imagesCode));
+	}
+	
+	@Override
+	public void onSpectatingStart(byte[] imagesCode)
+	{
+		suspendClient();
+		runInUIThread(() -> activity.onSpectatingStart(imagesCode));
 	}
 	
 	GameData createGameData()
 	{
-		return new GameData(client, users, textChat, serverName, serverCode);
+		GameData data = new GameData(client, serverName, serverCode);
+		data.setUsers(users);
+		data.setTextChat(textChat);
+		return data;
 	}
 	
 	boolean isConnected()

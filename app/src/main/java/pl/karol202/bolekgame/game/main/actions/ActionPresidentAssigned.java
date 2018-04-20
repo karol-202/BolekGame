@@ -14,18 +14,15 @@ public class ActionPresidentAssigned extends SimpleAction
 			if(amIPresident) text = contextSupplier.getString(R.string.action_president_chosen_president_you);
 			else text = contextSupplier.getString(R.string.action_president_chosen_presiednt, president);
 		}
+		else if(again)
+		{
+			if(amIPresident) text = contextSupplier.getString(R.string.action_president_assigned_again_you);
+			else text = contextSupplier.getString(R.string.action_president_assigned_again, president);
+		}
 		else
 		{
-			if(amIPresident)
-			{
-				if(again) text = contextSupplier.getString(R.string.action_president_assigned_again_you);
-				else text = contextSupplier.getString(R.string.action_president_assigned_you);
-			}
-			else
-			{
-				if(again) text = contextSupplier.getString(R.string.action_president_assigned_again, president);
-				else text = contextSupplier.getString(R.string.action_president_assigned, president);
-			}
+			if(amIPresident) text = contextSupplier.getString(R.string.action_president_assigned_you);
+			else text = contextSupplier.getString(R.string.action_president_assigned, president);
 		}
 	}
 	

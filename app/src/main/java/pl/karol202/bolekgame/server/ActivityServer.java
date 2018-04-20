@@ -33,6 +33,21 @@ import pl.karol202.bolekgame.utils.*;
 
 public class ActivityServer extends PermissionGrantingActivity
 {
+	private class UserListenerImpl implements UsersAdapter.UserListener
+	{
+		@Override
+		public void onUserReady()
+		{
+			serverLogic.setReady();
+		}
+		
+		@Override
+		public void onUserSpectate()
+		{
+			serverLogic.spectate();
+		}
+	}
+	
 	private static final String TAG_FRAGMENT_RETAIN = "TAG_FRAG_RETAIN";
 	
 	private View coordinatorLayout;
@@ -68,7 +83,7 @@ public class ActivityServer extends PermissionGrantingActivity
 		restoreRetainFragment();
 		bolekApplication = (BolekApplication) getApplication();
 		
-		usersAdapter = new UsersAdapter(this, serverLogic.getUsers(), () -> serverLogic.isGameInProgress(), () -> serverLogic.setReady());
+		usersAdapter = new UsersAdapter(this, serverLogic.getUsers(), () -> serverLogic.isGameInProgress(), new UserListenerImpl());
 		layoutListener = this::onLayoutUpdate;
 		
 		coordinatorLayout = findViewById(R.id.coordinator_layout);
@@ -354,6 +369,19 @@ public class ActivityServer extends PermissionGrantingActivity
 		serverLogic.suspend();
 		
 		GameData data = serverLogic.createGameData();
+		data.setImagesCode(imagesCode);
+		GameData.setGameData(data);
+		
+		Intent intent = new Intent(this, ActivityGame.class);
+		startActivity(intent);
+	}
+	
+	void onSpectatingStart(byte[] imagesCode)
+	{
+		serverLogic.suspend();
+		
+		GameData data = serverLogic.createGameData();
+		data.setSpectating(true);
 		data.setImagesCode(imagesCode);
 		GameData.setGameData(data);
 		

@@ -27,14 +27,13 @@ import java.util.Map;
 
 public class GameLogic extends Logic<ActivityGame>
 {
+	private boolean spectating;
 	private ActionManager actionManager;
 	private Acts acts;
 	private Players players;
 	private TextChat textChat;
 	private int serverCode;
-	private ImagesSet imagesSet;
 	
-	private Role role;
 	private boolean ignoreGameExit;
 	private Player primeMinisterCandidate;
 	private ActionVoteOnPrimeMinister votingAction;
@@ -46,9 +45,10 @@ public class GameLogic extends Logic<ActivityGame>
 	private String lustratedPlayerName;
 	private boolean gameEnd;
 	
-	GameLogic(Client client, Users users, TextChat textChat, int serverCode, ImagesSet imagesSet)
+	GameLogic(Client client, boolean spectating, Users users, TextChat textChat, int serverCode, ImagesSet imagesSet)
 	{
 		super(client);
+		this.spectating = spectating;
 		
 		this.actionManager = new ActionManager(imagesSet);
 		
@@ -102,7 +102,6 @@ public class GameLogic extends Logic<ActivityGame>
 	private void voteOnPrimeMinister(boolean vote)
 	{
 		sendPacket(new OutputPacketPrimeMinisterVote(vote));
-		votingAction.onVote(vote);
 	}
 	
 	private void dismissActByPresident(Act act)
@@ -227,7 +226,6 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onRoleAssigned(Role role)
 	{
 		runInUIThread(() -> {
-			this.role = role;
 			actionManager.addAction(new ActionRoleAssigned(actionManager, role));
 			activity.onRoleAssigned(role);
 		});
@@ -314,10 +312,15 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onVotingResult(int upvotes, int totalVotes, boolean passed, List<String> upvoters)
 	{
 		runInUIThread(() -> {
-			if(votingAction == null) return;
 			Map<Player, Boolean> voters = createVotersMap(upvoters);
 			VotingResult votingResult = new VotingResult(passed, upvotes, totalVotes, voters);
-			votingAction.onVotingEnd(votingResult);
+			if(votingAction != null) votingAction.onVotingEnd(votingResult, true);
+			else //Spectating
+			{
+				votingAction = new ActionVoteOnPrimeMinister(actionManager, primeMinisterCandidate, null);
+				votingAction.onVotingEnd(votingResult, false);
+				actionManager.addAction(votingAction);
+			}
 			votingAction = null;
 		});
 	}
@@ -333,7 +336,7 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(() -> {
 			players.setPlayerPositionAndResetRest(primeMinister, Position.PRIME_MINISTER);
 			
-			if(actionManager.getLastAction() instanceof ActionPresidentAssigned) return;
+			if(primeMinister.isEmpty()) return;
 			boolean amIPrimeMinister = primeMinister.equals(players.getLocalPlayerName());
 			actionManager.addAction(new ActionPrimeMinisterAssigned(actionManager, primeMinister, amIPrimeMinister));
 		});
@@ -588,22 +591,22 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onGameExited()
 	{
+		suspendClient();
 		runInUIThread(() -> {
 			if(ignoreGameExit) return;
 			if(!gameEnd) activity.onGameExit();
 			else actionManager.addAction(new ActionEndGame(this::exitActivity));
 		});
-		suspendClient();
 	}
 	
 	@Override
 	public void onTooFewPlayers()
 	{
+		suspendClient();
 		runInUIThread(() -> {
 			activity.onTooFewPlayers();
 			ignoreGameExit = true;
 		});
-		suspendClient();
 	}
 	
 	public ActionManager getActionManager()

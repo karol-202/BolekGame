@@ -26,8 +26,8 @@ class ControlLogic extends Logic<ActivityMain>
 	
 	private void connectAndWait(String host)
 	{
-		if(activity == null) return;
 		boolean result = client.connect(host);
+		if(activity == null) return;
 		if(result)
 		{
 			client.run();

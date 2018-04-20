@@ -142,4 +142,7 @@ public class ClientListenerAdapter implements ClientListener
 	
 	@Override
 	public void onTooFewPlayers() { }
+	
+	@Override
+	public void onSpectatingStart(byte[] imagesCode) { }
 }

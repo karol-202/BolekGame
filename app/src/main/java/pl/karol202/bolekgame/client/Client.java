@@ -101,20 +101,12 @@ public class Client
 	private InputPacket receivePacket() throws IOException
 	{
 		int length = Utils.readInt(inputStream);
-		if(length <= 0)
-		{
-			Crashlytics.logException(new CorruptedPacketException("Packet has length lesser than 1: " + length));
-			return null;
-		}
+		if(length <= 0) return null;
 		
 		byte[] bytes = new byte[length];
-		int bytesRead = inputStream.read(bytes);
-		if(bytesRead != length)
-		{
-			Crashlytics.setString("Packet", new String(bytes));
-			Crashlytics.logException(new CorruptedPacketException("Packet length mismatch. Expected: " + length + ", received: " + bytesRead));
-			return null;
-		}
+		int bytesRead = 0;
+		while(bytesRead != length)
+			bytesRead += inputStream.read(bytes, bytesRead, length - bytesRead);
 		
 		InputPacket packet = InputPacketFactory.createPacket(bytes);
 		if(packet == null)
@@ -163,8 +155,6 @@ public class Client
 		if(!isConnected()) return;
 		try
 		{
-			//Temporary
-			new ClientException("Closing socket(temporary exception)").printStackTrace();
 			socket.close();
 		}
 		catch(IOException e)

@@ -9,15 +9,14 @@ public class GameData extends ServerData
 {
 	private static GameData gameData;
 	
+	private boolean spectating;
 	private Users users;
 	private TextChat textChat;
 	private byte[] imagesCode;
 	
-	public GameData(Client client, Users users, TextChat textChat, String serverName, int serverCode)
+	public GameData(Client client, String serverName, int serverCode)
 	{
 		super(client, serverName, serverCode);
-		this.users = users;
-		this.textChat = textChat;
 	}
 	
 	static GameData getGameData()
@@ -38,14 +37,34 @@ public class GameData extends ServerData
 		return super.getServerCode();
 	}
 	
-	Users getUsers()
+	public boolean isSpectating()
+	{
+		return spectating;
+	}
+	
+	public void setSpectating(boolean spectating)
+	{
+		this.spectating = spectating;
+	}
+	
+	public Users getUsers()
 	{
 		return users;
 	}
 	
-	TextChat getTextChat()
+	public void setUsers(Users users)
+	{
+		this.users = users;
+	}
+	
+	public TextChat getTextChat()
 	{
 		return textChat;
+	}
+	
+	public void setTextChat(TextChat textChat)
+	{
+		this.textChat = textChat;
 	}
 	
 	public byte[] getImagesCode()

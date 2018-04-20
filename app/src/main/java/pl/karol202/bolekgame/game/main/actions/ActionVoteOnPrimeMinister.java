@@ -35,20 +35,6 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction, CancellableAct
 		this.primeMinister = primeMinister;
 	}
 	
-	public void onVote(boolean vote)
-	{
-		if(voted || cancelled) return;
-		this.voted = true;
-		this.vote = vote;
-		updateCallback.updateAction();
-	}
-	
-	public void onVotingEnd(VotingResult votingResult)
-	{
-		this.votingResult = votingResult;
-		updateCallback.updateAction();
-	}
-	
 	@Override
 	public int getViewHolderLayout()
 	{
@@ -79,15 +65,25 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction, CancellableAct
 		return cancelled;
 	}
 	
+	public void vote(boolean vote)
+	{
+		if(voted || cancelled) return;
+		this.voted = true;
+		this.vote = vote;
+		if(voteListener != null) voteListener.onVote(vote);
+		if(updateCallback != null) updateCallback.updateAction();
+	}
+	
+	public void onVotingEnd(VotingResult votingResult, boolean update)
+	{
+		this.votingResult = votingResult;
+		if(update && updateCallback != null) updateCallback.updateAction();
+	}
+	
 	@Override
 	public void setUpdateCallback(ActionUpdateCallback callback)
 	{
 		updateCallback = callback;
-	}
-	
-	public OnVoteListener getOnVoteListener()
-	{
-		return voteListener;
 	}
 	
 	public String getPrimeMinisterName()

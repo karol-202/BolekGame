@@ -97,4 +97,6 @@ public interface ClientListener
 	void onPlayersUpdated(List<String> players);
 	
 	void onTooFewPlayers();
+	
+	void onSpectatingStart(byte[] imagesCode);
 }

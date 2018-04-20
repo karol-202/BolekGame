@@ -87,7 +87,7 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 		GameData gameData = GameData.getGameData();
 		if(gameData == null || gameData.getClient() == null) return;
 		ImagesSet imagesSet = new ImagesSet(this, gameData.getImagesCode());
-		gameLogic = new GameLogic(gameData.getClient(), gameData.getUsers(), gameData.getTextChat(), gameData.getServerCode(), imagesSet);
+		gameLogic = new GameLogic(gameData.getClient(), gameData.isSpectating(), gameData.getUsers(), gameData.getTextChat(), gameData.getServerCode(), imagesSet);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -21,9 +21,11 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		boolean isGameInProgress();
 	}
 	
-	interface OnUserReadyListener
+	interface UserListener
 	{
 		void onUserReady();
+		
+		void onUserSpectate();
 	}
 	
 	abstract class ViewHolder extends RecyclerView.ViewHolder
@@ -39,6 +41,7 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private ConstraintLayout view;
 		private TextView textUserName;
 		private Button buttonUserReady;
+		private Button buttonUserSpectate;
 		private ImageButton buttonUserSettings;
 		private UserSettingsWindow settingsWindow;
 		
@@ -54,6 +57,9 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 			buttonUserReady = view.findViewById(R.id.button_user_ready);
 			buttonUserReady.setOnClickListener(v -> onReadyButtonClick());
 			
+			buttonUserSpectate = view.findViewById(R.id.button_user_spectate);
+			buttonUserSpectate.setOnClickListener(v -> onSpectateButtonClick());
+			
 			buttonUserSettings = view.findViewById(R.id.button_user_settings);
 			buttonUserSettings.setOnClickListener(v -> showSettingsWindow(settingsWindow, buttonUserSettings));
 			
@@ -63,8 +69,14 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private void onReadyButtonClick()
 		{
 			if(!(user instanceof LocalUser)) return;
-			userReadyListener.onUserReady();
+			userListener.onUserReady();
 			onUsersUpdate();
+		}
+		
+		private void onSpectateButtonClick()
+		{
+			if(!(user instanceof LocalUser)) return;
+			userListener.onUserSpectate();
 		}
 		
 		void bind(User user)
@@ -91,14 +103,25 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private void updateViews()
 		{
 			view.setBackgroundResource(user.isReady() ? R.drawable.background_item_checked : R.drawable.background_item);
-			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE: View.GONE);
-			buttonUserSettings.setVisibility(Settings.isVoiceChatEnabled(context) && user instanceof RemoteUser ? View.VISIBLE : View.GONE);
+			buttonUserReady.setVisibility(canBeMadeReady() ? View.VISIBLE : View.GONE);
+			buttonUserSpectate.setVisibility(canSpectate() ? View.VISIBLE : View.GONE);
+			buttonUserSettings.setVisibility(areSettingsAvailable() ? View.VISIBLE : View.GONE);
 		}
 		
 		private boolean canBeMadeReady()
 		{
 			return user instanceof LocalUser && !serverStatusSupplier.isGameInProgress() && users.areThereEnoughUsers() &&
 				   !user.isReady();
+		}
+		
+		private boolean canSpectate()
+		{
+			return user instanceof LocalUser && serverStatusSupplier.isGameInProgress();
+		}
+		
+		private boolean areSettingsAvailable()
+		{
+			return user instanceof RemoteUser && Settings.isVoiceChatEnabled(context);
 		}
 	}
 	
@@ -129,15 +152,15 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 	private Context context;
 	private Users users;
 	private ServerStatusSupplier serverStatusSupplier;
-	private OnUserReadyListener userReadyListener;
+	private UserListener userListener;
 	private UserSettingsWindow currentSettingsWindow;
 	
-	UsersAdapter(Context context, Users users, ServerStatusSupplier serverStatusSupplier, OnUserReadyListener userReadyListener)
+	UsersAdapter(Context context, Users users, ServerStatusSupplier serverStatusSupplier, UserListener userListener)
 	{
 		this.context = context;
 		this.users = users;
 		this.serverStatusSupplier = serverStatusSupplier;
-		this.userReadyListener = userReadyListener;
+		this.userListener = userListener;
 		users.addOnUsersUpdateListener(this);
 	}
 	

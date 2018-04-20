@@ -11,6 +11,7 @@
 	<string name="button_create_server_apply">Stwórz grę</string>
 	<string name="button_join_server_apply">Dołącz do gry</string>
 	<string name="button_user_ready">Jestem gotowy</string>
+	<string name="button_user_spectate">Oglądaj grę</string>
 	<string name="button_ok">OK</string>
 	<string name="button_leave">Wyjdź</string>
 	<string name="button_remain">Zostań</string>
