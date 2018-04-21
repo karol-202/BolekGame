@@ -1,14 +1,17 @@
 package pl.karol202.bolekgame.utils;
 
 import android.app.Activity;
+import java8.util.function.Consumer;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.ClientListenerAdapter;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacket;
 
 public abstract class Logic<A extends Activity> extends ClientListenerAdapter
 {
-	protected A activity;
-	protected Client client;
+	private final Object activityLock = new Object();
+	
+	private A activity;
+	private Client client;
 	
 	protected Logic(Client client)
 	{
@@ -49,6 +52,34 @@ public abstract class Logic<A extends Activity> extends ClientListenerAdapter
 	
 	protected void setActivity(A activity)
 	{
-		this.activity = activity;
+		synchronized(activityLock)
+		{
+			this.activity = activity;
+		}
+	}
+	
+	protected void executeOnActivity(Consumer<A> action)
+	{
+		synchronized(activityLock)
+		{
+			if(activity == null) return;
+			action.accept(activity);
+		}
+	}
+	
+	protected void executeOnActivityInUIThread(Consumer<A> action)
+	{
+		runInUIThread(() -> {
+			synchronized(activityLock)
+			{
+				if(activity == null) return;
+				action.accept(activity);
+			}
+		});
+	}
+	
+	protected Client getClient()
+	{
+		return client;
 	}
 }

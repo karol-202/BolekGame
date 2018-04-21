@@ -10,13 +10,14 @@
 	android:layout_marginTop="6dp"
 	app:cardCornerRadius="4dp">
 	
-	<android.support.constraint.ConstraintLayout
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
 		
 		<TextView
 			android:id="@+id/text_choose_player_or_acts_checking"
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginEnd="8dp"
 			android:layout_marginStart="8dp"
@@ -25,30 +26,24 @@
 			android:layout_marginTop="8dp"
 			android:text="@string/action_choose_player_or_acts_checking"
 			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="@color/text_primary"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
+			android:textColor="@color/text_primary" />
 		
 		<Button
 			android:id="@+id/button_choose_player_checking"
 			style="@style/ButtonAccent"
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 			android:layout_height="40dp"
 			android:layout_marginEnd="8dp"
 			android:layout_marginStart="8dp"
 			android:layout_marginLeft="8dp"
 			android:layout_marginRight="8dp"
 			android:layout_marginTop="16dp"
-			android:text="@string/button_choose_player_checking"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/text_choose_player_or_acts_checking" />
+			android:text="@string/button_choose_player_checking" />
 		
 		<Button
 			android:id="@+id/button_choose_acts_checking"
 			style="@style/ButtonAccent"
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 			android:layout_height="40dp"
 			android:layout_marginBottom="16dp"
 			android:layout_marginEnd="8dp"
@@ -57,10 +52,7 @@
 			android:layout_marginRight="8dp"
 			android:layout_marginTop="16dp"
 			android:text="@string/button_choose_acts_checking"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/button_choose_player_checking" />
-	</android.support.constraint.ConstraintLayout>
+			app:layout_constraintBottom_toBottomOf="parent" />
+	</LinearLayout>
 
 </android.support.v7.widget.CardView>

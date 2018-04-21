@@ -10,13 +10,14 @@
 	android:layout_marginTop="6dp"
 	app:cardCornerRadius="4dp">
 	
-	<android.support.constraint.ConstraintLayout
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
 		
 		<TextView
 			android:id="@+id/text_action_veto_request"
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginEnd="8dp"
 			android:layout_marginStart="8dp"
@@ -25,61 +26,54 @@
 			android:layout_marginTop="8dp"
 			android:text="@string/action_veto_request"
 			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="@color/text_primary"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
+			android:textColor="@color/text_primary" />
 		
-		<Button
-			android:id="@+id/button_veto_accept"
-			style="@style/ButtonAccent"
-			android:layout_width="0dp"
-			android:layout_height="40dp"
-			android:layout_marginBottom="8dp"
-			android:layout_marginEnd="8dp"
-			android:layout_marginStart="16dp"
-			android:layout_marginTop="8dp"
-			android:text="@string/button_veto_accept"
-			app:layout_constraintBottom_toTopOf="@+id/text_action_veto_request_decision"
-			app:layout_constraintEnd_toStartOf="@+id/button_veto_reject"
-			app:layout_constraintHorizontal_bias="0.5"
-			app:layout_constraintHorizontal_chainStyle="packed"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/text_action_veto_request"
-			android:layout_marginRight="8dp"
-			android:layout_marginLeft="16dp" />
-		
-		<Button
-			android:id="@+id/button_veto_reject"
-			style="@style/ButtonAccent"
-			android:layout_width="0dp"
-			android:layout_height="40dp"
-			android:layout_marginBottom="8dp"
-			android:layout_marginEnd="16dp"
-			android:layout_marginStart="8dp"
-			android:layout_marginTop="8dp"
-			android:text="@string/button_veto_reject"
-			app:layout_constraintBottom_toTopOf="@+id/text_action_veto_request_decision"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintHorizontal_bias="0.5"
-			app:layout_constraintStart_toEndOf="@+id/button_veto_accept"
-			app:layout_constraintTop_toBottomOf="@+id/text_action_veto_request"
-			android:layout_marginRight="16dp"
-			android:layout_marginLeft="8dp" />
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+			
+			<Button
+				android:id="@+id/button_veto_accept"
+				style="@style/ButtonAccent"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:layout_weight="1"
+				android:layout_marginBottom="8dp"
+				android:layout_marginEnd="8dp"
+				android:layout_marginStart="16dp"
+				android:layout_marginTop="8dp"
+				android:text="@string/button_veto_accept"
+				android:layout_marginRight="8dp"
+				android:layout_marginLeft="16dp" />
+			
+			<Button
+				android:id="@+id/button_veto_reject"
+				style="@style/ButtonAccent"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:layout_weight="1"
+				android:layout_marginBottom="8dp"
+				android:layout_marginEnd="16dp"
+				android:layout_marginStart="8dp"
+				android:layout_marginTop="8dp"
+				android:text="@string/button_veto_reject"
+				android:layout_marginRight="16dp"
+				android:layout_marginLeft="8dp" />
+			
+		</LinearLayout>
 		
 		<TextView
 			android:id="@+id/text_action_veto_request_decision"
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="8dp"
 			android:layout_marginStart="8dp"
 			android:text="@string/text_veto_accepted"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textColor="@color/text_primary"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
 			android:layout_marginLeft="8dp" />
 	
-	</android.support.constraint.ConstraintLayout>
+	</LinearLayout>
 
 </android.support.v7.widget.CardView>

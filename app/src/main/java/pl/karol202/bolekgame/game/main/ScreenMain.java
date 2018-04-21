@@ -29,6 +29,7 @@ public class ScreenMain extends Screen
 		}
 	}
 	
+	private View layoutSpectatorMode;
 	private RecyclerView recyclerActions;
 	
 	private ActionAdapter actionAdapter;
@@ -43,6 +44,8 @@ public class ScreenMain extends Screen
 		View view = inflater.inflate(R.layout.screen_main, container, false);
 		
 		actionAdapter = new ActionAdapter(getActivity());
+		
+		layoutSpectatorMode = view.findViewById(R.id.layout_spectator_mode);
 		
 		recyclerActions = view.findViewById(R.id.recycler_actions);
 		recyclerActions.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -67,6 +70,8 @@ public class ScreenMain extends Screen
 	{
 		super.onStart();
 		actionAdapter.setActionManager(actionManager);
+		
+		layoutSpectatorMode.setVisibility(gameLogic.isSpectating() ? View.VISIBLE : View.GONE);
 	}
 	
 	@Override

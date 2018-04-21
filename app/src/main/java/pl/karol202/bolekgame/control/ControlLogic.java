@@ -26,19 +26,18 @@ class ControlLogic extends Logic<ActivityMain>
 	
 	private void connectAndWait(String host)
 	{
-		boolean result = client.connect(host);
-		if(activity == null) return;
+		boolean result = getClient().connect(host);
 		if(result)
 		{
-			client.run();
-			runInUIThread(activity::onConnect);
+			getClient().run();
+			executeOnActivityInUIThread(ActivityMain::onConnect);
 		}
-		else runInUIThread(activity::onConnectFail);
+		else executeOnActivityInUIThread(ActivityMain::onConnectFail);
 	}
 	
 	boolean isConnected()
 	{
-		return client.isConnected();
+		return getClient().isConnected();
 	}
 	
 	void login(int serverCode, String username)
@@ -59,7 +58,7 @@ class ControlLogic extends Logic<ActivityMain>
 	public void onLoggedIn(String serverName, int serverCode)
 	{
 		interruptTimeout();
-		runInUIThread(() -> activity.onLoggedIn(serverName, serverCode));
+		executeOnActivityInUIThread(a -> a.onLoggedIn(serverName, serverCode));
 		suspendClient();
 		creatingServer = false;
 		loggingIn = false;
@@ -78,35 +77,35 @@ class ControlLogic extends Logic<ActivityMain>
 	private void onServerCreatingFailure(int problem)
 	{
 		if(problem == InputPacketFailure.PROBLEM_SERVER_INVALID_NAME)
-			runInUIThread(activity::onInvalidServerNameError);
+			executeOnActivityInUIThread(ActivityMain::onInvalidServerNameError);
 		else if(problem == InputPacketFailure.PROBLEM_SERVER_TOO_MANY)
-			runInUIThread(activity::onTooManyServersError);
+			executeOnActivityInUIThread(ActivityMain::onTooManyServersError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_INVALID_NAME)
-			runInUIThread(activity::onInvalidUsernameError);
+			executeOnActivityInUIThread(ActivityMain::onInvalidUsernameError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_TOO_MANY)
-			runInUIThread(activity::onTooManyUsersError);
+			executeOnActivityInUIThread(ActivityMain::onTooManyUsersError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_NAME_BUSY)
-			runInUIThread(activity::onUsernameBusyError);
-		else runInUIThread(activity::onCannotCreateServer);
+			executeOnActivityInUIThread(ActivityMain::onUsernameBusyError);
+		else executeOnActivityInUIThread(ActivityMain::onCannotCreateServer);
 	}
 	
 	private void onLoggingFailure(int problem)
 	{
 		if(problem == InputPacketFailure.PROBLEM_SERVER_CODE_INVALID)
-			runInUIThread(activity::onInvalidServerCode);
+			executeOnActivityInUIThread(ActivityMain::onInvalidServerCode);
 		else if(problem == InputPacketFailure.PROBLEM_USER_INVALID_NAME)
-			runInUIThread(activity::onInvalidUsernameError);
+			executeOnActivityInUIThread(ActivityMain::onInvalidUsernameError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_TOO_MANY)
-			runInUIThread(activity::onTooManyUsersError);
+			executeOnActivityInUIThread(ActivityMain::onTooManyUsersError);
 		else if(problem == InputPacketFailure.PROBLEM_USER_NAME_BUSY)
-			runInUIThread(activity::onUsernameBusyError);
-		else runInUIThread(activity::onCannotLogIn);
+			executeOnActivityInUIThread(ActivityMain::onUsernameBusyError);
+		else executeOnActivityInUIThread(ActivityMain::onCannotLogIn);
 	}
 	
 	@Override
 	public void onDisconnect()
 	{
-		runInUIThread(() -> activity.onDisconnect());
+		executeOnActivityInUIThread(ActivityMain::onDisconnect);
 	}
 	
 	private void setLoginTimeout()
@@ -121,8 +120,8 @@ class ControlLogic extends Logic<ActivityMain>
 		loginTimeout = null;
 	}
 	
-	Client getClient()
+	protected Client getClient()
 	{
-		return client;
+		return super.getClient();
 	}
 }

@@ -10,9 +10,10 @@
 	android:layout_marginTop="6dp"
 	app:cardCornerRadius="4dp">
 	
-	<android.support.constraint.ConstraintLayout
+	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
 		
 		<TextView
 			android:id="@+id/text_action_choose_acts"
@@ -25,180 +26,165 @@
 			android:layout_marginTop="8dp"
 			android:text="@string/action_choose_acts_president"
 			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="@color/text_primary"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toTopOf="parent" />
+			android:textColor="@color/text_primary" />
 		
-		<pl.karol202.bolekgame.utils.CheckableLayout
-			android:id="@+id/panel_current_act_1"
-			android:layout_width="wrap_content"
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:background="@drawable/background_item"
-			android:clickable="true"
-			android:focusable="true"
-			app:layout_constraintEnd_toStartOf="@+id/panel_current_act_2"
-			app:layout_constraintHorizontal_bias="0.5"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/text_action_choose_acts">
+			android:orientation="horizontal">
 			
-			<ImageView
-				android:id="@+id/image_current_act_1"
-				android:layout_width="@dimen/act_image_width"
-				android:layout_height="0dp"
-				android:layout_marginTop="8dp"
-				app:layout_constraintDimensionRatio="h,3:4"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_chainStyle="spread"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:srcCompat="@drawable/act_antilustration"
-				tools:ignore="ContentDescription"/>
-			
-			<TextView
-				android:id="@+id/text_current_act_1"
-				android:layout_width="0dp"
+			<pl.karol202.bolekgame.utils.CheckableLayout
+				android:id="@+id/panel_current_act_1"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="8dp"
+				android:layout_weight="1"
 				android:layout_marginTop="8dp"
-				android:gravity="center_horizontal"
-				android:text="@string/act_antilustration"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="@+id/image_current_act_1"
-				app:layout_constraintStart_toStartOf="@+id/image_current_act_1"
-				app:layout_constraintTop_toBottomOf="@+id/image_current_act_1" />
-		</pl.karol202.bolekgame.utils.CheckableLayout>
-		
-		<pl.karol202.bolekgame.utils.CheckableLayout
-			android:id="@+id/panel_current_act_2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:background="@drawable/background_item"
-			android:clickable="true"
-			android:focusable="true"
-			app:layout_constraintEnd_toStartOf="@+id/panel_current_act_3"
-			app:layout_constraintHorizontal_bias="0.5"
-			app:layout_constraintStart_toEndOf="@+id/panel_current_act_1"
-			app:layout_constraintTop_toBottomOf="@+id/text_action_choose_acts">
+				android:background="@drawable/background_item"
+				android:clickable="true"
+				android:focusable="true">
+				
+				<ImageView
+					android:id="@+id/image_current_act_1"
+					android:layout_width="@dimen/act_image_width"
+					android:layout_height="0dp"
+					android:layout_marginTop="8dp"
+					app:layout_constraintDimensionRatio="h,3:4"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintHorizontal_chainStyle="spread"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/act_antilustration"
+					tools:ignore="ContentDescription"/>
+				
+				<TextView
+					android:id="@+id/text_current_act_1"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="8dp"
+					android:layout_marginTop="8dp"
+					android:gravity="center_horizontal"
+					android:text="@string/act_antilustration"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="@+id/image_current_act_1"
+					app:layout_constraintStart_toStartOf="@+id/image_current_act_1"
+					app:layout_constraintTop_toBottomOf="@+id/image_current_act_1" />
+			</pl.karol202.bolekgame.utils.CheckableLayout>
 			
-			<ImageView
-				android:id="@+id/image_current_act_2"
-				android:layout_width="@dimen/act_image_width"
-				android:layout_height="0dp"
-				android:layout_marginTop="8dp"
-				app:layout_constraintDimensionRatio="h,3:4"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_chainStyle="spread"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:srcCompat="@drawable/act_antilustration"
-				tools:ignore="ContentDescription"/>
-			
-			<TextView
-				android:id="@+id/text_current_act_2"
-				android:layout_width="0dp"
+			<pl.karol202.bolekgame.utils.CheckableLayout
+				android:id="@+id/panel_current_act_2"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="8dp"
+				android:layout_weight="1"
 				android:layout_marginTop="8dp"
-				android:gravity="center_horizontal"
-				android:text="@string/act_antilustration"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="@+id/image_current_act_2"
-				app:layout_constraintStart_toStartOf="@+id/image_current_act_2"
-				app:layout_constraintTop_toBottomOf="@+id/image_current_act_2" />
-		</pl.karol202.bolekgame.utils.CheckableLayout>
-		
-		<pl.karol202.bolekgame.utils.CheckableLayout
-			android:id="@+id/panel_current_act_3"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:background="@drawable/background_item"
-			android:clickable="true"
-			android:focusable="true"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintHorizontal_bias="0.5"
-			app:layout_constraintStart_toEndOf="@+id/panel_current_act_2"
-			app:layout_constraintTop_toBottomOf="@+id/text_action_choose_acts">
+				android:background="@drawable/background_item"
+				android:clickable="true"
+				android:focusable="true">
+				
+				<ImageView
+					android:id="@+id/image_current_act_2"
+					android:layout_width="@dimen/act_image_width"
+					android:layout_height="0dp"
+					android:layout_marginTop="8dp"
+					app:layout_constraintDimensionRatio="h,3:4"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintHorizontal_chainStyle="spread"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/act_antilustration"
+					tools:ignore="ContentDescription"/>
+				
+				<TextView
+					android:id="@+id/text_current_act_2"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="8dp"
+					android:layout_marginTop="8dp"
+					android:gravity="center_horizontal"
+					android:text="@string/act_antilustration"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="@+id/image_current_act_2"
+					app:layout_constraintStart_toStartOf="@+id/image_current_act_2"
+					app:layout_constraintTop_toBottomOf="@+id/image_current_act_2" />
+			</pl.karol202.bolekgame.utils.CheckableLayout>
 			
-			<ImageView
-				android:id="@+id/image_current_act_3"
-				android:layout_width="@dimen/act_image_width"
-				android:layout_height="0dp"
-				android:layout_marginTop="8dp"
-				app:layout_constraintDimensionRatio="h,3:4"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintHorizontal_chainStyle="spread"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:srcCompat="@drawable/act_antilustration"
-				tools:ignore="ContentDescription"/>
-			
-			<TextView
-				android:id="@+id/text_current_act_3"
-				android:layout_width="0dp"
+			<pl.karol202.bolekgame.utils.CheckableLayout
+				android:id="@+id/panel_current_act_3"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="8dp"
+				android:layout_weight="1"
 				android:layout_marginTop="8dp"
-				android:gravity="center_horizontal"
-				android:text="@string/act_antilustration"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="@+id/image_current_act_3"
-				app:layout_constraintStart_toStartOf="@+id/image_current_act_3"
-				app:layout_constraintTop_toBottomOf="@+id/image_current_act_3" />
-		</pl.karol202.bolekgame.utils.CheckableLayout>
+				android:background="@drawable/background_item"
+				android:clickable="true"
+				android:focusable="true">
+				
+				<ImageView
+					android:id="@+id/image_current_act_3"
+					android:layout_width="@dimen/act_image_width"
+					android:layout_height="0dp"
+					android:layout_marginTop="8dp"
+					app:layout_constraintDimensionRatio="h,3:4"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintHorizontal_chainStyle="spread"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:srcCompat="@drawable/act_antilustration"
+					tools:ignore="ContentDescription"/>
+				
+				<TextView
+					android:id="@+id/text_current_act_3"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="8dp"
+					android:layout_marginTop="8dp"
+					android:gravity="center_horizontal"
+					android:text="@string/act_antilustration"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="@+id/image_current_act_3"
+					app:layout_constraintStart_toStartOf="@+id/image_current_act_3"
+					app:layout_constraintTop_toBottomOf="@+id/image_current_act_3" />
+			</pl.karol202.bolekgame.utils.CheckableLayout>
+			
+		</LinearLayout>
 		
 		<Button
 			android:id="@+id/button_choose_acts_done"
 			style="@style/ButtonAccent"
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 			android:layout_height="40dp"
-			android:layout_marginBottom="16dp"
+			android:layout_marginBottom="8dp"
 			android:layout_marginEnd="8dp"
 			android:layout_marginLeft="8dp"
 			android:layout_marginRight="8dp"
 			android:layout_marginStart="8dp"
 			android:layout_marginTop="8dp"
-			android:text="@string/button_done"
-			app:layout_constraintBottom_toTopOf="@+id/button_choose_acts_veto"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/panel_current_act_2"
-			app:layout_constraintVertical_bias="0.0" />
+			android:text="@string/button_done" />
 		
-		<Button
-			android:id="@+id/button_choose_acts_veto"
-			style="@style/ButtonAccent"
-			android:layout_width="0dp"
-			android:layout_height="40dp"
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
 			android:layout_marginBottom="8dp"
 			android:layout_marginEnd="8dp"
-			android:layout_marginStart="8dp"
+			android:layout_marginStart="8dp">
 			
-			android:text="@string/button_veto"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintHorizontal_bias="0.0"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_goneMarginBottom="80dp" />
+			<Button
+				android:id="@+id/button_choose_acts_veto"
+				style="@style/ButtonAccent"
+				android:layout_width="match_parent"
+				android:layout_height="40dp"
+				android:layout_marginTop="8dp"
+				android:text="@string/button_veto" />
+			
+			<TextView
+				android:id="@+id/text_choose_acts_veto"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginTop="8dp"
+				android:gravity="center_vertical|center_horizontal"
+				android:text="@string/text_veto_accepted"
+				android:textAllCaps="true"
+				android:textColor="@color/button_accent"
+				android:textStyle="bold" />
 		
-		<TextView
-			android:id="@+id/text_choose_acts_veto"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginBottom="16dp"
-			android:layout_marginTop="16dp"
-			android:text="@string/text_veto_accepted"
-			android:textAllCaps="true"
-			android:textColor="@color/button_accent"
-			android:textStyle="bold"
-			app:layout_constraintBottom_toBottomOf="parent"
-			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@+id/button_choose_acts_done" />
-	
-	</android.support.constraint.ConstraintLayout>
-
+		</FrameLayout>
+	</LinearLayout>
 </android.support.v7.widget.CardView>

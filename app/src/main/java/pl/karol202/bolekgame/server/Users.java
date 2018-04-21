@@ -17,10 +17,9 @@ public class Users
 		void onUsersUpdate();
 	}
 	
-	public static final int MIN_USERS = 2;
-	
 	private List<User> users;
 	private String localUserName;
+	private int minUsers;
 	
 	private List<OnUsersUpdateListener> usersUpdateListeners;
 	
@@ -46,7 +45,7 @@ public class Users
 		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUserRemove(user, userIndex);
 	}
 	
-	public void updateUsersList(List<String> usernames, List<Boolean> readiness, List<String> addresses)
+	public void updateUsers(List<String> usernames, List<Boolean> readiness, List<String> addresses)
 	{
 		List<User> usersToAdd = new ArrayList<>();
 		List<User> usersToRemove = new ArrayList<>();
@@ -80,7 +79,7 @@ public class Users
 			for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUsersUpdate();
 	}
 	
-	void onServerStatusUpdate()
+	void updateUsersList()
 	{
 		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUsersUpdate();
 	}
@@ -107,7 +106,7 @@ public class Users
 	
 	boolean areThereEnoughUsers()
 	{
-		return users.size() >= MIN_USERS;
+		return users.size() >= minUsers;
 	}
 	
 	public String getLocalUserName()
@@ -118,6 +117,16 @@ public class Users
 	public LocalUser getLocalUser()
 	{
 		return (LocalUser) getUsersStream().filter(u -> u instanceof LocalUser).findAny().orElse(null);
+	}
+	
+	public int getMinUsers()
+	{
+		return minUsers;
+	}
+	
+	public void setMinUsers(int minUsers)
+	{
+		this.minUsers = minUsers;
 	}
 	
 	public void addOnUsersUpdateListener(OnUsersUpdateListener listener)

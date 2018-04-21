@@ -76,7 +76,9 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		private void onSpectateButtonClick()
 		{
 			if(!(user instanceof LocalUser)) return;
+			((LocalUser) user).setWaitingForSpectating(true);
 			userListener.onUserSpectate();
+			update();
 		}
 		
 		void bind(User user)
@@ -116,7 +118,8 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		
 		private boolean canSpectate()
 		{
-			return user instanceof LocalUser && serverStatusSupplier.isGameInProgress();
+			return user instanceof LocalUser && serverStatusSupplier.isGameInProgress() &&
+					!((LocalUser) user).isWaitingForSpectating();
 		}
 		
 		private boolean areSettingsAvailable()

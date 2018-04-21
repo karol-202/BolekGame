@@ -118,9 +118,9 @@ public class Client
 		return packet;
 	}
 	
-	private void handlePingPacket() throws IOException
+	private void handlePingPacket()
 	{
-		writePacket(new OutputPacketPong());
+		sendPacket(new OutputPacketPong());
 	}
 	
 	private void executePacket(InputPacket packet)
@@ -128,7 +128,7 @@ public class Client
 		if(clientListener != null) packet.execute(clientListener);
 	}
 	
-	public synchronized void sendPacket(OutputPacket packet)
+	public void sendPacket(OutputPacket packet)
 	{
 		try
 		{
@@ -140,7 +140,7 @@ public class Client
 		}
 	}
 	
-	private void writePacket(OutputPacket packet) throws IOException
+	private synchronized void writePacket(OutputPacket packet) throws IOException
 	{
 		byte[] bytes = OutputPacketEncoder.encodePacket(packet);
 		if(bytes == null || bytes.length == 0 && !isConnected()) return;

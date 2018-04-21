@@ -8,7 +8,6 @@ import pl.karol202.bolekgame.game.main.ContextSupplier;
 import pl.karol202.bolekgame.game.main.VotingResult;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderVoteOnPrimeMinister;
-import pl.karol202.bolekgame.game.players.Player;
 
 public class ActionVoteOnPrimeMinister implements UpdatingAction, CancellableAction
 {
@@ -22,12 +21,12 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction, CancellableAct
 	private OnVoteListener voteListener;
 	
 	private boolean cancelled;
-	private Player primeMinister;
+	private String primeMinister;
 	private boolean voted;
 	private boolean vote;
 	private VotingResult votingResult;
 	
-	public ActionVoteOnPrimeMinister(ContextSupplier contextSupplier, Player primeMinister, OnVoteListener voteListener)
+	public ActionVoteOnPrimeMinister(ContextSupplier contextSupplier, String primeMinister, OnVoteListener voteListener)
 	{
 		this.contextSupplier = contextSupplier;
 		this.voteListener = voteListener;
@@ -88,7 +87,7 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction, CancellableAct
 	
 	public String getPrimeMinisterName()
 	{
-		return primeMinister.getName();
+		return primeMinister;
 	}
 	
 	public boolean isVoted()

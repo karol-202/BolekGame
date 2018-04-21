@@ -63,6 +63,7 @@
 	<string name="text_non_players">Nie grający</string>
 	<string name="text_user_mute">Wycisz</string>
 	<string name="text_user_unmute">Wyłącz wyciszenie</string>
+	<string name="text_spectator_mode">Tryb widza</string>
 	
 	<string name="message_invalid_nick">Nick musi mieć od 3 do 20 znaków</string>
 	<string name="message_server_name_too_short">Za krótka nazwa</string>

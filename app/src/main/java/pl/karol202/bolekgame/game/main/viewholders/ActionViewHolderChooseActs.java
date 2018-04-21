@@ -93,7 +93,7 @@ public class ActionViewHolderChooseActs extends ActionViewHolder<ActionChooseAct
 		buttonDone.setEnabled(action.canActBeDismissed() && action.getSelectedActsAmount() == getValidSelectedActsAmount());
 		if(action.isVetoApplicable())
 		{
-			buttonVeto.setVisibility(action.isVetoRequested() ? View.GONE : View.VISIBLE);
+			buttonVeto.setVisibility(action.isVetoRequested() ? View.INVISIBLE : View.VISIBLE);
 			buttonVeto.setEnabled(!action.isChosen() && !action.isCancelled());
 			textVeto.setVisibility(action.isVetoRequested() ? View.VISIBLE : View.GONE);
 			if(!action.isVetoResponsed()) textVeto.setText(R.string.text_waiting_for_veto_response);

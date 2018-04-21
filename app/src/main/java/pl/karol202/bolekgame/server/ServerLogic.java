@@ -49,7 +49,7 @@ class ServerLogic extends Logic<ActivityServer>
 	
 	private void onUsersUpdate()
 	{
-		if(activity != null) activity.onVoiceChatUpdate();
+		executeOnActivity(ActivityServer::onVoiceChatUpdate);
 	}
 	
 	void startVoiceCommunication(VoiceService voiceService)
@@ -79,7 +79,7 @@ class ServerLogic extends Logic<ActivityServer>
 		message = EmojiParser.removeAllEmojis(message);
 		sendPacket(new OutputPacketMessage(message));
 		textChat.addEntry(users.getLocalUserName(), message, true);
-		activity.onTextChatUpdate(false);
+		executeOnActivity(a -> a.onTextChatUpdate(false));
 	}
 	
 	String getTextChatString()
@@ -115,58 +115,61 @@ class ServerLogic extends Logic<ActivityServer>
 	@Override
 	public void onDisconnect()
 	{
-		runInUIThread(() -> activity.onDisconnect());
+		executeOnActivityInUIThread(ActivityServer::onDisconnect);
 	}
 	
 	@Override
 	public void onLoggedOut()
 	{
-		runInUIThread(() -> activity.onLoggedOut());
+		executeOnActivityInUIThread(ActivityServer::onLoggedOut);
 	}
 	
 	@Override
 	public void onFailure(int problem)
 	{
-		runInUIThread(() -> activity.onError());
+		users.getLocalUser().setWaitingForSpectating(false);
+		executeOnActivityInUIThread(ActivityServer::onError);
 	}
 	
 	@Override
 	public void onUsersUpdate(List<String> usernames, List<Boolean> readiness, List<String> addresses)
 	{
-		runInUIThread(() -> users.updateUsersList(usernames, readiness, addresses));
+		runInUIThread(() -> users.updateUsers(usernames, readiness, addresses));
 	}
 	
 	@Override
-	public void onServerStatusUpdate(boolean gameAvailable)
+	public void onServerStatusUpdate(boolean gameAvailable, int minUsers)
 	{
 		gameInProgress = !gameAvailable;
-		runInUIThread(() -> users.onServerStatusUpdate());
+		users.setMinUsers(minUsers);
+		runInUIThread(() -> users.updateUsersList());
 	}
 	
 	@Override
 	public void onMessage(String sender, String message, boolean newMessage)
 	{
 		textChat.addEntry(sender, message, newMessage);
-		runInUIThread(() -> activity.onTextChatUpdate(true));
+		executeOnActivityInUIThread(a -> a.onTextChatUpdate(true));
 	}
 	
 	@Override
 	public void onGameStart(List<String> players, byte[] imagesCode)
 	{
 		suspendClient();
-		runInUIThread(() -> activity.onGameStart(imagesCode));
+		executeOnActivityInUIThread(a -> a.onGameStart(imagesCode));
 	}
 	
 	@Override
 	public void onSpectatingStart(byte[] imagesCode)
 	{
 		suspendClient();
-		runInUIThread(() -> activity.onSpectatingStart(imagesCode));
+		users.getLocalUser().setWaitingForSpectating(false);
+		executeOnActivityInUIThread(a -> a.onSpectatingStart(imagesCode));
 	}
 	
 	GameData createGameData()
 	{
-		GameData data = new GameData(client, serverName, serverCode);
+		GameData data = new GameData(getClient(), serverName, serverCode);
 		data.setUsers(users);
 		data.setTextChat(textChat);
 		return data;
@@ -174,7 +177,7 @@ class ServerLogic extends Logic<ActivityServer>
 	
 	boolean isConnected()
 	{
-		return client.isConnected();
+		return getClient().isConnected();
 	}
 	
 	String getServerName()

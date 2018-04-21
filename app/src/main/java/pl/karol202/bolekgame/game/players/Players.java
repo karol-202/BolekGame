@@ -24,6 +24,8 @@ public class Players
 	
 	private Users users;
 	private List<Player> players;
+	private String president;
+	private String primeMinister;
 	
 	private List<Users.OnUsersUpdateListener> usersUpdateListeners;
 	private List<OnPlayersUpdateListener> playersUpdateListeners;
@@ -32,6 +34,8 @@ public class Players
 	{
 		this.users = users;
 		this.players = new ArrayList<>();
+		this.president = "";
+		this.primeMinister = "";
 		
 		usersUpdateListeners = new ArrayList<>();
 		playersUpdateListeners = new ArrayList<>();
@@ -54,7 +58,7 @@ public class Players
 	
 	public void updateUsersList(List<String> names, List<Boolean> readiness, List<String> addresses)
 	{
-		users.updateUsersList(names, readiness, addresses);
+		users.updateUsers(names, readiness, addresses);
 	}
 	
 	public void updatePlayersList(List<String> names)
@@ -81,28 +85,44 @@ public class Players
 		for(Player player : playersToRemove) removePlayer(player);
 	}
 	
-	public Player getPlayerAtPosition(Position position)
+	public Position getPlayerPosition(Player player)
 	{
-		if(position == Position.NONE) return null;
-		for(Player player : players)
-			if(player.getPosition() == position) return player;
-		return null;
+		if(player == null || player.getName().isEmpty()) return null;
+		else if(player.getName().equals(president)) return Position.PRESIDENT;
+		else if(player.getName().equals(primeMinister)) return Position.PRIME_MINISTER;
+		else return Position.NONE;
 	}
 	
-	public void setPlayerPositionAndResetRest(String playerName, Position position)
+	public String getPlayerAtPosition(Position position)
 	{
-		if(position == Position.NONE) return;
-		for(Player player : players)
-		{
-			if(player.getName().equals(playerName)) setPlayerPosition(player, position);
-			else if(player.getPosition() == position) setPlayerPosition(player, Position.NONE);
-		}
+		if(position == Position.PRESIDENT) return president;
+		else if(position == Position.PRIME_MINISTER) return primeMinister;
+		else return null;
 	}
 	
-	private void setPlayerPosition(Player player, Position position)
+	public void setPlayerPosition(String playerName, Position position)
 	{
-		if(player.getPosition() == position) return;
-		player.setPosition(position);
+		if(position == Position.PRESIDENT) setPresident(playerName);
+		else if(position == Position.PRIME_MINISTER) setPrimeMinister(playerName);
+	}
+	
+	private void setPresident(String playerName)
+	{
+		if(president.equals(playerName)) return;
+		president = playerName;
+		updatePlayer(playerName);
+	}
+	
+	private void setPrimeMinister(String playerName)
+	{
+		if(primeMinister.equals(playerName)) return;
+		primeMinister = playerName;
+		updatePlayer(playerName);
+	}
+	
+	private void updatePlayer(String playerName)
+	{
+		Player player = findPlayer(playerName);
 		int playerIndex = players.indexOf(player);
 		for(OnPlayersUpdateListener listener : playersUpdateListeners) listener.onPlayerUpdate(playerIndex);
 	}
@@ -149,6 +169,11 @@ public class Players
 	public LocalUser getLocalUser()
 	{
 		return (LocalUser) getUsersStream().filter(u -> u instanceof LocalUser).findAny().orElse(null);
+	}
+	
+	public int getMinUsers()
+	{
+		return users.getMinUsers();
 	}
 	
 	public void addOnUsersUpdateListener(Users.OnUsersUpdateListener listener)

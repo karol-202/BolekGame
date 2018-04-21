@@ -41,8 +41,8 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 		void bind(Player player)
 		{
 			textName.setText(player.getName());
-			panelPosition.setVisibility(player.getPosition() != Position.NONE ? View.VISIBLE : View.GONE);
-			textPosition.setText(player.getPosition().getName());
+			panelPosition.setVisibility(players.getPlayerPosition(player) != Position.NONE ? View.VISIBLE : View.GONE);
+			textPosition.setText(players.getPlayerPosition(player).getName());
 			buttonSettings.setVisibility(Settings.isVoiceChatEnabled(context) && player instanceof RemotePlayer ? View.VISIBLE : View.GONE);
 			if(player instanceof RemotePlayer) settingsWindow.setUser(((RemotePlayer) player).getUser());
 		}

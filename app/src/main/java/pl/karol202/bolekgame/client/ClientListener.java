@@ -18,7 +18,7 @@ public interface ClientListener
 	
 	void onUsersUpdate(List<String> users, List<Boolean> readiness, List<String> addresses);
 	
-	void onServerStatusUpdate(boolean gameAvailable);
+	void onServerStatusUpdate(boolean gameAvailable, int minUsers);
 	
 	void onMessage(String sender, String message, boolean newMessage);
 	
