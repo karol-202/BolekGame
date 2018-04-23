@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

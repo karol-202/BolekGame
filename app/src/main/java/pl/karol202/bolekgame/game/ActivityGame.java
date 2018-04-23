@@ -20,10 +20,10 @@ import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.ScreenPlayers;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.BottomNavigationBarHelper;
-import pl.karol202.bolekgame.utils.FragmentRetain;
-import pl.karol202.bolekgame.utils.PermissionGrantingActivity;
-import pl.karol202.bolekgame.utils.PermissionRequest;
+import pl.karol202.bolekgame.view.BottomNavigationBarHelper;
+import pl.karol202.bolekgame.FragmentRetain;
+import pl.karol202.bolekgame.PermissionGrantingActivity;
+import pl.karol202.bolekgame.PermissionRequest;
 
 public class ActivityGame extends PermissionGrantingActivity implements GameLogicSupplier
 {
@@ -121,17 +121,17 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	{
 		super.onResume();
 		gameLogic.resume(this); //On orientation changes
-		if(gameLogic.isNotificationEnabled()) setTextChatNotification();
+		if(gameLogic.isNotificationSet()) setTextChatNotification();
 	}
 	
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		dialogManager.dismissAll();
 		if(!isFinishing()) //On orientation changes
 		{
 			gameLogic.suspend();
-			dialogManager.dismissAll();
 			if(finish) finish();
 		}
 		else bolekApplication.unbindFromVoiceService();

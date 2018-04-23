@@ -1,9 +1,12 @@
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
 import java8.util.function.Consumer;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.ClientListenerAdapter;
+import pl.karol202.bolekgame.client.NetworkingAsyncTask;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacket;
 
 public abstract class Logic<A extends Activity> extends ClientListenerAdapter
@@ -47,7 +50,7 @@ public abstract class Logic<A extends Activity> extends ClientListenerAdapter
 	
 	protected void runInUIThread(Runnable runnable)
 	{
-		Utils.runInUIThread(runnable);
+		new Handler(Looper.getMainLooper()).post(runnable);
 	}
 	
 	protected void setActivity(A activity)

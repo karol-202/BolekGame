@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;

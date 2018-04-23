@@ -1,15 +1,14 @@
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame.client;
 
 import android.os.AsyncTask;
 import java8.util.stream.RefStreams;
-import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacket;
 
 public class NetworkingAsyncTask extends AsyncTask<OutputPacket, Void, Void>
 {
 	private Client client;
 	
-	NetworkingAsyncTask(Client client)
+	public NetworkingAsyncTask(Client client)
 	{
 		this.client = client;
 	}

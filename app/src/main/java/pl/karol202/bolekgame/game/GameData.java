@@ -3,7 +3,7 @@ package pl.karol202.bolekgame.game;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.server.ServerData;
 import pl.karol202.bolekgame.server.Users;
-import pl.karol202.bolekgame.utils.TextChat;
+import pl.karol202.bolekgame.server.TextChat;
 
 public class GameData extends ServerData
 {

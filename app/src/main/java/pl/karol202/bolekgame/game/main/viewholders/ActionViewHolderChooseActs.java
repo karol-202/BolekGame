@@ -7,7 +7,7 @@ import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.gameplay.Act;
 import pl.karol202.bolekgame.game.main.actions.ActionChooseActs;
-import pl.karol202.bolekgame.utils.CheckableLayout;
+import pl.karol202.bolekgame.view.CheckableLayout;
 
 import java.util.ArrayList;
 import java.util.List;

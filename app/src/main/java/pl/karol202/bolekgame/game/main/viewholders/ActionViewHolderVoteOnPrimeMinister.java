@@ -13,8 +13,8 @@ import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.main.VotingResult;
 import pl.karol202.bolekgame.game.main.actions.ActionVoteOnPrimeMinister;
-import pl.karol202.bolekgame.utils.ItemDivider;
-import pl.karol202.bolekgame.utils.VotesBar;
+import pl.karol202.bolekgame.view.ItemDivider;
+import pl.karol202.bolekgame.view.VotesBar;
 
 public class ActionViewHolderVoteOnPrimeMinister extends ActionViewHolder<ActionVoteOnPrimeMinister>
 {

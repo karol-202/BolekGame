@@ -23,13 +23,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import pl.karol202.bolekgame.BolekApplication;
-import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.*;
 import pl.karol202.bolekgame.control.ActivityHelp;
 import pl.karol202.bolekgame.game.ActivityGame;
 import pl.karol202.bolekgame.game.GameData;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.*;
+import pl.karol202.bolekgame.view.AnimatedImageButton;
+import pl.karol202.bolekgame.view.ItemDivider;
 
 public class ActivityServer extends PermissionGrantingActivity
 {

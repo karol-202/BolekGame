@@ -4,7 +4,7 @@ import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketFailure;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketCreateServer;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketLogin;
-import pl.karol202.bolekgame.utils.Logic;
+import pl.karol202.bolekgame.Logic;
 
 class ControlLogic extends Logic<ActivityMain>
 {

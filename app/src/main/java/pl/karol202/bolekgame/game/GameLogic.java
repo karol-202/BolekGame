@@ -17,8 +17,8 @@ import pl.karol202.bolekgame.game.main.actions.*;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.Players;
 import pl.karol202.bolekgame.server.Users;
-import pl.karol202.bolekgame.utils.Logic;
-import pl.karol202.bolekgame.utils.TextChat;
+import pl.karol202.bolekgame.Logic;
+import pl.karol202.bolekgame.server.TextChat;
 import pl.karol202.bolekgame.voice.VoiceService;
 
 import java.util.HashMap;
@@ -165,9 +165,9 @@ public class GameLogic extends Logic<ActivityGame>
 		return textChat.getTextChatString();
 	}
 	
-	public boolean isNotificationEnabled()
+	public boolean isNotificationSet()
 	{
-		return textChat.isNotificationEnabled();
+		return textChat.isNotificationSet();
 	}
 	
 	public void setTextChatNotification(boolean enabled)

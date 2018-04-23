@@ -7,8 +7,7 @@ import pl.karol202.bolekgame.client.outputpacket.OutputPacketMessage;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketReady;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketSpectate;
 import pl.karol202.bolekgame.game.GameData;
-import pl.karol202.bolekgame.utils.Logic;
-import pl.karol202.bolekgame.utils.TextChat;
+import pl.karol202.bolekgame.Logic;
 import pl.karol202.bolekgame.voice.VoiceService;
 
 import java.util.List;

@@ -33,7 +33,7 @@
 			android:layout_height="wrap_content"
 			android:orientation="horizontal">
 			
-			<pl.karol202.bolekgame.utils.CheckableLayout
+			<pl.karol202.bolekgame.view.CheckableLayout
 				android:id="@+id/panel_current_act_1"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -68,9 +68,9 @@
 					app:layout_constraintEnd_toEndOf="@+id/image_current_act_1"
 					app:layout_constraintStart_toStartOf="@+id/image_current_act_1"
 					app:layout_constraintTop_toBottomOf="@+id/image_current_act_1" />
-			</pl.karol202.bolekgame.utils.CheckableLayout>
+			</pl.karol202.bolekgame.view.CheckableLayout>
 			
-			<pl.karol202.bolekgame.utils.CheckableLayout
+			<pl.karol202.bolekgame.view.CheckableLayout
 				android:id="@+id/panel_current_act_2"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -105,9 +105,9 @@
 					app:layout_constraintEnd_toEndOf="@+id/image_current_act_2"
 					app:layout_constraintStart_toStartOf="@+id/image_current_act_2"
 					app:layout_constraintTop_toBottomOf="@+id/image_current_act_2" />
-			</pl.karol202.bolekgame.utils.CheckableLayout>
+			</pl.karol202.bolekgame.view.CheckableLayout>
 			
-			<pl.karol202.bolekgame.utils.CheckableLayout
+			<pl.karol202.bolekgame.view.CheckableLayout
 				android:id="@+id/panel_current_act_3"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
 					app:layout_constraintEnd_toEndOf="@+id/image_current_act_3"
 					app:layout_constraintStart_toStartOf="@+id/image_current_act_3"
 					app:layout_constraintTop_toBottomOf="@+id/image_current_act_3" />
-			</pl.karol202.bolekgame.utils.CheckableLayout>
+			</pl.karol202.bolekgame.view.CheckableLayout>
 			
 		</LinearLayout>
 		

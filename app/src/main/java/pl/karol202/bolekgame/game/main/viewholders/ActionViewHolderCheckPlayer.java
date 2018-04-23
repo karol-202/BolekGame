@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.main.actions.ActionCheckPlayer;
-import pl.karol202.bolekgame.utils.ItemDivider;
+import pl.karol202.bolekgame.view.ItemDivider;
 
 public class ActionViewHolderCheckPlayer extends ActionViewHolder<ActionCheckPlayer>
 {

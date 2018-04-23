@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.main.actions.ActionCollaboratorsRevealment;
-import pl.karol202.bolekgame.utils.ItemDivider;
+import pl.karol202.bolekgame.view.ItemDivider;
 
 public class ActionViewHolderCollaboratorsRevealment extends ActionViewHolder<ActionCollaboratorsRevealment>
 {

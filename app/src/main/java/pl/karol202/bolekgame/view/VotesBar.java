@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

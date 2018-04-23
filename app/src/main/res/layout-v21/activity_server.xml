@@ -107,7 +107,7 @@
 		app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
 		app:behavior_peekHeight="40dp">
 		
-		<pl.karol202.bolekgame.utils.AnimatedImageButton
+		<pl.karol202.bolekgame.view.AnimatedImageButton
 			android:id="@+id/button_text_chat_toggle"
 			android:layout_width="40dp"
 			android:layout_height="40dp"

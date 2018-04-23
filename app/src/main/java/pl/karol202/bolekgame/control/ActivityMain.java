@@ -23,7 +23,7 @@ import pl.karol202.bolekgame.server.ActivityServer;
 import pl.karol202.bolekgame.server.ServerData;
 import pl.karol202.bolekgame.settings.ActivitySettings;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.FragmentRetain;
+import pl.karol202.bolekgame.FragmentRetain;
 
 public class ActivityMain extends AppCompatActivity
 {

@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame.server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class TextChat
 	private Entry lastEntry;
 	private boolean notification;
 	
-	public TextChat()
+	TextChat()
 	{
 		entries = new ArrayList<>();
 	}
@@ -59,7 +59,7 @@ public class TextChat
 		return builder.toString();
 	}
 	
-	public boolean isNotificationEnabled()
+	public boolean isNotificationSet()
 	{
 		return notification;
 	}

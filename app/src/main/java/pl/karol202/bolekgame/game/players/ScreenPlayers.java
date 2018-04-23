@@ -17,7 +17,7 @@ import pl.karol202.bolekgame.server.LocalUser;
 import pl.karol202.bolekgame.server.User;
 import pl.karol202.bolekgame.server.Users;
 import pl.karol202.bolekgame.settings.Settings;
-import pl.karol202.bolekgame.utils.ItemDivider;
+import pl.karol202.bolekgame.view.ItemDivider;
 
 public class ScreenPlayers extends Screen
 {

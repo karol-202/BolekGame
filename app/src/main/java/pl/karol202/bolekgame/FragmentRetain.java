@@ -1,4 +1,4 @@
-package pl.karol202.bolekgame.utils;
+package pl.karol202.bolekgame;
 
 import android.app.Fragment;
 import android.os.Bundle;

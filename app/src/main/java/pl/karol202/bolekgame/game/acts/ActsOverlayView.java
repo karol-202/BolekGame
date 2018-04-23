@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import pl.karol202.bolekgame.R;
-import pl.karol202.bolekgame.utils.Utils;
 
 public class ActsOverlayView extends View
 {
@@ -50,7 +49,14 @@ public class ActsOverlayView extends View
 	
 	private Rect getSlotRect(View slot)
 	{
-		return Utils.getViewRectRelativeToRoot(rootView, slot);
+		Point point = new Point();
+		View current = slot;
+		while(current != rootView)
+		{
+			point.offset(current.getLeft(), current.getTop());
+			current = (View) current.getParent();
+		}
+		return new Rect(point.x, point.y, point.x + slot.getWidth(), point.y + slot.getHeight());
 	}
 	
 	private void drawInSlot(Canvas canvas, Rect slot, Bitmap bitmap)

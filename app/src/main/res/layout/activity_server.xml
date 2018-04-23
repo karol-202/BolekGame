@@ -120,7 +120,7 @@
 			android:layout_height="250dp"
 			android:background="@android:color/white">
 			
-			<pl.karol202.bolekgame.utils.AnimatedImageButton
+			<pl.karol202.bolekgame.view.AnimatedImageButton
 				android:id="@+id/button_text_chat_toggle"
 				android:layout_width="40dp"
 				android:layout_height="40dp"
