@@ -222,8 +222,9 @@ public class ActivityMain extends AppCompatActivity
 	
 	private void connectIfNotConnected()
 	{
-		if(controlLogic.isConnected()) return;
-		controlLogic.connect(Settings.getServerAddress(this));
+		String host = Settings.getServerAddress(this);
+		if(controlLogic.isConnectedTo(host)) return;
+		controlLogic.connect(host);
 	}
 	
 	private void updateState()

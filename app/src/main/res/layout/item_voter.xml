@@ -7,16 +7,19 @@
 	
 	<TextView
 		android:id="@+id/text_voter_name"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginEnd="8dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="8dp"
 		android:layout_marginStart="16dp"
 		android:text="@string/unknown"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		android:textColor="@color/text_primary"
 		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/text_voter_vote"
 		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		android:layout_marginLeft="16dp" />
+		app:layout_constraintTop_toTopOf="parent" />
 	
 	<TextView
 		android:id="@+id/text_voter_vote"

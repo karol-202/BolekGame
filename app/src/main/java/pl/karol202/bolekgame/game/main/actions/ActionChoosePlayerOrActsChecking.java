@@ -7,6 +7,7 @@ import pl.karol202.bolekgame.game.main.ActionManager;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolder;
 import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderChoosePlayerOrActsChecking;
 
+//Akcja do wyboru pomiędzy sprawdzaniem gracza, a sprawdzaniem ustaw lub służąca tylko do sprawdzania ustaw(<= 6 graczy)
 public class ActionChoosePlayerOrActsChecking implements UpdatingAction, CancellableAction
 {
 	public enum Choose
@@ -23,11 +24,14 @@ public class ActionChoosePlayerOrActsChecking implements UpdatingAction, Cancell
 	private ActionManager.ActionUpdateCallback updateCallback;
 	
 	private boolean cancelled;
+	private boolean playersCheckingAvailable;
 	private boolean chosen;
 	
-	public ActionChoosePlayerOrActsChecking(OnPlayerOrActsCheckingChoose chooseListener)
+	public ActionChoosePlayerOrActsChecking(OnPlayerOrActsCheckingChoose chooseListener, boolean playersCheckingAvailable)
 	{
 		this.chooseListener = chooseListener;
+		
+		this.playersCheckingAvailable = playersCheckingAvailable;
 	}
 	
 	@Override
@@ -73,6 +77,11 @@ public class ActionChoosePlayerOrActsChecking implements UpdatingAction, Cancell
 		chosen = true;
 		if(chooseListener != null) chooseListener.onChoose(Choose.ACTS_CHECKING);
 		if(updateCallback != null) updateCallback.updateAction();
+	}
+	
+	public boolean isPlayersCheckingAvailable()
+	{
+		return playersCheckingAvailable;
 	}
 	
 	public boolean isChosen()

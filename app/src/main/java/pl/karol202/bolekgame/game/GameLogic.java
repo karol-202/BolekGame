@@ -36,12 +36,15 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	private boolean ignoreGameExit;
 	private String primeMinisterCandidate;
-	private ActionVoteOnPrimeMinister votingAction;
+	private ActionChoosePrimeMinister primeMinisterChooseAction;
+	private ActionVoteOnPrimeMinister voteAction;
 	private ActionChooseActs chooseActsAction;
 	private boolean randomAct;
 	private ActionCheckPlayer playerCheckAction;
 	private boolean playerCheckNoDescription;
 	private boolean choosingOfPresident;
+	private ActionChoosePresident presidentChooseAction;
+	private ActionLustrate lustrateAction;
 	private String lustratedPlayer;
 	private boolean gameEnd;
 	
@@ -97,6 +100,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private void choosePrimeMinister(Player primeMinister)
 	{
 		sendPacket(new OutputPacketSetPrimeMinister(primeMinister.getName()));
+		primeMinisterChooseAction = null;
 	}
 	
 	private void voteOnPrimeMinister(boolean vote)
@@ -136,14 +140,22 @@ public class GameLogic extends Logic<ActivityGame>
 		sendPacket(new OutputPacketChoosePlayerOrActsCheckingPresident(choice));
 	}
 	
+	private void showCheckedActs(ActionChoosePlayerOrActsChecking.Choose choose, Act[] acts)
+	{
+		if(choose != ActionChoosePlayerOrActsChecking.Choose.ACTS_CHECKING) return;
+		actionManager.addAction(new ActionActsCheckingResult(acts));
+	}
+	
 	private void choosePresident(Player player)
 	{
 		sendPacket(new OutputPacketChoosePresident(player.getName()));
+		presidentChooseAction = null;
 	}
 	
 	private void lustrate(Player player)
 	{
 		sendPacket(new OutputPacketLustratePresident(player.getName()));
+		lustrateAction = null;
 	}
 	
 	void exit()
@@ -279,9 +291,13 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			List<Player> candidates = StreamSupport.stream(candidatesNames).map(players::findPlayer).collect(Collectors.toList());
-			if(update && actionManager.getLastAction() instanceof ActionChoosePrimeMinister)
-				((ActionChoosePrimeMinister) actionManager.getLastAction()).setCandidates(candidates);
-			else actionManager.addAction(new ActionChoosePrimeMinister(actionManager, this::choosePrimeMinister, candidates));
+			if(update && primeMinisterChooseAction != null)
+				primeMinisterChooseAction.setCandidates(candidates);
+			else
+			{
+				primeMinisterChooseAction = new ActionChoosePrimeMinister(actionManager, this::choosePrimeMinister, candidates);
+				actionManager.addAction(primeMinisterChooseAction);
+			}
 		});
 	}
 	
@@ -302,8 +318,8 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			if(primeMinisterCandidate == null) return;
-			votingAction = new ActionVoteOnPrimeMinister(actionManager, primeMinisterCandidate, this::voteOnPrimeMinister);
-			actionManager.addAction(votingAction);
+			voteAction = new ActionVoteOnPrimeMinister(actionManager, primeMinisterCandidate, this::voteOnPrimeMinister);
+			actionManager.addAction(voteAction);
 			primeMinisterCandidate = null;
 		});
 	}
@@ -314,15 +330,15 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(() -> {
 			Map<Player, Boolean> voters = createVotersMap(upvoters);
 			VotingResult votingResult = new VotingResult(passed, upvotes, totalVotes, voters);
-			if(votingAction != null) votingAction.onVotingEnd(votingResult, true);
+			if(voteAction != null) voteAction.onVotingEnd(votingResult, true);
 			else if(primeMinisterCandidate != null) //Spectating
 			{
-				votingAction = new ActionVoteOnPrimeMinister(actionManager, primeMinisterCandidate, null);
-				votingAction.onVotingEnd(votingResult, false);
-				actionManager.addAction(votingAction);
+				voteAction = new ActionVoteOnPrimeMinister(actionManager, primeMinisterCandidate, null);
+				voteAction.onVotingEnd(votingResult, false);
+				actionManager.addAction(voteAction);
 				primeMinisterCandidate = null;
 			}
-			votingAction = null;
+			voteAction = null;
 		});
 	}
 	
@@ -456,8 +472,8 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			List<Player> candidates = StreamSupport.stream(checkablePlayers).map(players::findPlayer).collect(Collectors.toList());
-			if(update && actionManager.getLastAction() instanceof ActionCheckPlayer)
-				((ActionCheckPlayer) actionManager.getLastAction()).setPlayersToCheck(candidates);
+			if(update && playerCheckAction != null)
+				playerCheckAction.setPlayersToCheck(candidates);
 			else
 			{
 				playerCheckAction = new ActionCheckPlayer(actionManager, this::checkPlayer, !playerCheckNoDescription, candidates);
@@ -500,13 +516,13 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onChoosePlayerOrActsCheckingPresidentRequest()
 	{
-		runInUIThread(() -> actionManager.addAction(new ActionChoosePlayerOrActsChecking(this::choosePlayerOrActsChecking)));
+		runInUIThread(() -> actionManager.addAction(new ActionChoosePlayerOrActsChecking(this::choosePlayerOrActsChecking, true)));
 	}
 	
 	@Override
 	public void onActsCheckingResult(Act[] acts)
 	{
-		runInUIThread(() -> actionManager.addAction(new ActionActsCheckingResult(acts)));
+		runInUIThread(() -> actionManager.addAction(new ActionChoosePlayerOrActsChecking(c -> this.showCheckedActs(c, acts), false)));
 	}
 	
 	@Override
@@ -533,9 +549,13 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			List<Player> candidates = StreamSupport.stream(availablePlayers).map(players::findPlayer).collect(Collectors.toList());
-			if(update && actionManager.getLastAction() instanceof ActionChoosePresident)
-				((ActionChoosePresident) actionManager.getLastAction()).setCandidates(candidates);
-			else actionManager.addAction(new ActionChoosePresident(actionManager, this::choosePresident, candidates));
+			if(update && presidentChooseAction != null)
+				presidentChooseAction.setCandidates(candidates);
+			else
+			{
+				presidentChooseAction = new ActionChoosePresident(actionManager, this::choosePresident, candidates);
+				actionManager.addAction(presidentChooseAction);
+			}
 		});
 	}
 	
@@ -553,9 +573,13 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			List<Player> candidates = StreamSupport.stream(availablePlayers).map(players::findPlayer).collect(Collectors.toList());
-			if(update && actionManager.getLastAction() instanceof ActionLustrate)
-				((ActionLustrate) actionManager.getLastAction()).setAvailablePlayers(candidates);
-			else actionManager.addAction(new ActionLustrate(actionManager, this::lustrate, candidates));
+			if(update && lustrateAction != null)
+				lustrateAction.setAvailablePlayers(candidates);
+			else
+			{
+				lustrateAction = new ActionLustrate(actionManager, this::lustrate, candidates);
+				actionManager.addAction(lustrateAction);
+			}
 		});
 	}
 	

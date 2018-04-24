@@ -40,6 +40,11 @@ class ControlLogic extends Logic<ActivityMain>
 		return getClient().isConnected();
 	}
 	
+	boolean isConnectedTo(String host)
+	{
+		return getClient().isConnectedTo(host);
+	}
+	
 	void login(int serverCode, String username)
 	{
 		sendPacket(new OutputPacketLogin(serverCode, username));

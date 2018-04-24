@@ -10,13 +10,16 @@
 	
 	<TextView
 		android:id="@+id/text_non_player_name"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginEnd="16dp"
 		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
 		android:layout_marginStart="16dp"
 		android:text="@string/unknown"
 		android:textAppearance="?android:attr/textAppearanceMedium"
 		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/button_non_player_settings"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
 

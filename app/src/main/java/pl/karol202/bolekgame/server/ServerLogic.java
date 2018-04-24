@@ -141,7 +141,7 @@ class ServerLogic extends Logic<ActivityServer>
 	{
 		gameInProgress = !gameAvailable;
 		users.setMinUsers(minUsers);
-		runInUIThread(() -> users.updateUsersList());
+		runInUIThread(() -> users.onUsersUpdate());
 	}
 	
 	@Override

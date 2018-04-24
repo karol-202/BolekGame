@@ -171,6 +171,7 @@
 	
 	<string name="act_effect_checking_player">Sprawdzanie gracza</string>
 	<string name="act_effect_checking_player_or_acts">Sprawdzanie gracza lub ustaw</string>
+	<string name="act_effect_checking_acts">Sprawdzanie ustaw</string>
 	<string name="act_effect_new_president">Wybór nowego prezydenta</string>
 	<string name="act_effect_lustration">Eliminacja gracza</string>
 	
@@ -190,6 +191,7 @@
 	
 	<string name="hint_antilustration_1">Po uchwaleniu ustawy prezydent sprawdza jednego gracza</string>
 	<string name="hint_antilustration_2">Po uchwaleniu ustawy prezydent sprawdza jednego gracza lub 3 następne ustawy</string>
+	<string name="hint_antilustration_2_only_acts">Po uchwaleniu ustawy prezydent sprawdza 3 następne ustawy</string>
 	<string name="hint_antilustration_3">Po uchwaleniu ustawy prezydent wybiera nowego prezydenta. Jeśli Bolek zostanie premierem, grę wygrywają TW i Bolek</string>
 	<string name="hint_antilustration_4">Po uchwaleniu ustawy prezydent eliminuje jedną osobę</string>
 	<string name="hint_antilustration_5">Po uchwaleniu ustawy prezydent eliminuje jedną osobę. Premier zyskuje prawo weta.</string>

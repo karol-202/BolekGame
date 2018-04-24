@@ -116,9 +116,10 @@
 		Lojalność każdego gracza podczas jednej rozgrywki można badać tylko raz.<br>
 		<br>
 		<b>Podglądanie ustaw (2. ustawa antylustracyjna)</b><br>
-		Po uchwaleniu 2. ustawy antylustracyjnej prezydent ma wybór:
+		Jeżeli jest więcej niż 6 graczy, po uchwaleniu 2. ustawy antylustracyjnej prezydent ma wybór:
 		może skorzystać z prawa sprawdzania gracza lub sprawdzić 3 kolejne ustawy ze stosu ustaw, dzięki czemu będzie wiedział,
-		jakie ustawy dostanie następny prezydent podczas posiedzenia ustawodawczego.<br>
+		jakie ustawy dostanie następny prezydent podczas posiedzenia ustawodawczego.
+		Jeżeli jest mniej niż 6 graczy, prezydent sprawdza 3 kolejne ustawy ze stosu ustaw.<br>
 		<br>
 		<b>Zarządzanie wyborów nadzwyczajnych (3. ustawa antylustracyjna)</b><br>
 		Prezydent wybiera dowolnego innego gracza na następnego kandydata na prezydenta.

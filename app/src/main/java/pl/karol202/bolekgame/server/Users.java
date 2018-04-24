@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.server;
 
+import com.crashlytics.android.Crashlytics;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 
@@ -47,6 +48,7 @@ public class Users
 	
 	public void updateUsers(List<String> usernames, List<Boolean> readiness, List<String> addresses)
 	{
+		Crashlytics.log("Updating users");
 		List<User> usersToAdd = new ArrayList<>();
 		List<User> usersToRemove = new ArrayList<>();
 		
@@ -58,7 +60,11 @@ public class Users
 			int userIndex = usernames.indexOf(username);
 			boolean ready = readiness.get(userIndex);
 			String address = addresses.get(userIndex);
-			if(username.equals(localUserName)) usersToAdd.add(new LocalUser(username, ready));
+			if(username.equals(localUserName))
+			{
+				usersToAdd.add(new LocalUser(username, ready));
+				Crashlytics.log("Added local user");
+			}
 			else usersToAdd.add(new RemoteUser(username, ready, address));
 		}
 		for(User user : users)
@@ -75,11 +81,10 @@ public class Users
 		
 		for(User user : usersToAdd) addUser(user);
 		for(User user : usersToRemove) removeUser(user);
-		if(usersToAdd.size() == 0 && usersToRemove.size() == 0)
-			for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUsersUpdate();
+		if(usersToAdd.size() == 0 && usersToRemove.size() == 0) onUsersUpdate();
 	}
 	
-	void updateUsersList()
+	void onUsersUpdate()
 	{
 		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUsersUpdate();
 	}

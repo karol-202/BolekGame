@@ -28,7 +28,6 @@ public class ActionManager implements ContextSupplier
 	
 	private List<Action> actions;
 	private List<OnActionsUpdateListener> actionsUpdateListeners;
-	private Action lastAction;
 	
 	public ActionManager(ImagesSet imagesSet)
 	{
@@ -42,7 +41,6 @@ public class ActionManager implements ContextSupplier
 	{
 		if(action instanceof UpdatingAction) ((UpdatingAction) action).setUpdateCallback(() -> updateAction(action));
 		actions.add(action);
-		lastAction = action;
 		for(OnActionsUpdateListener listener : actionsUpdateListeners) listener.onActionAdd();
 	}
 	
@@ -70,11 +68,6 @@ public class ActionManager implements ContextSupplier
 	int getActionsAmount()
 	{
 		return actions.size();
-	}
-	
-	public Action getLastAction()
-	{
-		return lastAction;
 	}
 	
 	void addOnActionsUpdateListener(OnActionsUpdateListener actionsUpdateListener)

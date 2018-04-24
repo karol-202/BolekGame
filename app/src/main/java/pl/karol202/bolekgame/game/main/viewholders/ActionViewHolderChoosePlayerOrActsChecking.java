@@ -20,6 +20,7 @@ public class ActionViewHolderChoosePlayerOrActsChecking extends ActionViewHolder
 	@Override
 	public void bind(ActionChoosePlayerOrActsChecking action)
 	{
+		buttonPlayer.setVisibility(action.isPlayersCheckingAvailable() ? View.VISIBLE : View.GONE);
 		buttonPlayer.setEnabled(!action.isChosen() && !action.isCancelled());
 		buttonPlayer.setOnClickListener(v -> action.choosePlayerChecking());
 		

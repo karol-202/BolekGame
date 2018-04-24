@@ -27,6 +27,7 @@ public class Client
 	private boolean suspendPacketExecution;
 	private Queue<InputPacket> packetBuffer;
 	
+	private String host;
 	private Socket socket;
 	private InputStream inputStream;
 	private OutputStream outputStream;
@@ -57,8 +58,13 @@ public class Client
 	
 	private boolean initConnection(String host) throws IOException
 	{
-		if(isConnected()) return true;
+		if(isConnected())
+		{
+			if(isConnectedTo(host)) return false;
+			else closeSocket();
+		}
 		if(host == null || host.isEmpty()) throw new IllegalArgumentException("Host cannot be null.");
+		this.host = host;
 		socket = new Socket();
 		socket.connect(new InetSocketAddress(host, PORT), TIMEOUT);
 		inputStream = socket.getInputStream();
@@ -161,7 +167,10 @@ public class Client
 		{
 			new ClientException("Cannot close socket", e).printStackTrace();
 		}
+		host = null;
 		socket = null;
+		inputStream = null;
+		outputStream = null;
 	}
 	
 	private void exception(String message, Exception exception)
@@ -173,6 +182,11 @@ public class Client
 	public boolean isConnected()
 	{
 		return socket != null && socket.isConnected() && !socket.isClosed();
+	}
+	
+	public boolean isConnectedTo(String host)
+	{
+		return isConnected() && this.host.equals(host);
 	}
 	
 	public synchronized void setClientListener(ClientListener listener)

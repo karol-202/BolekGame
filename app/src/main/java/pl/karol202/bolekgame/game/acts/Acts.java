@@ -66,11 +66,16 @@ public class Acts
 	
 	boolean isPlayerCheckingAvailable()
 	{
-		return true;//playersAmount >= 8;
+		return playersAmount > 8;
 	}
 	
 	boolean isPlayerOrActsCheckingAvailable()
 	{
-		return true;//playersAmount >= 6;
+		return playersAmount > 6;
+	}
+	
+	boolean isActsCheckingAvailable()
+	{
+		return playersAmount <= 6;
 	}
 }

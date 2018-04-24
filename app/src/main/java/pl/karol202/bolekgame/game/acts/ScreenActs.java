@@ -98,7 +98,13 @@ public class ScreenActs extends Screen
 			imageActAntilustration1Icon.setVisibility(View.GONE);
 			textActAntilustration1.setVisibility(View.GONE);
 		}
-		if(!acts.isPlayerOrActsCheckingAvailable())
+		
+		if(acts.isActsCheckingAvailable())
+		{
+			panelsActAntilustration[1].setOnClickListener(v -> showHint(panelsActAntilustration[1], R.string.hint_antilustration_2_only_acts));
+			textActAntilustration2.setText(R.string.act_effect_checking_acts);
+		}
+		else if(!acts.isPlayerOrActsCheckingAvailable())
 		{
 			panelsActAntilustration[1].setOnClickListener(null);
 			imageActAntilustration2Icon.setVisibility(View.GONE);
