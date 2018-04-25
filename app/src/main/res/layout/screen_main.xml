@@ -2,7 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent" android:layout_height="match_parent">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 	
 	<ImageView
 		android:id="@+id/background"
@@ -21,17 +22,49 @@
 		android:id="@+id/recycler_actions"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
-		android:layout_marginTop="20dp"
+		app:layout_constraintTop_toBottomOf="@id/view_spectator_mode_top"
 		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+	
+	<View
+		android:id="@+id/view_spectator_mode_top"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:background="@color/dark_background"
+		app:layout_constraintBottom_toBottomOf="@+id/text_spectator_mode"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
 	
-	<FrameLayout
+	<View
+		android:id="@+id/view_spectator_mode_bottom"
+		android:layout_width="0dp"
+		android:layout_height="20dp"
+		android:background="@drawable/background_panel_spectator_mode"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/view_spectator_mode_top" />
+	
+	<TextView
+		android:id="@+id/text_spectator_mode"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="4dp"
+		android:text="@string/text_spectator_mode"
+		android:textColor="@color/text_primary_white"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+	
+	<!--<FrameLayout
 		android:id="@+id/layout_spectator_mode"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
 		android:layout_height="40dp"
-		android:background="@drawable/background_panel_spectator_mode">
+		android:background="@drawable/background_panel_spectator_mode"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
 		
 		<TextView
 			android:id="@+id/text_spectator_mode"
@@ -41,7 +74,7 @@
 			android:gravity="center_horizontal"
 			android:text="@string/text_spectator_mode"
 			android:textColor="@color/text_primary_white" />
-		
-	</FrameLayout>
+	
+	</FrameLayout>-->
 
 </android.support.constraint.ConstraintLayout>

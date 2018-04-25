@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.gameplay.Position;
+import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.server.UserSettingsWindow;
 import pl.karol202.bolekgame.settings.Settings;
 
@@ -34,8 +35,8 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 			super(view);
 			textName = view.findViewById(R.id.text_player_name);
 			
-			panelPosition = view.findViewById(R.id.panel_player_role);
-			textPosition = view.findViewById(R.id.text_player_role);
+			panelRole = view.findViewById(R.id.panel_player_role);
+			textRole = view.findViewById(R.id.text_player_role);
 			
 			panelPosition = view.findViewById(R.id.panel_player_position);
 			textPosition = view.findViewById(R.id.text_player_position);
@@ -50,8 +51,9 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 		{
 			textName.setText(player.getName());
 			
-			panelRole.setVisibility(player.getRole() != null ? View.VISIBLE : View.GONE);
-			textRole.setText(player.getRole().getName());
+			Role role = player.getRole();
+			panelRole.setVisibility(role != null ? View.VISIBLE : View.GONE);
+			if(role != null) textRole.setText(role.getAbbr());
 			
 			panelPosition.setVisibility(players.getPlayerPosition(player) != Position.NONE ? View.VISIBLE : View.GONE);
 			textPosition.setText(players.getPlayerPosition(player).getName());

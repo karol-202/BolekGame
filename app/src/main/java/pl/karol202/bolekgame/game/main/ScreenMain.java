@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import pl.karol202.bolekgame.R;
 import pl.karol202.bolekgame.game.Screen;
 
@@ -29,8 +30,10 @@ public class ScreenMain extends Screen
 		}
 	}
 	
-	private View layoutSpectatorMode;
 	private RecyclerView recyclerActions;
+	private View viewSpectatorModeTop;
+	private View viewSpectatorModeBottom;
+	private TextView textSpectatorMode;
 	
 	private ActionAdapter actionAdapter;
 	private ActionManager.OnActionsUpdateListener actionsUpdateListener;
@@ -45,11 +48,13 @@ public class ScreenMain extends Screen
 		
 		actionAdapter = new ActionAdapter(getActivity());
 		
-		layoutSpectatorMode = view.findViewById(R.id.layout_spectator_mode);
-		
 		recyclerActions = view.findViewById(R.id.recycler_actions);
 		recyclerActions.setLayoutManager(new LinearLayoutManager(getActivity()));
 		recyclerActions.setAdapter(actionAdapter);
+		
+		viewSpectatorModeTop = view.findViewById(R.id.view_spectator_mode_top);
+		viewSpectatorModeBottom = view.findViewById(R.id.view_spectator_mode_bottom);
+		textSpectatorMode = view.findViewById(R.id.text_spectator_mode);
 		
 		return view;
 	}
@@ -71,7 +76,14 @@ public class ScreenMain extends Screen
 		super.onStart();
 		actionAdapter.setActionManager(actionManager);
 		
-		layoutSpectatorMode.setVisibility(gameLogic.isSpectating() ? View.VISIBLE : View.GONE);
+		setSpectatorMode(gameLogic.isSpectating());
+	}
+	
+	private void setSpectatorMode(boolean enabled)
+	{
+		viewSpectatorModeTop.setVisibility(enabled ? View.VISIBLE : View.GONE);
+		viewSpectatorModeBottom.setVisibility(enabled ? View.VISIBLE : View.GONE);
+		textSpectatorMode.setVisibility(enabled ? View.VISIBLE : View.GONE);
 	}
 	
 	@Override

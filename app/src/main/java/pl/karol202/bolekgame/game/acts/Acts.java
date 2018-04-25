@@ -73,9 +73,4 @@ public class Acts
 	{
 		return playersAmount > 6;
 	}
-	
-	boolean isActsCheckingAvailable()
-	{
-		return playersAmount <= 6;
-	}
 }
