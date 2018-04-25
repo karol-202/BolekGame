@@ -177,12 +177,12 @@ public class GameLogic extends Logic<ActivityGame>
 		return textChat.getTextChatString();
 	}
 	
-	public boolean isNotificationSet()
+	boolean isNotificationSet()
 	{
 		return textChat.isNotificationSet();
 	}
 	
-	public void setTextChatNotification(boolean enabled)
+	void setTextChatNotification(boolean enabled)
 	{
 		textChat.setNotification(enabled);
 	}
@@ -238,6 +238,7 @@ public class GameLogic extends Logic<ActivityGame>
 	public void onRoleAssigned(Role role)
 	{
 		runInUIThread(() -> {
+			players.setLocalPlayerRole(role);
 			actionManager.addAction(new ActionRoleAssigned(actionManager, role));
 			executeOnActivity(a -> a.onRoleAssigned(role));
 		});
@@ -248,6 +249,7 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			Map<String, Role> playerRoles = createRolesMap(ministers, collaborators, bolek);
+			players.setPlayersRoles(playerRoles);
 			actionManager.addAction(new ActionCollaboratorsRevealment(actionManager, playerRoles));
 		});
 	}

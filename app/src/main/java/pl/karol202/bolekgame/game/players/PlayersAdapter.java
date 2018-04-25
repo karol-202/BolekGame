@@ -18,9 +18,15 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 	class ViewHolder extends RecyclerView.ViewHolder
 	{
 		private TextView textName;
+		
+		private View panelRole;
+		private TextView textRole;
+		
 		private View panelPosition;
 		private TextView textPosition;
+		
 		private ImageButton buttonSettings;
+		
 		private UserSettingsWindow settingsWindow;
 		
 		ViewHolder(View view)
@@ -28,8 +34,10 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 			super(view);
 			textName = view.findViewById(R.id.text_player_name);
 			
-			panelPosition = view.findViewById(R.id.panel_player_position);
+			panelPosition = view.findViewById(R.id.panel_player_role);
+			textPosition = view.findViewById(R.id.text_player_role);
 			
+			panelPosition = view.findViewById(R.id.panel_player_position);
 			textPosition = view.findViewById(R.id.text_player_position);
 			
 			buttonSettings = view.findViewById(R.id.button_player_settings);
@@ -41,8 +49,13 @@ class PlayersAdapter extends RecyclerView.Adapter<PlayersAdapter.ViewHolder>
 		void bind(Player player)
 		{
 			textName.setText(player.getName());
+			
+			panelRole.setVisibility(player.getRole() != null ? View.VISIBLE : View.GONE);
+			textRole.setText(player.getRole().getName());
+			
 			panelPosition.setVisibility(players.getPlayerPosition(player) != Position.NONE ? View.VISIBLE : View.GONE);
 			textPosition.setText(players.getPlayerPosition(player).getName());
+			
 			buttonSettings.setVisibility(Settings.isVoiceChatEnabled(context) && player instanceof RemotePlayer ? View.VISIBLE : View.GONE);
 			if(player instanceof RemotePlayer) settingsWindow.setUser(((RemotePlayer) player).getUser());
 		}

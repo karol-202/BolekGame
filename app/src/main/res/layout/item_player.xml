@@ -7,7 +7,7 @@
 	android:background="@drawable/background_item"
 	android:clickable="true"
 	android:focusable="true">
-	
+
 	<TextView
 		android:id="@+id/text_player_name"
 		android:layout_width="0dp"
@@ -22,6 +22,37 @@
 		app:layout_constraintEnd_toStartOf="@+id/panel_player_position"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
+
+	<android.support.constraint.ConstraintLayout
+		android:id="@+id/panel_player_role"
+		android:layout_width="wrap_content"
+		android:layout_height="28dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:layout_marginTop="4dp"
+		android:background="@drawable/background_role_panel"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/panel_player_position"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<TextView
+			android:id="@+id/text_player_role"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="8dp"
+			android:layout_marginLeft="8dp"
+			android:layout_marginRight="8dp"
+			android:layout_marginStart="8dp"
+			android:text="@string/unknown"
+			android:textAllCaps="true"
+			android:textColor="@android:color/white"
+			android:textStyle="bold"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
+
+	</android.support.constraint.ConstraintLayout>
 	
 	<android.support.constraint.ConstraintLayout
 		android:id="@+id/panel_player_position"
@@ -34,7 +65,7 @@
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toStartOf="@+id/button_player_settings"
 		app:layout_constraintTop_toTopOf="parent">
-		
+
 		<TextView
 			android:id="@+id/text_player_position"
 			android:layout_width="wrap_content"
@@ -51,7 +82,7 @@
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent" />
-	
+
 	</android.support.constraint.ConstraintLayout>
 	
 	<android.support.v7.widget.AppCompatImageButton

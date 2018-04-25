@@ -3,6 +3,7 @@ package pl.karol202.bolekgame.game.players;
 import java8.util.stream.Stream;
 import java8.util.stream.StreamSupport;
 import pl.karol202.bolekgame.game.gameplay.Position;
+import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.server.LocalUser;
 import pl.karol202.bolekgame.server.RemoteUser;
 import pl.karol202.bolekgame.server.User;
@@ -10,6 +11,7 @@ import pl.karol202.bolekgame.server.Users;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Players
 {
@@ -122,7 +124,11 @@ public class Players
 	
 	private void updatePlayer(String playerName)
 	{
-		Player player = findPlayer(playerName);
+		updatePlayer(findPlayer(playerName));
+	}
+	
+	private void updatePlayer(Player player)
+	{
 		int playerIndex = players.indexOf(player);
 		for(OnPlayersUpdateListener listener : playersUpdateListeners) listener.onPlayerUpdate(playerIndex);
 	}
@@ -132,6 +138,23 @@ public class Players
 		for(Player player : players)
 			if(player.getName().equals(name)) return player;
 		return null;
+	}
+	
+	public void setLocalPlayerRole(Role role)
+	{
+		Player player = getLocalPlayer();
+		player.setRole(role);
+		updatePlayer(player);
+	}
+	
+	public void setPlayersRoles(Map<String, Role> roles)
+	{
+		for(Map.Entry<String, Role> entry : roles.entrySet())
+		{
+			Player player = findPlayer(entry.getKey());
+			player.setRole(entry.getValue());
+			updatePlayer(player);
+		}
 	}
 	
 	public Stream<User> getUsersStream()
@@ -169,6 +192,11 @@ public class Players
 	public LocalUser getLocalUser()
 	{
 		return (LocalUser) getUsersStream().filter(u -> u instanceof LocalUser).findAny().orElse(null);
+	}
+	
+	public LocalPlayer getLocalPlayer()
+	{
+		return (LocalPlayer) getPlayersStream().filter(p -> p instanceof LocalPlayer).findAny().orElse(null);
 	}
 	
 	public int getMinUsers()
