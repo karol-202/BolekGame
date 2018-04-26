@@ -65,6 +65,7 @@ public class ActionChooseActs implements UpdatingAction, CancellableAction
 	@Override
 	public void cancel()
 	{
+		if(chosen) return;
 		cancelled = true;
 		for(int i = 0; i < actSelection.length; i++) actSelection[i] = false;
 		if(updateCallback != null) updateCallback.updateAction();

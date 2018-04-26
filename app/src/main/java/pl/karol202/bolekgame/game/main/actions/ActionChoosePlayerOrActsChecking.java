@@ -55,7 +55,7 @@ public class ActionChoosePlayerOrActsChecking implements UpdatingAction, Cancell
 	@Override
 	public void cancel()
 	{
-		cancelled = true;
+		if(playersCheckingAvailable) cancelled = true;
 	}
 	
 	public boolean isCancelled()
