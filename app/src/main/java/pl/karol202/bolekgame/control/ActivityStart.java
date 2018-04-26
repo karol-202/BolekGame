@@ -46,10 +46,16 @@ public class ActivityStart extends AppCompatActivity
 	private void done()
 	{
 		String nick = editTextNick.getText().toString();
-		if(!Settings.isValidNick(nick))
+		Settings.NickCorrectness nickCorrectness = Settings.isNickCorrect(nick);
+		if(nickCorrectness == Settings.NickCorrectness.INVALID_LENGTH)
 		{
 			TransitionManager.beginDelayedTransition(mainLayout);
-			layoutNick.setError(getString(R.string.message_invalid_nick));
+			layoutNick.setError(getString(R.string.message_invalid_nick_length));
+		}
+		else if(nickCorrectness == Settings.NickCorrectness.INVALID_CHARS)
+		{
+			TransitionManager.beginDelayedTransition(mainLayout);
+			layoutNick.setError(getString(R.string.message_invalid_nick_chars));
 		}
 		else
 		{

@@ -171,6 +171,12 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	@Override
 	public void onBackPressed()
 	{
+		if(!gameLogic.isSpectating()) askAboutGameLeave();
+		else leaveSpectatorMode();
+	}
+	
+	private void askAboutGameLeave()
+	{
 		Dialog dialog = new Dialog(dialogManager);
 		dialog.setTitle(R.string.dialog_leave_are_you_sure);
 		dialog.setMessage(gameLogic.willGameBeEndedAfterMyLeave() ? R.string.dialog_leave_are_you_sure_detail_game_end : R.string.dialog_leave_are_you_sure_detail);
@@ -182,6 +188,12 @@ public class ActivityGame extends PermissionGrantingActivity implements GameLogi
 	private void leaveGame()
 	{
 		gameLogic.exit();
+		finish();
+	}
+	
+	private void leaveSpectatorMode()
+	{
+		gameLogic.exitSpectatorMode();
 		finish();
 	}
 	

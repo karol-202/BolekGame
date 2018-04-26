@@ -1,5 +1,6 @@
 package pl.karol202.bolekgame.control;
 
+import com.vdurmont.emoji.EmojiParser;
 import pl.karol202.bolekgame.client.Client;
 import pl.karol202.bolekgame.client.inputpacket.InputPacketFailure;
 import pl.karol202.bolekgame.client.outputpacket.OutputPacketCreateServer;
@@ -35,11 +36,6 @@ class ControlLogic extends Logic<ActivityMain>
 		else executeOnActivityInUIThread(ActivityMain::onConnectFail);
 	}
 	
-	boolean isConnected()
-	{
-		return getClient().isConnected();
-	}
-	
 	boolean isConnectedTo(String host)
 	{
 		return getClient().isConnectedTo(host);
@@ -54,6 +50,8 @@ class ControlLogic extends Logic<ActivityMain>
 	
 	void createServer(String serverName, String username)
 	{
+		serverName = EmojiParser.removeAllEmojis(serverName);
+		
 		sendPacket(new OutputPacketCreateServer(serverName, username));
 		setLoginTimeout();
 		creatingServer = true;

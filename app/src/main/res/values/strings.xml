@@ -65,7 +65,8 @@
 	<string name="text_user_unmute">Wyłącz wyciszenie</string>
 	<string name="text_spectator_mode">Tryb widza</string>
 	
-	<string name="message_invalid_nick">Nick musi mieć od 3 do 20 znaków</string>
+	<string name="message_invalid_nick_length">Nick musi mieć od 3 do 20 znaków</string>
+	<string name="message_invalid_nick_chars">Nick nie może zawierać niektórych znaków</string>
 	<string name="message_server_name_too_short">Za krótka nazwa</string>
 	<string name="message_server_name_invalid">Niewłaściwa nazwa</string>
 	<string name="message_too_many_servers">Serwer zajęty</string>
@@ -81,7 +82,8 @@
 	<string name="message_voice_chat_network_error">Błąd sieci</string>
 	
 	<string name="dialog_invalid_nick">Niewłaściwy nick</string>
-	<string name="dialog_invalid_nick_detail">Nick musi mieć od 3 do 20 znaków</string>
+	<string name="dialog_invalid_nick_length_detail">Nick musi mieć od 3 do 20 znaków</string>
+	<string name="dialog_invalid_nick_chars_detail">Nick nie może zawierać niektórych znaków</string>
 	<string name="dialog_disconnection">Rozłączono</string>
 	<string name="dialog_disconnection_detail">Utracono połączenie z serwerem</string>
 	<string name="dialog_too_few_players">Za mało graczy</string>

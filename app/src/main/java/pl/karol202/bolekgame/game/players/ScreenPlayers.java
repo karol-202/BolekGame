@@ -66,7 +66,7 @@ public class ScreenPlayers extends Screen
 		@Override
 		public void onPlayerUpdate(int position)
 		{
-			if(playersAdapter == null || nonPlayersAdapter == null) return;
+			if(playersAdapter == null) return;
 			playersAdapter.onPlayerUpdate(position);
 		}
 	}

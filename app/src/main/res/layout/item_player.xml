@@ -34,7 +34,7 @@
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toStartOf="@+id/panel_player_role"
 		app:layout_constraintTop_toTopOf="parent">
-
+		
 		<TextView
 			android:id="@+id/text_player_position"
 			android:layout_width="wrap_content"

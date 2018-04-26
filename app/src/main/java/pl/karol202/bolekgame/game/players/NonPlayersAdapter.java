@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import java8.util.stream.Collectors;
 import pl.karol202.bolekgame.R;
+import pl.karol202.bolekgame.game.gameplay.Role;
 import pl.karol202.bolekgame.server.RemoteUser;
 import pl.karol202.bolekgame.server.User;
 import pl.karol202.bolekgame.server.UserSettingsWindow;
@@ -23,15 +24,21 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 	class ViewHolder extends RecyclerView.ViewHolder
 	{
 		private TextView textName;
-		private ImageButton buttonSettings;
-		private UserSettingsWindow settingsWindow;
 		
-		private User user;
+		private View panelRole;
+		private TextView textRole;
+		
+		private ImageButton buttonSettings;
+		
+		private UserSettingsWindow settingsWindow;
 		
 		ViewHolder(View view)
 		{
 			super(view);
 			textName = view.findViewById(R.id.text_non_player_name);
+			
+			panelRole = view.findViewById(R.id.panel_non_player_role);
+			textRole = view.findViewById(R.id.text_non_player_role);
 			
 			buttonSettings = view.findViewById(R.id.button_non_player_settings);
 			buttonSettings.setOnClickListener(v -> showSettingsWindow(settingsWindow, buttonSettings));
@@ -41,10 +48,14 @@ class NonPlayersAdapter extends RecyclerView.Adapter<NonPlayersAdapter.ViewHolde
 		
 		void bind(User user)
 		{
-			this.user = user;
 			if(user instanceof RemoteUser) settingsWindow.setUser((RemoteUser) user);
 			
 			textName.setText(user.getName());
+			
+			Role role = players.getNonPlayerRole(user);
+			panelRole.setVisibility(role != null ? View.VISIBLE : View.GONE);
+			if(role != null) textRole.setText(role.getAbbr());
+			
 			buttonSettings.setVisibility(Settings.isVoiceChatEnabled(context) && user instanceof RemoteUser ? View.VISIBLE : View.GONE);
 		}
 	}

@@ -3,9 +3,15 @@ package pl.karol202.bolekgame.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import com.vdurmont.emoji.EmojiParser;
 
 public class Settings
 {
+	public enum NickCorrectness
+	{
+		VALID, INVALID_LENGTH, INVALID_CHARS
+	}
+	
 	private static final String KEY_INITIALIZED = "preference_initialized";
 	public static final String KEY_NICK = "preference_nick";
 	private static final String KEY_SERVER_ADDRESS = "preference_server_address";
@@ -39,9 +45,11 @@ public class Settings
 		editor.apply();
 	}
 	
-	public static boolean isValidNick(String nick)
+	public static NickCorrectness isNickCorrect(String nick)
 	{
-		return nick.length() >= 3 && nick.length() <= 20;
+		if(nick.length() < 3 || nick.length() > 20) return NickCorrectness.INVALID_LENGTH;
+		else if(EmojiParser.extractEmojis(nick).size() != 0) return NickCorrectness.INVALID_CHARS;
+		else return NickCorrectness.VALID;
 	}
 	
 	public static String getServerAddress(Context context)

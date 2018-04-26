@@ -14,6 +14,7 @@ import pl.karol202.bolekgame.game.gameplay.WinCause;
 import pl.karol202.bolekgame.game.main.ActionManager;
 import pl.karol202.bolekgame.game.main.VotingResult;
 import pl.karol202.bolekgame.game.main.actions.*;
+import pl.karol202.bolekgame.game.main.actions.ActionChoosePlayerOrActsChecking.Choose;
 import pl.karol202.bolekgame.game.players.Player;
 import pl.karol202.bolekgame.game.players.Players;
 import pl.karol202.bolekgame.server.Users;
@@ -34,6 +35,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private TextChat textChat;
 	private int serverCode;
 	
+	private boolean ignoreCollaboratorsRevealment;
 	private boolean ignoreGameExit;
 	private String primeMinisterCandidate;
 	private ActionChoosePrimeMinister primeMinisterChooseAction;
@@ -42,6 +44,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private boolean randomAct;
 	private ActionCheckPlayer playerCheckAction;
 	private boolean playerCheckNoDescription;
+	private boolean actsCheckingExplicitly;
 	private boolean choosingOfPresident;
 	private ActionChoosePresident presidentChooseAction;
 	private ActionLustrate lustrateAction;
@@ -133,16 +136,17 @@ public class GameLogic extends Logic<ActivityGame>
 		sendPacket(new OutputPacketCheckPlayerPresient(player.getName()));
 	}
 	
-	private void choosePlayerOrActsChecking(ActionChoosePlayerOrActsChecking.Choose choose)
+	private void choosePlayerOrActsChecking(Choose choose)
 	{
-		if(choose == ActionChoosePlayerOrActsChecking.Choose.PLAYER_CHECKING) playerCheckNoDescription = true;
-		int choice = choose == ActionChoosePlayerOrActsChecking.Choose.PLAYER_CHECKING ? 0 : 1;
+		if(choose == Choose.PLAYER_CHECKING) playerCheckNoDescription = true;
+		else if(choose == Choose.ACTS_CHECKING) actsCheckingExplicitly = true;
+		int choice = choose == Choose.PLAYER_CHECKING ? 0 : 1;
 		sendPacket(new OutputPacketChoosePlayerOrActsCheckingPresident(choice));
 	}
 	
-	private void showCheckedActs(ActionChoosePlayerOrActsChecking.Choose choose, Act[] acts)
+	private void showCheckedActs(Choose choose, Act[] acts)
 	{
-		if(choose != ActionChoosePlayerOrActsChecking.Choose.ACTS_CHECKING) return;
+		if(choose != Choose.ACTS_CHECKING) return;
 		actionManager.addAction(new ActionActsCheckingResult(acts));
 	}
 	
@@ -161,6 +165,12 @@ public class GameLogic extends Logic<ActivityGame>
 	void exit()
 	{
 		sendPacket(new OutputPacketExitGame());
+		suspend();
+	}
+	
+	void exitSpectatorMode()
+	{
+		sendPacket(new OutputPacketStopSpectating());
 		suspend();
 	}
 	
@@ -250,7 +260,9 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(() -> {
 			Map<String, Role> playerRoles = createRolesMap(ministers, collaborators, bolek);
 			players.setPlayersRoles(playerRoles);
-			actionManager.addAction(new ActionCollaboratorsRevealment(actionManager, playerRoles));
+			if(!ignoreCollaboratorsRevealment)
+				actionManager.addAction(new ActionCollaboratorsRevealment(actionManager, playerRoles));
+			ignoreCollaboratorsRevealment = true;
 		});
 	}
 	
@@ -524,7 +536,11 @@ public class GameLogic extends Logic<ActivityGame>
 	@Override
 	public void onActsCheckingResult(Act[] acts)
 	{
-		runInUIThread(() -> actionManager.addAction(new ActionChoosePlayerOrActsChecking(c -> this.showCheckedActs(c, acts), false)));
+		runInUIThread(() -> {
+			if(actsCheckingExplicitly) showCheckedActs(Choose.ACTS_CHECKING, acts);
+			else actionManager.addAction(new ActionChoosePlayerOrActsChecking(c -> this.showCheckedActs(c, acts), false));
+			actsCheckingExplicitly = false;
+		});
 	}
 	
 	@Override
@@ -612,6 +628,7 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(() -> {
 			actionManager.addAction(new ActionWin(ministers, cause));
 			gameEnd = true;
+			ignoreCollaboratorsRevealment = false;
 		});
 	}
 	

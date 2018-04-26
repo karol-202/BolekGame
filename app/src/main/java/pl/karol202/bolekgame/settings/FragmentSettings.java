@@ -63,16 +63,27 @@ public class FragmentSettings extends PreferenceFragment
 	
 	private boolean validateNick(String nick)
 	{
-		if(Settings.isValidNick(nick)) return true;
-		showInvalidNickDialog();
+		Settings.NickCorrectness nickCorrectness = Settings.isNickCorrect(nick);
+		if(nickCorrectness == Settings.NickCorrectness.INVALID_LENGTH) showInvalidNickLengthDialog();
+		else if(nickCorrectness == Settings.NickCorrectness.INVALID_CHARS) showInvalidNickCharsDialog();
+		else return true;
 		return false;
 	}
 	
-	private void showInvalidNickDialog()
+	private void showInvalidNickLengthDialog()
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		builder.setTitle(R.string.dialog_invalid_nick);
-		builder.setMessage(R.string.dialog_invalid_nick_detail);
+		builder.setMessage(R.string.dialog_invalid_nick_length_detail);
+		builder.setPositiveButton(R.string.button_ok, null);
+		builder.show();
+	}
+	
+	private void showInvalidNickCharsDialog()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle(R.string.dialog_invalid_nick);
+		builder.setMessage(R.string.dialog_invalid_nick_chars_detail);
 		builder.setPositiveButton(R.string.button_ok, null);
 		builder.show();
 	}

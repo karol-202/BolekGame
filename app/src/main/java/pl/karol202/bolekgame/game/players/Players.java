@@ -10,6 +10,7 @@ import pl.karol202.bolekgame.server.User;
 import pl.karol202.bolekgame.server.Users;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ public class Players
 	private List<Player> players;
 	private String president;
 	private String primeMinister;
+	private Map<User, Role> nonPlayerRoles;
 	
 	private List<Users.OnUsersUpdateListener> usersUpdateListeners;
 	private List<OnPlayersUpdateListener> playersUpdateListeners;
@@ -38,6 +40,7 @@ public class Players
 		this.players = new ArrayList<>();
 		this.president = "";
 		this.primeMinister = "";
+		nonPlayerRoles = new HashMap<>();
 		
 		usersUpdateListeners = new ArrayList<>();
 		playersUpdateListeners = new ArrayList<>();
@@ -111,15 +114,19 @@ public class Players
 	private void setPresident(String playerName)
 	{
 		if(president.equals(playerName)) return;
+		String previousPresident = president;
 		president = playerName;
 		updatePlayer(playerName);
+		updatePlayer(previousPresident);
 	}
 	
 	private void setPrimeMinister(String playerName)
 	{
 		if(primeMinister.equals(playerName)) return;
+		String previousPrimeMinister = primeMinister;
 		primeMinister = playerName;
 		updatePlayer(playerName);
+		updatePlayer(previousPrimeMinister);
 	}
 	
 	private void updatePlayer(String playerName)
@@ -130,6 +137,7 @@ public class Players
 	private void updatePlayer(Player player)
 	{
 		int playerIndex = players.indexOf(player);
+		if(playerIndex == -1) return;
 		for(OnPlayersUpdateListener listener : playersUpdateListeners) listener.onPlayerUpdate(playerIndex);
 	}
 	
@@ -152,9 +160,25 @@ public class Players
 		for(Map.Entry<String, Role> entry : roles.entrySet())
 		{
 			Player player = findPlayer(entry.getKey());
-			player.setRole(entry.getValue());
-			updatePlayer(player);
+			if(player != null)
+			{
+				player.setRole(entry.getValue());
+				updatePlayer(player);
+				continue;
+			}
+			
+			User user = users.findUser(entry.getKey());
+			if(user != null)
+			{
+				nonPlayerRoles.put(user, entry.getValue());
+				users.onUsersUpdate();
+			}
 		}
+	}
+	
+	public Role getNonPlayerRole(User user)
+	{
+		return nonPlayerRoles.get(user);
 	}
 	
 	public Stream<User> getUsersStream()

@@ -84,9 +84,16 @@ public class Users
 		if(usersToAdd.size() == 0 && usersToRemove.size() == 0) onUsersUpdate();
 	}
 	
-	void onUsersUpdate()
+	public void onUsersUpdate()
 	{
 		for(OnUsersUpdateListener listener : usersUpdateListeners) listener.onUsersUpdate();
+	}
+	
+	public User findUser(String name)
+	{
+		for(User user : users)
+			if(user.getName().equals(name)) return user;
+		return null;
 	}
 	
 	public Stream<User> getUsersStream()
