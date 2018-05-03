@@ -18,7 +18,7 @@ import java.util.Queue;
 
 public class Client
 {
-	public static final int API_VERSION = 4;
+	public static final int API_VERSION = 5;
 	
 	private static final int PORT = 60606;
 	private static final int TIMEOUT = 5000;

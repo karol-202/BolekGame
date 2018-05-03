@@ -44,7 +44,7 @@ public class GameLogic extends Logic<ActivityGame>
 	private boolean randomAct;
 	private ActionCheckPlayer playerCheckAction;
 	private boolean playerCheckNoDescription;
-	private boolean actsCheckingExplicitly;
+	private boolean presidentCheckingPlayerOrActs;
 	private boolean choosingOfPresident;
 	private ActionChoosePresident presidentChooseAction;
 	private ActionLustrate lustrateAction;
@@ -139,15 +139,14 @@ public class GameLogic extends Logic<ActivityGame>
 	private void choosePlayerOrActsChecking(Choose choose)
 	{
 		if(choose == Choose.PLAYER_CHECKING) playerCheckNoDescription = true;
-		else if(choose == Choose.ACTS_CHECKING) actsCheckingExplicitly = true;
 		int choice = choose == Choose.PLAYER_CHECKING ? 0 : 1;
 		sendPacket(new OutputPacketChoosePlayerOrActsCheckingPresident(choice));
 	}
 	
-	private void showCheckedActs(Choose choose, Act[] acts)
+	private void checkActs(Choose choose)
 	{
 		if(choose != Choose.ACTS_CHECKING) return;
-		actionManager.addAction(new ActionActsCheckingResult(acts));
+		sendPacket(new OutputPacketCheckActsPresident());
 	}
 	
 	private void choosePresident(Player player)
@@ -477,7 +476,8 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		runInUIThread(() -> {
 			String president = players.getPlayerAtPosition(Position.PRESIDENT);
-			actionManager.addAction(new ActionPresidentCheckingPlayer(actionManager, president));
+			actionManager.addAction(new ActionPresidentCheckingPlayer(actionManager, president, presidentCheckingPlayerOrActs));
+			presidentCheckingPlayerOrActs = false;
 		});
 	}
 	
@@ -524,6 +524,7 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(() -> {
 			String president = players.getPlayerAtPosition(Position.PRESIDENT);
 			actionManager.addAction(new ActionPresidentCheckingPlayerOrActs(actionManager, president));
+			presidentCheckingPlayerOrActs = true;
 		});
 	}
 	
@@ -534,13 +535,25 @@ public class GameLogic extends Logic<ActivityGame>
 	}
 	
 	@Override
-	public void onActsCheckingResult(Act[] acts)
+	public void onPresidentCheckingActs()
 	{
 		runInUIThread(() -> {
-			if(actsCheckingExplicitly) showCheckedActs(Choose.ACTS_CHECKING, acts);
-			else actionManager.addAction(new ActionChoosePlayerOrActsChecking(c -> this.showCheckedActs(c, acts), false));
-			actsCheckingExplicitly = false;
+			String president = players.getPlayerAtPosition(Position.PRESIDENT);
+			actionManager.addAction(new ActionPresidentCheckingActs(actionManager, president, presidentCheckingPlayerOrActs));
+			presidentCheckingPlayerOrActs = false;
 		});
+	}
+	
+	@Override
+	public void onCheckActsPresidentRequest()
+	{
+		runInUIThread(() -> actionManager.addAction(new ActionChoosePlayerOrActsChecking(this::checkActs, false)));
+	}
+	
+	@Override
+	public void onActsCheckingResult(Act[] acts)
+	{
+		runInUIThread(() -> actionManager.addAction(new ActionActsCheckingResult(acts)));
 	}
 	
 	@Override

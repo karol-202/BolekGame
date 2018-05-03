@@ -7,9 +7,10 @@ public class ActionPresidentCheckingPlayer extends SimpleAction
 {
 	private String text;
 	
-	public ActionPresidentCheckingPlayer(ContextSupplier contextSupplier, String president)
+	public ActionPresidentCheckingPlayer(ContextSupplier contextSupplier, String president, boolean checkingPlayerOrActs)
 	{
-		text = contextSupplier.getString(R.string.action_president_checking_player, president);
+		if(checkingPlayerOrActs) text = contextSupplier.getString(R.string.action_president_checking_player_after_choose, president);
+		else text = contextSupplier.getString(R.string.action_president_checking_player, president);
 	}
 	
 	@Override

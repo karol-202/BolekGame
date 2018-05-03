@@ -108,6 +108,12 @@ public class ClientListenerAdapter implements ClientListener
 	public void onChoosePlayerOrActsCheckingPresidentRequest() { }
 	
 	@Override
+	public void onPresidentCheckingActs() { }
+	
+	@Override
+	public void onCheckActsPresidentRequest() { }
+	
+	@Override
 	public void onActsCheckingResult(Act[] acts) { }
 	
 	@Override

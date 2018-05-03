@@ -37,12 +37,12 @@
 				android:id="@+id/panel_current_act_1"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
+				android:layout_marginEnd="6dp"
+				android:layout_marginLeft="6dp"
+				android:layout_marginRight="6dp"
+				android:layout_marginStart="6dp"
 				android:layout_marginTop="8dp"
-				android:layout_marginLeft="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_marginStart="4dp"
-				android:layout_marginEnd="4dp"
+				android:layout_weight="1"
 				android:background="@drawable/background_item"
 				android:clickable="true"
 				android:focusable="true">
@@ -58,7 +58,7 @@
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
 					app:srcCompat="@drawable/act_antilustration"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription" />
 				
 				<TextView
 					android:id="@+id/text_current_act_1"
@@ -78,12 +78,12 @@
 				android:id="@+id/panel_current_act_2"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
+				android:layout_marginEnd="6dp"
+				android:layout_marginLeft="6dp"
+				android:layout_marginRight="6dp"
+				android:layout_marginStart="6dp"
 				android:layout_marginTop="8dp"
-				android:layout_marginLeft="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_marginStart="4dp"
-				android:layout_marginEnd="4dp"
+				android:layout_weight="1"
 				android:background="@drawable/background_item"
 				android:clickable="true"
 				android:focusable="true">
@@ -99,7 +99,7 @@
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
 					app:srcCompat="@drawable/act_antilustration"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription" />
 				
 				<TextView
 					android:id="@+id/text_current_act_2"
@@ -119,12 +119,12 @@
 				android:id="@+id/panel_current_act_3"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_weight="1"
+				android:layout_marginEnd="6dp"
+				android:layout_marginLeft="6dp"
+				android:layout_marginRight="6dp"
+				android:layout_marginStart="6dp"
 				android:layout_marginTop="8dp"
-				android:layout_marginLeft="4dp"
-				android:layout_marginRight="4dp"
-				android:layout_marginStart="4dp"
-				android:layout_marginEnd="4dp"
+				android:layout_weight="1"
 				android:background="@drawable/background_item"
 				android:clickable="true"
 				android:focusable="true">
@@ -140,7 +140,7 @@
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintTop_toTopOf="parent"
 					app:srcCompat="@drawable/act_antilustration"
-					tools:ignore="ContentDescription"/>
+					tools:ignore="ContentDescription" />
 				
 				<TextView
 					android:id="@+id/text_current_act_3"

@@ -37,6 +37,8 @@ enum InputPacketType
 	PRESIDENTCHECKEDPLAYER(InputPacketPresidentCheckedPlayer::new),
 	PRESIDENTCHECKINGPLAYERORACTS(InputPacketPresidentCheckingPlayerOrActs::new),
 	CHOOSEPLAYERORACTSCHECKINGPRESIDENT(InputPacketChoosePlayerOrActsCheckingPresident::new),
+	PRESIDENTCHECKINGACTS(InputPacketPresidentCheckingActs::new),
+	CHECKACTSPRESIDENT(InputPacketCheckActsPresident::new),
 	ACTSCHECKINGRESULT(InputPacketActsCheckingResult::new),
 	PRESIDENTCHECKEDACTS(InputPacketPresidentCheckedActs::new),
 	PRESIDENTCHOOSINGPRESIDENT(InputPacketPresidentChoosingPresident::new),

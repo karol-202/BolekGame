@@ -74,6 +74,10 @@ public interface ClientListener
 	
 	void onChoosePlayerOrActsCheckingPresidentRequest();
 	
+	void onPresidentCheckingActs();
+	
+	void onCheckActsPresidentRequest();
+	
 	void onActsCheckingResult(Act[] acts);
 	
 	void onPresidentCheckedActs();

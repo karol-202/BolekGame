@@ -129,6 +129,7 @@
 	<string name="action_act_passed">Została uchwalona ustawa</string>
 	<string name="action_random_act_passed">Została uchwalona losowa ustawa</string>
 	<string name="action_president_checking_player">Uchwalona ustawa antylustracyjna pozwala prezydentowi %s sprawdzić jednego gracza</string>
+	<string name="action_president_checking_player_after_choose">Prezydent %s sprawdza jednego gracza</string>
 	<string name="action_check_player">Uchwalona ustawa antylustracyjna pozwala ci sprawdzić jednego gracza</string>
 	<string name="action_check_player_no_description">Wybierz gracza, którego chcesz sprawdzić</string>
 	<string name="action_check_player_result">Sprawdziłeś %s</string>
@@ -136,6 +137,8 @@
 	<string name="action_president_checked_player_you">Prezydent %s sprawdził ciebie</string>
 	<string name="action_president_checking_player_or_acts">Uchwalona ustawa antylustracyjna pozwala prezydentowi %s sprawdzić jednego gracza lub 3 następne ustawy</string>
 	<string name="action_choose_player_or_acts_checking">Uchwalona ustawa antylustracyjna pozwala ci sprawdzić jednego gracza lub 3 następne ustawy</string>
+	<string name="action_president_checking_acts">Uchwalona ustawa antylustracyjna pozwala prezydentowi %s sprawdzić 3 następne ustawy</string>
+	<string name="action_president_checking_acts_after_choose">Prezydent %s sprawdza 3 następne ustawy</string>
 	<string name="action_choose_acts_checking">Uchwalona ustawa antylustracyjna pozwala ci sprawdzić 3 następne ustawy</string>
 	<string name="action_acts_checking_result">Oto 3 następne ustawy</string>
 	<string name="action_president_checked_acts">Prezydent %s sprawdził 3 następne ustawy</string>
