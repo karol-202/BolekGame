@@ -14,7 +14,7 @@ public class Settings
 	
 	private static final String KEY_INITIALIZED = "preference_initialized";
 	public static final String KEY_NICK = "preference_nick";
-	private static final String KEY_SERVER_ADDRESS = "preference_server_address";
+	private static final String KEY_SERVER_ADDRESS = "preference_server_address_2";
 	private static final String KEY_VOICE_CHAT = "preference_voice_chat";
 	
 	public static boolean isFirstStart(Context context)
