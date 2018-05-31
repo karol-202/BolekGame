@@ -37,6 +37,7 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	private boolean ignoreCollaboratorsRevealment;
 	private boolean ignoreGameExit;
+	private boolean spectatingSynchronization; //Used to mute player leave popups
 	private String primeMinisterCandidate;
 	private ActionChoosePrimeMinister primeMinisterChooseAction;
 	private ActionVoteOnPrimeMinister voteAction;
@@ -55,6 +56,7 @@ public class GameLogic extends Logic<ActivityGame>
 	{
 		super(client);
 		this.spectating = spectating;
+		spectatingSynchronization = spectating;
 		
 		this.actionManager = new ActionManager(imagesSet);
 		
@@ -198,6 +200,7 @@ public class GameLogic extends Logic<ActivityGame>
 	
 	private void onPlayerLeaved(Player player)
 	{
+		if(spectatingSynchronization) return;
 		if(!player.getName().equals(lustratedPlayer))
 		{
 			executeOnActivity(a -> a.onPlayerLeaved(player));
@@ -464,8 +467,9 @@ public class GameLogic extends Logic<ActivityGame>
 		runInUIThread(() -> {
 			Act act = acts.updateActs(lustrationPassed, antilustrationPassed);
 			if(act == null) return;
-			if(randomAct) actionManager.addAction(new ActionRandomActPassed(act));
-			else actionManager.addAction(new ActionActPassed(act));
+			int actIndex = act == Act.LUSTRATION ? lustrationPassed : antilustrationPassed;
+			if(randomAct) actionManager.addAction(new ActionRandomActPassed(act, actIndex));
+			else actionManager.addAction(new ActionActPassed(act, actIndex));
 			executeOnActivity(ActivityGame::onActsUpdate);
 			randomAct = false;
 		});
@@ -664,6 +668,12 @@ public class GameLogic extends Logic<ActivityGame>
 			executeOnActivity(ActivityGame::onTooFewPlayers);
 			ignoreGameExit = true;
 		});
+	}
+	
+	@Override
+	public void onSpectatingSynchronized()
+	{
+		runInUIThread(() -> spectatingSynchronization = false);
 	}
 	
 	public boolean isSpectating()

@@ -46,13 +46,27 @@
 			android:id="@+id/text_action_act_passed_act"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="8dp"
 			android:layout_marginTop="8dp"
 			android:text="@string/unknown"
-			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toBottomOf="@+id/image_action_act_passed_act" />
+		
+		<TextView
+			android:id="@+id/text_action_act_passed_index"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+			android:layout_marginBottom="8dp"
+			android:layout_marginTop="8dp"
+			android:background="@drawable/background_panel_lustration_acts"
+			android:gravity="center_vertical|center_horizontal"
+			android:text="@string/zero"
+			android:textColor="@color/text_primary_white"
+			android:textSize="24sp"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/text_action_act_passed_act" />
 	</android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

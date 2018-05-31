@@ -61,9 +61,9 @@ public class ActionViewHolderVoteOnPrimeMinister extends ActionViewHolder<Action
 		{
 			textVoting.setText(context.getString(R.string.action_vote_on_prime_minister, action.getPrimeMinisterName()));
 			buttonVoteYes.setOnClickListener(v -> action.vote(true));
-			buttonVoteYes.setEnabled(!action.isVoted() && !action.isCancelled());
+			buttonVoteYes.setEnabled(!action.isCancelled());
 			buttonVoteNo.setOnClickListener(v -> action.vote(false));
-			buttonVoteNo.setEnabled(!action.isVoted() && !action.isCancelled());
+			buttonVoteNo.setEnabled(!action.isCancelled());
 			textYourVote.setVisibility(action.isVoted() ? View.VISIBLE : View.GONE);
 			textYourVote.setText(action.getVote() ? R.string.text_your_vote_yes : R.string.text_your_vote_no);
 		}

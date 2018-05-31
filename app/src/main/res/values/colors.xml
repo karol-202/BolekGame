@@ -44,4 +44,7 @@
 	
 	<color name="panel_poll_index">#FFFFFF</color>
 	<color name="panel_poll_index_dark">#D6000000</color>
+	
+	<color name="panel_lustration_acts">#50DA31</color>
+	<color name="panel_antilustration_acts">#F44336</color>
 </resources>

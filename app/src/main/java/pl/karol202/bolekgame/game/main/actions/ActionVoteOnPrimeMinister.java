@@ -66,7 +66,7 @@ public class ActionVoteOnPrimeMinister implements UpdatingAction, CancellableAct
 	
 	public void vote(boolean vote)
 	{
-		if(voted || cancelled) return;
+		if(cancelled) return;
 		this.voted = true;
 		this.vote = vote;
 		if(voteListener != null) voteListener.onVote(vote);

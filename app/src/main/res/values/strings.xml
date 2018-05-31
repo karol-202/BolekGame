@@ -40,8 +40,8 @@
 	<string name="text_vote_no">Przeciw</string>
 	<string name="text_votes">Głosy</string>
 	<string name="text_votes_value">%d/%d</string>
-	<string name="text_your_vote_yes">Głosowałeś za</string>
-	<string name="text_your_vote_no">Głosowałeś przeciw</string>
+	<string name="text_your_vote_yes">Zagłosowano za</string>
+	<string name="text_your_vote_no">Zagłosowano przeciw</string>
 	<string name="text_poll_index_change_hint">Jeśli premier nie zostanie wybrany w najbliższej rundzie, zostanie uchwalona losowa ustawa</string>
 	<string name="text_acts_lustration">Ustawy lustracyjne</string>
 	<string name="text_acts_antilustration">Ustawy antylustracyjne</string>
@@ -159,7 +159,7 @@
 	<string name="preference_voice_chat_detail">Może działać niestabilnie</string>
 	
 	<string name="default_nick" />
-	<string name="default_server_address" />
+	<string name="default_server_address">nz.sci.edu.pl</string>
 	
 	<string name="role_minister">Minister</string>
 	<string name="role_collaborator">Tajny współpracownik</string>

@@ -112,12 +112,12 @@ class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> impleme
 		
 		private boolean canBeMadeReady()
 		{
-			System.out.println("---(TFTF)");
+			/*System.out.println("---(TFTF)");
 			System.out.println(user instanceof LocalUser);
 			System.out.println(serverStatusSupplier.isGameInProgress());
 			System.out.println(users.areThereEnoughUsers());
 			System.out.println(user.isReady());
-			System.out.println("---");
+			System.out.println("---");*/
 			return user instanceof LocalUser && !serverStatusSupplier.isGameInProgress() && users.areThereEnoughUsers() &&
 				   !user.isReady();
 		}

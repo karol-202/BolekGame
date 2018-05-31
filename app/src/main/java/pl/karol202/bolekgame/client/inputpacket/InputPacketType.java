@@ -52,7 +52,8 @@ enum InputPacketType
 	PLAYERSUPDATED(InputPacketPlayersUpdated::new),
 	TOOFEWPLAYERS(InputPacketTooFewPlayers::new),
 	PING(InputPacketPing::new),
-	SPECTATINGSTART(InputPacketSpectatingStart::new);
+	SPECTATINGSTART(InputPacketSpectatingStart::new),
+	SPECTATINGSYNCHRONIZED(InputPacketSpectatingSynchronized::new);
 	
 	private Supplier<InputPacket> packetSupplier;
 	

@@ -10,10 +10,12 @@ import pl.karol202.bolekgame.game.main.viewholders.ActionViewHolderActPassed;
 public class ActionActPassed implements Action
 {
 	private Act act;
+	private int actIndex;
 	
-	public ActionActPassed(Act act)
+	public ActionActPassed(Act act, int actIndex)
 	{
 		this.act = act;
+		this.actIndex = actIndex;
 	}
 	
 	@Override
@@ -42,5 +44,10 @@ public class ActionActPassed implements Action
 	public Act getAct()
 	{
 		return act;
+	}
+	
+	public int getActIndex()
+	{
+		return actIndex;
 	}
 }

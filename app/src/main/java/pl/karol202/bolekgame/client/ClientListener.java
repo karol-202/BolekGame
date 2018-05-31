@@ -103,4 +103,6 @@ public interface ClientListener
 	void onTooFewPlayers();
 	
 	void onSpectatingStart(byte[] imagesCode);
+	
+	void onSpectatingSynchronized();
 }

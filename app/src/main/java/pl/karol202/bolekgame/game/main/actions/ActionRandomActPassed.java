@@ -5,9 +5,9 @@ import pl.karol202.bolekgame.game.gameplay.Act;
 
 public class ActionRandomActPassed extends ActionActPassed
 {
-	public ActionRandomActPassed(Act act)
+	public ActionRandomActPassed(Act act, int actIndex)
 	{
-		super(act);
+		super(act, actIndex);
 	}
 	
 	@Override

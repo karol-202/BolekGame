@@ -151,4 +151,7 @@ public class ClientListenerAdapter implements ClientListener
 	
 	@Override
 	public void onSpectatingStart(byte[] imagesCode) { }
+	
+	@Override
+	public void onSpectatingSynchronized() { }
 }
